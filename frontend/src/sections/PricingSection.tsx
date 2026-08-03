@@ -1,9 +1,13 @@
+
+import PricingCard from "./PricingCard";
+
 const pricingPlans = [
   {
     name: "Starter",
     price: "$29",
     description: "Perfect for lean teams building momentum.",
     cta: "Start free",
+    period: "/mo",
   },
   {
     name: "Growth",
@@ -11,14 +15,17 @@ const pricingPlans = [
     description: "For scaling companies that need more automation.",
     cta: "Book demo",
     featured: true,
+    period: "/mo",
   },
   {
     name: "Enterprise",
     price: "Custom",
     description: "Advanced controls, security, and setup support.",
     cta: "Talk to sales",
+    period: "",
   },
 ];
+
 
 function PricingSection() {
   return (
@@ -30,17 +37,16 @@ function PricingSection() {
       </div>
       <div className="pricing-grid">
         {pricingPlans.map((plan) => (
-          <article
+          <PricingCard
             key={plan.name}
-            className={`pricing-card ${plan.featured ? "featured" : ""}`}
-          >
-            <h3>{plan.name}</h3>
-            <p className="price">{plan.price}</p>
-            <p>{plan.description}</p>
-            <a href="#hero" className="button button-primary">
-              {plan.cta}
-            </a>
-          </article>
+            planName={plan.name}
+            tagline={plan.description}
+            price={plan.price}
+            period={plan.price === "Custom" ? "" : "/mo"}
+            ctaLabel={plan.cta}
+            featured={!!plan.featured}
+            badge={plan.featured ? "Most popular" : undefined}
+          />
         ))}
       </div>
     </section>

@@ -16,11 +16,9 @@ function Hero() {
       <div className="hero-copy">
         
         <p className="eyebrow">AI-powered CRM & ERP</p>
-        <h1>Run growth and operations from one intelligent command center.</h1>
+        <h1>Grow faster. Manage everything from one intelligent platform.</h1>
         <p className="hero-text">
-          LoomIQ brings revenue, finance, and service teams together with
-          real-time intelligence, predictive automation, and enterprise-grade
-          execution.
+          Bring sales, finance, operations, and customer service together with AI-powered workflows, real-time insights, and automation that scales with your business.
         </p>
         <div className="hero-actions">
           <a href="#pricing" className="button button-primary">

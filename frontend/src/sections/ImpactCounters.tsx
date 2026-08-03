@@ -1,33 +1,32 @@
 function ImpactCounters() {
   const stats = [
     {
-      value: "124%",
-      label: "Faster sales execution",
+      value: "360°",
+      label: "Unified Business View",
       description:
-        "Predictive workflows keep reps moving on the right deals at the right time.",
+        "Track revenue, customers, inventory, projects, and operations from one centralized dashboard.",
     },
     {
-      value: "94%",
-      label: "Forecast confidence",
+      value: "Real-Time",
+      label: "AI-Powered Insights confidence",
       description:
-        "Live insights and AI signals help teams trust every projection.",
+        "Identify trends, forecast growth, and receive actionable recommendations before issues impact your business.",
     },
     {
-      value: "32",
-      label: "Automations live",
+      value: "Automated",
+      label: "Smart Workflows",
       description:
-        "Automate routine follow-ups, renewals, and support handoffs with no code.",
+        "Eliminate repetitive tasks with intelligent automation across CRM, ERP, finance, and customer support.",
     },
   ];
 
   return (
     <section className="section section-shell section-counters">
       <div className="counter-intro">
-        <p className="eyebrow">Growth momentum</p>
-        <h2>See the numbers that make every operation click.</h2>
+        <p className="eyebrow">Business Insights</p>
+        <h2>Make every decision with confidence.</h2>
         <p>
-          A single horizontal view of performance, confidence, and automation
-          gives your teams the clarity to move faster together.
+          Get a complete view of sales, finance, operations, and customer performance through real-time dashboards and AI-powered analytics.
         </p>
       </div>
 
