@@ -22,7 +22,7 @@ function ImpactCounters() {
 
   return (
     <section className="section section-shell section-counters">
-      <div className="counter-intro">
+      <div className="counter-intro section-heading">
         <p className="eyebrow">Business Insights</p>
         <h2>Make every decision with confidence.</h2>
         <p>
@@ -30,7 +30,7 @@ function ImpactCounters() {
         </p>
       </div>
 
-      <div className="counter-row">
+      <div className="counter-row standard-grid">
         {stats.map((item) => (
           <article key={item.label} className="counter-card">
             <strong>{item.value}</strong>

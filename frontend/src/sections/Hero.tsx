@@ -1,82 +1,39 @@
-import HeroScene from "./HeroScene";
+import analyticsDashboard from "../assets/analytics-dashboard.png";
 
 function Hero() {
   return (
-    <section id="hero" className="hero section-shell hero-section">
-      <HeroScene />
-      <div className="hero-beams" aria-hidden="true">
-        <span className="beam beam-1" />
-        <span className="beam beam-2" />
-        <span className="beam beam-3" />
-        <span className="beam beam-4" />
-        <span className="beam beam-5" />
-        <span className="beam beam-6" />
-      </div>
-
+    <section id="hero" className="hero">
       <div className="hero-copy">
-        
-        <p className="eyebrow">AI-powered CRM & ERP</p>
-        <h1>Grow faster. Manage everything from one intelligent platform.</h1>
+        <p className="eyebrow">The operating system for growing teams</p>
+        <h1>One clear view of every customer, dollar, and decision.</h1>
         <p className="hero-text">
-          Bring sales, finance, operations, and customer service together with AI-powered workflows, real-time insights, and automation that scales with your business.
+          LoomIQ brings CRM, finance, and operations into one intelligent workspace—so your team can move faster with less admin.
         </p>
         <div className="hero-actions">
           <a href="#pricing" className="button button-primary">
             Start free
           </a>
-          <a href="#showcase" className="button button-secondary">
-            View platform
+          <a href="#showcase" className="hero-text-link">
+            Explore the platform <span aria-hidden="true">→</span>
           </a>
         </div>
+        <p className="hero-reassurance">No credit card required · Set up in minutes</p>
       </div>
 
-      <div className="hero-frame" aria-hidden="true">
-        
-        <div className="dashboard-shell">
-          
-          <div className="dashboard-window">
-            <div className="dashboard-topbar">
-              <div className="dot-row">
-                <span className="dot" />
-                <span className="dot" />
-                <span className="dot" />
-              </div>
-              <span className="dashboard-chip">Live operations</span>
-            </div>
-            <div className="dashboard-grid">
-              <div className="dashboard-panel panel-large">
-                <h3>Pipeline health</h3>
-                <div className="dashboard-list">
-                  <div className="dashboard-row">
-                    <span>Qualified opportunities</span>
-                    <strong>124</strong>
-                  </div>
-                  <div className="dashboard-row">
-                    <span>Forecast confidence</span>
-                    <strong>94%</strong>
-                  </div>
-                  <div className="dashboard-row">
-                    <span>Automations active</span>
-                    <strong>32</strong>
-                  </div>
-                </div>
-              </div>
-              <div className="dashboard-panel panel-side">
-                <h3>Revenue velocity</h3>
-                <div className="mini-chart">
-                  <span style={{ height: "58%" }} />
-                  <span style={{ height: "72%" }} />
-                  <span style={{ height: "68%" }} />
-                  <span style={{ height: "90%" }} />
-                  <span style={{ height: "78%" }} />
-                  <span style={{ height: "96%" }} />
-                </div>
-                <div className="bar-track">
-                  <div className="bar-fill" style={{ width: "82%" }} />
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="hero-product" aria-label="LoomIQ analytics dashboard preview">
+        <div className="hero-product-bar">
+          <span />
+          <span />
+          <span />
+          <p>Business overview</p>
+        </div>
+        <div className="hero-product-image-wrap">
+          <img
+            src={analyticsDashboard}
+            alt="LoomIQ business analytics dashboard showing revenue, accounts, forecasts, and AI insights"
+            className="analytics-dashboard-image"
+            draggable={false}
+          />
         </div>
       </div>
     </section>

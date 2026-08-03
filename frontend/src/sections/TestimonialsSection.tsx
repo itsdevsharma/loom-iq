@@ -35,7 +35,7 @@ function TestimonialsSection() {
   };
 
   return (
-    <section className="section section-shell section-testimonials">
+    <section id="testimonials" className="section section-shell section-testimonials">
       <div className="section-heading">
         <p className="eyebrow">Customer stories</p>
         <h2>Teams trust LoomIQ to keep momentum moving.</h2>
@@ -50,8 +50,8 @@ function TestimonialsSection() {
           ←
         </button>
         <div className="testimonial-grid" ref={testimonialRef}>
-          {testimonials.map((testimonial) => (
-            <article key={testimonial.author} className="testimonial-card">
+          {testimonials.map((testimonial, index) => (
+            <article key={`${testimonial.author}-${index}`} className="testimonial-card">
               <p>“{testimonial.quote}”</p>
               <div className="testimonial-footer">
                 {testimonial.photo ? (

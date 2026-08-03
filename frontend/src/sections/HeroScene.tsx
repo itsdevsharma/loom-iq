@@ -90,18 +90,19 @@ function HeroScene() {
       renderer.render(scene, camera);
     };
 
-    window.addEventListener("resize", resizeRenderer);
+    const resizeObserver = new ResizeObserver(resizeRenderer);
+    resizeObserver.observe(container);
     resizeRenderer();
     animate();
 
     return () => {
-      window.removeEventListener("resize", resizeRenderer);
+      resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
       renderer.dispose();
       particles.dispose();
       pointsMaterial.dispose();
       gridGeometry.dispose();
-      container.removeChild(renderer.domElement);
+      renderer.domElement.remove();
     };
   }, []);
 

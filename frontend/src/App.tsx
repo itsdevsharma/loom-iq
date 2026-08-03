@@ -3,7 +3,6 @@ import Header from "./sections/Header";
 import Hero from "./sections/Hero";
 import ImpactCounters from "./sections/ImpactCounters";
 import TrustStrip from "./sections/TrustStrip";
-import ProblemSolution from "./sections/ProblemSolution";
 import FeaturesSection from "./sections/FeaturesSection";
 import DemoSection from "./sections/DemoSection";
 import BenefitsSection from "./sections/BenefitsSection";
@@ -23,7 +22,6 @@ function App() {
         <Hero />
         <ImpactCounters />
         <TrustStrip />
-        <ProblemSolution />
         <FeaturesSection />
         <DemoSection />
         <BenefitsSection />

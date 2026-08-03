@@ -1,0 +1,48 @@
+.fs03 {
+  position: relative;
+  overflow: hidden;
+  margin: 40px 0;
+  padding: 88px 48px;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 8% 8%, rgba(124, 58, 237, 0.13), transparent 28rem),
+    radial-gradient(circle at 90% 88%, rgba(251, 146, 60, 0.12), transparent 24rem),
+    var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 32px;
+}
+
+.fs03__blob { position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none; animation: fs03-pulse 8s ease-in-out infinite; }
+.fs03__blob--1 { width: 500px; height: 500px; top: -140px; left: -120px; background: var(--accent); opacity: .12; }
+.fs03__blob--2 { width: 400px; height: 400px; top: 30%; right: -100px; background: var(--cta); opacity: .10; animation-delay: -3s; }
+.fs03__blob--3 { width: 350px; height: 350px; bottom: -90px; left: 30%; background: #60a5fa; opacity: .08; animation-delay: -5s; }
+@keyframes fs03-pulse { 0%, 100% { transform: scale(1) translate(0); } 50% { transform: scale(1.12) translate(20px, -20px); } }
+
+.fs03__inner { position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; }
+.fs03__top { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: end; margin-bottom: 48px; }
+.fs03__badge { display: inline-flex; margin: 0 0 16px; padding: .35rem .9rem; border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong); font-size: .75rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.fs03__headline { margin: 0; color: var(--text-strong); font-size: clamp(2rem, 3.25vw, 2.85rem); font-weight: 600; line-height: 1.12; letter-spacing: -.01em; }
+.fs03__headline mark { color: transparent; background: linear-gradient(90deg, var(--accent), var(--cta-strong)); -webkit-background-clip: text; background-clip: text; }
+.fs03__right-text { margin: 0; padding-bottom: 4px; color: var(--muted); font-size: 1rem; font-weight: 500; line-height: 1.8; }
+
+.fs03__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.fs03__card { position: relative; overflow: hidden; padding: 28px; background: rgba(255, 255, 255, .82); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow-card); transition: border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease; }
+.fs03__card:hover { transform: translateY(-4px); border-color: var(--border-hover); box-shadow: var(--shadow-card-hover); }
+.fs03__card-glow { position: absolute; top: -60px; right: -40px; width: 180px; height: 180px; border-radius: 50%; opacity: .13; filter: blur(50px); transition: opacity 220ms ease; }
+.fs03__card:hover .fs03__card-glow { opacity: .22; }
+.fs03__card:nth-child(1) .fs03__card-glow { background: var(--accent); }.fs03__card:nth-child(2) .fs03__card-glow { background: #a78bfa; }.fs03__card:nth-child(3) .fs03__card-glow { background: #60a5fa; }.fs03__card:nth-child(4) .fs03__card-glow { background: var(--cta); }.fs03__card:nth-child(5) .fs03__card-glow { background: #fb7185; }.fs03__card:nth-child(6) .fs03__card-glow { background: var(--success); }
+.fs03__card-num { position: relative; margin: 0 0 20px; color: var(--muted-soft); font-size: .72rem; font-weight: 700; letter-spacing: .08em; }.fs03__card-icon { display: block; margin-bottom: 16px; color: var(--accent-strong); font-size: 28px; line-height: 1; }.fs03__card-title { margin: 0 0 10px; color: var(--text-strong); font-size: 1.06rem; font-weight: 700; }.fs03__card-body { margin: 0; color: var(--muted); font-size: .9rem; font-weight: 500; line-height: 1.7; }
+.fs03__card-link { display: inline-flex; gap: 6px; margin-top: 20px; padding: 0; overflow: visible; border: 0; border-radius: 0; background: none; box-shadow: none; color: var(--accent-strong) !important; font-family: inherit; font-size: .82rem; font-weight: 800; letter-spacing: 0; text-transform: none; }.fs03__card-link::after { content: none; }.fs03__card-link:hover { transform: none; box-shadow: none; }.fs03__card-link span { transition: transform 180ms ease; }.fs03__card-link:hover span { transform: translateX(4px); }
+.fs03__card:nth-child(4) .fs03__card-link { color: var(--cta-strong) !important; }.fs03__card:nth-child(5) .fs03__card-link { color: #e11d48 !important; }.fs03__card:nth-child(6) .fs03__card-link { color: var(--success-strong) !important; }
+
+.fs03__sep { height: 1px; margin: 48px 0; background: linear-gradient(90deg, transparent, var(--border), transparent); }.fs03__bottom, .fs03__trust, .fs03__cta-row, .fs03__dots { display: flex; align-items: center; }.fs03__bottom { justify-content: space-between; flex-wrap: wrap; gap: 24px; }.fs03__trust { gap: 10px; color: var(--muted); font-size: .82rem; font-weight: 600; }.fs03__dots { gap: 6px; }.fs03__dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }.fs03__dots i:nth-child(2) { background: var(--cta); }.fs03__dots i:nth-child(3) { background: var(--success); }.fs03__cta-row { gap: 12px; }
+.fs03__btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font-size: .9rem; font-weight: 700; transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease; }.fs03__btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(15, 23, 42, .14); }.fs03__btn--primary { color: #fff !important; background: linear-gradient(135deg, var(--cta), var(--cta-strong)); }.fs03__btn--ghost { color: var(--accent-strong) !important; background: rgba(124, 58, 237, .04); border: 1px solid rgba(124, 58, 237, .25); }
+
+.fs03__dialog-backdrop { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; padding: 24px; background: rgba(20, 16, 31, .42); backdrop-filter: blur(7px); animation: fs03-fade-in 180ms ease-out; }
+.fs03__dialog { position: relative; width: min(100%, 560px); padding: 42px; border: 1px solid rgba(124, 58, 237, .18); border-radius: 24px; background: #fff; box-shadow: 0 28px 80px rgba(24, 16, 48, .25); animation: fs03-dialog-in 220ms ease-out; }.fs03__dialog-label { margin: 0 0 14px; color: var(--accent-strong); font-size: .75rem; font-weight: 800; letter-spacing: .12em; }.fs03__dialog-icon { display: block; margin-bottom: 14px; color: var(--accent-strong); font-size: 32px; line-height: 1; }.fs03__dialog h3 { margin: 0 0 14px; color: var(--text-strong); font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.15; }.fs03__dialog > p:not(.fs03__dialog-label) { margin: 0; color: var(--muted); font-size: 1rem; font-weight: 500; line-height: 1.75; }
+.fs03__dialog-close { position: absolute; top: 16px; right: 16px; display: grid; width: 36px; height: 36px; place-items: center; padding: 0; overflow: visible; border: 1px solid var(--border); border-radius: 50%; background: var(--panel); box-shadow: none; color: var(--text); font-size: 24px; font-weight: 400; line-height: 1; }.fs03__dialog-close::after, .fs03__dialog-action::after { content: none; }.fs03__dialog-close:hover { transform: none; background: var(--accent-soft); box-shadow: none; }.fs03__dialog-action { margin-top: 28px; padding: 11px 22px; overflow: visible; border: 0; border-radius: 999px; background: linear-gradient(135deg, var(--cta), var(--cta-strong)); box-shadow: 0 10px 20px rgba(234, 88, 12, .18); color: #fff; font-family: inherit; font-size: .85rem; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; }.fs03__dialog-action:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(234, 88, 12, .24); }
+@keyframes fs03-fade-in { from { opacity: 0; } to { opacity: 1; } } @keyframes fs03-dialog-in { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+@media (max-width: 768px) { .fs03 { padding: 64px 28px; }.fs03__top { grid-template-columns: 1fr; gap: 24px; }.fs03__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .fs03 { margin: 24px 0; padding: 52px 20px; border-radius: 24px; }.fs03__grid { grid-template-columns: 1fr; }.fs03__card { padding: 24px; }.fs03__bottom { flex-direction: column; align-items: flex-start; }.fs03__cta-row { width: 100%; }.fs03__btn { flex: 1; justify-content: center; }.fs03__dialog { padding: 36px 24px 28px; }.fs03__dialog-backdrop { padding: 16px; } }
+@media (prefers-reduced-motion: reduce) { .fs03__blob { animation: none; }.fs03__card, .fs03__card-link span, .fs03__btn { transition: none; } }
