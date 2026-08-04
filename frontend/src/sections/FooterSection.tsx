@@ -34,8 +34,8 @@ function FooterSection() {
             <p>Modern CRM and ERP software for ambitious teams.</p>
             <div className="ff-social" aria-label="Social links">
               <a href="#hero">LinkedIn</a>
-              <a href="#hero">X</a>
-              <a href="#hero">YouTube</a>
+              <a href="#hero">Github</a>
+              <a href="#hero">Instagram</a>
             </div>
           </div>
 

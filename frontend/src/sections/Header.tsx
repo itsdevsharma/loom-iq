@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import logoImage from "../assets/company.logo.png";
+
 const navLinks = [
   { label: "Products", href: "#features" },
   { label: "Pricing", href: "#pricing" },
@@ -6,8 +8,21 @@ const navLinks = [
 ];
 
 function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="topbar">
+    <header className={`topbar ${isScrolled ? "topbar--scrolled" : ""}`}>
       <a className="brand" href="#hero">
         <img src={logoImage} alt="LoomIQ" className="brand-logo" /> LoomIQ
       </a>

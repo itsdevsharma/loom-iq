@@ -21,12 +21,14 @@ function AiAndIntegrations() {
           of record.
         </p>
       </div>
-      <div className="logo-row">
-        {integrations.map((item) => (
-          <span key={item} className="logo-pill">
-            {item}
-          </span>
-        ))}
+      <div className="logo-slider" aria-label="Integration logos">
+        <div className="logo-track">
+          {integrations.concat(integrations).map((item, index) => (
+            <div key={`${item}-${index}`} className="logo-chip">
+              {item}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
