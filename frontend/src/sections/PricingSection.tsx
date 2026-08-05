@@ -4,14 +4,14 @@ import PricingCard from "./PricingCard";
 const pricingPlans = [
   {
     name: "Starter",
-    price: "$29",
+    price: "$19",
     description: "Perfect for lean teams building momentum.",
     cta: "Start free",
     period: "/mo",
   },
   {
     name: "Growth",
-    price: "$99",
+    price: "$29",
     description: "For scaling companies that need more automation.",
     cta: "Book demo",
     featured: true,
