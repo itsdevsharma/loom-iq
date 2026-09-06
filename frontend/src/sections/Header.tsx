@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import logoImage from "../assets/company.logo.png";
+import { trackEvent } from "../analytics";
 
 const navLinks = [
-  { label: "Products", href: "#features" },
+  { label: "Features", href: "#features" },
+  { label: "How it works", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Resources", href: "#faq" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 function Header() {
@@ -34,11 +36,8 @@ function Header() {
         ))}
       </nav>
       <div className="nav-actions">
-        <a href="#pricing" className="text-link">
-          Login
-        </a>
-        <a href="#pricing" className="button button-primary">
-          Get started
+        <a href="#demo" className="button button-primary" onClick={() => trackEvent("demo_cta_clicked")}>
+          Book a Free Demo
         </a>
       </div>
     </header>

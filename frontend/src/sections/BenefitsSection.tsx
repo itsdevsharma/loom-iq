@@ -1,33 +1,38 @@
 const benefits = [
   {
-    title: "Forecast with context",
+    title: "Reduce manual coordination",
     description:
-      "Use AI to understand deal momentum, risk signals, and customer health before problems surface.",
+      "Replace repeated spreadsheet updates and phone calls with one order and production record shared across teams.",
   },
   {
-    title: "Automate the busywork",
+    title: "Keep materials accountable",
     description:
-      "Generate summaries, task follow-ups, and handoffs instantly so your team can stay focused.",
+      "Know what was received, issued, processed, rejected, returned, and dispatched across your material flow.",
   },
   {
-    title: "Scale with confidence",
+    title: "Protect delivery commitments",
     description:
-      "Grow from a lean team to a global operation without adding layers of administrative overhead.",
+      "See delays, shortages, pending inspections, and unfinished orders early enough to act on them.",
+  },
+  {
+    title: "Understand order margin",
+    description:
+      "Bring material, wastage, production, purchase, dispatch, and finance data together to understand the real cost of each order.",
   },
 ];
 
 function BenefitsSection() {
   return (
     <section
-      id="automation"
+      id="benefits"
       className="section section-shell section-automation"
     >
       <div className="section-heading">
-        <p className="eyebrow">AI automation</p>
-        <h2>Let intelligent workflows do the heavy lifting.</h2>
+        <p className="eyebrow">Benefits</p>
+        <h2>More control across the manufacturing cycle.</h2>
         <p>
-          Every workflow is designed to reduce friction and make execution feel
-          effortless.
+          The value shows up in fewer handoff gaps, clearer production status, and
+          better visibility into the costs behind every delivery.
         </p>
       </div>
       <div className="benefit-grid">

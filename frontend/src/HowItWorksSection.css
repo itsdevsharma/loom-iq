@@ -1,0 +1,71 @@
+.section-how {
+  background: var(--bg);
+}
+
+.section-how .section-heading {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.section-how .section-heading .eyebrow {
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  max-width: none;
+  margin: 0 auto;
+}
+
+.how-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  position: relative;
+  transition: border-color 200ms ease, transform 200ms ease;
+}
+
+.how-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-3px);
+}
+
+.how-number {
+  display: inline-block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.how-card h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+}
+
+.how-card p {
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .how-grid {
+    grid-template-columns: 1fr;
+  }
+}

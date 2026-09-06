@@ -4,26 +4,32 @@ const footerGroups = [
   {
     title: "Platform",
     links: [
-      ["CRM", "#features"],
-      ["ERP", "#features"],
-      ["AI automation", "#automation"],
-      ["Analytics", "#showcase"],
+      ["Features", "#features"],
+      ["How it works", "#how-it-works"],
+      ["Industries", "#industries"],
+      ["Pricing", "#pricing"],
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      ["Demo", "#demo"],
+      ["FAQ", "#faq"],
+      ["Trust & security", "#trust"],
     ],
   },
   {
     title: "Company",
     links: [
       ["About LoomIQ", "#hero"],
-      ["Customer stories", "#testimonials"],
-      ["Pricing", "#pricing"],
-      ["FAQ", "#faq"],
+      ["Contact", "#demo"],
     ],
   },
 ];
 
 function FooterSection() {
   return (
-    <footer className="page-footer">
+    <footer className="page-footer" id="footer">
       <div className="footer-container">
         <div className="footer">
           <div className="footer-brand-column">
@@ -31,7 +37,7 @@ function FooterSection() {
               <img src={logoImage} alt="" className="footer-logo" />
               <span>LoomIQ</span>
             </a>
-            <p>Modern CRM and ERP software for ambitious teams.</p>
+            <p>ERP for cloth manufacturers: orders, materials, production, quality, dispatch, and finance.</p>
             <div className="ff-social" aria-label="Social links">
               <a href="#hero">LinkedIn</a>
               <a href="#hero">Github</a>
@@ -51,16 +57,16 @@ function FooterSection() {
           ))}
 
           <div className="footer-column footer-contact">
-            <h3>Let&apos;s talk</h3>
-            <p>Have a question or ready to see LoomIQ in action?</p>
-            <a className="footer-contact-link" href="#pricing">Book a demo <span aria-hidden="true">→</span></a>
+            <h3>Talk through your workflow</h3>
+            <p>See how LoomIQ can fit your textile manufacturing workflow.</p>
+            <a className="footer-contact-link" href="#demo">Request a walkthrough <span aria-hidden="true">→</span></a>
           </div>
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} LoomIQ. All rights reserved.</span>
           <div>
-            <a href="#hero">Privacy</a>
-            <a href="#hero">Terms</a>
+            <a href={`${import.meta.env.BASE_URL}privacy`}>Privacy</a>
+            <a href={`${import.meta.env.BASE_URL}terms`}>Terms</a>
           </div>
         </div>
       </div>

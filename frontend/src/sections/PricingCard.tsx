@@ -23,7 +23,7 @@ type PricingCardProps = {
 
 export default function PricingCard({
   planName = "Starter",
-  tagline = "For small teams getting started",
+  tagline = "For textile teams getting started",
   price = "$19",
   period = "/mo",
   features = [],

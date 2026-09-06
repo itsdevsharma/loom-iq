@@ -72,7 +72,7 @@ body {
   min-height: 100vh;
   font-family: "Inter", "Segoe UI", sans-serif;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.65;
   background: var(--bg);
   color: var(--text);
@@ -1593,6 +1593,165 @@ h1 {
   margin-bottom: 0;
 }
 
+/* Quiet product-first defaults for the shared landing-page surfaces. */
+:root {
+  --bg: #fbfbfa;
+  --surface: #f1f3f1;
+  --panel: #ffffff;
+  --panel-hover: #f7f8f7;
+  --border: rgba(20, 31, 38, 0.12);
+  --border-hover: rgba(91, 75, 183, 0.42);
+  --text: #334047;
+  --text-strong: #18242b;
+  --muted: #637078;
+  --muted-soft: #879198;
+  --accent: #5b4bb7;
+  --accent-strong: #493a9d;
+  --accent-soft: #eeecfb;
+  --cta: #c86532;
+  --cta-strong: #ad4f25;
+  --shadow: 0 16px 36px rgba(20, 31, 38, 0.08);
+  --shadow-card: 0 8px 22px rgba(20, 31, 38, 0.045);
+  --shadow-card-hover: 0 12px 28px rgba(20, 31, 38, 0.08);
+  --card-radius: 10px;
+}
+
+.topbar {
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 4px 14px rgba(20, 31, 38, 0.05);
+}
+
+.hero {
+  background: var(--bg);
+}
+
+.hero-product {
+  transform: none;
+  box-shadow: 0 18px 38px rgba(20, 31, 38, 0.14);
+}
+
+.button,
+.btn,
+button {
+  border-radius: 8px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.button-primary,
+.pc-cta {
+  background: var(--cta-strong);
+  box-shadow: none;
+}
+
+.section-pricing,
+.section-demo-form,
+#showcase,
+#pricing,
+#demo {
+  background: var(--bg);
+}
+
+.fs03 {
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.fs03__badge,
+.eyebrow {
+  border-radius: 4px;
+}
+
+.fs03__card,
+.counter-card,
+.benefit-card,
+.value-card,
+.problem-card,
+.flexibility-card,
+.trust-card,
+.how-card,
+.pricing-card-anim,
+.demo-form-card {
+  box-shadow: none;
+}
+
+.final-cta-connect {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+.final-cta-frame {
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.72fr);
+  min-height: 0;
+  padding: 8px;
+  gap: clamp(32px, 7vw, 88px);
+}
+
+.final-cta-copy {
+  max-width: 760px;
+}
+
+.final-cta-proof {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px 0 28px 32px;
+  border-left: 1px solid var(--border);
+}
+
+.final-cta-proof-label {
+  margin: 0 0 18px;
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.final-cta-proof-grid {
+  display: grid;
+  gap: 22px;
+}
+
+.final-cta-proof-grid div {
+  display: grid;
+  gap: 4px;
+}
+
+.final-cta-proof-grid strong {
+  color: var(--text-strong);
+  font-size: 1rem;
+}
+
+.final-cta-proof-grid span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.final-cta-highlight,
+.final-cta-particles,
+.final-cta-visual {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .final-cta-frame {
+    grid-template-columns: 1fr;
+  }
+
+  .final-cta-proof {
+    padding: 24px 0 0;
+    border-top: 1px solid var(--border);
+    border-left: 0;
+  }
+}
+
 .bar-fill {
   height: 100%;
   border-radius: 999px;
@@ -2248,9 +2407,9 @@ button {
 /* First-screen story: value proposition, one primary action, product proof. */
 .hero {
   width: 100%;
-  min-height: min(720px, calc(100svh - 80px));
+  min-height: min(640px, calc(100svh - 72px));
   margin: 0;
-  padding: clamp(76px, 10vw, 128px) var(--page-gutter) clamp(72px, 8vw, 112px);
+  padding: clamp(56px, 7vw, 88px) var(--page-gutter) clamp(56px, 6vw, 88px);
   grid-template-columns: minmax(0, 0.9fr) minmax(460px, 1.1fr);
   gap: clamp(42px, 7vw, 92px);
   background:
@@ -2270,8 +2429,8 @@ button {
 
 h1 {
   max-width: 12ch;
-  margin-bottom: 20px;
-  font-size: clamp(2.75rem, 5vw, 4.65rem);
+  margin-bottom: 16px;
+  font-size: clamp(2.3rem, 4.2vw, 4rem);
   line-height: 1.01;
   letter-spacing: -0.052em;
 }
@@ -2408,9 +2567,9 @@ h1 {
 
 .section-heading h2,
 .counter-intro h2 {
-  margin-top: 10px;
-  margin-bottom: 16px;
-  font-size: clamp(2rem, 3.4vw, 3.15rem);
+  margin-top: 8px;
+  margin-bottom: 14px;
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
   line-height: 1.08;
   letter-spacing: -0.035em;
   font-weight: 650;
@@ -2878,4 +3037,295 @@ h1 {
   .hero-product-bar p {
     font-size: 0.62rem;
   }
+}
+
+/* ============================================================
+   Layout system
+   Keep the landing page on one content rail and one vertical rhythm.
+   Hero, showcase, conversion, and footer remain intentional exceptions.
+   ============================================================ */
+:root {
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 20px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 80px;
+  --section-space: clamp(48px, 5vw, 72px);
+  --content-width: 1160px;
+  --page-gutter: clamp(20px, 4vw, 48px);
+  --card-radius: 16px;
+  --card-padding: clamp(16px, 1.8vw, 22px);
+}
+
+.section-shell,
+.fs03 {
+  width: min(calc(100% - (var(--page-gutter) * 2)), var(--content-width));
+  max-width: var(--content-width);
+  margin-inline: auto;
+}
+
+.section-shell.section,
+.section.demo-section {
+  padding-block: var(--section-space);
+}
+
+.section-heading {
+  width: min(100%, 680px);
+  margin: 0 auto var(--space-8);
+}
+
+.section-heading .eyebrow,
+.demo-form-copy .eyebrow {
+  margin: 0 0 var(--space-3);
+}
+
+.section-heading h2,
+.demo-form-copy h2 {
+  margin: 0 0 var(--space-4);
+}
+
+.section-heading p:last-child,
+.demo-form-copy > p {
+  margin: 0;
+}
+
+.section-counters,
+.section-value,
+.section-trust {
+  background: var(--bg);
+}
+
+.section-problem,
+.section-flexibility,
+.section-faq {
+  background: var(--surface);
+  border-block: 1px solid var(--border);
+}
+
+.section-how,
+.section-automation {
+  background: var(--panel);
+}
+
+.section-pricing {
+  background: linear-gradient(180deg, var(--bg), var(--surface));
+}
+
+.section-demo-form {
+  background: linear-gradient(135deg, var(--surface), var(--panel));
+}
+
+#features,
+#showcase,
+#pricing,
+#demo,
+#final-cta {
+  background-color: var(--bg);
+}
+
+#features {
+  background: var(--surface);
+}
+
+#showcase {
+  background: linear-gradient(180deg, var(--bg), var(--surface));
+}
+
+#pricing {
+  background: linear-gradient(180deg, var(--surface), var(--bg));
+}
+
+#demo {
+  background: linear-gradient(135deg, var(--surface), var(--panel));
+}
+
+#final-cta {
+  background: var(--bg);
+}
+
+@media (max-width: 900px) {
+  .fs03__top {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .fs03__right-text {
+    padding-bottom: 0;
+  }
+}
+
+.section-counters,
+.fs03,
+.final-cta-connect {
+  border-radius: var(--card-radius);
+}
+
+.counter-row,
+.benefit-grid,
+.pricing-grid,
+.value-grid,
+.problem-grid,
+.flexibility-grid,
+.trust-grid,
+.how-grid {
+  gap: var(--space-5);
+}
+
+.counter-card,
+.benefit-card,
+.value-card,
+.problem-card,
+.flexibility-card,
+.trust-card,
+.how-card,
+.pricing-card-anim {
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+}
+
+.counter-card,
+.benefit-card,
+.pricing-card-anim {
+  margin: 0;
+}
+
+.demo-container {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+.demo-form-inner {
+  gap: clamp(var(--space-7), 6vw, var(--space-10));
+}
+
+.demo-form-card {
+  padding: clamp(var(--space-5), 3vw, var(--space-7));
+}
+
+.container-scroll {
+  min-height: clamp(680px, 62vw, 820px);
+  margin-top: 0;
+}
+
+.fs03 {
+  padding-block: var(--section-space);
+}
+
+.fs03__top {
+  margin-bottom: var(--space-8);
+}
+
+.fs03__grid {
+  gap: var(--space-4);
+}
+
+.fs03__card {
+  min-height: 0;
+  padding: var(--card-padding);
+}
+
+.page-footer {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .section-heading {
+    margin-bottom: var(--space-7);
+  }
+
+  .container-scroll {
+    min-height: 700px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --page-gutter: 20px;
+    --section-space: 48px;
+    --card-padding: 18px;
+  }
+
+  .section-shell.section,
+  .section.demo-section {
+    padding-block: var(--section-space);
+  }
+
+  .section-heading {
+    margin-bottom: var(--space-6);
+  }
+
+  .section-heading h2,
+  .demo-form-copy h2 {
+    margin-bottom: var(--space-3);
+  }
+
+  .container-scroll {
+    min-height: 600px;
+  }
+
+  .fs03 {
+    padding-block: var(--section-space);
+  }
+
+  .fs03__top {
+    margin-bottom: var(--space-6);
+  }
+}
+
+.final-cta-meta {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.demo-topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 16px 16px 0 0;
+  background: #f4f2fb;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  margin-bottom: 0;
+}
+
+.demo-topbar span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d1d5db;
+}
+
+.demo-topbar span:nth-child(1) { background: #f87171; }
+.demo-topbar span:nth-child(2) { background: #fbbf24; }
+.demo-topbar span:nth-child(3) { background: #34d399; }
+
+.demo-content {
+  display: block;
+  padding: 0;
+  background: #ffffff;
+}
+
+.demo-dashboard-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0 0 16px 16px;
+}
+
+.demo-disclaimer {
+  text-align: center;
+  margin: 14px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted-soft);
+  font-style: italic;
 }

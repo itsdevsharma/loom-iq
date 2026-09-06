@@ -1,0 +1,75 @@
+.section-trust {
+  background: var(--bg);
+}
+
+.trust-inner {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.trust-inner .section-heading {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.trust-inner .section-heading .eyebrow {
+  color: var(--accent);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.trust-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  text-align: center;
+  transition: border-color 200ms ease;
+}
+
+.trust-card:hover {
+  border-color: var(--border-hover);
+}
+
+.trust-card h3 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0 0 8px;
+}
+
+.trust-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.trust-disclaimer {
+  text-align: center;
+  margin: 28px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted-soft);
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .trust-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 540px) {
+  .trust-grid {
+    grid-template-columns: 1fr;
+  }
+}

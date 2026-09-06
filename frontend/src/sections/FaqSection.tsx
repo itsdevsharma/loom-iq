@@ -1,18 +1,28 @@
 const faqs = [
   {
-    question: "Is LoomIQ suitable for small teams?",
+    question: "Is LoomIQ built for cloth manufacturers?",
     answer:
-      "Absolutely. LoomIQ is built with small and growing teams in mind. The Starter plan is ideal for startups, small businesses, and early-stage teams that need a professional CRM and ERP solution without the complexity or cost of enterprise software. It helps teams centralize customer data, manage sales pipelines, track leads, organize daily operations, and automate routine workflows from a single platform. As your business grows, LoomIQ scales with you, allowing you to add users, features, and modules without disrupting your existing processes. This means you can start small, improve productivity from day one, and continue using the same platform as your team and business expand."
+      "Yes. LoomIQ is designed for fabric mills, dyeing and processing units, garment manufacturers, home-textile businesses, and textile traders that need commercial, factory, stores, and finance data connected."
   },
   {
-    question: "Can it integrate with my current tools?",
+    question: "Can it handle raw material and finished goods inventory?",
     answer:
-      "Yes. LoomIQ is designed to fit seamlessly into your existing workflow rather than replace everything at once. It can integrate with a wide range of commonly used productivity, payment, communication, and marketing tools, helping you keep your data synchronized across platforms.Whether you're managing customer communication, processing payments, tracking leads, or collaborating with your team, LoomIQ reduces manual data entry and streamlines your operations through integrations and APIs. If you have specific business software or custom systems, our team can also help explore tailored integration solutions to ensure a smooth transition",
+      "Yes. You can manage yarn, fabric, trims, dyes, chemicals, packaging, work in progress, rolls, batches, and finished goods across stores and locations."
   },
   {
-    question: "Do you offer onboarding support?",
+    question: "Can we track production and quality stages?",
     answer:
-      "Yes. Every paid LoomIQ plan includes onboarding assistance to help your team get up and running quickly. Our onboarding process covers account setup, system configuration, data migration guidance, and product walkthroughs to ensure a smooth transition. We also provide training sessions for your team to familiarize them with the platform's features and best practices. Our support team is available to answer questions, troubleshoot issues, and provide ongoing assistance as your team adapts to the new system. We aim to make the onboarding experience as seamless as possible so you can start benefiting from LoomIQ's capabilities right away.",
+      "Yes. The workflow can cover material issue, production stages, dyeing or finishing, inspection, rejection, rework, approval, and dispatch. The exact setup depends on your process."
+  },
+  {
+    question: "Can LoomIQ show the cost and margin of an order?",
+    answer:
+      "LoomIQ is designed to connect material, purchase, wastage, production, dispatch, and finance records so your team can review the cost and margin behind an order."
+  },
+  {
+    question: "Can it support multiple stores or manufacturing units?",
+    answer:
+      "The platform supports location-based stock and workflows. Multi-unit and multi-company requirements can be configured with the appropriate permissions, approvals, and reporting."
   },
 ];
 
@@ -21,7 +31,7 @@ function FaqSection() {
     <section id="faq" className="section section-shell section-faq">
       <div className="section-heading">
         <p className="eyebrow">FAQs</p>
-        <h2>Common questions before you get started.</h2>
+        <h2>Questions textile teams ask before changing systems.</h2>
       </div>
       <div className="faq-list">
         {faqs.map((faq) => (

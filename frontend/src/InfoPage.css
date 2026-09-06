@@ -1,0 +1,42 @@
+.info-page {
+  width: min(720px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 64px 0 96px;
+  color: var(--text);
+}
+
+.info-page-back {
+  display: inline-block;
+  margin-bottom: 64px;
+  color: var(--accent);
+}
+
+.info-page h1 {
+  color: var(--text-strong);
+  font-size: clamp(2.2rem, 6vw, 4rem);
+  line-height: 1.05;
+  margin: 0 0 20px;
+}
+
+.info-page-intro,
+.info-page section p {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.info-page section {
+  border-top: 1px solid var(--border);
+  margin-top: 36px;
+  padding-top: 24px;
+}
+
+.info-page h2 {
+  color: var(--text-strong);
+  font-size: 1.3rem;
+}
+
+.thank-you-page .button {
+  display: inline-block;
+  margin-top: 24px;
+}

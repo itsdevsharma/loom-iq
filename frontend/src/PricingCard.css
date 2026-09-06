@@ -13,8 +13,8 @@
   position: relative;
   width: 100%;
   max-width: 320px;
-  padding: 32px 28px 28px;
-  border-radius: 24px;
+  padding: 26px 24px 24px;
+  border-radius: 18px;
   background: var(--pc-bg);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-card);
@@ -35,7 +35,7 @@
    the recommended option even before hover. */
 .pricing-card-anim.is-featured {
   border-color: rgba(16, 185, 129, 0.28);
-  background: linear-gradient(165deg, var(--pc-bg), var(--success) 420%);
+  background: var(--pc-bg);
 }
 
 /* --- animated inset border, borrowed from AnimatedCard ------------- */
@@ -43,7 +43,7 @@
   position: absolute;
   inset: 0;
   border: 1.5px solid var(--pc-accent);
-  border-radius: 24px;
+  border-radius: 18px;
   opacity: 0;
   transform: rotate(6deg) scale(1.02);
   transition: 0.5s ease;
@@ -63,12 +63,12 @@
   z-index: 1;
   display: inline-flex;
   align-self: flex-start;
-  padding: 6px 14px;
-  margin-bottom: 18px;
+  padding: 5px 12px;
+  margin-bottom: 14px;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--success), var(--success-strong));
   color: #ffffff;
-  font-size: 0.72rem;
+  font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -84,12 +84,12 @@
 }
 
 .pc-icon {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   border-radius: 12px;
   background: linear-gradient(135deg, var(--accent-soft), #ffffff);
   border: 1px solid rgba(124, 58, 237, 0.18);
@@ -97,7 +97,7 @@
 }
 
 .pc-plan-name {
-  font-size: 1.35rem;
+  font-size: 1.22rem;
   font-weight: 700;
   color: var(--text-strong);
   letter-spacing: -0.01em;
@@ -106,19 +106,19 @@
 .pc-tagline {
   margin-top: 6px;
   color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.6;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .pc-price-row {
   display: flex;
   align-items: baseline;
   gap: 4px;
-  margin: 22px 0 20px;
+  margin: 18px 0 16px;
 }
 
 .pc-price {
-  font-size: clamp(2.1rem, 3.2vw, 2.6rem);
+  font-size: clamp(1.9rem, 2.8vw, 2.35rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   color: var(--text-strong);
@@ -126,14 +126,14 @@
 
 .pc-period {
   color: var(--muted-soft);
-  font-size: 0.95rem;
+  font-size: 0.86rem;
   font-weight: 600;
 }
 
 .pc-feature-list {
   display: grid;
-  gap: 12px;
-  margin: 0 0 26px;
+  gap: 9px;
+  margin: 0 0 20px;
   padding: 0;
   list-style: none;
 }
@@ -141,17 +141,17 @@
 .pc-feature-list li {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 8px;
   color: var(--text);
-  font-size: 0.94rem;
-  line-height: 1.5;
+  font-size: 0.88rem;
+  line-height: 1.42;
 }
 
 .pc-check {
   flex-shrink: 0;
   margin-top: 5px;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--pc-accent);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--pc-accent) 15%, transparent);
@@ -162,19 +162,19 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 14px 22px;
+  padding: 12px 20px;
   margin-top: auto;
   border: none;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--cta), var(--cta-strong));
-  color: #ffffff;
+  border-radius: 8px;
+  background: var(--cta-strong);
+  color: #ffffff !important;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.86rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 14px 28px rgba(234, 88, 12, 0.24);
+  box-shadow: none;
   transition:
     transform 200ms ease,
     box-shadow 200ms ease,
@@ -222,4 +222,11 @@
   .pc-cta {
     transition: none;
   }
+}
+
+.pricing-note {
+  text-align: center;
+  margin: 32px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
 }
