@@ -5,7 +5,7 @@ const features = [
     id: "01",
     icon: "◎",
     title: "Orders & customers",
-    description: "Capture buyer requirements, fabric specifications, quantities, and promised delivery dates.",
+    description: "Capture buyer requirements, product specifications, quantities, and promised delivery dates in one place.",
     detail: "Keep enquiries, quotations, order revisions, approvals, and customer communication tied to the order your teams are producing.",
   },
   {
@@ -51,15 +51,14 @@ function FeaturesSection() {
       <div className="fs03__inner">
         <div className="fs03__top">
           <div>
-            <p className="fs03__badge">Textile manufacturing modules</p>
+            <p className="fs03__badge">Business management modules</p>
             <h2 className="fs03__headline">
-              From customer order to finished fabric and dispatch
+              From customer order to production, stock, and dispatch
             </h2>
           </div>
           <p className="fs03__right-text">
-            LoomIQ connects the commercial and factory records that cloth
-            manufacturers rely on every day. Plan, produce, inspect, account for,
-            and dispatch from one shared operating view.
+            LoomIQ connects the commercial, operational, and financial records teams rely on every day.
+            Plan, produce, inspect, account for, and dispatch from one shared operating view.
           </p>
         </div>
 

@@ -14,11 +14,11 @@ function BusinessFlexibilitySection() {
     <section id="industries" className="section section-shell section-flexibility">
       <div className="flexibility-inner">
         <div className="section-heading">
-          <p className="eyebrow">Built for textile businesses</p>
-          <h2>One ERP for the way cloth moves through your business.</h2>
+          <p className="eyebrow">Flexible ERP for different business types</p>
+          <h2>One ERP system built around how your business works.</h2>
           <p>
-            Whether you run a fabric mill, processing unit, garment operation, or
-            textile trading business, LoomIQ keeps commercial and factory work connected.
+            Whether you manage production, inventory, retail operations, or a growing commercial workflow,
+            LoomIQ keeps sales, operations, and finance connected from one source of truth.
           </p>
         </div>
 

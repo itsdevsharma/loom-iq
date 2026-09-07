@@ -65,10 +65,10 @@ function PricingSection() {
     <section id="pricing" className="section section-shell section-pricing">
       <div className="section-heading">
         <p className="eyebrow">Pricing</p>
-        <h2>Start with the controls your factory needs today.</h2>
+        <h2>Flexible ERP plans for growing business operations.</h2>
         <p>
-          Choose the operating depth that fits your textile business today and add
-          locations, workflows, and controls as you grow.
+          Choose the operating depth that fits your business today and add
+          locations, workflows, and controls as your operations grow.
         </p>
       </div>
       <div className="pricing-grid">

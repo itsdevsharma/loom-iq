@@ -4,21 +4,21 @@ type InfoPageProps = { kind: "privacy" | "terms" };
 
 const pageContent = {
   privacy: {
-    title: "Privacy policy",
-    intro: "This placeholder policy needs review and completion before LoomIQ is launched publicly.",
+    title: "Privacy Policy",
+    intro: "LoomIQ collects and uses information only to support business inquiries, product conversations, and the operation of this website.",
     sections: [
-      ["Information we collect", "When you request a demo, we collect the name, work email, company, and optional business type you submit."],
-      ["How we use information", "We use demo request information to respond to your enquiry, prepare a relevant walkthrough, and improve our services."],
-      ["Your choices", "Contact the LoomIQ team to request access, correction, or deletion of information submitted through this site."],
+      ["Information we collect", "When you request a demo, we may collect your name, work email, company, and the business type or workflow information you provide to help us understand your requirements."],
+      ["How we use information", "We use the information you submit to respond to your enquiry, prepare a relevant walkthrough, and improve the way we explain our ERP platform and services."],
+      ["Your choices", "If you need to review, update, or request removal of information submitted through this site, contact the LoomIQ team using the details available on the website or through your account contact."],
     ],
   },
   terms: {
-    title: "Terms of use",
-    intro: "These placeholder terms need legal review and completion before LoomIQ is launched publicly.",
+    title: "Terms of Service",
+    intro: "These terms explain how this website and its information should be used and clarify that demo requests are for evaluation and discussion rather than a binding contract.",
     sections: [
-      ["Website content", "LoomIQ provides this website and its preview content for general informational purposes. Product availability and functionality may change."],
-      ["Demo requests", "Submitting a demo request does not create a customer relationship or guarantee product access, pricing, or availability."],
-      ["Legal review", "This page is not a complete legal agreement. Obtain jurisdiction-specific legal advice before publishing it as final terms."],
+      ["Website content", "LoomIQ provides this website and preview content for general informational purposes. Product details, features, and availability may change as our platform evolves."],
+      ["Demo requests", "Submitting a demo request does not create a customer relationship, guarantee product access, pricing, or final contract terms unless expressly agreed in writing."],
+      ["Legal review", "This page is a general informational notice and should be reviewed by qualified legal counsel before being treated as a final commercial agreement for a specific jurisdiction."],
     ],
   },
 } as const;

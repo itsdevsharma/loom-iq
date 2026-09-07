@@ -2,13 +2,13 @@ import analyticsDashboard from "../assets/analytics-dashboard.png";
 
 function Hero() {
   return (
-    <section id="hero" className="hero">
+    <section id="hero" className="hero" aria-labelledby="hero-title">
       <div className="hero-copy">
-        <p className="eyebrow">ERP for cloth manufacturers</p>
-        <h1>Plan production, control stock, and deliver every order on time.</h1>
+        <p className="eyebrow">ERP software for growing businesses</p>
+        <h1 id="hero-title">Connected ERP software for orders, inventory, production, and finance.</h1>
         <p className="hero-text">
-          LoomIQ connects orders, fabric and yarn inventory, production, quality,
-          dispatch, and finance in one system built for textile manufacturing.
+          LoomIQ gives teams a single view of sales, inventory, manufacturing,
+          quality, dispatch, and finance so operations stay connected as the business grows.
         </p>
         <div className="hero-actions">
           <a href="#demo" className="button button-primary">
