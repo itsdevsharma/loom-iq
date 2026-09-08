@@ -1,4 +1,4 @@
-type PageRoute = "home" | "privacy" | "terms" | "thank-you" | "404";
+type PageRoute = "home" | "privacy" | "terms" | "refunds" | "thank-you" | "payment" | "signup" | "404";
 
 const runtimeOrigin = typeof window !== "undefined" ? window.location.origin : "https://www.loomiq.com";
 const basePath = import.meta.env.BASE_URL || "/";
@@ -49,10 +49,25 @@ const routeMetadata: Record<PageRoute, { title: string; description: string; can
     description: "Read the LoomIQ website terms covering demo requests, product information, and the use of this platform.",
     canonical: `${siteUrl}/terms`,
   },
+  refunds: {
+    title: "Refund & Cancellation Policy | LoomIQ",
+    description: "Review LoomIQ membership renewal, cancellation, access, and refund information.",
+    canonical: `${siteUrl}/refunds`,
+  },
   "thank-you": {
-    title: "Demo Request Received | LoomIQ",
-    description: "Thank you for contacting LoomIQ. Your demo request has been received and our team will follow up shortly.",
+    title: "Thank You | LoomIQ",
+    description: "Review your LoomIQ confirmation and next steps.",
     canonical: `${siteUrl}/thank-you`,
+  },
+  signup: {
+    title: "Sign Up & Choose Your Welcome Offer | LoomIQ",
+    description: "Review LoomIQ pricing and conditions before creating an account. Book a personalized demo with no signup required.",
+    canonical: `${siteUrl}${basePath}signup`,
+  },
+  payment: {
+    title: "Secure Membership Checkout | LoomIQ",
+    description: "Choose your LoomIQ ERP membership, share your business details, and continue to secure payment.",
+    canonical: `${siteUrl}/payment`,
   },
   404: {
     title: "Page Not Found | LoomIQ",
@@ -66,7 +81,7 @@ export function applyPageSeo(route: PageRoute) {
 
   setTitle(metadata.title);
   setMeta("description", metadata.description);
-  setMeta("robots", route === "404" || route === "thank-you" ? "noindex, nofollow" : "index, follow");
+  setMeta("robots", route === "404" || route === "thank-you" || route === "signup" || route === "payment" ? "noindex, nofollow" : "index, follow");
   setMeta("og:title", metadata.title, "property");
   setMeta("og:description", metadata.description, "property");
   setMeta("og:url", metadata.canonical, "property");

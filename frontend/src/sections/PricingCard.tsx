@@ -5,6 +5,8 @@ type PricingCardProps = {
   planName?: string;
   tagline?: string;
   price?: string;
+  originalPrice?: string;
+  recurringText?: string;
   period?: string;
   features?: string[];
   ctaLabel?: string;
@@ -25,6 +27,8 @@ export default function PricingCard({
   planName = "Starter",
   tagline = "For textile teams getting started",
   price = "$19",
+  originalPrice,
+  recurringText,
   period = "/mo",
   features = [],
   ctaLabel = "Get started",
@@ -63,9 +67,11 @@ export default function PricingCard({
         {tagline && <p className="pc-tagline">{tagline}</p>}
 
         <div className="pc-price-row">
+          {originalPrice && <span className="pc-original-price">{originalPrice}</span>}
           <span className="pc-price">{price}</span>
           {period && <span className="pc-period">{period}</span>}
         </div>
+        {recurringText && <p className="pc-recurring-text">{recurringText}</p>}
 
         {features.length > 0 && (
           <ul className="pc-feature-list">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logoImage from "../assets/company.logo.png";
+import logoImage from "../assets/company.logo.webp";
 import { trackEvent } from "../analytics";
 
 const navLinks = [
@@ -11,6 +11,7 @@ const navLinks = [
 
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,20 +26,35 @@ function Header() {
 
   return (
     <header className={`topbar ${isScrolled ? "topbar--scrolled" : ""}`}>
-      <a className="brand" href="#hero">
-        <img src={logoImage} alt="LoomIQ" className="brand-logo" /> LoomIQ
-      </a>
-      <nav className="nav-links" aria-label="Primary navigation">
-        {navLinks.map((link) => (
-          <a key={link.label} href={link.href}>
-            {link.label}
-          </a>
-        ))}
-      </nav>
-      <div className="nav-actions">
-        <a href="#demo" className="button button-primary" onClick={() => trackEvent("demo_cta_clicked")}>
-          Book a Free Demo
+      <div className="topbar-inner">
+        <a className="brand" href="#hero" onClick={() => setIsMenuOpen(false)}>
+          <img src={logoImage} alt="LoomIQ" className="brand-logo" /> LoomIQ
         </a>
+        <button
+          className="menu-toggle"
+          type="button"
+          aria-expanded={isMenuOpen}
+          aria-controls="primary-navigation"
+          aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </button>
+        <nav id="primary-navigation" className={`nav-links ${isMenuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
+          {navLinks.map((link) => (
+            <a key={link.label} href={link.href} onClick={() => setIsMenuOpen(false)}>
+              {link.label}
+            </a>
+          ))}
+        </nav>
+        <div className="nav-actions">
+          <a href="#demo" className="text-link" onClick={() => setIsMenuOpen(false)}>Book a demo</a>
+          <a href="#pricing" className="button button-primary" onClick={() => { setIsMenuOpen(false); trackEvent("direct_purchase_nav_clicked"); }}>
+            View plans & offer
+          </a>
+        </div>
       </div>
     </header>
   );

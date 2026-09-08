@@ -42,6 +42,7 @@ function DemoFormSection() {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL ?? ""}/api/demo-requests`, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
@@ -50,6 +51,7 @@ function DemoFormSection() {
           businessType: formData.get("businessType"),
           website: formData.get("website"),
           formStartedAt,
+          trial: false,
         }),
       });
       const result = await response.json() as { success?: boolean; message?: string; errors?: Record<string, string> };
@@ -99,8 +101,8 @@ function DemoFormSection() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} onFocus={() => trackEvent("demo_form_started")} noValidate>
-              <h3>Show us how your factory works</h3>
-              <p className="demo-form-meta">We will prepare the walkthrough around your process.</p>
+              <h3>Book a personalized demo</h3>
+              <p className="demo-form-meta">No account or payment needed. After the demo, we’ll help you decide whether a trial or paid plan fits.</p>
 
               <label htmlFor="demo-name">Full name</label>
               <input
@@ -158,7 +160,7 @@ function DemoFormSection() {
                 className="button button-primary demo-form-submit"
                 disabled={status === "submitting"}
               >
-                {status === "submitting" ? "Submitting..." : "Request a walkthrough"}
+                {status === "submitting" ? "Submitting..." : "Book a personalized demo"}
               </button>
 
               <p className="demo-form-privacy">

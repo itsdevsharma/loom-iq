@@ -1,5 +1,13 @@
 const faqs = [
   {
+    question: "What happens after I request a demo?",
+    answer: "Our team contacts you to arrange a personalized demo around your workflow. We then discuss the appropriate modules, setup requirements, and whether trial access or a paid plan fits. You do not need an account or payment to request a demo."
+  },
+  {
+    question: "What do the subscription prices cover?",
+    answer: "The prices cover the software modules listed in each plan and onboarding support. We confirm user and location limits, migration, customization, integrations, and applicable taxes for your requirements before you commit. Trial and direct-purchase conditions are available in the pricing section without registration."
+  },
+  {
     question: "Is LoomIQ built for cloth manufacturers?",
     answer:
       "Yes. LoomIQ is designed for fabric mills, dyeing and processing units, garment manufacturers, home-textile businesses, and textile traders that need commercial, factory, stores, and finance data connected."

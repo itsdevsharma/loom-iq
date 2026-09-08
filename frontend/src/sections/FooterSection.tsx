@@ -1,4 +1,4 @@
-import logoImage from "../assets/company.logo.png";
+import logoImage from "../assets/company.logo.webp";
 
 const footerGroups = [
   {
@@ -6,7 +6,6 @@ const footerGroups = [
     links: [
       ["Features", "#features"],
       ["How it works", "#how-it-works"],
-      ["Industries", "#industries"],
       ["Pricing", "#pricing"],
     ],
   },
@@ -59,7 +58,7 @@ function FooterSection() {
           <div className="footer-column footer-contact">
             <h3>Talk through your workflow</h3>
             <p>See how LoomIQ can fit your textile manufacturing workflow.</p>
-            <a className="footer-contact-link" href="#demo">Request a walkthrough <span aria-hidden="true">→</span></a>
+            <a className="footer-contact-link" href="#demo">Book a personalized demo <span aria-hidden="true">→</span></a>
           </div>
         </div>
         <div className="footer-bottom">

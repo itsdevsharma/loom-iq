@@ -1,29 +1,27 @@
+import { OfferProvider } from "./offer";
 import { useEffect } from "react";
 import "./App.css";
 import { applyPageSeo } from "./seo";
+import AnnouncementBanner from "./components/AnnouncementBanner";
 import Header from "./sections/Header";
 import Hero from "./sections/Hero";
-import PlatformHighlights from "./sections/PlatformHighlights";
-import ValueSection from "./sections/ValueSection";
-import ProblemSection from "./sections/ProblemSection";
 import FeaturesSection from "./sections/FeaturesSection";
 import HowItWorksSection from "./sections/HowItWorksSection";
-import DemoSection from "./sections/DemoSection";
-import BenefitsSection from "./sections/BenefitsSection";
-import BusinessFlexibilitySection from "./sections/BusinessFlexibilitySection";
 import PricingSection from "./sections/PricingSection";
 import TrustSection from "./sections/TrustSection";
 import FaqSection from "./sections/FaqSection";
 import DemoFormSection from "./sections/DemoFormSection";
-import FinalCTA from "./sections/FinalCTA";
 import FooterSection from "./sections/FooterSection";
 import InfoPage from "./sections/InfoPage";
 import ThankYouPage from "./sections/ThankYouPage";
+import SignupPage from "./sections/SignupPage";
+import PaymentPage from "./sections/PaymentPage";
 
 function App() {
   const path = window.location.pathname.replace(/\/$/, "") || "/";
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, "") || "";
   const normalizedHomePath = basePath || "/";
+  const paymentPath = `${basePath}/payment`;
 
   useEffect(() => {
     const route =
@@ -33,16 +31,25 @@ function App() {
           ? "privacy"
           : path === `${basePath}/terms` || path === "/terms"
             ? "terms"
+            : path === `${basePath}/refunds` || path === "/refunds"
+              ? "refunds"
+              : path === `${basePath}/signup` || path === "/signup"
+                ? "signup"
+                : path === paymentPath || path === "/payment"
+                  ? "payment"
             : path === normalizedHomePath || path === "/"
               ? "home"
               : "404";
 
     applyPageSeo(route);
-  }, [basePath, normalizedHomePath, path]);
+  }, [basePath, normalizedHomePath, path, paymentPath]);
 
+  if (path === `${basePath}/signup` || path === "/signup") return <OfferProvider><SignupPage /></OfferProvider>;
+  if (path === paymentPath || path === "/payment") return <OfferProvider><PaymentPage /></OfferProvider>;
   if (path === `${basePath}/thank-you` || path === "/thank-you") return <ThankYouPage />;
   if (path === `${basePath}/privacy` || path === "/privacy") return <InfoPage kind="privacy" />;
   if (path === `${basePath}/terms` || path === "/terms") return <InfoPage kind="terms" />;
+  if (path === `${basePath}/refunds` || path === "/refunds") return <InfoPage kind="refunds" />;
   if (path !== normalizedHomePath && path !== "/") {
     return (
       <div className="info-page">
@@ -56,28 +63,21 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <OfferProvider><div className="app-shell">
       <Header />
-
+      <AnnouncementBanner />
       <main>
         <Hero />
-        <DemoFormSection />
-        <PlatformHighlights />
-        <ValueSection />
-        <ProblemSection />
         <FeaturesSection />
         <HowItWorksSection />
-        <DemoSection />
-        <BenefitsSection />
-        <BusinessFlexibilitySection />
         <PricingSection />
         <TrustSection />
         <FaqSection />
-        <FinalCTA />
+        <DemoFormSection />
       </main>
 
       <FooterSection />
-    </div>
+    </div></OfferProvider>
   );
 }
 

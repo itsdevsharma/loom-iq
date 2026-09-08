@@ -15,7 +15,7 @@ function FinalCTA() {
           </p>
           <div className="hero-actions final-cta-actions">
             <a href="#demo" className="button button-primary">
-              Book a Free Demo
+              Book a personalized demo
             </a>
           </div>
           <p className="final-cta-meta">

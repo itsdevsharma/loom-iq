@@ -1,4 +1,4 @@
-import analyticsDashboard from "../assets/analytics-dashboard.png";
+import analyticsDashboard from "../assets/analytics-dashboard.webp";
 
 function DemoSection() {
   return (
