@@ -10,16 +10,21 @@ async function offerRequest(path: string, body?: unknown): Promise<Offer> {
 }
 const OfferContext = createContext({ offer: initial, remaining: 0, ready: false, update: (offer: Offer) => { void offer; }, selectTrial: async () => {}, authenticate: async (action: string, body: unknown) => { void action; void body; } });
 let visit: Promise<Offer> | undefined;
+function visitOffer() {
+  visit ||= offerRequest('offers/visit', {}).catch(error => { visit = undefined; throw error; });
+  return visit;
+}
 export function OfferProvider({ children }: { children: ReactNode }) {
   const [snapshot, setSnapshot] = useState(() => ({ offer: initial, received: performance.now() }));
   const [now, setNow] = useState(() => performance.now());
   const update = (offer: Offer) => { setSnapshot({ offer, received: performance.now() }); setNow(performance.now()); };
   useEffect(() => {
     let active = true;
-    visit ||= offerRequest('offers/visit', {});
-    visit.then(value => { if (active) update(value); }).catch(() => { if (active) update({ ...initial, reason: 'unavailable' }); });
+    let initialized = false;
+    const load = () => visitOffer().then(value => { initialized = true; if (active) update(value); }).catch(() => { if (active) update({ ...initial, reason: 'unavailable' }); });
+    void load();
     const timer = window.setInterval(() => setNow(performance.now()), 1000);
-    const refresh = () => { if (!document.hidden) offerRequest('offers/status').then(value => { if (active) update(value); }).catch(() => {}); };
+    const refresh = () => { if (!document.hidden) { if (!initialized) { void load(); return; } offerRequest('offers/status').then(value => { if (active) update(value); }).catch(() => {}); } };
     const poll = window.setInterval(refresh, 30000);
     window.addEventListener('focus', refresh);
     return () => { active = false; clearInterval(timer); clearInterval(poll); window.removeEventListener('focus', refresh); };

@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        VITE_SITE_URL: https://${SITE_DOMAIN:?Set SITE_DOMAIN}
+        VITE_GOOGLE_ANALYTICS_ID: ${VITE_GOOGLE_ANALYTICS_ID:-}
+    env_file: backend/.env
+    environment:
+      NODE_ENV: production
+      SERVE_FRONTEND: 'true'
+      PORT: '3001'
+      PUBLIC_SITE_URL: https://${SITE_DOMAIN}/
+      FRONTEND_ORIGIN: https://${SITE_DOMAIN}
+      TRUST_PROXY_HOPS: '1'
+    restart: unless-stopped
+    init: true
+  proxy:
+    image: caddy:2
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+    depends_on:
+      - app
+volumes:
+  caddy_data:
+  caddy_config:

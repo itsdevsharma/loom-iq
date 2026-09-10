@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs';
+import { writeFileSync, copyFileSync, mkdirSync } from 'node:fs';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -27,6 +27,11 @@ function generateSeoFiles() {
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url>
+    <loc>${siteUrl}${normalizedBase}refunds</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>
 `;
 
@@ -36,11 +41,23 @@ Disallow: /api/
 Disallow: /admin/
 Disallow: /dashboard/
 Disallow: /thank-you
+Disallow: /account
+Disallow: /signup
+Disallow: /payment
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /verify-email
 Sitemap: ${siteUrl}${normalizedBase}sitemap.xml
 `;
 
       writeFileSync('dist/robots.txt', robots, 'utf8');
       writeFileSync('dist/sitemap.xml', sitemap, 'utf8');
+      // Static previews need real entry files for direct links and refreshes.
+      for (const route of ['signup', 'payment', 'thank-you', 'privacy', 'terms', 'refunds', 'account', 'forgot-password', 'reset-password', 'verify-email']) {
+        mkdirSync(`dist/${route}`, { recursive: true });
+        copyFileSync('dist/index.html', `dist/${route}/index.html`);
+      }
+      copyFileSync('dist/index.html', 'dist/404.html');
     },
   };
 }

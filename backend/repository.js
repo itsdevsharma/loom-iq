@@ -22,6 +22,7 @@ function fileRepository(filename, demoFilename) {
     kind: 'file',
     get: (name, id) => access(state).get(name, id),
     list: name => access(state).list(name),
+    paidOrders: async customerKey => structuredClone(Object.entries(state.orders).filter(([, order]) => order.customerKey === customerKey && order.status === 'paid').map(([id, order]) => ({ ...order, id }))),
     transaction(work) {
       const result = queue.then(async () => {
         const next = structuredClone(state);
@@ -55,6 +56,9 @@ function mongoRepository(db) {
   });
   return {
     kind: 'mongodb', ...access(),
+    async paidOrders(customerKey) {
+      return (await db.collection('orders').find({ customerKey, status: 'paid' }).sort({ createdAt: -1 }).toArray()).map(({ _id, ...order }) => ({ ...order, id: _id }));
+    },
     async transaction(work) {
       // Concurrent first registrations can surface a duplicate key on an upsert.
       // Retry the whole transaction so account-exists checks run on fresh data.

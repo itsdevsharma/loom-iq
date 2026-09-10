@@ -30,9 +30,15 @@ declare global {
 
 let initialized = false;
 
+export function analyticsAllowed(): boolean {
+  try { return localStorage.getItem('loomiq-analytics') === 'granted'; } catch { return false; }
+}
+
 export function initializeAnalytics(): void {
+  // Recovery/verification URLs can contain private single-use fragment tokens.
+  if (/\/(reset-password|verify-email)\/?$/.test(window.location.pathname)) return;
   const measurementId = import.meta.env.VITE_GOOGLE_ANALYTICS_ID?.trim();
-  if (initialized || !import.meta.env.PROD || !measurementId || !/^G-[A-Z0-9]+$/.test(measurementId)) return;
+  if (initialized || !analyticsAllowed() || !import.meta.env.PROD || !measurementId || !/^G-[A-Z0-9]+$/.test(measurementId)) return;
 
   initialized = true;
   window.dataLayer = window.dataLayer || [];

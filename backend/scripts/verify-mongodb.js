@@ -12,10 +12,13 @@ async function main() {
   const source = await connectDatabase();
   const db = source.client.db('loomiq_verification_' + crypto.randomBytes(8).toString('hex'));
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'loomiq-mongo-'));
+  const restoreName = 'loomiq_restore_' + crypto.randomBytes(8).toString('hex');
+  let restoreAttempted = false;
   let server;
   try {
     const repo = await initializeMongo(db, path.join(dir, 'offers.json'));
     process.env.SALES_EMAIL = ""; process.env.EMAIL_API_KEY = "";
+    process.env.OFFER_DB_PATH = path.join(dir, 'offers.json');
     const { app, useRepository } = require('../server');
     useRepository(repo);
     server = app.listen(0);
@@ -33,12 +36,12 @@ async function main() {
     assert.equal(await db.collection('sessions').countDocuments(), 1);
     assert.equal((await post('/api/account/signup', credentials)).status, 409);
     const trial = await post('/api/trial/select', { acceptConditions: true }, signup.cookie);
-    assert.equal(trial.data.reason, 'trial');
+    assert.equal(trial.data.eligible, true); assert.equal(trial.data.trialSelected, true);
     useRepository(mongoRepository(db));
     const login = await post('/api/account/login', credentials);
-    assert.equal(login.status, 200); assert.equal(login.data.reason, 'trial'); assert.equal(login.data.expiresAt, signup.data.expiresAt);
+    assert.equal(login.status, 200); assert.equal(login.data.eligible, true); assert.equal(login.data.expiresAt, signup.data.expiresAt);
     const quote = await post('/api/purchase/quote', { plan: 'Starter' }, login.cookie);
-    assert.equal(quote.data.amount, 199000);
+    assert.equal(quote.data.amount, 99500);
     const raceData = { ...credentials, email: 'mongo-race@example.invalid' };
     const race = await Promise.all([post('/api/account/signup', raceData), post('/api/account/signup', raceData)]);
     assert.deepEqual(race.map(r => r.status).sort(), [201, 409]);
@@ -58,10 +61,21 @@ async function main() {
     assert.equal(demo.status, 201);
     assert.equal(await db.collection('demoRequests').countDocuments(), 1);
     assert.equal((await fetch(base + '/api/demo-requests')).status, 403);
-    console.log('PASS: signup, password hashing, sessions, concurrent signup, trial exclusion, reload, pricing, rollback, migration, demo persistence, and private contact records.');
+    const { promisify } = require('node:util');
+    const execFile = promisify(require('node:child_process').execFile);
+    const archive = path.join(dir, 'verification.enc');
+    const backupEnv = { ...process.env, MONGODB_DATABASE: db.databaseName, BACKUP_PASSWORD: crypto.randomBytes(32).toString('hex') };
+    await execFile(process.execPath, [path.join(__dirname, 'backup.js'), 'create', archive], { env: backupEnv, windowsHide: true });
+    restoreAttempted = true;
+    await execFile(process.execPath, [path.join(__dirname, 'backup.js'), 'restore', archive, restoreName], { env: backupEnv, windowsHide: true });
+    assert.equal(await source.client.db(restoreName).collection('customers').countDocuments(), await db.collection('customers').countDocuments());
+    assert.equal((await source.client.db(restoreName).collection('customers').findOne({ _id: keyFor(credentials.email) })).name, credentials.name);
+    console.log('PASS: encrypted backup and restore into an isolated database.');
+    console.log('PASS: signup, password hashing, sessions, concurrent signup, trial eligibility, reload, pricing, rollback, migration, demo persistence, and private contact records.');
   } finally {
     if (server) await new Promise(resolve => server.close(resolve));
     await db.dropDatabase();
+    if (restoreAttempted) await source.client.db(restoreName).dropDatabase();
     fs.rmSync(dir, { recursive: true, force: true });
     await closeDatabase();
   }

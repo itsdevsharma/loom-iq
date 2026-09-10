@@ -1,4 +1,4 @@
-type PageRoute = "home" | "privacy" | "terms" | "refunds" | "thank-you" | "payment" | "signup" | "404";
+type PageRoute = "home" | "privacy" | "terms" | "refunds" | "thank-you" | "payment" | "signup" | "account" | "404";
 
 const runtimeOrigin = typeof window !== "undefined" ? window.location.origin : "https://www.loomiq.com";
 const basePath = import.meta.env.BASE_URL || "/";
@@ -34,30 +34,31 @@ function setTitle(title: string) {
 }
 
 const routeMetadata: Record<PageRoute, { title: string; description: string; canonical: string }> = {
+  account: { title: 'Your Account | LoomIQ', description: 'Manage your LoomIQ account, onboarding and invoices.', canonical: `${siteUrl}${basePath}account` },
   home: {
     title: "ERP Software for Connected Business Operations | LoomIQ",
     description: "Manage orders, inventory, production, finance, and operations from one flexible ERP platform built for growing businesses.",
-    canonical: `${siteUrl}/`,
+    canonical: `${siteUrl}${basePath}`,
   },
   privacy: {
     title: "Privacy Policy | LoomIQ",
     description: "Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes.",
-    canonical: `${siteUrl}/privacy`,
+    canonical: `${siteUrl}${basePath}privacy`,
   },
   terms: {
     title: "Terms of Service | LoomIQ",
     description: "Read the LoomIQ website terms covering demo requests, product information, and the use of this platform.",
-    canonical: `${siteUrl}/terms`,
+    canonical: `${siteUrl}${basePath}terms`,
   },
   refunds: {
     title: "Refund & Cancellation Policy | LoomIQ",
     description: "Review LoomIQ membership renewal, cancellation, access, and refund information.",
-    canonical: `${siteUrl}/refunds`,
+    canonical: `${siteUrl}${basePath}refunds`,
   },
   "thank-you": {
     title: "Thank You | LoomIQ",
     description: "Review your LoomIQ confirmation and next steps.",
-    canonical: `${siteUrl}/thank-you`,
+    canonical: `${siteUrl}${basePath}thank-you`,
   },
   signup: {
     title: "Sign Up & Choose Your Welcome Offer | LoomIQ",
@@ -67,7 +68,7 @@ const routeMetadata: Record<PageRoute, { title: string; description: string; can
   payment: {
     title: "Secure Membership Checkout | LoomIQ",
     description: "Choose your LoomIQ ERP membership, share your business details, and continue to secure payment.",
-    canonical: `${siteUrl}/payment`,
+    canonical: `${siteUrl}${basePath}payment`,
   },
   404: {
     title: "Page Not Found | LoomIQ",
@@ -81,7 +82,7 @@ export function applyPageSeo(route: PageRoute) {
 
   setTitle(metadata.title);
   setMeta("description", metadata.description);
-  setMeta("robots", route === "404" || route === "thank-you" || route === "signup" || route === "payment" ? "noindex, nofollow" : "index, follow");
+  setMeta("robots", route === "404" || route === "thank-you" || route === "signup" || route === "payment" || route === 'account' ? "noindex, nofollow" : "index, follow");
   setMeta("og:title", metadata.title, "property");
   setMeta("og:description", metadata.description, "property");
   setMeta("og:url", metadata.canonical, "property");

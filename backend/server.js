@@ -9,7 +9,7 @@ const morgan = require("morgan");
 const nodemailer = require("nodemailer");
 const path = require("path");
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env'), quiet: true });
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
@@ -40,7 +40,9 @@ async function account(req) {
   const token = /(?:^|; )loomiq_session=([a-f0-9]{64})(?:;|$)/.exec(req.headers.cookie || "")?.[1];
   if (!token) return null;
   const session = await repository.get("sessions", keyFor(token));
-  return session && session.expiresAt > Date.now() ? session : null;
+  if (!session || session.expiresAt <= Date.now()) return null;
+  const customer = await repository.get('customers', session.customerKey);
+  return customer && (session.version || 0) === (customer.sessionVersion || 0) ? session : null;
 }
 async function offerStatus(req, currentVisitorId) {
   const session = await account(req);
@@ -66,6 +68,7 @@ const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
   : null;
 
 app.disable("x-powered-by");
+if (process.env.TRUST_PROXY_HOPS) app.set('trust proxy', Number(process.env.TRUST_PROXY_HOPS));
 app.use(helmet());
 app.use(express.json({ limit: "20kb", verify: (req, _res, buffer) => { req.rawBody = buffer; } }));
 app.use(morgan("combined"));
@@ -185,6 +188,9 @@ app.post("/api/offers/visit", async (req, res) => {
 app.get("/api/offers/status", async (req, res) => res.json(await offerStatus(req)));
 
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
+require('./account-routes').registerAccountRoutes(app, { store: () => repository, account, limiter: authLimiter });
+require('./operator-routes').registerOperatorRoutes(app, () => repository);
+require('./support').registerSupport(app, rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, message: { message: 'Too many messages. Please try again in 15 minutes.' } }));
 app.post("/api/account/:action", authLimiter, async (req, res) => {
   const action = req.params.action;
   if (!["signup", "login"].includes(action)) return res.sendStatus(404);
@@ -204,6 +210,7 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   } else {
     const existing = await repository.get("customers", key);
     if (!existing?.passwordHash || !await bcrypt.compare(password, existing.passwordHash)) return res.status(401).json({ message: "Email or password is incorrect." });
+    passwordHash = existing.passwordHash;
   }
   const id = visitorId(req) || crypto.randomBytes(32).toString("hex");
   const token = crypto.randomBytes(32).toString("hex");
@@ -211,11 +218,11 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   const result = await repository.transaction(async tx => {
     const existing = await tx.get("customers", key);
     if (action === "signup" && existing?.passwordHash) throw fail(409, "Unable to create this account. Try signing in.");
-    if (action === "login" && !existing?.passwordHash) throw fail(401, "Please sign in again.");
+    if (action === "login" && (!existing?.passwordHash || existing.passwordHash !== passwordHash)) throw fail(401, "Please sign in again.");
     const { c, v } = await enroll(tx, id, key, now);
     if (action === "signup") Object.assign(c, values, { passwordHash, registeredAt: now, termsAcceptedAt: now });
     await tx.put("customers", key, c);
-    await tx.put("sessions", keyFor(token), { customerKey: key, visitorId: id, expiresAt: now + 30 * 86400000 });
+    await tx.put("sessions", keyFor(token), { customerKey: key, visitorId: id, version: c.sessionVersion || 0, expiresAt: now + 30 * 86400000 });
     return { ...eligibility(v, c), signedUp: true, customer: profile(c) };
   });
   visitorCookie(res, id);
@@ -237,8 +244,11 @@ app.post("/api/trial/select", requireAccount, async (req, res) => {
   res.json(await offerStatus(req));
 });
 
-app.get("/health", (_request, response) => {
-  response.json({ ok: true, storage: repository.kind, timestamp: new Date().toISOString() });
+app.get("/health", async (_request, response) => {
+  try {
+    if (app.locals.db) await app.locals.db.command({ ping: 1 }, { timeoutMS: 3000 });
+    response.json({ ok: true, storage: repository.kind, timestamp: new Date().toISOString() });
+  } catch { response.status(503).json({ ok: false }); }
 });
 
 app.get("/api/purchase/config", (_request, response) => {
@@ -444,12 +454,15 @@ app.post("/api/purchase/webhook", async (req, res) => {
   catch (error) { console.error("Webhook settlement failed:", error.message); res.sendStatus(500); }
 });
 
+if (process.env.SERVE_FRONTEND === 'true') require('./web').registerWebsite(app, path.join(__dirname, '../frontend/dist'));
+
 app.use((error, _request, response, _next) => {
   const status = error.status || (error.type === "entity.parse.failed" ? 400 : 503);
   response.status(status).json({ success: false, message: status < 500 ? error.message : "Unable to save or retrieve your information. Please try again shortly." });
 });
 
 async function startServer() {
+  require('./production-config').validateProduction();
   const { connectDatabase, closeDatabase } = require("./database");
   // Existing local development works without database configuration. Once configured,
   // a connection failure prevents startup rather than silently ignoring MongoDB.

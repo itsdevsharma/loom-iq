@@ -63,7 +63,7 @@ function OffersPopup() {
             setIsOpen(false);
           }}>Create my account <span aria-hidden="true">→</span></a>
           <p className="offers-reassurance">No card needed to sign up · Choose your option next</p>
-          <p className="offers-popup-note">Trial and discount cannot be combined. Trial accounts are excluded from the discount. The purchase offer renews daily at midnight IST; later months use regular pricing.</p>
+          <p className="offers-popup-note">Trial accounts can use the purchase discount within 24 hours of their first offer visit. The deadline does not reset. Each checkout is a one-time payment with no automatic charges.</p>
           <button className="offers-later" type="button" onClick={closePopup}>I’ll keep exploring</button>
         </div>
       </dialog>}

@@ -16,7 +16,7 @@ export default function PlanConditions() {
       <div className="conversion-offer-copy">
         <span className="conversion-offer-badge">TODAY’S MEMBERSHIP OFFER · 50% OFF</span>
         <h3>Save 50% on your membership month.</h3>
-        <p>Get started with LoomIQ at 50% off your membership month. These promotional prices apply to eligible non-trial accounts.</p>
+        <p>Get started with LoomIQ at 50% off your membership month within your 24-hour offer window, including trial accounts.</p>
         <div className="conversion-offer-prices">
           <div><span>Starter · save ₹995</span><strong>₹995</strong><s>₹1,990</s><small>For the membership month, then ₹1,990/month</small></div>
           <div><span>Growth · save ₹1,495</span><strong>₹1,495</strong><s>₹2,990</s><small>For the membership month, then ₹2,990/month</small></div>
@@ -28,19 +28,19 @@ export default function PlanConditions() {
           <div className="conversion-offer-clock" role="timer" aria-live="off" aria-label={`${clock[0]} hours ${clock[1]} minutes ${clock[2]} seconds remaining`}>
             {clock.map((value, i) => <div key={i}><strong>{String(value).padStart(2, '0')}</strong><span>{['HOURS', 'MINUTES', 'SECONDS'][i]}</span></div>)}
           </div>
-          <p className="conversion-offer-reset">Deadline: midnight IST. Offer renews daily.</p>
-        </> : <p className="conversion-offer-deadline">{!ready ? 'Checking today’s offer…' : offer.trialSelected ? 'Trial accounts use regular pricing.' : 'Offer availability is confirmed at checkout.'}</p>}
+          <p className="conversion-offer-reset">24 hours from your first offer visit. This deadline does not reset.</p>
+        </> : <p className="conversion-offer-deadline">{!ready ? 'Checking your offer…' : 'Offer availability is confirmed at checkout.'}</p>}
         <a className="button button-primary" href={href} onClick={() => trackEvent('direct_purchase_clicked')}>{active ? 'Get 50% off →' : offer.trialSelected ? 'View paid plans →' : 'Check my offer →'}</a>
         <small>{offer.signedUp ? 'Review your total before payment.' : 'Create an account, then review your checkout.'}</small>
       </div>
     </div>
     <div className="conversion-offer-terms">
-      {offer.trialSelected && <p><strong>Your account:</strong> You previously selected a trial, so this promotion does not apply to your checkout. Your rates remain Starter ₹1,990/month or Growth ₹2,990/month.</p>}
-      <p>For eligible Starter and Growth purchases. Free-trial accounts excluded. Regular monthly prices apply after the discounted month.</p>
+      {offer.trialSelected && <p><strong>Your account:</strong> Selecting a trial does not remove your discount during the 24-hour window.</p>}
+      <p>For eligible Starter and Growth purchases, including trial accounts. Each checkout is a one-time payment with no automatic charges.</p>
       <details>
         <summary>Offer & trial conditions</summary>
-        <p>The offer renews daily at midnight IST. Complete payment before the deadline shown at checkout; late discounted payments are refunded. The trial and purchase discount cannot be combined.</p>
-        <p>A 7-day trial requires no payment and access is arranged by our team. Under the current policy, selecting a trial permanently removes the purchase discount from that account. Creating an account alone does not select a trial or make a payment.</p>
+        <p>The offer expires 24 hours after your first offer visit. Complete payment before the deadline shown at checkout; late captured discounted payments are submitted for refund.</p>
+        <p>A 7-day trial requires no payment and access is arranged by our team. Creating an account alone does not select a trial or make a payment.</p>
         <p>Prefer to see the product first? <a href={base + '#demo'}>Book a personalized demo</a> without an account or payment.</p>
       </details>
     </div>

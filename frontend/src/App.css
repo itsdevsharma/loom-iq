@@ -13,7 +13,7 @@
   --text: #241f38;
   --text-strong: #14101f;
   --muted: #5b5570;
-  --muted-soft: #837c99;
+  --muted-soft: #665f76;
 
   /* Brand accent — violet, used for identity, links, decorative accents */
   --accent: #7c3aed;
@@ -56,7 +56,15 @@ a:hover,
 a:active,
 a:focus {
   text-decoration: none;
-  outline: none;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--accent-strong, #6337a9);
+  outline-offset: 4px;
 }
 
 * {
@@ -1739,8 +1747,8 @@ h1 {
   --border-hover: rgba(91, 75, 183, 0.42);
   --text: #334047;
   --text-strong: #18242b;
-  --muted: #637078;
-  --muted-soft: #879198;
+  --muted: #58636b;
+  --muted-soft: #626e76;
   --accent: #5b4bb7;
   --accent-strong: #493a9d;
   --accent-soft: #eeecfb;

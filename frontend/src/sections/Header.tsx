@@ -50,6 +50,7 @@ function Header() {
           ))}
         </nav>
         <div className="nav-actions">
+          <a href={import.meta.env.BASE_URL + 'account'} className="text-link">My account</a>
           <a href="#demo" className="text-link" onClick={() => setIsMenuOpen(false)}>Book a demo</a>
           <a href="#pricing" className="button button-primary" onClick={() => { setIsMenuOpen(false); trackEvent("direct_purchase_nav_clicked"); }}>
             View plans & offer

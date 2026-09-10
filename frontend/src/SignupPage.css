@@ -8,7 +8,7 @@
 .signup-home:hover { border-color: #aebdb4; background: #fff; transform: translateY(-1px); }
 .signup-home span { margin-left: 10px; }
 .signup-steps { list-style: none; display: flex; justify-content: center; gap: 54px; padding: 0; margin: 30px 0; }
-.signup-steps li { position: relative; display: flex; align-items: center; gap: 9px; font-size: 11px; font-weight: 600; color: #7b857f; }
+.signup-steps li { position: relative; display: flex; align-items: center; gap: 9px; font-size: 11px; font-weight: 600; color: #5e6b63; }
 .signup-steps li:not(:last-child)::after { content: ''; position: absolute; left: calc(100% + 14px); width: 26px; height: 1px; background: #cfd7d1; }
 .signup-steps li > span { display: grid; place-items: center; width: 27px; height: 27px; border: 1px solid #cfd8d2; border-radius: 50%; background: #fafbf8; font-size: 11px; }
 .signup-steps .is-current { color: #6d28d9; font-weight: 700; }

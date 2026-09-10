@@ -1,10 +1,10 @@
 import "../TrustSection.css";
 
 const trustItems = [
-  { title: "Role-based access", description: "Granular permissions to keep data safe across teams." },
-  { title: "Encrypted data in transit", description: "All network traffic is encrypted using modern TLS standards." },
-  { title: "Reliable infrastructure", description: "Hosted on enterprise-grade cloud infrastructure." },
-  { title: "Backups and recovery", description: "Regular automated backups to protect your business data." },
+  { title: "Protected accounts", description: "Password-protected accounts with email verification and secure password recovery." },
+  { title: "Verified payments", description: "Payment confirmation is checked with Razorpay before an invoice is issued." },
+  { title: "Private invoices", description: "Sign in to view your own payment history and save your invoices." },
+  { title: "Guided onboarding", description: "Track your setup and open your workspace when our team has arranged access." },
 ];
 
 function TrustSection() {

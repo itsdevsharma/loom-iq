@@ -7,7 +7,7 @@ import '../SignupPage.css';
 export default function SignupPage() {
   const { offer, ready, authenticate } = useOffer();
   const [showPassword, setShowPassword] = useState(false);
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(() => new URLSearchParams(window.location.search).get('login') === '1');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const query = new URLSearchParams(window.location.search);
@@ -63,6 +63,7 @@ export default function SignupPage() {
           </fieldset>
         </form>
         {error && <p className="signup-error" role="alert">{error}</p>}
+        {login && <p><a href={base + 'forgot-password'}>Forgot password?</a></p>}
         <div className="signup-switch"><button className="text-link" type="button" disabled={busy} onClick={() => { setLogin(!login); setShowPassword(false); setError(''); }}>{login ? 'New here? Create an account' : 'Already signed up? Sign in'}</button></div>
         <div className="signup-form-trust"><LockIcon /><span>Your account is password-protected.<br />You choose your plan before making any payment.</span></div>
       </section></div>
@@ -72,6 +73,7 @@ export default function SignupPage() {
         <h1>{offer.trialSelected ? 'Your trial request is received.' : 'Choose your next step.'}</h1>
         {offer.reason === 'purchased' && <p><a className="button button-primary" href={base + 'thank-you?type=purchase'}>View purchase & invoice</a></p>}
         <p className="signup-account-email">Signed in as {offer.customer?.email}</p>
+        <p><a className="button button-primary" href={base + 'account'}>My account & invoices</a></p>
         <p>{offer.trialSelected ? 'Our team will contact you to arrange trial access. You can still get 50% off if you purchase within your 24-hour offer window.' : 'Book a demo to discuss your setup, or continue to checkout if you have already chosen your plan.'}</p>
         <a className="button button-secondary" href={base + 'payment?plan=' + plan}>Review checkout</a>
       </section>

@@ -1,0 +1,16 @@
+name: Website health
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/15 * * * *'
+permissions:
+  contents: read
+jobs:
+  health:
+    if: vars.HEALTHCHECK_URL != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check API and database readiness
+        env:
+          HEALTHCHECK_URL: ${{ vars.HEALTHCHECK_URL }}
+        run: curl --fail --silent --show-error --max-time 15 --retry 2 "$HEALTHCHECK_URL"

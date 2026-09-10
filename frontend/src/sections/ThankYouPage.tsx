@@ -1,3 +1,4 @@
+import SupportForm from '../components/SupportForm';
 import { useEffect, useState } from 'react';
 import logo from '../assets/company.logo.webp';
 import '../ThankYouPage.css';
@@ -21,8 +22,8 @@ export default function ThankYouPage() {
   }, [purchase, order, attempt]);
   const confirmed = !purchase || Boolean(receipt);
   return <main className="confirmation-page">
-    <header className="confirmation-header"><a href={base} className="confirmation-brand"><img src={logo} alt="" />Loom<span>IQ</span></a><a href="mailto:support@loomiq.com">Need a hand? Contact support ↗</a></header>
-    <section className="confirmation-card">
+    <header className="confirmation-header"><a href={base} className="confirmation-brand"><img src={logo} alt="" />Loom<span>IQ</span></a><a href="#support">Need a hand? Contact support ↗</a></header>
+    <div className="confirmation-layout"><section className={`confirmation-card${receipt ? ' confirmation-card--receipt' : ''}`}>
       <div className="confirmation-intro">
         <span className="confirmation-check" aria-hidden="true">{confirmed ? '✓' : '…'}</span>
         <p className="confirmation-eyebrow">{purchase ? receipt?.testMode ? 'Test payment complete' : receipt ? 'Payment confirmed' : 'Checking your payment' : 'Request received'}</p>
@@ -37,8 +38,8 @@ export default function ThankYouPage() {
         <div className="confirmation-invoice-action"><a className="confirmation-primary" href={`${import.meta.env.VITE_API_URL ?? ''}/api/purchase/invoice/${encodeURIComponent(receipt.orderId)}`} target="_blank" rel="noreferrer">View & save invoice <span aria-hidden="true">↗</span></a><span>Print or save as PDF from your browser.</span></div>
       </section>}
       {confirmed && <section className="confirmation-next"><h2>What happens next</h2><div className="confirmation-steps"><article><span>01</span><h3>We connect</h3><p>Our team reaches out to understand your operation and goals.</p></article><article><span>02</span><h3>We plan your setup</h3><p>Walk through your workflows and agree on the next steps together.</p></article><article><span>03</span><h3>You get started</h3><p>Get guidance as you begin bringing your work into LoomIQ.</p></article></div></section>}
-      <div className="confirmation-bottom"><a href={base}>← Back to LoomIQ</a><span>Questions? <a href="mailto:support@loomiq.com">We’re here to help.</a></span></div>
+      <div className="confirmation-bottom"><a href={base}>← Back to LoomIQ</a><span>Questions? <a href="#support">We’re here to help.</a></span></div>
     </section>
-    <footer className="confirmation-footer">LoomIQ · Built around the way your business works.<nav><a href={base + 'privacy'}>Privacy</a><a href={base + 'terms'}>Terms</a></nav></footer>
+    <SupportForm /></div><footer className="confirmation-footer">LoomIQ · Built around the way your business works.<nav><a href={base + 'account'}>My account & invoices</a><a href={base + 'privacy'}>Privacy</a><a href={base + 'terms'}>Terms</a></nav></footer>
   </main>;
 }

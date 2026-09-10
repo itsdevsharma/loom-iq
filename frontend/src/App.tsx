@@ -16,6 +16,8 @@ import InfoPage from "./sections/InfoPage";
 import ThankYouPage from "./sections/ThankYouPage";
 import SignupPage from "./sections/SignupPage";
 import PaymentPage from "./sections/PaymentPage";
+import AccountPage from './sections/AccountPage';
+import AccountHelpPage from './sections/AccountHelpPage';
 
 function App() {
   const path = window.location.pathname.replace(/\/$/, "") || "/";
@@ -25,7 +27,9 @@ function App() {
 
   useEffect(() => {
     const route =
-      path === `${basePath}/thank-you` || path === "/thank-you"
+      ['account', 'forgot-password', 'reset-password', 'verify-email'].some(route => path === `${basePath}/${route}`)
+        ? 'account'
+      : path === `${basePath}/thank-you` || path === "/thank-you"
         ? "thank-you"
         : path === `${basePath}/privacy` || path === "/privacy"
           ? "privacy"
@@ -44,6 +48,10 @@ function App() {
     applyPageSeo(route);
   }, [basePath, normalizedHomePath, path, paymentPath]);
 
+  if (path === `${basePath}/account`) return <AccountPage />;
+  for (const kind of ['forgot-password', 'reset-password', 'verify-email'] as const) {
+    if (path === `${basePath}/${kind}`) return <AccountHelpPage kind={kind} />;
+  }
   if (path === `${basePath}/signup` || path === "/signup") return <OfferProvider><SignupPage /></OfferProvider>;
   if (path === paymentPath || path === "/payment") return <OfferProvider><PaymentPage /></OfferProvider>;
   if (path === `${basePath}/thank-you` || path === "/thank-you") return <ThankYouPage />;

@@ -1,11 +1,11 @@
-# Daily purchase offer
+# 24-hour purchase offer
 
-The 50% offer runs in shared daily windows, midnight to midnight Asia/Kolkata (IST). It renews automatically at midnight; no cron job or signup-based timer is required. The interface explicitly states that it renews daily.
+The 50% offer lasts 24 hours from the first offer visit. The server stores `offerStartedAt` on the visitor and then the account. The deadline does not renew at midnight, on login, on another visit, or after purchase.
 
-Anonymous visitors see the daily offer and countdown. Signup/sign-in is still required to pay. New and returning purchasers qualify, including customers with previous successful test or live orders. Each eligible checkout discounts one membership month. Customers who selected a free trial remain excluded, including after rollover. No trial history or past invoice is reset.
+Signup is required to pay. Trial and paid accounts qualify while their original window remains open. Each checkout purchases one membership month. There are no automatic charges. After expiry, new checkouts use regular pricing.
 
-`backend/daily-offer.js` determines the current day's deadline from server time. The frontend displays the same schedule and rolls the countdown forward at midnight. Order creation calculates eligibility and price again, storing the order's deadline. A checkout left open past its stored deadline cannot carry that order forward: late captured discounted payments are refunded through the existing webhook path. A fresh checkout uses the renewed daily offer.
+`backend/daily-offer.js` retains its historical filename but implements the fixed 24-hour rule. Server time determines pricing. Order creation recalculates eligibility and stores the deadline. Late captured discounted payments are submitted for a full refund. A delayed signed webhook can establish that capture occurred before the deadline. Authorization alone does not confirm payment.
 
-MongoDB persistence, payment verification, invoice ownership, and signup requirements remain in place. Past purchases no longer consume eligibility. The account receipt fallback now points to the latest successful purchase, while order-specific invoice links continue to retrieve the original invoice.
+The account receipt fallback points to the latest successful purchase; order-specific links retrieve original invoices. The customer portal lists confirmed invoices and manual onboarding progress. Operators record a provisioned workspace URL after arranging ERP access.
 
-Tests cover a common deadline, IST midnight rollover, multiple-day renewal, returning customers, trial exclusions, repeated and concurrent discounted purchases, late-order refunds, and authenticated invoices. See mongodb-setup.md and invoices.md for storage and invoicing setup.
+Tests cover expiry, preserved account deadlines, trial eligibility, repeated and concurrent purchases, late-order refunds, signature validation, and invoice ownership. See deployment.md for release and onboarding commands.
