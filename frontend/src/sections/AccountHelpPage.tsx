@@ -1,3 +1,4 @@
+import { cmsValue } from '../websiteContent';
 import { useState, type FormEvent } from 'react';
 import { accountApi } from '../accountApi';
 import '../AccountPage.css';
@@ -19,15 +20,15 @@ export default function AccountHelpPage({ kind }: { kind: 'forgot-password' | 'r
     finally { setBusy(false); }
   }
   return <main className="account-page account-help">
-    <a href={import.meta.env.BASE_URL}>LoomIQ</a>
-    <h1>{kind === 'forgot-password' ? 'Forgot your password?' : kind === 'reset-password' ? 'Choose a new password' : 'Verify your email'}</h1>
-    <p>{kind === 'forgot-password' ? 'Enter your account email to request a reset link.' : kind === 'reset-password' ? 'Updating your password signs out all existing sessions.' : 'Confirm the email address associated with your account.'}</p>
+    <a href={import.meta.env.BASE_URL}>{cmsValue("AccountHelpPage.1", "LoomIQ")}</a>
+    <h1>{kind === 'forgot-password' ? cmsValue("AccountHelpPage.2", "Forgot your password?") : kind === 'reset-password' ? cmsValue("AccountHelpPage.3", "Choose a new password") : cmsValue("AccountHelpPage.4", "Verify your email")}</h1>
+    <p>{kind === 'forgot-password' ? cmsValue("AccountHelpPage.5", "Enter your account email to request a reset link.") : kind === 'reset-password' ? cmsValue("AccountHelpPage.6", "Updating your password signs out all existing sessions.") : cmsValue("AccountHelpPage.7", "Confirm the email address associated with your account.")}</p>
     {!complete && <form onSubmit={submit}><fieldset disabled={busy}>
-      {kind === 'forgot-password' && <label>Email<input name="email" type="email" autoComplete="email" maxLength={254} required /></label>}
-      {kind === 'reset-password' && <label>New password<input name="password" type="password" autoComplete="new-password" minLength={10} maxLength={72} required /><small>At least 10 characters; maximum 72 bytes.</small></label>}
-      <button type="submit">{busy ? 'Please wait…' : kind === 'forgot-password' ? 'Send reset link' : kind === 'reset-password' ? 'Update password' : 'Verify email'}</button>
+      {kind === 'forgot-password' && <label>{cmsValue("AccountHelpPage.8", "Email")}<input name="email" type="email" autoComplete="email" maxLength={254} required /></label>}
+      {kind === 'reset-password' && <label>{cmsValue("AccountHelpPage.9", "New password")}<input name="password" type="password" autoComplete="new-password" minLength={10} maxLength={72} required /><small>{cmsValue("AccountHelpPage.10", "At least 10 characters; maximum 72 bytes.")}</small></label>}
+      <button type="submit">{busy ? cmsValue("AccountHelpPage.11", "Please wait…") : kind === 'forgot-password' ? cmsValue("AccountHelpPage.12", "Send reset link") : kind === 'reset-password' ? cmsValue("AccountHelpPage.13", "Update password") : cmsValue("AccountHelpPage.14", "Verify email")}</button>
     </fieldset></form>}
     {error && <p role="alert">{error}</p>}{message && <p role="status">{message}</p>}
-    <p><a href={import.meta.env.BASE_URL + 'signup?login=1'}>Sign in</a> · <a href={import.meta.env.BASE_URL + 'account'}>My account</a></p>
+    <p><a href={import.meta.env.BASE_URL + 'signup?login=1'}>{cmsValue("AccountHelpPage.15", "Sign in")}</a> · <a href={import.meta.env.BASE_URL + 'account'}>{cmsValue("AccountHelpPage.16", "My account")}</a></p>
   </main>;
 }

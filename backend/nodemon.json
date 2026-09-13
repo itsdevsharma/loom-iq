@@ -1,0 +1,12 @@
+{
+  "watch": [".", "../shared"],
+  "ext": "js,cjs,mjs,json",
+  "ignore": [
+    "data/**",
+    "node_modules/**",
+    "**/*.test.js",
+    "coverage/**",
+    "backups/**"
+  ],
+  "delay": 300
+}

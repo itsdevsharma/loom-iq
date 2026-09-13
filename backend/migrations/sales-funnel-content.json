@@ -1,0 +1,829 @@
+{
+  "DemoSection.1": {
+    "before": "Manufacturing overview",
+    "after": "See what you are buying"
+  },
+  "DemoSection.2": {
+    "before": "See what is happening across your factory and orders.",
+    "after": "Take a closer look before choosing a plan."
+  },
+  "DemoSection.3": {
+    "before": " LoomIQ brings customer orders, material stock, production progress, quality, dispatch, and finance into a single operating view. ",
+    "after": "Explore the existing interface preview below. It contains example data; it is not a live factory dashboard or evidence of customer results."
+  },
+  "DemoSection.5": {
+    "before": "LoomIQ textile manufacturing overview dashboard preview",
+    "after": "Existing business overview interface with example data"
+  },
+  "DemoSection.6": {
+    "before": " Manufacturing overview dashboard preview. ",
+    "after": "Interface preview with example data. A garment-specific walkthrough is not currently available here."
+  },
+  "FaqSection.1": {
+    "before": [
+      {
+        "question": "What happens after I request a demo?",
+        "answer": "Our team contacts you to arrange a personalized demo around your workflow. We then discuss the appropriate modules, setup requirements, and whether trial access or a paid plan fits. You do not need an account or payment to request a demo."
+      },
+      {
+        "question": "What do the subscription prices cover?",
+        "answer": "The prices cover the software modules listed in each plan and onboarding support. We confirm user and location limits, migration, customization, integrations, and applicable taxes for your requirements before you commit. Trial and direct-purchase conditions are available in the pricing section without registration."
+      },
+      {
+        "question": "Is LoomIQ built for cloth manufacturers?",
+        "answer": "Yes. LoomIQ is designed for fabric mills, dyeing and processing units, garment manufacturers, home-textile businesses, and textile traders that need commercial, factory, stores, and finance data connected."
+      },
+      {
+        "question": "Can it handle raw material and finished goods inventory?",
+        "answer": "Yes. You can manage yarn, fabric, trims, dyes, chemicals, packaging, work in progress, rolls, batches, and finished goods across stores and locations."
+      },
+      {
+        "question": "Can we track production and quality stages?",
+        "answer": "Yes. The workflow can cover material issue, production stages, dyeing or finishing, inspection, rejection, rework, approval, and dispatch. The exact setup depends on your process."
+      },
+      {
+        "question": "Can LoomIQ show the cost and margin of an order?",
+        "answer": "LoomIQ is designed to connect material, purchase, wastage, production, dispatch, and finance records so your team can review the cost and margin behind an order."
+      },
+      {
+        "question": "Can it support multiple stores or manufacturing units?",
+        "answer": "The platform supports location-based stock and workflows. Multi-unit and multi-company requirements can be configured with the appropriate permissions, approvals, and reporting."
+      }
+    ],
+    "after": [
+      {
+        "question": "Is LoomIQ designed for garment manufacturers?",
+        "answer": "Yes. LoomIQ is positioned specifically for garment and clothing manufacturers, bringing orders, inventory, production, and accounts into one ERP."
+      },
+      {
+        "question": "Can a small manufacturer buy online?",
+        "answer": "Yes. Starter and Growth can be purchased on this website without a sales call. Review pricing and the setup conditions before paying."
+      },
+      {
+        "question": "What is the difference between Starter and Growth?",
+        "answer": "The regular monthly prices are {starterRegular} and {growthRegular}. Detailed user limits and verified module entitlements have not been supplied; confirm any essential feature or limit with support before choosing a plan."
+      },
+      {
+        "question": "Can I manage production, inventory, and orders?",
+        "answer": "These are core areas of the product brief. The current preview does not demonstrate garment-specific screens. Confirm your required production workflow before purchasing."
+      },
+      {
+        "question": "Does LoomIQ support job work, employees, or cutting and stitching stages?",
+        "answer": "Those detailed capabilities have not yet been verified in the available product materials. Do not assume they are included in either plan."
+      },
+      {
+        "question": "Can I import my existing spreadsheets?",
+        "answer": "An ERP data-import workflow and migration terms have not been supplied. Ask support about your data format and migration needs before purchase."
+      },
+      {
+        "question": "Is LoomIQ cloud-based?",
+        "answer": "This website and customer account run in your browser. The team provides your ERP workspace link after setup; confirm deployment requirements if these matter to your factory."
+      },
+      {
+        "question": "What happens immediately after payment?",
+        "answer": "After Razorpay confirms payment, you can view and save your invoice. Your customer account shows onboarding progress. Our team arranges ERP access; payment does not instantly create a workspace."
+      },
+      {
+        "question": "Do I need technical knowledge? Is onboarding included?",
+        "answer": "The current plans describe onboarding support. You can track setup in your account. A setup completion time and training scope have not been specified."
+      },
+      {
+        "question": "How does the first-purchase offer work?",
+        "answer": "Eligible first purchases receive {discount} off within 24 hours of the first offer visit: Starter {starterOffer} or Growth {growthOffer} for one month. The server records the deadline; refreshing does not restart it. Trial accounts can qualify if they have not purchased."
+      },
+      {
+        "question": "How do payments and renewals work?",
+        "answer": "Pay the INR total displayed at checkout through Razorpay. Each purchase covers one membership month. This website does not automatically charge for renewal."
+      },
+      {
+        "question": "Can I cancel or get a refund?",
+        "answer": "There is no automatic renewal to cancel. The existing refund policy says discounted first-month payments are generally non-refundable. Email support with your order reference for payment or service issues; read the full refund policy before purchase."
+      },
+      {
+        "question": "How is my account protected?",
+        "answer": "Customer accounts use hashed passwords, expiring sessions, and password recovery. Invoices require the purchasing account. Razorpay handles payment details. These website controls do not establish a security certification for the ERP."
+      },
+      {
+        "question": "How do I get support?",
+        "answer": "Email support@loomiq.com. After purchase, the confirmation page also provides a support request form. No response-time guarantee is published."
+      }
+    ]
+  },
+  "FaqSection.3": {
+    "before": "Questions textile teams ask before changing systems.",
+    "after": "Before you bring your factory onto LoomIQ."
+  },
+  "FeaturesSection.1": {
+    "before": [
+      {
+        "id": "01",
+        "icon": "◎",
+        "title": "Orders & customers",
+        "description": "Capture buyer requirements, product specifications, quantities, and promised delivery dates in one place.",
+        "detail": "Keep enquiries, quotations, order revisions, approvals, and customer communication tied to the order your teams are producing."
+      },
+      {
+        "id": "02",
+        "icon": "↗",
+        "title": "Material planning",
+        "description": "Plan yarn, fabric, trims, dyes, and packaging against confirmed orders and production requirements.",
+        "detail": "See what is available, what must be purchased, and what is already committed before production starts."
+      },
+      {
+        "id": "03",
+        "icon": "✦",
+        "title": "Stores & inventory",
+        "description": "Track raw materials, work in progress, rolls, batches, and finished goods across locations.",
+        "detail": "Record receipts, issues, transfers, returns, wastage, and stock adjustments with the detail your stores team needs."
+      },
+      {
+        "id": "04",
+        "icon": "▣",
+        "title": "Finance & costing",
+        "description": "Connect purchases, production costs, invoices, receivables, and order profitability.",
+        "detail": "Give accounts a current view of material costs, wastage, expenses, customer billing, collections, and margins."
+      },
+      {
+        "id": "05",
+        "icon": "⌘",
+        "title": "Production & quality",
+        "description": "Move work orders through planning, processing, inspection, finishing, and approval.",
+        "detail": "Track quantities, stages, machine or job progress, rejected material, rework, and quality outcomes before dispatch."
+      },
+      {
+        "id": "06",
+        "icon": "▥",
+        "title": "Dispatch & reporting",
+        "description": "See order status, production performance, stock position, delivery commitments, and margins together.",
+        "detail": "Move from a management view into the order, batch, purchase, or production record behind every number."
+      }
+    ],
+    "after": [
+      {
+        "id": "01",
+        "icon": "",
+        "title": "Orders & customers",
+        "description": "Keep customer orders in view.",
+        "detail": "Bring buyer requirements and order information into your daily manufacturing workflow."
+      },
+      {
+        "id": "02",
+        "icon": "",
+        "title": "Inventory",
+        "description": "Know what stock you have to work with.",
+        "detail": "Keep material and stock information alongside your business operations."
+      },
+      {
+        "id": "03",
+        "icon": "",
+        "title": "Production",
+        "description": "Know where production stands.",
+        "detail": "Review production alongside the orders your factory needs to complete."
+      },
+      {
+        "id": "04",
+        "icon": "",
+        "title": "Accounts & reporting",
+        "description": "Review your business information together.",
+        "detail": "Bring accounts and reporting into your operating view."
+      }
+    ]
+  },
+  "FeaturesSection.3": {
+    "before": " From customer order to production, stock, and dispatch ",
+    "after": "Orders. Stock. Production. Accounts."
+  },
+  "FeaturesSection.4": {
+    "before": " LoomIQ connects the commercial, operational, and financial records teams rely on every day. Plan, produce, inspect, account for, and dispatch from one shared operating view. ",
+    "after": "Keep the daily work of your garment business in view. If a particular module, production stage, or integration is essential, confirm its availability and plan scope before purchasing."
+  },
+  "FeaturesSection.5": {
+    "before": " Built to connect order, material, production, quality, and dispatch ",
+    "after": "Check your required workflow and plan scope before purchasing."
+  },
+  "FinalCTA.2": {
+    "before": "Ready to bring your textile operation into one view?",
+    "after": "Ready to run your garment business from one place?"
+  },
+  "FinalCTA.3": {
+    "before": " See how LoomIQ can connect orders, materials, production, quality, dispatch, and finance around the way your factory works. ",
+    "after": "Review your plan, create an account, and pay online. Your invoice is available after verified payment; our team then arranges your ERP setup."
+  },
+  "FinalCTA.4": {
+    "before": "#demo",
+    "after": "#pricing"
+  },
+  "FinalCTA.5": {
+    "before": " Book a personalized demo ",
+    "after": "Get LoomIQ"
+  },
+  "FinalCTA.6": {
+    "before": " Bring a real order or production workflow. We will map it to the platform. ",
+    "after": "One membership month. No automatic renewal."
+  },
+  "FinalCTA.7": {
+    "before": "What the walkthrough covers",
+    "after": "Purchase and setup steps"
+  },
+  "FinalCTA.8": {
+    "before": "In the walkthrough",
+    "after": "What happens next"
+  },
+  "FinalCTA.9": {
+    "before": "One order view",
+    "after": "Choose your plan"
+  },
+  "FinalCTA.10": {
+    "before": "Customer requirements, materials, production, and delivery together.",
+    "after": "Compare Starter and Growth, then review your exact checkout total."
+  },
+  "FinalCTA.11": {
+    "before": "Your factory flow",
+    "after": "Pay online"
+  },
+  "FinalCTA.12": {
+    "before": "See how planning, stores, quality, and dispatch can connect.",
+    "after": "Use Razorpay and receive your invoice after payment verification."
+  },
+  "FinalCTA.13": {
+    "before": "Practical next steps",
+    "after": "Follow your setup"
+  },
+  "FinalCTA.14": {
+    "before": "Leave with a clearer view of the controls your operation needs.",
+    "after": "Track onboarding in your account and open the workspace when it is ready."
+  },
+  "FooterSection.1": {
+    "before": [
+      {
+        "title": "Platform",
+        "links": [
+          [
+            "Features",
+            "#features"
+          ],
+          [
+            "How it works",
+            "#how-it-works"
+          ],
+          [
+            "Pricing",
+            "#pricing"
+          ]
+        ]
+      },
+      {
+        "title": "Resources",
+        "links": [
+          [
+            "Demo",
+            "#demo"
+          ],
+          [
+            "FAQ",
+            "#faq"
+          ],
+          [
+            "Trust & security",
+            "#trust"
+          ]
+        ]
+      },
+      {
+        "title": "Company",
+        "links": [
+          [
+            "About LoomIQ",
+            "#hero"
+          ],
+          [
+            "Contact",
+            "#demo"
+          ]
+        ]
+      }
+    ],
+    "after": [
+      {
+        "title": "Product",
+        "links": [
+          [
+            "Product preview",
+            "#showcase"
+          ],
+          [
+            "Workflow",
+            "#how-it-works"
+          ],
+          [
+            "Pricing",
+            "#pricing"
+          ]
+        ]
+      },
+      {
+        "title": "Help",
+        "links": [
+          [
+            "FAQ",
+            "#faq"
+          ],
+          [
+            "Account security",
+            "#trust"
+          ],
+          [
+            "Support",
+            "mailto:support@loomiq.com"
+          ]
+        ]
+      }
+    ]
+  },
+  "FooterSection.6": {
+    "before": "ERP for cloth manufacturers: orders, materials, production, quality, dispatch, and finance.",
+    "after": "ERP built for garment and clothing manufacturers. Explore the product, review pricing, and purchase online."
+  },
+  "FooterSection.11": {
+    "before": "",
+    "after": "Github"
+  },
+  "FooterSection.14": {
+    "before": "Talk through your workflow",
+    "after": "Help before and after purchase"
+  },
+  "FooterSection.15": {
+    "before": "See how LoomIQ can fit your textile manufacturing workflow.",
+    "after": "Questions about your account, payment, or onboarding?"
+  },
+  "FooterSection.16": {
+    "before": "#demo",
+    "after": "mailto:support@loomiq.com"
+  },
+  "FooterSection.17": {
+    "before": "Book a personalized demo ",
+    "after": "Email support "
+  },
+  "Header.1": {
+    "before": [
+      {
+        "label": "Features",
+        "href": "#features"
+      },
+      {
+        "label": "How it works",
+        "href": "#how-it-works"
+      },
+      {
+        "label": "Pricing",
+        "href": "#pricing"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      }
+    ],
+    "after": [
+      {
+        "label": "Product",
+        "href": "#showcase"
+      },
+      {
+        "label": "Workflow",
+        "href": "#how-it-works"
+      },
+      {
+        "label": "Pricing",
+        "href": "#pricing"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      }
+    ]
+  },
+  "Header.10": {
+    "before": "#demo",
+    "after": "#showcase"
+  },
+  "Header.11": {
+    "before": "Book a demo",
+    "after": "See product"
+  },
+  "Header.13": {
+    "before": " View plans & offer ",
+    "after": "Get LoomIQ"
+  },
+  "Hero.1": {
+    "before": "ERP software for growing businesses",
+    "after": "Built for garment & clothing manufacturers"
+  },
+  "Hero.2": {
+    "before": "Connected ERP software for orders, inventory, production, and finance.",
+    "after": "Run your garment factory from one place."
+  },
+  "Hero.3": {
+    "before": " LoomIQ gives teams a single view of sales, inventory, manufacturing, quality, dispatch, and finance so operations stay connected as the business grows. ",
+    "after": "Bring orders, inventory, production, and accounts into one ERP designed around clothing manufacturing. See the product, compare monthly plans, and buy online."
+  },
+  "Hero.5": {
+    "before": " View plans & offer ",
+    "after": "Get LoomIQ"
+  },
+  "Hero.6": {
+    "before": "#demo",
+    "after": "#showcase"
+  },
+  "Hero.7": {
+    "before": " Book a personalized demo ",
+    "after": "See LoomIQ in action"
+  },
+  "Hero.8": {
+    "before": " Choose your plan, or explore your workflow with a free demo. ",
+    "after": "Starter {starterRegular}/month · Growth {growthRegular}/month. Team-assisted workspace setup after purchase."
+  },
+  "Hero.9": {
+    "before": "LoomIQ textile manufacturing dashboard preview",
+    "after": "Existing interface preview with example data"
+  },
+  "Hero.10": {
+    "before": "Manufacturing overview",
+    "after": "Interface preview · example data"
+  },
+  "Hero.12": {
+    "before": "LoomIQ manufacturing dashboard showing revenue, inventory, and operations",
+    "after": "Existing business overview interface preview with example revenue and reports"
+  },
+  "HowItWorksSection.1": {
+    "before": [
+      {
+        "number": "01",
+        "title": "Capture the order",
+        "description": "Record the buyer, fabric or garment specification, quantity, colour, delivery date, and commercial terms in one order record."
+      },
+      {
+        "number": "02",
+        "title": "Plan and produce",
+        "description": "Plan materials and capacity, raise purchases, issue stock, and track each order through production, finishing, and quality checks."
+      },
+      {
+        "number": "03",
+        "title": "Inspect, dispatch, and account",
+        "description": "Release approved goods for dispatch and connect delivery, invoicing, collections, and order margin back to the original requirement."
+      }
+    ],
+    "after": [
+      {
+        "number": "01",
+        "title": "Start with the order",
+        "description": "Your buyer requirements establish what your factory needs to deliver."
+      },
+      {
+        "number": "02",
+        "title": "Review stock and production",
+        "description": "Bring material availability and production information into your operating view."
+      },
+      {
+        "number": "03",
+        "title": "Review accounts and reports",
+        "description": "Use your business records to understand the work and transactions behind an order."
+      }
+    ]
+  },
+  "HowItWorksSection.3": {
+    "before": "From order confirmation to customer delivery.",
+    "after": "How LoomIQ fits into your manufacturing day."
+  },
+  "InfoPage.1": {
+    "before": {
+      "privacy": {
+        "title": "Privacy Policy",
+        "intro": "This policy describes the information used for LoomIQ accounts, demo and trial requests, membership purchases, support, and website analytics.",
+        "sections": [
+          [
+            "Information we collect",
+            "We collect the contact and company details you submit, a password hash for your account, billing address and phone number at checkout, payment references, invoices, and messages you send to support. We store visitor and session identifiers in essential cookies. Card details are handled by Razorpay rather than stored by this website."
+          ],
+          [
+            "How we use information",
+            "We use this information to authenticate accounts, manage offer eligibility, arrange demos and onboarding, confirm payments, provide invoices, respond to support requests, and protect the service from abuse."
+          ],
+          [
+            "Service providers and analytics",
+            "Our database, hosting, email, and payment providers process information needed to deliver these services. When you enable optional analytics, Google Analytics receives page views and interaction events. Our custom analytics events do not include your form fields or payment details. You can change your analytics preference on this website."
+          ],
+          [
+            "Retention and requests",
+            "Account, inquiry, and transaction records are retained to operate the service and maintain payment records. To request access, correction, or deletion, email support@loomiq.com. We may need to verify account ownership and retain records needed for unresolved transactions or applicable recordkeeping obligations."
+          ],
+          [
+            "Account security",
+            "Keep your password and email account secure. Password reset links expire after 30 minutes and can be used once. Resetting your password invalidates existing login sessions."
+          ]
+        ]
+      },
+      "terms": {
+        "title": "Terms of Service",
+        "intro": "These terms describe website use, account registration, membership checkout, and the onboarding process for LoomIQ.",
+        "sections": [
+          [
+            "Website content",
+            "LoomIQ provides this website and preview content for general informational purposes. Product details, features, and availability may change as our platform evolves."
+          ],
+          [
+            "Demo requests",
+            "Submitting a demo request does not create a customer relationship, guarantee product access, pricing, or final contract terms unless expressly agreed in writing."
+          ],
+          [
+            "Accounts",
+            "Provide accurate contact and billing information and keep your login credentials private. Contact support if you suspect unauthorized access. Do not use the website to interfere with other accounts or the operation of the service."
+          ],
+          [
+            "Membership payments",
+            "Checkout purchases one membership month at the amount displayed before payment. This website does not automatically charge for later months. Additional purchases require a new checkout. Payment confirmation and invoices are available in your account."
+          ],
+          [
+            "Offer conditions",
+            "The purchase discount lasts 24 hours from the first offer visit and does not renew daily. Trial accounts can use the discount during that window. Payment must complete before the deadline stored for the order; late captured discounted payments are submitted for refund."
+          ],
+          [
+            "Access and onboarding",
+            "Creating an account or making a payment does not instantly create an ERP workspace. Our team arranges onboarding and provides access after setup. Your account shows progress and a workspace link when access is ready. Contact support to agree on setup and service dates before purchase if timing is essential."
+          ],
+          [
+            "Support and billing questions",
+            "Contact support@loomiq.com for account, payment, or service questions. The Refund Policy describes cancellation requests and payment issues."
+          ]
+        ]
+      },
+      "refunds": {
+        "title": "Refund & Cancellation Policy",
+        "intro": "This policy explains one-time membership payments, cancellation requests, and payment refunds.",
+        "sections": [
+          [
+            "One-time payments",
+            "Each checkout purchases one membership month. There are no automatic renewals or automatic charges from this website. To purchase another month, complete a new checkout at the displayed price."
+          ],
+          [
+            "Cancellation",
+            "You do not need to cancel an automatic renewal. For an existing membership, onboarding cancellation, or an access issue, contact support with your account email and order reference so the team can review your request."
+          ],
+          [
+            "Refunds",
+            "The discounted first-month payment is generally non-refundable after payment. If you believe a payment was made in error or a service issue affected your account, contact support promptly so the request can be reviewed."
+          ],
+          [
+            "Expired offer payments",
+            "Captured discounted payments completed after their order deadline are submitted to Razorpay for a full refund. A submitted refund may take time to reach your payment method. Contact support with your payment reference if you need a status update."
+          ],
+          [
+            "Support",
+            "For cancellation or billing help, email support@loomiq.com with your account email and company name."
+          ]
+        ]
+      }
+    },
+    "after": {
+      "privacy": {
+        "title": "Privacy Policy",
+        "intro": "This policy describes the information used for LoomIQ accounts, demo and trial requests, membership purchases, support, and website analytics.",
+        "sections": [
+          [
+            "Information we collect",
+            "We collect the contact and company details you submit, a password hash for your account, billing address and phone number at checkout, payment references, invoices, and messages you send to support. We store visitor and session identifiers in essential cookies. Card details are handled by Razorpay rather than stored by this website."
+          ],
+          [
+            "How we use information",
+            "We use this information to authenticate accounts, manage offer eligibility, arrange demos and onboarding, confirm payments, provide invoices, respond to support requests, and protect the service from abuse."
+          ],
+          [
+            "Service providers and analytics",
+            "Our hosting, database, email, and payment providers process information needed to deliver the service. With optional analytics consent, Google Analytics and, when configured, Meta Pixel receive page views and conversion events, including purchased plan, amount, currency, and an order event identifier. Custom events exclude your form fields and payment instrument details. Change your preference using Analytics settings in the footer."
+          ],
+          [
+            "Retention and requests",
+            "Account, inquiry, and transaction records are retained to operate the service and maintain payment records. To request access, correction, or deletion, email support@loomiq.com. We may need to verify account ownership and retain records needed for unresolved transactions or applicable recordkeeping obligations."
+          ],
+          [
+            "Account security",
+            "Keep your password and email account secure. Password reset links expire after 30 minutes and can be used once. Resetting your password invalidates existing login sessions."
+          ]
+        ]
+      },
+      "terms": {
+        "title": "Terms of Service",
+        "intro": "These terms describe website use, account registration, membership checkout, and the onboarding process for LoomIQ.",
+        "sections": [
+          [
+            "Website content",
+            "LoomIQ provides this website and preview content for general informational purposes. Product details, features, and availability may change as our platform evolves."
+          ],
+          [
+            "Demo requests",
+            "Submitting a demo request does not create a customer relationship, guarantee product access, pricing, or final contract terms unless expressly agreed in writing."
+          ],
+          [
+            "Accounts",
+            "Provide accurate contact and billing information and keep your login credentials private. Contact support if you suspect unauthorized access. Do not use the website to interfere with other accounts or the operation of the service."
+          ],
+          [
+            "Membership payments",
+            "Checkout purchases one membership month at the amount displayed before payment. This website does not automatically charge for later months. Additional purchases require a new checkout. Payment confirmation and invoices are available in your account."
+          ],
+          [
+            "Offer conditions",
+            "The first-purchase discount lasts 24 hours from the first offer visit and does not restart on refresh. Trial accounts can qualify if they have not purchased. Payment must complete before the order deadline; late captured discounted payments are submitted for refund."
+          ],
+          [
+            "Access and onboarding",
+            "Creating an account or making a payment does not instantly create an ERP workspace. Our team arranges onboarding and provides access after setup. Your account shows progress and a workspace link when access is ready. Contact support to agree on setup and service dates before purchase if timing is essential."
+          ],
+          [
+            "Support and billing questions",
+            "Contact support@loomiq.com for account, payment, or service questions. The Refund Policy describes cancellation requests and payment issues."
+          ]
+        ]
+      },
+      "refunds": {
+        "title": "Refund & Cancellation Policy",
+        "intro": "This policy explains one-time membership payments, cancellation requests, and payment refunds.",
+        "sections": [
+          [
+            "One-time payments",
+            "Each checkout purchases one membership month. There are no automatic renewals or automatic charges from this website. To purchase another month, complete a new checkout at the displayed price."
+          ],
+          [
+            "Cancellation",
+            "You do not need to cancel an automatic renewal. For an existing membership, onboarding cancellation, or an access issue, contact support with your account email and order reference so the team can review your request."
+          ],
+          [
+            "Refunds",
+            "The discounted first-month payment is generally non-refundable after payment. If you believe a payment was made in error or a service issue affected your account, contact support promptly so the request can be reviewed."
+          ],
+          [
+            "Expired offer payments",
+            "Captured discounted payments completed after their order deadline are submitted to Razorpay for a full refund. A submitted refund may take time to reach your payment method. Contact support with your payment reference if you need a status update."
+          ],
+          [
+            "Support",
+            "For cancellation or billing help, email support@loomiq.com with your account email and company name."
+          ]
+        ]
+      }
+    }
+  },
+  "PaymentPage.17": {
+    "before": "Contact &amp; billing details",
+    "after": "Contact & billing details"
+  },
+  "PaymentPage.36": {
+    "before": "24-hour offer: save {discount} on this membership month. Available to everyone, including trial accounts. Complete this checkout before its deadline; late payments on expired orders are refunded.",
+    "after": "First-purchase offer: save {discount} on one membership month. Complete payment before your 24-hour deadline; late captured payments on expired discounted orders are refunded."
+  },
+  "PaymentPage.39": {
+    "before": "ERP membership · First month",
+    "after": "ERP membership · One month"
+  },
+  "PaymentPage.43": {
+    "before": "First month",
+    "after": "One membership month"
+  },
+  "PaymentPage.52": {
+    "before": ". I understand the discount is available for 24 hours from my first offer visit, including for trial accounts, and discounted payment must complete before the checkout deadline.",
+    "after": ". I understand this first-purchase discount expires 24 hours after my first offer visit. Workspace access follows team-assisted setup; it is not instant."
+  },
+  "PricingSection.3": {
+    "before": "Flexible ERP plans for growing business operations.",
+    "after": "Choose your LoomIQ membership."
+  },
+  "PricingSection.4": {
+    "before": " Choose the operating depth that fits your business today and add locations, workflows, and controls as your operations grow. ",
+    "after": "Starter at {starterRegular}/month. Growth at {growthRegular}/month. Buy one month at a time, with no automatic charges."
+  },
+  "PricingSection.5": {
+    "before": "Buy Starter or Growth within 24 hours of your first offer visit to save {discount} on your membership month.",
+    "after": "First purchase: save {discount} when you pay within 24 hours of your first offer visit. The deadline does not reset."
+  },
+  "PricingSection.7": {
+    "before": "Book a personalized demo",
+    "after": "Discuss Enterprise setup"
+  },
+  "PricingSection.8": {
+    "before": "{discount} off · 24-hour offer",
+    "after": "{discount} off first purchase"
+  },
+  "PricingSection.9": {
+    "before": "Most popular",
+    "after": "Growth plan"
+  },
+  "PricingSection.10": {
+    "before": "Want to see it in action first? ",
+    "after": "See the interface before deciding. "
+  },
+  "PricingSection.11": {
+    "before": "#demo",
+    "after": "#showcase"
+  },
+  "PricingSection.12": {
+    "before": "Book a personalized demo →",
+    "after": "Explore the preview →"
+  },
+  "PricingSection.13": {
+    "before": " These are monthly software subscription prices for the modules listed above, with onboarding support. User and location limits, migration, integrations, customization, and any applicable taxes will be confirmed with your setup before you commit. Enterprise pricing starts at {enterpriseRegular}/month. ",
+    "after": "Checkout shows the final amount in INR for one membership month. ERP workspace setup is arranged by our team after payment; access is not instant. User limits, migration, integrations, and setup dates are not specified here. Confirm any essential requirements with support before purchasing."
+  },
+  "SignupPage.27": {
+    "before": "Start with a personalized demo to find the right fit.",
+    "after": "Choose a plan and purchase online without booking a sales call."
+  },
+  "SignupPage.36": {
+    "before": "Make room for better work.",
+    "after": "Create your LoomIQ account."
+  },
+  "SignupPage.38": {
+    "before": "Already discussed your setup? Create an account to continue to checkout. For a demo, no account is needed.",
+    "after": "Create an account to review your plan and pay online. Our team arranges your ERP workspace after payment."
+  },
+  "SignupPage.73": {
+    "before": "Book a demo to discuss your setup, or continue to checkout if you have already chosen your plan.",
+    "after": "Continue to checkout to review your selected plan and final total. Your invoices and onboarding status stay in your account."
+  },
+  "ThankYouPage.24": {
+    "before": "First month · One-time payment",
+    "after": "One membership month · One-time payment"
+  },
+  "TrustSection.3": {
+    "before": "Built for controlled, traceable operations.",
+    "after": "Clear payments. Protected customer accounts."
+  },
+  "TrustSection.4": {
+    "before": " Production, inventory, quality, and finance records need clear ownership. LoomIQ supports controlled access and reliable records across your operation. ",
+    "after": "Your account, payment confirmation, and invoices are handled by the existing LoomIQ billing service."
+  },
+  "TrustSection.5": {
+    "before": " Specific compliance certifications vary by deployment. Contact us for details relevant to your business. ",
+    "after": "Read our privacy and refund policies before purchase. No security certification or uptime guarantee is claimed."
+  },
+  "ValueSection.4": {
+    "before": "One operating system for commercial teams, stores, production, quality, dispatch, and accounts — without forcing the factory into a generic workflow. ",
+    "after": " One operating system for commercial teams, stores, production, quality, dispatch, and accounts — without forcing the factory into a generic workflow. "
+  },
+  "AnalyticsConsent.2": {
+    "before": "We use essential cookies for accounts and checkout. Allow optional analytics to help us understand website use?",
+    "after": "We use essential cookies for accounts and checkout. Allow optional Google Analytics and Meta Pixel to measure website visits and purchases?"
+  },
+  "AnalyticsConsent.4": {
+    "before": "Allow All",
+    "after": "Allow analytics"
+  },
+  "AnnouncementBanner.4": {
+    "before": "Save {discount} on your membership month.",
+    "after": "First purchase: save {discount} on one month."
+  },
+  "AnnouncementBanner.5": {
+    "before": "Everyone qualifies · 24h from first visit · Regular rates afterward.",
+    "after": "First purchase only · 24h from first offer visit · No automatic renewal."
+  },
+  "AnnouncementBanner.8": {
+    "before": "Get {discount} off →",
+    "after": "Get LoomIQ"
+  },
+  "AnnouncementBanner.9": {
+    "before": "View plans →",
+    "after": "Get LoomIQ"
+  },
+  "seo.3": {
+    "before": "ERP Software for Connected Business Operations | LoomIQ",
+    "after": "Garment ERP for Clothing Manufacturers | LoomIQ"
+  },
+  "seo.4": {
+    "before": "Manage orders, inventory, production, finance, and operations from one flexible ERP platform built for growing businesses.",
+    "after": "Run your garment factory from one place. Explore LoomIQ, compare Starter at ₹1,990/month and Growth at ₹2,990/month, and purchase online."
+  },
+  "seo.14": {
+    "before": "Review LoomIQ pricing and conditions before creating an account. Book a personalized demo with no signup required.",
+    "after": "Create your LoomIQ account and continue to checkout for your garment ERP membership."
+  },
+  "Site.layout": {
+    "before": [
+      "Hero",
+      "FeaturesSection",
+      "HowItWorksSection",
+      "PricingSection",
+      "TrustSection",
+      "FaqSection",
+      "DemoFormSection"
+    ],
+    "after": [
+      "Hero",
+      "DemoSection",
+      "ProblemSection",
+      "FeaturesSection",
+      "HowItWorksSection",
+      "PricingSection",
+      "TrustSection",
+      "FaqSection",
+      "FinalCTA"
+    ]
+  }
+}

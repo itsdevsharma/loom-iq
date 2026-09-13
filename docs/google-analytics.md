@@ -8,4 +8,6 @@ The Google tag loads only after the visitor allows optional analytics using Cook
 
 Verify with `npm run preview` after a production build, or open the deployed website. Allow analytics and confirm that `gtag/js` and Google Analytics `collect` requests appear in browser Network tools, then check Analytics Realtime while navigating and clicking a demo or pricing CTA. Confirm no tag request before consent or on recovery/verification routes. Ad blockers can prevent delivery. Live delivery must be verified with the real property ID.
 
+Automated checks: `npm run test:analytics` runs `e2e/analytics-delivery.spec.ts` fully mocked (no data leaves the machine), and `npm run test:analytics:live` verifies real delivery to the production measurement ID, including the consent gate, the `page_view` hit, a custom event hit, and that recovery pages never load the tag.
+
 Reference: https://developers.google.com/analytics/devguides/collection/ga4/views

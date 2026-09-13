@@ -4,7 +4,7 @@ export type Offer = { policy?: 'daily' | '24-hour'; eligible: boolean; reason: s
 const initial: Offer = { eligible: false, reason: 'loading', expiresAt: null, serverNow: 0, trialSelected: false, signedUp: false };
 async function offerRequest(path: string, body?: unknown): Promise<Offer> {
   const response = await fetch(`${import.meta.env.VITE_API_URL ?? ''}/api/${path}`, { credentials: 'include', method: body === undefined ? 'GET' : 'POST', headers: { 'Content-Type': 'application/json' }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
-  const result = await response.json();
+  const result = await response.json().catch(() => ({ message: response.ok ? 'Service unavailable. Please try again.' : 'The server is not reachable right now. Make sure the API is running and try again.' }));
   if (!response.ok) throw new Error(result.message ?? 'Unable to check your offer. Please try again.');
   return result;
 }

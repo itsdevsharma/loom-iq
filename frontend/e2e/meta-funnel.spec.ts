@@ -1,0 +1,67 @@
+import { test, expect } from '@playwright/test';
+
+test('ad landing page has a complete purchase path and valid internal links', async ({ page }, testInfo) => {
+  await page.addInitScript(() => localStorage.setItem('loomiq-analytics','granted'));
+  await page.route('https://connect.facebook.net/**', route=>route.fulfill({contentType:'application/javascript',body:''}));
+  await page.route('https://www.googletagmanager.com/**', route=>route.fulfill({contentType:'application/javascript',body:''}));
+  const errors: string[] = [];
+  page.on('pageerror', e => errors.push(e.message));
+  await page.goto('/garment-erp?utm_source=facebook&utm_campaign=garment');
+  await expect(page.locator('h1')).toHaveText('Replace Excel with a garment ERP built for manufacturers.');
+  for (const id of ['showcase','problem','features','how-it-works','pricing','trust','faq','final-cta']) await expect(page.locator('#'+id)).toHaveCount(1);
+  const badAnchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(a=>a.getAttribute('href')!).filter(href=>href.length>1&&!document.getElementById(href.slice(1))));
+  expect(badAnchors).toEqual([]);
+  expect(await page.locator('img').evaluateAll(images=>images.filter(i=>i.complete && i.naturalWidth===0).map(i=>i.src))).toEqual([]);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  await page.screenshot({path:testInfo.outputPath('garment-erp.png'),fullPage:true});
+  const starter = page.locator('.pricing-card-anim').filter({has:page.getByRole('heading',{name:'Starter',exact:true})});
+  await expect(starter).toContainText('₹1,990');
+  await starter.getByRole('link',{name:'Get LoomIQ'}).click();
+  await expect(page).toHaveURL(/signup\?plan=Starter/);
+  await page.getByLabel('Full name').fill('Garment Buyer');
+  await page.getByLabel('Company name').fill('Garment Company');
+  await page.getByLabel('Work email').fill(`funnel-${Date.now()}@example.invalid`);
+  await page.getByLabel('Password',{exact:true}).fill('Buyer-password-123');
+  await page.getByRole('checkbox').check();
+  await page.getByRole('button',{name:'Create my account'}).click();
+  await expect(page).toHaveURL(/payment\?plan=Starter/);
+  await expect(page.getByLabel('Full name')).toHaveValue('Garment Buyer');
+  await expect(page.getByLabel('Business name')).toHaveValue('Garment Company');
+  await expect(page.getByRole('heading',{name:'After your payment'})).toBeVisible();
+  if (process.env.VITE_META_PIXEL_ID) {
+    await expect.poll(()=>page.evaluate(()=>(window.fbq?.queue ?? []).filter(e=>e[1]==='InitiateCheckout').length)).toBe(1);
+    expect(await page.evaluate(()=>(window.fbq?.queue ?? []).some(e=>e[1]==='Purchase'))).toBe(false);
+  }
+  expect(errors).toEqual([]);
+});
+
+test('Meta events require consent and a server-confirmed real purchase claim', async ({ page }) => {
+  test.skip(!process.env.VITE_META_PIXEL_ID, 'Run with a test-only VITE_META_PIXEL_ID at build and test time.');
+  await page.addInitScript(()=>{if(!sessionStorage.getItem('meta-consent-test')){localStorage.removeItem('loomiq-analytics');sessionStorage.setItem('meta-consent-test','1');}});
+  const scripts: string[] = [];
+  await page.route('https://connect.facebook.net/**', route=>{scripts.push(route.request().url());return route.fulfill({contentType:'application/javascript',body:'/* Pixel stub; no data leaves the browser */'});});
+  await page.route('https://www.googletagmanager.com/**', route=>route.fulfill({contentType:'application/javascript',body:''}));
+  const queue = () => page.evaluate(()=>window.fbq?.queue ?? []);
+  await page.goto('/garment-erp');
+  expect(scripts).toHaveLength(0);
+  await page.getByRole('button',{name:'Allow analytics'}).click();
+  await expect.poll(()=>scripts.length).toBe(1);
+  expect(await queue()).toContainEqual(['track','PageView']);
+  expect((await queue()).some(e=>e[1]==='ViewContent')).toBe(true);
+  expect((await queue()).some(e=>e[1]==='Purchase')).toBe(false);
+  await page.goto('/thank-you?type=purchase&order=forged');
+  await expect(page.getByRole('alert')).toBeVisible();
+  expect((await queue()).some(e=>e[1]==='Purchase')).toBe(false);
+  let claims = 0;
+  await page.route('**/api/purchase/receipt/order_confirmed',route=>route.fulfill({json:{number:'INV-TEST',orderId:'order_confirmed',paymentId:'pay_confirmed',issuedAt:Date.now(),plan:'Growth',amount:149500,testMode:false,customer:{name:'Test buyer',email:'test@example.invalid',company:'Test factory'}}}));
+  await page.route('**/api/purchase/conversion/order_confirmed',route=>route.fulfill({json:{conversion:claims++===0?{eventId:'purchase_order_confirmed',orderId:'order_confirmed',amount:149500,plan:'Growth'}:null}}));
+  await page.goto('/thank-you?type=purchase&order=order_confirmed');
+  await expect.poll(async()=>(await queue()).filter(e=>e[1]==='Purchase').length).toBe(1);
+  expect(await queue()).toContainEqual(['track','Purchase',{value:1495,currency:'INR',content_name:'Growth'},{eventID:'purchase_order_confirmed'}]);
+  await page.reload();
+  await expect(page.getByText('Payment confirmed',{exact:true})).toBeVisible();
+  expect((await queue()).some(e=>e[1]==='Purchase')).toBe(false);
+  await page.goto('/reset-password#token=secret');
+  await expect(page.locator('h1')).toBeVisible();
+  expect(await queue()).toEqual([]);
+});

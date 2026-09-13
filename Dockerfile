@@ -3,8 +3,11 @@ WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
+COPY shared/ /app/shared/
 ARG VITE_SITE_URL
+ARG VITE_META_PIXEL_ID
 ARG VITE_GOOGLE_ANALYTICS_ID
+ENV VITE_META_PIXEL_ID=$VITE_META_PIXEL_ID
 ENV VITE_SITE_URL=$VITE_SITE_URL
 ENV VITE_GOOGLE_ANALYTICS_ID=$VITE_GOOGLE_ANALYTICS_ID
 RUN npm run build
@@ -14,6 +17,7 @@ WORKDIR /app/backend
 COPY backend/package*.json ./
 RUN npm ci --omit=dev
 COPY backend/ ./
+COPY shared/ /app/shared/
 COPY --from=frontend /app/frontend/dist /app/frontend/dist
 ENV NODE_ENV=production SERVE_FRONTEND=true PORT=3001
 USER node

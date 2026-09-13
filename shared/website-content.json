@@ -1,0 +1,3558 @@
+{
+  "AccountHelpPage.1": {
+    "group": "AccountHelpPage",
+    "label": "LoomIQ",
+    "kind": "text",
+    "default": "LoomIQ"
+  },
+  "AccountHelpPage.2": {
+    "group": "AccountHelpPage",
+    "label": "Forgot your password?",
+    "kind": "text",
+    "default": "Forgot your password?"
+  },
+  "AccountHelpPage.3": {
+    "group": "AccountHelpPage",
+    "label": "Choose a new password",
+    "kind": "text",
+    "default": "Choose a new password"
+  },
+  "AccountHelpPage.4": {
+    "group": "AccountHelpPage",
+    "label": "Verify your email",
+    "kind": "text",
+    "default": "Verify your email"
+  },
+  "AccountHelpPage.5": {
+    "group": "AccountHelpPage",
+    "label": "Enter your account email to request a reset link.",
+    "kind": "text",
+    "default": "Enter your account email to request a reset link."
+  },
+  "AccountHelpPage.6": {
+    "group": "AccountHelpPage",
+    "label": "Updating your password signs out all existing sessions.",
+    "kind": "text",
+    "default": "Updating your password signs out all existing sessions."
+  },
+  "AccountHelpPage.7": {
+    "group": "AccountHelpPage",
+    "label": "Confirm the email address associated with your account.",
+    "kind": "text",
+    "default": "Confirm the email address associated with your account."
+  },
+  "AccountHelpPage.8": {
+    "group": "AccountHelpPage",
+    "label": "Email",
+    "kind": "text",
+    "default": "Email"
+  },
+  "AccountHelpPage.9": {
+    "group": "AccountHelpPage",
+    "label": "New password",
+    "kind": "text",
+    "default": "New password"
+  },
+  "AccountHelpPage.10": {
+    "group": "AccountHelpPage",
+    "label": "At least 10 characters; maximum 72 bytes.",
+    "kind": "text",
+    "default": "At least 10 characters; maximum 72 bytes."
+  },
+  "AccountHelpPage.11": {
+    "group": "AccountHelpPage",
+    "label": "Please wait…",
+    "kind": "text",
+    "default": "Please wait…"
+  },
+  "AccountHelpPage.12": {
+    "group": "AccountHelpPage",
+    "label": "Send reset link",
+    "kind": "text",
+    "default": "Send reset link"
+  },
+  "AccountHelpPage.13": {
+    "group": "AccountHelpPage",
+    "label": "Update password",
+    "kind": "text",
+    "default": "Update password"
+  },
+  "AccountHelpPage.14": {
+    "group": "AccountHelpPage",
+    "label": "Verify email",
+    "kind": "text",
+    "default": "Verify email"
+  },
+  "AccountHelpPage.15": {
+    "group": "AccountHelpPage",
+    "label": "Sign in",
+    "kind": "text",
+    "default": "Sign in"
+  },
+  "AccountHelpPage.16": {
+    "group": "AccountHelpPage",
+    "label": "My account",
+    "kind": "text",
+    "default": "My account"
+  },
+  "AccountPage.1": {
+    "group": "AccountPage",
+    "label": "LoomIQ",
+    "kind": "text",
+    "default": "LoomIQ"
+  },
+  "AccountPage.2": {
+    "group": "AccountPage",
+    "label": "Accessibility label: Account navigation",
+    "kind": "text",
+    "default": "Account navigation"
+  },
+  "AccountPage.3": {
+    "group": "AccountPage",
+    "label": "Plans",
+    "kind": "text",
+    "default": "Plans"
+  },
+  "AccountPage.4": {
+    "group": "AccountPage",
+    "label": "Link destination: #support",
+    "kind": "url",
+    "default": "#support"
+  },
+  "AccountPage.5": {
+    "group": "AccountPage",
+    "label": "Support",
+    "kind": "text",
+    "default": "Support"
+  },
+  "AccountPage.6": {
+    "group": "AccountPage",
+    "label": "Sign out",
+    "kind": "text",
+    "default": "Sign out"
+  },
+  "AccountPage.7": {
+    "group": "AccountPage",
+    "label": "Your account",
+    "kind": "text",
+    "default": "Your account"
+  },
+  "AccountPage.8": {
+    "group": "AccountPage",
+    "label": "Retry loading account",
+    "kind": "text",
+    "default": "Retry loading account"
+  },
+  "AccountPage.9": {
+    "group": "AccountPage",
+    "label": "Loading your account…",
+    "kind": "text",
+    "default": "Loading your account…"
+  },
+  "AccountPage.10": {
+    "group": "AccountPage",
+    "label": "Account details",
+    "kind": "text",
+    "default": "Account details"
+  },
+  "AccountPage.11": {
+    "group": "AccountPage",
+    "label": "Email verified",
+    "kind": "text",
+    "default": "Email verified"
+  },
+  "AccountPage.12": {
+    "group": "AccountPage",
+    "label": "Your email has not been verified.",
+    "kind": "text",
+    "default": "Your email has not been verified."
+  },
+  "AccountPage.13": {
+    "group": "AccountPage",
+    "label": "Send verification email",
+    "kind": "text",
+    "default": "Send verification email"
+  },
+  "AccountPage.14": {
+    "group": "AccountPage",
+    "label": "Reset password",
+    "kind": "text",
+    "default": "Reset password"
+  },
+  "AccountPage.15": {
+    "group": "AccountPage",
+    "label": "Your workspace",
+    "kind": "text",
+    "default": "Your workspace"
+  },
+  "AccountPage.16": {
+    "group": "AccountPage",
+    "label": "Your workspace is ready.",
+    "kind": "text",
+    "default": "Your workspace is ready."
+  },
+  "AccountPage.17": {
+    "group": "AccountPage",
+    "label": "Our team is setting up your workspace.",
+    "kind": "text",
+    "default": "Our team is setting up your workspace."
+  },
+  "AccountPage.18": {
+    "group": "AccountPage",
+    "label": "Your request is received. Our team will contact you to arrange access.",
+    "kind": "text",
+    "default": "Your request is received. Our team will contact you to arrange access."
+  },
+  "AccountPage.19": {
+    "group": "AccountPage",
+    "label": "Book a demo to discuss your setup, or choose a membership.",
+    "kind": "text",
+    "default": "Book a demo to discuss your setup, or choose a membership."
+  },
+  "AccountPage.20": {
+    "group": "AccountPage",
+    "label": "Open workspace",
+    "kind": "text",
+    "default": "Open workspace"
+  },
+  "AccountPage.21": {
+    "group": "AccountPage",
+    "label": "Book a demo",
+    "kind": "text",
+    "default": "Book a demo"
+  },
+  "AccountPage.22": {
+    "group": "AccountPage",
+    "label": "Membership purchases are one-time payments. There are no automatic charges.",
+    "kind": "text",
+    "default": "Membership purchases are one-time payments. There are no automatic charges."
+  },
+  "AccountPage.23": {
+    "group": "AccountPage",
+    "label": "Request a 7-day trial",
+    "kind": "text",
+    "default": "Request a 7-day trial"
+  },
+  "AccountPage.24": {
+    "group": "AccountPage",
+    "label": "Our team arranges trial access after discussing your setup. No payment is required. Your p",
+    "kind": "text",
+    "default": "Our team arranges trial access after discussing your setup. No payment is required. Your purchase discount still expires at its original 24-hour deadline."
+  },
+  "AccountPage.25": {
+    "group": "AccountPage",
+    "label": "I agree to the trial conditions and understand that access is arranged by the team.",
+    "kind": "text",
+    "default": "I agree to the trial conditions and understand that access is arranged by the team."
+  },
+  "AccountPage.26": {
+    "group": "AccountPage",
+    "label": "Request trial access",
+    "kind": "text",
+    "default": "Request trial access"
+  },
+  "AccountPage.27": {
+    "group": "AccountPage",
+    "label": "Payments & invoices",
+    "kind": "text",
+    "default": "Payments & invoices"
+  },
+  "AccountPage.28": {
+    "group": "AccountPage",
+    "label": "No confirmed payments yet.",
+    "kind": "text",
+    "default": "No confirmed payments yet. "
+  },
+  "AccountPage.29": {
+    "group": "AccountPage",
+    "label": "Review plans",
+    "kind": "text",
+    "default": "Review plans"
+  },
+  "AccountPage.30": {
+    "group": "AccountPage",
+    "label": "— Test payment",
+    "kind": "text",
+    "default": "— Test payment"
+  },
+  "AccountPage.31": {
+    "group": "AccountPage",
+    "label": "· INR",
+    "kind": "text",
+    "default": " · INR "
+  },
+  "AccountPage.32": {
+    "group": "AccountPage",
+    "label": "View / save invoice",
+    "kind": "text",
+    "default": "View / save invoice"
+  },
+  "AccountPage.33": {
+    "group": "AccountPage",
+    "label": "Email invoice",
+    "kind": "text",
+    "default": "Email invoice"
+  },
+  "AccountPage.34": {
+    "group": "AccountPage",
+    "label": "Verify your email to receive invoice emails.",
+    "kind": "text",
+    "default": "Verify your email to receive invoice emails."
+  },
+  "AccountPage.35": {
+    "group": "AccountPage",
+    "label": "Privacy",
+    "kind": "text",
+    "default": "Privacy"
+  },
+  "AccountPage.36": {
+    "group": "AccountPage",
+    "label": "Terms",
+    "kind": "text",
+    "default": "Terms"
+  },
+  "AccountPage.37": {
+    "group": "AccountPage",
+    "label": "Refund policy",
+    "kind": "text",
+    "default": "Refund policy"
+  },
+  "BenefitsSection.1": {
+    "group": "BenefitsSection",
+    "label": "benefits",
+    "kind": "structured",
+    "default": [
+      {
+        "title": "Reduce manual coordination",
+        "description": "Replace repeated spreadsheet updates and phone calls with one order and production record shared across teams."
+      },
+      {
+        "title": "Keep materials accountable",
+        "description": "Know what was received, issued, processed, rejected, returned, and dispatched across your material flow."
+      },
+      {
+        "title": "Protect delivery commitments",
+        "description": "See delays, shortages, pending inspections, and unfinished orders early enough to act on them."
+      },
+      {
+        "title": "Understand order margin",
+        "description": "Bring material, wastage, production, purchase, dispatch, and finance data together to understand the real cost of each order."
+      }
+    ]
+  },
+  "BenefitsSection.2": {
+    "group": "BenefitsSection",
+    "label": "Benefits",
+    "kind": "text",
+    "default": "Benefits"
+  },
+  "BenefitsSection.3": {
+    "group": "BenefitsSection",
+    "label": "More control across the manufacturing cycle.",
+    "kind": "text",
+    "default": "More control across the manufacturing cycle."
+  },
+  "BenefitsSection.4": {
+    "group": "BenefitsSection",
+    "label": "The value shows up in fewer handoff gaps, clearer production status, and better visibility",
+    "kind": "text",
+    "default": " The value shows up in fewer handoff gaps, clearer production status, and better visibility into the costs behind every delivery. "
+  },
+  "BusinessFlexibilitySection.1": {
+    "group": "BusinessFlexibilitySection",
+    "label": "useCases",
+    "kind": "structured",
+    "default": [
+      {
+        "title": "Fabric mills",
+        "description": "Plan yarn and fabric production, track lots, record wastage, and manage finished rolls."
+      },
+      {
+        "title": "Dyeing & processing",
+        "description": "Move batches through dyeing, finishing, inspection, rework, and release."
+      },
+      {
+        "title": "Garment units",
+        "description": "Connect customer styles, material requirements, production stages, quality, and dispatch."
+      },
+      {
+        "title": "Home textiles",
+        "description": "Manage repeat orders, colourways, raw materials, production status, and customer delivery."
+      },
+      {
+        "title": "Trading with production",
+        "description": "Bring purchased goods and in-house production into one stock and order view."
+      },
+      {
+        "title": "Growing textile groups",
+        "description": "Add locations, product lines, users, and approvals without losing operating control."
+      }
+    ]
+  },
+  "BusinessFlexibilitySection.2": {
+    "group": "BusinessFlexibilitySection",
+    "label": "Flexible ERP for different business types",
+    "kind": "text",
+    "default": "Flexible ERP for different business types"
+  },
+  "BusinessFlexibilitySection.3": {
+    "group": "BusinessFlexibilitySection",
+    "label": "One ERP system built around how your business works.",
+    "kind": "text",
+    "default": "One ERP system built around how your business works."
+  },
+  "BusinessFlexibilitySection.4": {
+    "group": "BusinessFlexibilitySection",
+    "label": "Whether you manage production, inventory, retail operations, or a growing commercial workf",
+    "kind": "text",
+    "default": " Whether you manage production, inventory, retail operations, or a growing commercial workflow, LoomIQ keeps sales, operations, and finance connected from one source of truth. "
+  },
+  "DemoFormSection.1": {
+    "group": "DemoFormSection",
+    "label": "Product walkthrough",
+    "kind": "text",
+    "default": "Product walkthrough"
+  },
+  "DemoFormSection.2": {
+    "group": "DemoFormSection",
+    "label": "See LoomIQ mapped to your manufacturing workflow.",
+    "kind": "text",
+    "default": "See LoomIQ mapped to your manufacturing workflow."
+  },
+  "DemoFormSection.3": {
+    "group": "DemoFormSection",
+    "label": "Walk through your order, material, production, quality, dispatch, and finance process with",
+    "kind": "text",
+    "default": " Walk through your order, material, production, quality, dispatch, and finance process with a LoomIQ product specialist. "
+  },
+  "DemoFormSection.4": {
+    "group": "DemoFormSection",
+    "label": "Map one real order from enquiry to delivery",
+    "kind": "text",
+    "default": "Map one real order from enquiry to delivery"
+  },
+  "DemoFormSection.5": {
+    "group": "DemoFormSection",
+    "label": "See material planning, stores, production, and quality in action",
+    "kind": "text",
+    "default": "See material planning, stores, production, and quality in action"
+  },
+  "DemoFormSection.6": {
+    "group": "DemoFormSection",
+    "label": "Review costing, dispatch, and receivables visibility",
+    "kind": "text",
+    "default": "Review costing, dispatch, and receivables visibility"
+  },
+  "DemoFormSection.7": {
+    "group": "DemoFormSection",
+    "label": "Leave with a practical module recommendation",
+    "kind": "text",
+    "default": "Leave with a practical module recommendation"
+  },
+  "DemoFormSection.8": {
+    "group": "DemoFormSection",
+    "label": "Thanks — request received.",
+    "kind": "text",
+    "default": "Thanks — request received."
+  },
+  "DemoFormSection.9": {
+    "group": "DemoFormSection",
+    "label": "A LoomIQ specialist will reach out within one business day to understand your operation an",
+    "kind": "text",
+    "default": " A LoomIQ specialist will reach out within one business day to understand your operation and confirm a walkthrough time. "
+  },
+  "DemoFormSection.10": {
+    "group": "DemoFormSection",
+    "label": "Book a personalized demo",
+    "kind": "text",
+    "default": "Book a personalized demo"
+  },
+  "DemoFormSection.11": {
+    "group": "DemoFormSection",
+    "label": "No account or payment needed. After the demo, we’ll help you decide whether a trial or pai",
+    "kind": "text",
+    "default": "No account or payment needed. After the demo, we’ll help you decide whether a trial or paid plan fits."
+  },
+  "DemoFormSection.12": {
+    "group": "DemoFormSection",
+    "label": "Full name",
+    "kind": "text",
+    "default": "Full name"
+  },
+  "DemoFormSection.13": {
+    "group": "DemoFormSection",
+    "label": "placeholder: Jane Doe",
+    "kind": "text",
+    "default": "Jane Doe"
+  },
+  "DemoFormSection.14": {
+    "group": "DemoFormSection",
+    "label": "Work email",
+    "kind": "text",
+    "default": "Work email"
+  },
+  "DemoFormSection.15": {
+    "group": "DemoFormSection",
+    "label": "placeholder: jane@company.com",
+    "kind": "text",
+    "default": "jane@company.com"
+  },
+  "DemoFormSection.16": {
+    "group": "DemoFormSection",
+    "label": "Company name",
+    "kind": "text",
+    "default": "Company name"
+  },
+  "DemoFormSection.17": {
+    "group": "DemoFormSection",
+    "label": "placeholder: Acme Industries",
+    "kind": "text",
+    "default": "Acme Industries"
+  },
+  "DemoFormSection.18": {
+    "group": "DemoFormSection",
+    "label": "Business type (optional)",
+    "kind": "text",
+    "default": "Business type (optional)"
+  },
+  "DemoFormSection.19": {
+    "group": "DemoFormSection",
+    "label": "Select an option",
+    "kind": "text",
+    "default": "Select an option"
+  },
+  "DemoFormSection.20": {
+    "group": "DemoFormSection",
+    "label": "Fabric mill",
+    "kind": "text",
+    "default": "Fabric mill"
+  },
+  "DemoFormSection.21": {
+    "group": "DemoFormSection",
+    "label": "Dyeing / Processing",
+    "kind": "text",
+    "default": "Dyeing / Processing"
+  },
+  "DemoFormSection.22": {
+    "group": "DemoFormSection",
+    "label": "Garment manufacturing",
+    "kind": "text",
+    "default": "Garment manufacturing"
+  },
+  "DemoFormSection.23": {
+    "group": "DemoFormSection",
+    "label": "Home textiles",
+    "kind": "text",
+    "default": "Home textiles"
+  },
+  "DemoFormSection.24": {
+    "group": "DemoFormSection",
+    "label": "Textile trading / Distribution",
+    "kind": "text",
+    "default": "Textile trading / Distribution"
+  },
+  "DemoFormSection.25": {
+    "group": "DemoFormSection",
+    "label": "Other manufacturing",
+    "kind": "text",
+    "default": "Other manufacturing"
+  },
+  "DemoFormSection.26": {
+    "group": "DemoFormSection",
+    "label": "Other",
+    "kind": "text",
+    "default": "Other"
+  },
+  "DemoFormSection.27": {
+    "group": "DemoFormSection",
+    "label": "Website",
+    "kind": "text",
+    "default": "Website"
+  },
+  "DemoFormSection.28": {
+    "group": "DemoFormSection",
+    "label": "Book a personalized demo",
+    "kind": "text",
+    "default": "Book a personalized demo"
+  },
+  "DemoFormSection.29": {
+    "group": "DemoFormSection",
+    "label": "We will only use your information to schedule and prepare your demo. See our",
+    "kind": "text",
+    "default": " We will only use your information to schedule and prepare your demo. See our "
+  },
+  "DemoFormSection.30": {
+    "group": "DemoFormSection",
+    "label": "privacy policy",
+    "kind": "text",
+    "default": "privacy policy"
+  },
+  "DemoSection.1": {
+    "group": "DemoSection",
+    "label": "Manufacturing overview",
+    "kind": "text",
+    "default": "See what you are buying"
+  },
+  "DemoSection.2": {
+    "group": "DemoSection",
+    "label": "See what is happening across your factory and orders.",
+    "kind": "text",
+    "default": "Take a closer look before choosing a plan."
+  },
+  "DemoSection.3": {
+    "group": "DemoSection",
+    "label": "LoomIQ brings customer orders, material stock, production progress, quality, dispatch, and",
+    "kind": "text",
+    "default": "Explore the existing interface preview below. It contains example data; it is not a live factory dashboard or evidence of customer results."
+  },
+  "DemoSection.4": {
+    "group": "DemoSection",
+    "label": "Image: analyticsDashboard",
+    "kind": "url",
+    "default": "/api/content/assets/analytics-dashboard.webp"
+  },
+  "DemoSection.5": {
+    "group": "DemoSection",
+    "label": "Image description: LoomIQ textile manufacturing overview dashboard preview",
+    "kind": "text",
+    "default": "Existing business overview interface with example data"
+  },
+  "DemoSection.6": {
+    "group": "DemoSection",
+    "label": "Manufacturing overview dashboard preview.",
+    "kind": "text",
+    "default": "Interface preview with example data. A garment-specific walkthrough is not currently available here."
+  },
+  "FaqSection.1": {
+    "group": "FaqSection",
+    "label": "faqs",
+    "kind": "structured",
+    "default": [
+      {
+        "question": "Is LoomIQ designed for garment manufacturers?",
+        "answer": "Yes. LoomIQ is positioned specifically for garment and clothing manufacturers, bringing orders, inventory, production, and accounts into one ERP."
+      },
+      {
+        "question": "Can a small manufacturer buy online?",
+        "answer": "Yes. Starter and Growth can be purchased on this website without a sales call. Review pricing and the setup conditions before paying."
+      },
+      {
+        "question": "What is the difference between Starter and Growth?",
+        "answer": "The regular monthly prices are {starterRegular} and {growthRegular}. Detailed user limits and verified module entitlements have not been supplied; confirm any essential feature or limit with support before choosing a plan."
+      },
+      {
+        "question": "Can I manage production, inventory, and orders?",
+        "answer": "These are core areas of the product brief. The current preview does not demonstrate garment-specific screens. Confirm your required production workflow before purchasing."
+      },
+      {
+        "question": "Does LoomIQ support job work, employees, or cutting and stitching stages?",
+        "answer": "Those detailed capabilities have not yet been verified in the available product materials. Do not assume they are included in either plan."
+      },
+      {
+        "question": "Can I import my existing spreadsheets?",
+        "answer": "An ERP data-import workflow and migration terms have not been supplied. Ask support about your data format and migration needs before purchase."
+      },
+      {
+        "question": "Is LoomIQ cloud-based?",
+        "answer": "This website and customer account run in your browser. The team provides your ERP workspace link after setup; confirm deployment requirements if these matter to your factory."
+      },
+      {
+        "question": "What happens immediately after payment?",
+        "answer": "After Razorpay confirms payment, you can view and save your invoice. Your customer account shows onboarding progress. Our team arranges ERP access; payment does not instantly create a workspace."
+      },
+      {
+        "question": "Do I need technical knowledge? Is onboarding included?",
+        "answer": "The current plans describe onboarding support. You can track setup in your account. A setup completion time and training scope have not been specified."
+      },
+      {
+        "question": "How does the first-purchase offer work?",
+        "answer": "Eligible first purchases receive {discount} off within 24 hours of the first offer visit: Starter {starterOffer} or Growth {growthOffer} for one month. The server records the deadline; refreshing does not restart it. Trial accounts can qualify if they have not purchased."
+      },
+      {
+        "question": "How do payments and renewals work?",
+        "answer": "Pay the INR total displayed at checkout through Razorpay. Each purchase covers one membership month. This website does not automatically charge for renewal."
+      },
+      {
+        "question": "Can I cancel or get a refund?",
+        "answer": "There is no automatic renewal to cancel. The existing refund policy says discounted first-month payments are generally non-refundable. Email support with your order reference for payment or service issues; read the full refund policy before purchase."
+      },
+      {
+        "question": "How is my account protected?",
+        "answer": "Customer accounts use hashed passwords, expiring sessions, and password recovery. Invoices require the purchasing account. Razorpay handles payment details. These website controls do not establish a security certification for the ERP."
+      },
+      {
+        "question": "How do I get support?",
+        "answer": "Email support@loomiq.com. After purchase, the confirmation page also provides a support request form. No response-time guarantee is published."
+      }
+    ]
+  },
+  "FaqSection.2": {
+    "group": "FaqSection",
+    "label": "FAQs",
+    "kind": "text",
+    "default": "FAQs"
+  },
+  "FaqSection.3": {
+    "group": "FaqSection",
+    "label": "Questions textile teams ask before changing systems.",
+    "kind": "text",
+    "default": "Before you bring your factory onto LoomIQ."
+  },
+  "FeaturesSection.1": {
+    "group": "FeaturesSection",
+    "label": "features",
+    "kind": "structured",
+    "default": [
+      {
+        "id": "01",
+        "icon": "",
+        "title": "Orders & customers",
+        "description": "Keep customer orders in view.",
+        "detail": "Bring buyer requirements and order information into your daily manufacturing workflow."
+      },
+      {
+        "id": "02",
+        "icon": "",
+        "title": "Inventory",
+        "description": "Know what stock you have to work with.",
+        "detail": "Keep material and stock information alongside your business operations."
+      },
+      {
+        "id": "03",
+        "icon": "",
+        "title": "Production",
+        "description": "Know where production stands.",
+        "detail": "Review production alongside the orders your factory needs to complete."
+      },
+      {
+        "id": "04",
+        "icon": "",
+        "title": "Accounts & reporting",
+        "description": "Review your business information together.",
+        "detail": "Bring accounts and reporting into your operating view."
+      }
+    ]
+  },
+  "FeaturesSection.2": {
+    "group": "FeaturesSection",
+    "label": "Business management modules",
+    "kind": "text",
+    "default": "Business management modules"
+  },
+  "FeaturesSection.3": {
+    "group": "FeaturesSection",
+    "label": "From customer order to production, stock, and dispatch",
+    "kind": "text",
+    "default": "Orders. Stock. Production. Accounts."
+  },
+  "FeaturesSection.4": {
+    "group": "FeaturesSection",
+    "label": "LoomIQ connects the commercial, operational, and financial records teams rely on every day",
+    "kind": "text",
+    "default": "Keep the daily work of your garment business in view. If a particular module, production stage, or integration is essential, confirm its availability and plan scope before purchasing."
+  },
+  "FeaturesSection.5": {
+    "group": "FeaturesSection",
+    "label": "Built to connect order, material, production, quality, and dispatch",
+    "kind": "text",
+    "default": "Check your required workflow and plan scope before purchasing."
+  },
+  "FinalCTA.1": {
+    "group": "FinalCTA",
+    "label": "Get started",
+    "kind": "text",
+    "default": "Get started"
+  },
+  "FinalCTA.2": {
+    "group": "FinalCTA",
+    "label": "Ready to bring your textile operation into one view?",
+    "kind": "text",
+    "default": "Ready to run your garment business from one place?"
+  },
+  "FinalCTA.3": {
+    "group": "FinalCTA",
+    "label": "See how LoomIQ can connect orders, materials, production, quality, dispatch, and finance a",
+    "kind": "text",
+    "default": "Review your plan, create an account, and pay online. Your invoice is available after verified payment; our team then arranges your ERP setup."
+  },
+  "FinalCTA.4": {
+    "group": "FinalCTA",
+    "label": "Link destination: #demo",
+    "kind": "url",
+    "default": "#pricing"
+  },
+  "FinalCTA.5": {
+    "group": "FinalCTA",
+    "label": "Book a personalized demo",
+    "kind": "text",
+    "default": "Get LoomIQ"
+  },
+  "FinalCTA.6": {
+    "group": "FinalCTA",
+    "label": "Bring a real order or production workflow. We will map it to the platform.",
+    "kind": "text",
+    "default": "One membership month. No automatic renewal."
+  },
+  "FinalCTA.7": {
+    "group": "FinalCTA",
+    "label": "Accessibility label: What the walkthrough covers",
+    "kind": "text",
+    "default": "Purchase and setup steps"
+  },
+  "FinalCTA.8": {
+    "group": "FinalCTA",
+    "label": "In the walkthrough",
+    "kind": "text",
+    "default": "What happens next"
+  },
+  "FinalCTA.9": {
+    "group": "FinalCTA",
+    "label": "One order view",
+    "kind": "text",
+    "default": "Choose your plan"
+  },
+  "FinalCTA.10": {
+    "group": "FinalCTA",
+    "label": "Customer requirements, materials, production, and delivery together.",
+    "kind": "text",
+    "default": "Compare Starter and Growth, then review your exact checkout total."
+  },
+  "FinalCTA.11": {
+    "group": "FinalCTA",
+    "label": "Your factory flow",
+    "kind": "text",
+    "default": "Pay online"
+  },
+  "FinalCTA.12": {
+    "group": "FinalCTA",
+    "label": "See how planning, stores, quality, and dispatch can connect.",
+    "kind": "text",
+    "default": "Use Razorpay and receive your invoice after payment verification."
+  },
+  "FinalCTA.13": {
+    "group": "FinalCTA",
+    "label": "Practical next steps",
+    "kind": "text",
+    "default": "Follow your setup"
+  },
+  "FinalCTA.14": {
+    "group": "FinalCTA",
+    "label": "Leave with a clearer view of the controls your operation needs.",
+    "kind": "text",
+    "default": "Track onboarding in your account and open the workspace when it is ready."
+  },
+  "FooterSection.1": {
+    "group": "FooterSection",
+    "label": "footerGroups",
+    "kind": "structured",
+    "default": [
+      {
+        "title": "Product",
+        "links": [
+          [
+            "Product preview",
+            "#showcase"
+          ],
+          [
+            "Workflow",
+            "#how-it-works"
+          ],
+          [
+            "Pricing",
+            "#pricing"
+          ]
+        ]
+      },
+      {
+        "title": "Help",
+        "links": [
+          [
+            "FAQ",
+            "#faq"
+          ],
+          [
+            "Account security",
+            "#trust"
+          ],
+          [
+            "Support",
+            "mailto:support@loomiq.com"
+          ]
+        ]
+      }
+    ]
+  },
+  "FooterSection.2": {
+    "group": "FooterSection",
+    "label": "Link destination: #hero",
+    "kind": "url",
+    "default": "#hero"
+  },
+  "FooterSection.3": {
+    "group": "FooterSection",
+    "label": "Accessibility label: LoomIQ home",
+    "kind": "text",
+    "default": "LoomIQ home"
+  },
+  "FooterSection.4": {
+    "group": "FooterSection",
+    "label": "Image: logoImage",
+    "kind": "url",
+    "default": "/api/content/assets/company.logo.webp"
+  },
+  "FooterSection.5": {
+    "group": "FooterSection",
+    "label": "LoomIQ",
+    "kind": "text",
+    "default": "LoomIQ"
+  },
+  "FooterSection.6": {
+    "group": "FooterSection",
+    "label": "ERP for cloth manufacturers: orders, materials, production, quality, dispatch, and finance",
+    "kind": "text",
+    "default": "ERP built for garment and clothing manufacturers. Explore the product, review pricing, and purchase online."
+  },
+  "FooterSection.7": {
+    "group": "FooterSection",
+    "label": "Accessibility label: Social links",
+    "kind": "text",
+    "default": "Social links"
+  },
+  "FooterSection.8": {
+    "group": "FooterSection",
+    "label": "Link destination: #hero",
+    "kind": "url",
+    "default": "#hero"
+  },
+  "FooterSection.9": {
+    "group": "FooterSection",
+    "label": "LinkedIn",
+    "kind": "text",
+    "default": "LinkedIn"
+  },
+  "FooterSection.10": {
+    "group": "FooterSection",
+    "label": "Link destination: #hero",
+    "kind": "url",
+    "default": "#hero"
+  },
+  "FooterSection.11": {
+    "group": "FooterSection",
+    "label": "Github",
+    "kind": "text",
+    "default": "Github"
+  },
+  "FooterSection.12": {
+    "group": "FooterSection",
+    "label": "Link destination: #hero",
+    "kind": "url",
+    "default": "#hero"
+  },
+  "FooterSection.13": {
+    "group": "FooterSection",
+    "label": "Instagram",
+    "kind": "text",
+    "default": "Instagram"
+  },
+  "FooterSection.14": {
+    "group": "FooterSection",
+    "label": "Talk through your workflow",
+    "kind": "text",
+    "default": "Help before and after purchase"
+  },
+  "FooterSection.15": {
+    "group": "FooterSection",
+    "label": "See how LoomIQ can fit your textile manufacturing workflow.",
+    "kind": "text",
+    "default": "Questions about your account, payment, or onboarding?"
+  },
+  "FooterSection.16": {
+    "group": "FooterSection",
+    "label": "Link destination: #demo",
+    "kind": "url",
+    "default": "mailto:support@loomiq.com"
+  },
+  "FooterSection.17": {
+    "group": "FooterSection",
+    "label": "Book a personalized demo",
+    "kind": "text",
+    "default": "Email support "
+  },
+  "FooterSection.18": {
+    "group": "FooterSection",
+    "label": "©",
+    "kind": "text",
+    "default": "© "
+  },
+  "FooterSection.19": {
+    "group": "FooterSection",
+    "label": "LoomIQ. All rights reserved.",
+    "kind": "text",
+    "default": " LoomIQ. All rights reserved."
+  },
+  "FooterSection.20": {
+    "group": "FooterSection",
+    "label": "Privacy",
+    "kind": "text",
+    "default": "Privacy"
+  },
+  "FooterSection.21": {
+    "group": "FooterSection",
+    "label": "Terms",
+    "kind": "text",
+    "default": "Terms"
+  },
+  "Header.1": {
+    "group": "Header",
+    "label": "navLinks",
+    "kind": "structured",
+    "default": [
+      {
+        "label": "Product",
+        "href": "#showcase"
+      },
+      {
+        "label": "Workflow",
+        "href": "#how-it-works"
+      },
+      {
+        "label": "Pricing",
+        "href": "#pricing"
+      },
+      {
+        "label": "FAQ",
+        "href": "#faq"
+      }
+    ]
+  },
+  "Header.2": {
+    "group": "Header",
+    "label": "Link destination: #hero",
+    "kind": "url",
+    "default": "#hero"
+  },
+  "Header.3": {
+    "group": "Header",
+    "label": "Image: logoImage",
+    "kind": "url",
+    "default": "/api/content/assets/company.logo.webp"
+  },
+  "Header.4": {
+    "group": "Header",
+    "label": "Image description: LoomIQ",
+    "kind": "text",
+    "default": "LoomIQ"
+  },
+  "Header.5": {
+    "group": "Header",
+    "label": "LoomIQ",
+    "kind": "text",
+    "default": " LoomIQ "
+  },
+  "Header.6": {
+    "group": "Header",
+    "label": "Close navigation menu",
+    "kind": "text",
+    "default": "Close navigation menu"
+  },
+  "Header.7": {
+    "group": "Header",
+    "label": "Open navigation menu",
+    "kind": "text",
+    "default": "Open navigation menu"
+  },
+  "Header.8": {
+    "group": "Header",
+    "label": "Accessibility label: Primary navigation",
+    "kind": "text",
+    "default": "Primary navigation"
+  },
+  "Header.9": {
+    "group": "Header",
+    "label": "My account",
+    "kind": "text",
+    "default": "My account"
+  },
+  "Header.10": {
+    "group": "Header",
+    "label": "Link destination: #demo",
+    "kind": "url",
+    "default": "#showcase"
+  },
+  "Header.11": {
+    "group": "Header",
+    "label": "Book a demo",
+    "kind": "text",
+    "default": "See product"
+  },
+  "Header.12": {
+    "group": "Header",
+    "label": "Link destination: #pricing",
+    "kind": "url",
+    "default": "#pricing"
+  },
+  "Header.13": {
+    "group": "Header",
+    "label": "View plans & offer",
+    "kind": "text",
+    "default": "Get LoomIQ"
+  },
+  "Hero.1": {
+    "group": "Hero",
+    "label": "ERP software for growing businesses",
+    "kind": "text",
+    "default": "Built for garment & clothing manufacturers"
+  },
+  "Hero.2": {
+    "group": "Hero",
+    "label": "Connected ERP software for orders, inventory, production, and finance.",
+    "kind": "text",
+    "default": "Run your garment factory from one place."
+  },
+  "Hero.3": {
+    "group": "Hero",
+    "label": "LoomIQ gives teams a single view of sales, inventory, manufacturing, quality, dispatch, an",
+    "kind": "text",
+    "default": "Bring orders, inventory, production, and accounts into one ERP designed around clothing manufacturing. See the product, compare monthly plans, and buy online."
+  },
+  "Hero.4": {
+    "group": "Hero",
+    "label": "Link destination: #pricing",
+    "kind": "url",
+    "default": "#pricing"
+  },
+  "Hero.5": {
+    "group": "Hero",
+    "label": "View plans & offer",
+    "kind": "text",
+    "default": "Get LoomIQ"
+  },
+  "Hero.6": {
+    "group": "Hero",
+    "label": "Link destination: #demo",
+    "kind": "url",
+    "default": "#showcase"
+  },
+  "Hero.7": {
+    "group": "Hero",
+    "label": "Book a personalized demo",
+    "kind": "text",
+    "default": "See LoomIQ in action"
+  },
+  "Hero.8": {
+    "group": "Hero",
+    "label": "Choose your plan, or explore your workflow with a free demo.",
+    "kind": "text",
+    "default": "Starter {starterRegular}/month · Growth {growthRegular}/month. Team-assisted workspace setup after purchase."
+  },
+  "Hero.9": {
+    "group": "Hero",
+    "label": "Accessibility label: LoomIQ textile manufacturing dashboard preview",
+    "kind": "text",
+    "default": "Existing interface preview with example data"
+  },
+  "Hero.10": {
+    "group": "Hero",
+    "label": "Manufacturing overview",
+    "kind": "text",
+    "default": "Interface preview · example data"
+  },
+  "Hero.11": {
+    "group": "Hero",
+    "label": "Image: analyticsDashboard",
+    "kind": "url",
+    "default": "/api/content/assets/analytics-dashboard.webp"
+  },
+  "Hero.12": {
+    "group": "Hero",
+    "label": "Image description: LoomIQ manufacturing dashboard showing revenue, inventory, and operations",
+    "kind": "text",
+    "default": "Existing business overview interface preview with example revenue and reports"
+  },
+  "HowItWorksSection.1": {
+    "group": "HowItWorksSection",
+    "label": "steps",
+    "kind": "structured",
+    "default": [
+      {
+        "number": "01",
+        "title": "Start with the order",
+        "description": "Your buyer requirements establish what your factory needs to deliver."
+      },
+      {
+        "number": "02",
+        "title": "Review stock and production",
+        "description": "Bring material availability and production information into your operating view."
+      },
+      {
+        "number": "03",
+        "title": "Review accounts and reports",
+        "description": "Use your business records to understand the work and transactions behind an order."
+      }
+    ]
+  },
+  "HowItWorksSection.2": {
+    "group": "HowItWorksSection",
+    "label": "How it works",
+    "kind": "text",
+    "default": "How it works"
+  },
+  "HowItWorksSection.3": {
+    "group": "HowItWorksSection",
+    "label": "From order confirmation to customer delivery.",
+    "kind": "text",
+    "default": "How LoomIQ fits into your manufacturing day."
+  },
+  "InfoPage.1": {
+    "group": "InfoPage",
+    "label": "pageContent",
+    "kind": "structured",
+    "default": {
+      "privacy": {
+        "title": "Privacy Policy",
+        "intro": "This policy describes the information used for LoomIQ accounts, demo and trial requests, membership purchases, support, and website analytics.",
+        "sections": [
+          [
+            "Information we collect",
+            "We collect the contact and company details you submit, a password hash for your account, billing address and phone number at checkout, payment references, invoices, and messages you send to support. We store visitor and session identifiers in essential cookies. Card details are handled by Razorpay rather than stored by this website."
+          ],
+          [
+            "How we use information",
+            "We use this information to authenticate accounts, manage offer eligibility, arrange demos and onboarding, confirm payments, provide invoices, respond to support requests, and protect the service from abuse."
+          ],
+          [
+            "Service providers and analytics",
+            "Our hosting, database, email, and payment providers process information needed to deliver the service. With optional analytics consent, Google Analytics and, when configured, Meta Pixel receive page views and conversion events, including purchased plan, amount, currency, and an order event identifier. Custom events exclude your form fields and payment instrument details. Change your preference using Analytics settings in the footer."
+          ],
+          [
+            "Retention and requests",
+            "Account, inquiry, and transaction records are retained to operate the service and maintain payment records. To request access, correction, or deletion, email support@loomiq.com. We may need to verify account ownership and retain records needed for unresolved transactions or applicable recordkeeping obligations."
+          ],
+          [
+            "Account security",
+            "Keep your password and email account secure. Password reset links expire after 30 minutes and can be used once. Resetting your password invalidates existing login sessions."
+          ]
+        ]
+      },
+      "terms": {
+        "title": "Terms of Service",
+        "intro": "These terms describe website use, account registration, membership checkout, and the onboarding process for LoomIQ.",
+        "sections": [
+          [
+            "Website content",
+            "LoomIQ provides this website and preview content for general informational purposes. Product details, features, and availability may change as our platform evolves."
+          ],
+          [
+            "Demo requests",
+            "Submitting a demo request does not create a customer relationship, guarantee product access, pricing, or final contract terms unless expressly agreed in writing."
+          ],
+          [
+            "Accounts",
+            "Provide accurate contact and billing information and keep your login credentials private. Contact support if you suspect unauthorized access. Do not use the website to interfere with other accounts or the operation of the service."
+          ],
+          [
+            "Membership payments",
+            "Checkout purchases one membership month at the amount displayed before payment. This website does not automatically charge for later months. Additional purchases require a new checkout. Payment confirmation and invoices are available in your account."
+          ],
+          [
+            "Offer conditions",
+            "The first-purchase discount lasts 24 hours from the first offer visit and does not restart on refresh. Trial accounts can qualify if they have not purchased. Payment must complete before the order deadline; late captured discounted payments are submitted for refund."
+          ],
+          [
+            "Access and onboarding",
+            "Creating an account or making a payment does not instantly create an ERP workspace. Our team arranges onboarding and provides access after setup. Your account shows progress and a workspace link when access is ready. Contact support to agree on setup and service dates before purchase if timing is essential."
+          ],
+          [
+            "Support and billing questions",
+            "Contact support@loomiq.com for account, payment, or service questions. The Refund Policy describes cancellation requests and payment issues."
+          ]
+        ]
+      },
+      "refunds": {
+        "title": "Refund & Cancellation Policy",
+        "intro": "This policy explains one-time membership payments, cancellation requests, and payment refunds.",
+        "sections": [
+          [
+            "One-time payments",
+            "Each checkout purchases one membership month. There are no automatic renewals or automatic charges from this website. To purchase another month, complete a new checkout at the displayed price."
+          ],
+          [
+            "Cancellation",
+            "You do not need to cancel an automatic renewal. For an existing membership, onboarding cancellation, or an access issue, contact support with your account email and order reference so the team can review your request."
+          ],
+          [
+            "Refunds",
+            "The discounted first-month payment is generally non-refundable after payment. If you believe a payment was made in error or a service issue affected your account, contact support promptly so the request can be reviewed."
+          ],
+          [
+            "Expired offer payments",
+            "Captured discounted payments completed after their order deadline are submitted to Razorpay for a full refund. A submitted refund may take time to reach your payment method. Contact support with your payment reference if you need a status update."
+          ],
+          [
+            "Support",
+            "For cancellation or billing help, email support@loomiq.com with your account email and company name."
+          ]
+        ]
+      }
+    }
+  },
+  "InfoPage.2": {
+    "group": "InfoPage",
+    "label": "Image: logo",
+    "kind": "url",
+    "default": "/api/content/assets/company.logo.webp"
+  },
+  "InfoPage.3": {
+    "group": "InfoPage",
+    "label": "LoomIQ",
+    "kind": "text",
+    "default": "LoomIQ"
+  },
+  "InfoPage.4": {
+    "group": "InfoPage",
+    "label": "Back to website",
+    "kind": "text",
+    "default": "Back to website "
+  },
+  "InfoPage.5": {
+    "group": "InfoPage",
+    "label": "Accessibility label: Breadcrumb",
+    "kind": "text",
+    "default": "Breadcrumb"
+  },
+  "InfoPage.6": {
+    "group": "InfoPage",
+    "label": "Home",
+    "kind": "text",
+    "default": "Home"
+  },
+  "InfoPage.7": {
+    "group": "InfoPage",
+    "label": "LEGAL INFORMATION",
+    "kind": "text",
+    "default": "LEGAL INFORMATION"
+  },
+  "InfoPage.8": {
+    "group": "InfoPage",
+    "label": "Accessibility label: On this page",
+    "kind": "text",
+    "default": "On this page"
+  },
+  "InfoPage.9": {
+    "group": "InfoPage",
+    "label": "ON THIS PAGE",
+    "kind": "text",
+    "default": "ON THIS PAGE"
+  },
+  "InfoPage.10": {
+    "group": "InfoPage",
+    "label": "Questions about this policy?",
+    "kind": "text",
+    "default": "Questions about this policy?"
+  },
+  "InfoPage.11": {
+    "group": "InfoPage",
+    "label": "Contact our team for clarification.",
+    "kind": "text",
+    "default": "Contact our team for clarification."
+  },
+  "InfoPage.12": {
+    "group": "InfoPage",
+    "label": "Link destination: mailto:support@loomiq.com",
+    "kind": "url",
+    "default": "mailto:support@loomiq.com"
+  },
+  "InfoPage.13": {
+    "group": "InfoPage",
+    "label": "support@loomiq.com",
+    "kind": "text",
+    "default": "support@loomiq.com"
+  },
+  "InfoPage.14": {
+    "group": "InfoPage",
+    "label": "Contact LoomIQ",
+    "kind": "text",
+    "default": "Contact LoomIQ"
+  },
+  "InfoPage.15": {
+    "group": "InfoPage",
+    "label": "For questions regarding",
+    "kind": "text",
+    "default": "For questions regarding "
+  },
+  "InfoPage.16": {
+    "group": "InfoPage",
+    "label": "these terms",
+    "kind": "text",
+    "default": "these terms"
+  },
+  "InfoPage.17": {
+    "group": "InfoPage",
+    "label": "this policy",
+    "kind": "text",
+    "default": "this policy"
+  },
+  "InfoPage.18": {
+    "group": "InfoPage",
+    "label": ", please email",
+    "kind": "text",
+    "default": ", please email "
+  },
+  "InfoPage.19": {
+    "group": "InfoPage",
+    "label": "Link destination: mailto:support@loomiq.com",
+    "kind": "url",
+    "default": "mailto:support@loomiq.com"
+  },
+  "InfoPage.20": {
+    "group": "InfoPage",
+    "label": "support@loomiq.com",
+    "kind": "text",
+    "default": "support@loomiq.com"
+  },
+  "InfoPage.21": {
+    "group": "InfoPage",
+    "label": "©",
+    "kind": "text",
+    "default": "© "
+  },
+  "InfoPage.22": {
+    "group": "InfoPage",
+    "label": "LoomIQ. All rights reserved.",
+    "kind": "text",
+    "default": " LoomIQ. All rights reserved."
+  },
+  "InfoPage.23": {
+    "group": "InfoPage",
+    "label": "Accessibility label: Legal pages",
+    "kind": "text",
+    "default": "Legal pages"
+  },
+  "InfoPage.24": {
+    "group": "InfoPage",
+    "label": "Privacy Policy",
+    "kind": "text",
+    "default": "Privacy Policy"
+  },
+  "InfoPage.25": {
+    "group": "InfoPage",
+    "label": "Terms of Service",
+    "kind": "text",
+    "default": "Terms of Service"
+  },
+  "InfoPage.26": {
+    "group": "InfoPage",
+    "label": "Refund Policy",
+    "kind": "text",
+    "default": "Refund Policy"
+  },
+  "PaymentPage.1": {
+    "group": "PaymentPage",
+    "label": "plans",
+    "kind": "structured",
+    "default": [
+      {
+        "name": "Starter",
+        "description": "A focused operating system for growing teams.",
+        "features": [
+          "Orders and invoicing",
+          "Stock, purchasing, and suppliers",
+          "Multi-location transfers",
+          "Batch and wastage records",
+          "Quality and rework tracking",
+          "Costing and margin reports"
+        ]
+      },
+      {
+        "name": "Growth",
+        "description": "Advanced control for multi-location operations.",
+        "features": [
+          "Everything in Starter",
+          "Material planning and work orders",
+          "Production stage tracking",
+          "Cash-flow and expense reports",
+          "Custom workflows and permissions",
+          "Priority support"
+        ]
+      }
+    ]
+  },
+  "PaymentPage.2": {
+    "group": "PaymentPage",
+    "label": "Checking your account…",
+    "kind": "text",
+    "default": "Checking your account…"
+  },
+  "PaymentPage.3": {
+    "group": "PaymentPage",
+    "label": "Accessibility label: LoomIQ home",
+    "kind": "text",
+    "default": "LoomIQ home"
+  },
+  "PaymentPage.4": {
+    "group": "PaymentPage",
+    "label": "Image: logoImage",
+    "kind": "url",
+    "default": "/api/content/assets/company.logo.webp"
+  },
+  "PaymentPage.5": {
+    "group": "PaymentPage",
+    "label": "Loom",
+    "kind": "text",
+    "default": "Loom"
+  },
+  "PaymentPage.6": {
+    "group": "PaymentPage",
+    "label": "IQ",
+    "kind": "text",
+    "default": "IQ"
+  },
+  "PaymentPage.7": {
+    "group": "PaymentPage",
+    "label": "Payments processed by Razorpay",
+    "kind": "text",
+    "default": " Payments processed by Razorpay"
+  },
+  "PaymentPage.8": {
+    "group": "PaymentPage",
+    "label": "← Back to plans",
+    "kind": "text",
+    "default": "← Back to plans"
+  },
+  "PaymentPage.9": {
+    "group": "PaymentPage",
+    "label": "Complete your purchase",
+    "kind": "text",
+    "default": "Complete your purchase"
+  },
+  "PaymentPage.10": {
+    "group": "PaymentPage",
+    "label": "LoomIQ membership · Billed in INR",
+    "kind": "text",
+    "default": "LoomIQ membership · Billed in INR"
+  },
+  "PaymentPage.11": {
+    "group": "PaymentPage",
+    "label": "Choose your plan",
+    "kind": "text",
+    "default": "Choose your plan"
+  },
+  "PaymentPage.12": {
+    "group": "PaymentPage",
+    "label": "Your plan",
+    "kind": "text",
+    "default": "Your plan"
+  },
+  "PaymentPage.13": {
+    "group": "PaymentPage",
+    "label": "24-hour offer · 50% off",
+    "kind": "text",
+    "default": "24-hour offer · {discount} off"
+  },
+  "PaymentPage.14": {
+    "group": "PaymentPage",
+    "label": "50% OFF",
+    "kind": "text",
+    "default": "{discount} OFF"
+  },
+  "PaymentPage.15": {
+    "group": "PaymentPage",
+    "label": "/ month",
+    "kind": "text",
+    "default": "/ month"
+  },
+  "PaymentPage.16": {
+    "group": "PaymentPage",
+    "label": "Business and contact details",
+    "kind": "text",
+    "default": "Business and contact details"
+  },
+  "PaymentPage.17": {
+    "group": "PaymentPage",
+    "label": "Contact &amp; billing details",
+    "kind": "text",
+    "default": "Contact & billing details"
+  },
+  "PaymentPage.18": {
+    "group": "PaymentPage",
+    "label": "All fields required",
+    "kind": "text",
+    "default": "All fields required"
+  },
+  "PaymentPage.19": {
+    "group": "PaymentPage",
+    "label": "Full name",
+    "kind": "text",
+    "default": "Full name"
+  },
+  "PaymentPage.20": {
+    "group": "PaymentPage",
+    "label": "placeholder: Your full name",
+    "kind": "text",
+    "default": "Your full name"
+  },
+  "PaymentPage.21": {
+    "group": "PaymentPage",
+    "label": "Work email",
+    "kind": "text",
+    "default": "Work email"
+  },
+  "PaymentPage.22": {
+    "group": "PaymentPage",
+    "label": "placeholder: you@company.com",
+    "kind": "text",
+    "default": "you@company.com"
+  },
+  "PaymentPage.23": {
+    "group": "PaymentPage",
+    "label": "Phone number",
+    "kind": "text",
+    "default": "Phone number"
+  },
+  "PaymentPage.24": {
+    "group": "PaymentPage",
+    "label": "placeholder: +91 98765 43210",
+    "kind": "text",
+    "default": "+91 98765 43210"
+  },
+  "PaymentPage.25": {
+    "group": "PaymentPage",
+    "label": "Business name",
+    "kind": "text",
+    "default": "Business name"
+  },
+  "PaymentPage.26": {
+    "group": "PaymentPage",
+    "label": "placeholder: Company or trading name",
+    "kind": "text",
+    "default": "Company or trading name"
+  },
+  "PaymentPage.27": {
+    "group": "PaymentPage",
+    "label": "Billing address",
+    "kind": "text",
+    "default": "Billing address"
+  },
+  "PaymentPage.28": {
+    "group": "PaymentPage",
+    "label": "placeholder: Building, street and area",
+    "kind": "text",
+    "default": "Building, street and area"
+  },
+  "PaymentPage.29": {
+    "group": "PaymentPage",
+    "label": "City",
+    "kind": "text",
+    "default": "City"
+  },
+  "PaymentPage.30": {
+    "group": "PaymentPage",
+    "label": "placeholder: City",
+    "kind": "text",
+    "default": "City"
+  },
+  "PaymentPage.31": {
+    "group": "PaymentPage",
+    "label": "State",
+    "kind": "text",
+    "default": "State"
+  },
+  "PaymentPage.32": {
+    "group": "PaymentPage",
+    "label": "placeholder: State",
+    "kind": "text",
+    "default": "State"
+  },
+  "PaymentPage.33": {
+    "group": "PaymentPage",
+    "label": "Accessibility label: Order summary",
+    "kind": "text",
+    "default": "Order summary"
+  },
+  "PaymentPage.34": {
+    "group": "PaymentPage",
+    "label": "YOUR ORDER",
+    "kind": "text",
+    "default": "YOUR ORDER"
+  },
+  "PaymentPage.35": {
+    "group": "PaymentPage",
+    "label": "INR",
+    "kind": "text",
+    "default": "INR"
+  },
+  "PaymentPage.36": {
+    "group": "PaymentPage",
+    "label": "24-hour offer: save 50% on this membership month. Available to everyone, including trial a",
+    "kind": "text",
+    "default": "First-purchase offer: save {discount} on one membership month. Complete payment before your 24-hour deadline; late captured payments on expired discounted orders are refunded."
+  },
+  "PaymentPage.37": {
+    "group": "PaymentPage",
+    "label": "Image: logoImage",
+    "kind": "url",
+    "default": "/api/content/assets/company.logo.webp"
+  },
+  "PaymentPage.38": {
+    "group": "PaymentPage",
+    "label": "LoomIQ",
+    "kind": "text",
+    "default": "LoomIQ "
+  },
+  "PaymentPage.39": {
+    "group": "PaymentPage",
+    "label": "ERP membership · First month",
+    "kind": "text",
+    "default": "ERP membership · One month"
+  },
+  "PaymentPage.40": {
+    "group": "PaymentPage",
+    "label": "Original monthly price",
+    "kind": "text",
+    "default": "Original monthly price"
+  },
+  "PaymentPage.41": {
+    "group": "PaymentPage",
+    "label": "24-hour offer savings",
+    "kind": "text",
+    "default": "24-hour offer savings "
+  },
+  "PaymentPage.42": {
+    "group": "PaymentPage",
+    "label": "Due today",
+    "kind": "text",
+    "default": "Due today"
+  },
+  "PaymentPage.43": {
+    "group": "PaymentPage",
+    "label": "First month",
+    "kind": "text",
+    "default": "One membership month"
+  },
+  "PaymentPage.44": {
+    "group": "PaymentPage",
+    "label": "One membership month. No automatic charges.",
+    "kind": "text",
+    "default": "One membership month. No automatic charges."
+  },
+  "PaymentPage.45": {
+    "group": "PaymentPage",
+    "label": "Regular price:",
+    "kind": "text",
+    "default": "Regular price: "
+  },
+  "PaymentPage.46": {
+    "group": "PaymentPage",
+    "label": "/month.",
+    "kind": "text",
+    "default": "/month."
+  },
+  "PaymentPage.47": {
+    "group": "PaymentPage",
+    "label": "I agree to the",
+    "kind": "text",
+    "default": "I agree to the "
+  },
+  "PaymentPage.48": {
+    "group": "PaymentPage",
+    "label": "Terms",
+    "kind": "text",
+    "default": "Terms"
+  },
+  "PaymentPage.49": {
+    "group": "PaymentPage",
+    "label": "Privacy",
+    "kind": "text",
+    "default": "Privacy"
+  },
+  "PaymentPage.50": {
+    "group": "PaymentPage",
+    "label": "and",
+    "kind": "text",
+    "default": " and "
+  },
+  "PaymentPage.51": {
+    "group": "PaymentPage",
+    "label": "Refund Policy",
+    "kind": "text",
+    "default": "Refund Policy"
+  },
+  "PaymentPage.52": {
+    "group": "PaymentPage",
+    "label": ". I understand the discount is available for 24 hours from my first offer visit, including",
+    "kind": "text",
+    "default": ". I understand this first-purchase discount expires 24 hours after my first offer visit. Workspace access follows team-assisted setup; it is not instant."
+  },
+  "PaymentPage.53": {
+    "group": "PaymentPage",
+    "label": "Completing checkout…",
+    "kind": "text",
+    "default": "Completing checkout…"
+  },
+  "PaymentPage.54": {
+    "group": "PaymentPage",
+    "label": "Payment details are handled by Razorpay.",
+    "kind": "text",
+    "default": "Payment details are handled by Razorpay."
+  },
+  "PaymentPage.55": {
+    "group": "PaymentPage",
+    "label": "Need help?",
+    "kind": "text",
+    "default": "Need help? "
+  },
+  "PaymentPage.56": {
+    "group": "PaymentPage",
+    "label": "Link destination: mailto:support@loomiq.com",
+    "kind": "url",
+    "default": "mailto:support@loomiq.com"
+  },
+  "PaymentPage.57": {
+    "group": "PaymentPage",
+    "label": "Contact support ↗",
+    "kind": "text",
+    "default": "Contact support ↗"
+  },
+  "PaymentPage.58": {
+    "group": "PaymentPage",
+    "label": "©",
+    "kind": "text",
+    "default": "© "
+  },
+  "PaymentPage.59": {
+    "group": "PaymentPage",
+    "label": "LoomIQ",
+    "kind": "text",
+    "default": " LoomIQ"
+  },
+  "PaymentPage.60": {
+    "group": "PaymentPage",
+    "label": "Accessibility label: Checkout policies",
+    "kind": "text",
+    "default": "Checkout policies"
+  },
+  "PaymentPage.61": {
+    "group": "PaymentPage",
+    "label": "Privacy",
+    "kind": "text",
+    "default": "Privacy"
+  },
+  "PaymentPage.62": {
+    "group": "PaymentPage",
+    "label": "Terms",
+    "kind": "text",
+    "default": "Terms"
+  },
+  "PaymentPage.63": {
+    "group": "PaymentPage",
+    "label": "Refund policy",
+    "kind": "text",
+    "default": "Refund policy"
+  },
+  "PaymentPage.64": {
+    "group": "PaymentPage",
+    "label": "Payment via Razorpay",
+    "kind": "text",
+    "default": " Payment via Razorpay"
+  },
+  "PaymentPage.65": {
+    "group": "PaymentPage",
+    "label": "Loading price",
+    "kind": "text",
+    "default": "Loading…"
+  },
+  "ManagedPage.1": {
+    "group": "ManagedPage",
+    "label": "Back to home",
+    "kind": "text",
+    "default": "Back to home"
+  },
+  "ManagedPage.2": {
+    "group": "ManagedPage",
+    "label": "Loading page",
+    "kind": "text",
+    "default": "Loading page…"
+  },
+  "ManagedPage.3": {
+    "group": "ManagedPage",
+    "label": "CTA link text",
+    "kind": "text",
+    "default": "Learn more"
+  },
+  "PlatformHighlights.1": {
+    "group": "PlatformHighlights",
+    "label": "Built for textile operations",
+    "kind": "text",
+    "default": "Built for textile operations"
+  },
+  "PlatformHighlights.2": {
+    "group": "PlatformHighlights",
+    "label": "Know what is ordered, in production, and ready to ship.",
+    "kind": "text",
+    "default": "Know what is ordered, in production, and ready to ship."
+  },
+  "PlatformHighlights.3": {
+    "group": "PlatformHighlights",
+    "label": "LoomIQ brings commercial, factory, stores, and finance data into one view so your team can",
+    "kind": "text",
+    "default": " LoomIQ brings commercial, factory, stores, and finance data into one view so your team can act before delays become expensive. "
+  },
+  "PricingSection.1": {
+    "group": "PricingSection",
+    "label": "pricingPlans",
+    "kind": "structured",
+    "default": [
+      {
+        "name": "Starter",
+        "description": "Start with order management, material stock, purchasing, billing, and core production visibility.",
+        "features": [
+          "Customers, orders, quotations, and invoicing",
+          "Material stock, purchasing, and suppliers",
+          "Multiple stores, locations, and stock transfers",
+          "Batch, roll, lot, and wastage records",
+          "Quality inspection and rework tracking",
+          "Order costing and margin reports"
+        ],
+        "featured": false,
+        "period": "/mo"
+      },
+      {
+        "name": "Growth",
+        "description": "Run multiple locations with material planning, production tracking, quality, costing, and reporting.",
+        "features": [
+          "Everything in Starter",
+          "Material planning against confirmed orders",
+          "Work orders and production stage tracking",
+          "Cash-flow, receivables, and expense reports",
+          "More users, custom workflows, and permissions",
+          "WhatsApp integration",
+          "Priority support"
+        ],
+        "featured": true,
+        "period": "/mo"
+      },
+      {
+        "name": "Enterprise",
+        "description": "A tailored setup for your operation with multi-unit control, integrations, governance, and custom workflows.",
+        "features": [
+          "Everything in Growth",
+          "Multi-unit and multi-company configuration",
+          "Advanced production, costing, and integrations",
+          "Enterprise permissions and governance",
+          "Dedicated onboarding and support"
+        ],
+        "featured": false,
+        "period": "/mo"
+      }
+    ]
+  },
+  "PricingSection.2": {
+    "group": "PricingSection",
+    "label": "Pricing",
+    "kind": "text",
+    "default": "Pricing"
+  },
+  "PricingSection.3": {
+    "group": "PricingSection",
+    "label": "Flexible ERP plans for growing business operations.",
+    "kind": "text",
+    "default": "Choose your LoomIQ membership."
+  },
+  "PricingSection.4": {
+    "group": "PricingSection",
+    "label": "Choose the operating depth that fits your business today and add locations, workflows, and",
+    "kind": "text",
+    "default": "Starter at {starterRegular}/month. Growth at {growthRegular}/month. Buy one month at a time, with no automatic charges."
+  },
+  "PricingSection.5": {
+    "group": "PricingSection",
+    "label": "Buy Starter or Growth within 24 hours of your first offer visit to save 50% on your member",
+    "kind": "text",
+    "default": "First purchase: save {discount} when you pay within 24 hours of your first offer visit. The deadline does not reset."
+  },
+  "PricingSection.7": {
+    "group": "PricingSection",
+    "label": "Book a personalized demo",
+    "kind": "text",
+    "default": "Discuss Enterprise setup"
+  },
+  "PricingSection.8": {
+    "group": "PricingSection",
+    "label": "50% off · 24-hour offer",
+    "kind": "text",
+    "default": "{discount} off first purchase"
+  },
+  "PricingSection.9": {
+    "group": "PricingSection",
+    "label": "Most popular",
+    "kind": "text",
+    "default": "Growth plan"
+  },
+  "PricingSection.10": {
+    "group": "PricingSection",
+    "label": "Want to see it in action first?",
+    "kind": "text",
+    "default": "See the interface before deciding. "
+  },
+  "PricingSection.11": {
+    "group": "PricingSection",
+    "label": "Link destination: #demo",
+    "kind": "url",
+    "default": "#showcase"
+  },
+  "PricingSection.12": {
+    "group": "PricingSection",
+    "label": "Book a personalized demo →",
+    "kind": "text",
+    "default": "Explore the preview →"
+  },
+  "PricingSection.13": {
+    "group": "PricingSection",
+    "label": "These are monthly software subscription prices for the modules listed above, with onboardi",
+    "kind": "text",
+    "default": "Checkout shows the final amount in INR for one membership month. ERP workspace setup is arranged by our team after payment; access is not instant. User limits, migration, integrations, and setup dates are not specified here. Confirm any essential requirements with support before purchasing."
+  },
+  "ProblemSection.1": {
+    "group": "ProblemSection",
+    "label": "painPoints",
+    "kind": "structured",
+    "default": [
+      {
+        "title": "Orders disconnected from production",
+        "description": "Sales orders, specifications, and promised dates are managed separately from production planning and factory progress."
+      },
+      {
+        "title": "Material stock is hard to trust",
+        "description": "Fabric, yarn, trims, chemicals, and finished goods move through different stores and processes without one dependable balance."
+      },
+      {
+        "title": "Production updates arrive late",
+        "description": "Planning, weaving or knitting, dyeing, finishing, quality, and dispatch teams rely on calls and spreadsheets to report progress."
+      },
+      {
+        "title": "Margins disappear in the gaps",
+        "description": "Wastage, rework, delayed orders, and untracked costs make it difficult to see the real margin on each order."
+      }
+    ]
+  },
+  "ProblemSection.2": {
+    "group": "ProblemSection",
+    "label": "The manufacturing problem",
+    "kind": "text",
+    "default": "The manufacturing problem"
+  },
+  "ProblemSection.3": {
+    "group": "ProblemSection",
+    "label": "Still running the factory through spreadsheets and phone calls?",
+    "kind": "text",
+    "default": "Still running the factory through spreadsheets and phone calls?"
+  },
+  "ProblemSection.4": {
+    "group": "ProblemSection",
+    "label": "In cloth manufacturing, a missed update can mean the wrong material, a delayed lot, or an ",
+    "kind": "text",
+    "default": " In cloth manufacturing, a missed update can mean the wrong material, a delayed lot, or an order that misses its delivery date. LoomIQ connects the records behind each handoff. "
+  },
+  "SignupPage.1": {
+    "group": "SignupPage",
+    "label": "Accessibility label: LoomIQ home",
+    "kind": "text",
+    "default": "LoomIQ home"
+  },
+  "SignupPage.2": {
+    "group": "SignupPage",
+    "label": "Image: logo",
+    "kind": "url",
+    "default": "/api/content/assets/company.logo.webp"
+  },
+  "SignupPage.3": {
+    "group": "SignupPage",
+    "label": "Loom",
+    "kind": "text",
+    "default": "Loom"
+  },
+  "SignupPage.4": {
+    "group": "SignupPage",
+    "label": "IQ",
+    "kind": "text",
+    "default": "IQ"
+  },
+  "SignupPage.5": {
+    "group": "SignupPage",
+    "label": "Back to website",
+    "kind": "text",
+    "default": "Back to website "
+  },
+  "SignupPage.6": {
+    "group": "SignupPage",
+    "label": "Accessibility label: Getting started",
+    "kind": "text",
+    "default": "Getting started"
+  },
+  "SignupPage.7": {
+    "group": "SignupPage",
+    "label": "Create account",
+    "kind": "text",
+    "default": "Create account"
+  },
+  "SignupPage.8": {
+    "group": "SignupPage",
+    "label": "Review plan",
+    "kind": "text",
+    "default": "Review plan"
+  },
+  "SignupPage.9": {
+    "group": "SignupPage",
+    "label": "Get set up",
+    "kind": "text",
+    "default": "Get set up"
+  },
+  "SignupPage.10": {
+    "group": "SignupPage",
+    "label": "Book a personalized demo",
+    "kind": "text",
+    "default": "Book a personalized demo"
+  },
+  "SignupPage.11": {
+    "group": "SignupPage",
+    "label": "View pricing",
+    "kind": "text",
+    "default": "View pricing"
+  },
+  "SignupPage.12": {
+    "group": "SignupPage",
+    "label": "Loading your account…",
+    "kind": "text",
+    "default": "Loading your account…"
+  },
+  "SignupPage.13": {
+    "group": "SignupPage",
+    "label": "Accessibility label: Why start with LoomIQ",
+    "kind": "text",
+    "default": "Why start with LoomIQ"
+  },
+  "SignupPage.14": {
+    "group": "SignupPage",
+    "label": "Your next chapter starts here",
+    "kind": "text",
+    "default": " Your next chapter starts here"
+  },
+  "SignupPage.15": {
+    "group": "SignupPage",
+    "label": "Less chasing updates.",
+    "kind": "text",
+    "default": "Less chasing updates."
+  },
+  "SignupPage.16": {
+    "group": "SignupPage",
+    "label": "More moving forward.",
+    "kind": "text",
+    "default": "More moving forward."
+  },
+  "SignupPage.17": {
+    "group": "SignupPage",
+    "label": "Bring your orders, stock, production, and finances into one connected workspace.",
+    "kind": "text",
+    "default": "Bring your orders, stock, production, and finances into one connected workspace."
+  },
+  "SignupPage.18": {
+    "group": "SignupPage",
+    "label": "Accessibility label: Connected workflows: orders, production, dispatch",
+    "kind": "text",
+    "default": "Connected workflows: orders, production, dispatch"
+  },
+  "SignupPage.19": {
+    "group": "SignupPage",
+    "label": "L",
+    "kind": "text",
+    "default": "L"
+  },
+  "SignupPage.20": {
+    "group": "SignupPage",
+    "label": "Your operation, connected",
+    "kind": "text",
+    "default": "Your operation, connected"
+  },
+  "SignupPage.21": {
+    "group": "SignupPage",
+    "label": "One place to see what comes next",
+    "kind": "text",
+    "default": "One place to see what comes next"
+  },
+  "SignupPage.22": {
+    "group": "SignupPage",
+    "label": "Orders",
+    "kind": "text",
+    "default": "Orders"
+  },
+  "SignupPage.23": {
+    "group": "SignupPage",
+    "label": "Production",
+    "kind": "text",
+    "default": "Production"
+  },
+  "SignupPage.24": {
+    "group": "SignupPage",
+    "label": "Dispatch",
+    "kind": "text",
+    "default": "Dispatch"
+  },
+  "SignupPage.25": {
+    "group": "SignupPage",
+    "label": "A clearer view from first order to final delivery",
+    "kind": "text",
+    "default": " A clearer view from first order to final delivery"
+  },
+  "SignupPage.26": {
+    "group": "SignupPage",
+    "label": "Start on your terms",
+    "kind": "text",
+    "default": "Start on your terms"
+  },
+  "SignupPage.27": {
+    "group": "SignupPage",
+    "label": "Start with a personalized demo to find the right fit.",
+    "kind": "text",
+    "default": "Choose a plan and purchase online without booking a sales call."
+  },
+  "SignupPage.28": {
+    "group": "SignupPage",
+    "label": "See the terms before you decide",
+    "kind": "text",
+    "default": "See the terms before you decide"
+  },
+  "SignupPage.29": {
+    "group": "SignupPage",
+    "label": "Review pricing and conditions before creating an account.",
+    "kind": "text",
+    "default": "Review pricing and conditions before creating an account."
+  },
+  "SignupPage.30": {
+    "group": "SignupPage",
+    "label": "A team to help you get started",
+    "kind": "text",
+    "default": "A team to help you get started"
+  },
+  "SignupPage.31": {
+    "group": "SignupPage",
+    "label": "Talk through your workflow and onboarding needs.",
+    "kind": "text",
+    "default": "Talk through your workflow and onboarding needs."
+  },
+  "SignupPage.32": {
+    "group": "SignupPage",
+    "label": "Built around the way your business works.",
+    "kind": "text",
+    "default": "Built around the way your business works."
+  },
+  "SignupPage.33": {
+    "group": "SignupPage",
+    "label": "Your LoomIQ workspace",
+    "kind": "text",
+    "default": "Your LoomIQ workspace"
+  },
+  "SignupPage.34": {
+    "group": "SignupPage",
+    "label": "A simpler way to run your business",
+    "kind": "text",
+    "default": "A simpler way to run your business"
+  },
+  "SignupPage.35": {
+    "group": "SignupPage",
+    "label": "Welcome back.",
+    "kind": "text",
+    "default": "Welcome back."
+  },
+  "SignupPage.36": {
+    "group": "SignupPage",
+    "label": "Make room for better work.",
+    "kind": "text",
+    "default": "Create your LoomIQ account."
+  },
+  "SignupPage.37": {
+    "group": "SignupPage",
+    "label": "Sign in to pick up where you left off. Review your plan and account details.",
+    "kind": "text",
+    "default": "Sign in to pick up where you left off. Review your plan and account details."
+  },
+  "SignupPage.38": {
+    "group": "SignupPage",
+    "label": "Already discussed your setup? Create an account to continue to checkout. For a demo, no ac",
+    "kind": "text",
+    "default": "Create an account to review your plan and pay online. Our team arranges your ERP workspace after payment."
+  },
+  "SignupPage.39": {
+    "group": "SignupPage",
+    "label": "No card needed to create an account",
+    "kind": "text",
+    "default": " No card needed to create an account"
+  },
+  "SignupPage.40": {
+    "group": "SignupPage",
+    "label": "Full name",
+    "kind": "text",
+    "default": "Full name"
+  },
+  "SignupPage.41": {
+    "group": "SignupPage",
+    "label": "placeholder: Your full name",
+    "kind": "text",
+    "default": "Your full name"
+  },
+  "SignupPage.42": {
+    "group": "SignupPage",
+    "label": "Company name",
+    "kind": "text",
+    "default": "Company name"
+  },
+  "SignupPage.43": {
+    "group": "SignupPage",
+    "label": "placeholder: Your company name",
+    "kind": "text",
+    "default": "Your company name"
+  },
+  "SignupPage.44": {
+    "group": "SignupPage",
+    "label": "Work email",
+    "kind": "text",
+    "default": "Work email"
+  },
+  "SignupPage.45": {
+    "group": "SignupPage",
+    "label": "placeholder: you@company.com",
+    "kind": "text",
+    "default": "you@company.com"
+  },
+  "SignupPage.46": {
+    "group": "SignupPage",
+    "label": "Password",
+    "kind": "text",
+    "default": "Password"
+  },
+  "SignupPage.47": {
+    "group": "SignupPage",
+    "label": "Enter your password",
+    "kind": "text",
+    "default": "Enter your password"
+  },
+  "SignupPage.48": {
+    "group": "SignupPage",
+    "label": "Create a strong password",
+    "kind": "text",
+    "default": "Create a strong password"
+  },
+  "SignupPage.49": {
+    "group": "SignupPage",
+    "label": "Hide password",
+    "kind": "text",
+    "default": "Hide password"
+  },
+  "SignupPage.50": {
+    "group": "SignupPage",
+    "label": "Show password",
+    "kind": "text",
+    "default": "Show password"
+  },
+  "SignupPage.51": {
+    "group": "SignupPage",
+    "label": "Hide",
+    "kind": "text",
+    "default": "Hide"
+  },
+  "SignupPage.52": {
+    "group": "SignupPage",
+    "label": "Show",
+    "kind": "text",
+    "default": "Show"
+  },
+  "SignupPage.53": {
+    "group": "SignupPage",
+    "label": "Use at least 10 characters.",
+    "kind": "text",
+    "default": "Use at least 10 characters."
+  },
+  "SignupPage.54": {
+    "group": "SignupPage",
+    "label": "I agree to the",
+    "kind": "text",
+    "default": "I agree to the "
+  },
+  "SignupPage.55": {
+    "group": "SignupPage",
+    "label": "Terms",
+    "kind": "text",
+    "default": "Terms"
+  },
+  "SignupPage.56": {
+    "group": "SignupPage",
+    "label": "and",
+    "kind": "text",
+    "default": " and "
+  },
+  "SignupPage.57": {
+    "group": "SignupPage",
+    "label": "Privacy Policy",
+    "kind": "text",
+    "default": "Privacy Policy"
+  },
+  "SignupPage.58": {
+    "group": "SignupPage",
+    "label": "Please wait…",
+    "kind": "text",
+    "default": "Please wait…"
+  },
+  "SignupPage.59": {
+    "group": "SignupPage",
+    "label": "Sign in",
+    "kind": "text",
+    "default": "Sign in"
+  },
+  "SignupPage.60": {
+    "group": "SignupPage",
+    "label": "Create my account",
+    "kind": "text",
+    "default": "Create my account"
+  },
+  "SignupPage.61": {
+    "group": "SignupPage",
+    "label": "Forgot password?",
+    "kind": "text",
+    "default": "Forgot password?"
+  },
+  "SignupPage.62": {
+    "group": "SignupPage",
+    "label": "New here? Create an account",
+    "kind": "text",
+    "default": "New here? Create an account"
+  },
+  "SignupPage.63": {
+    "group": "SignupPage",
+    "label": "Already signed up? Sign in",
+    "kind": "text",
+    "default": "Already signed up? Sign in"
+  },
+  "SignupPage.64": {
+    "group": "SignupPage",
+    "label": "Your account is password-protected.",
+    "kind": "text",
+    "default": "Your account is password-protected."
+  },
+  "SignupPage.65": {
+    "group": "SignupPage",
+    "label": "You choose your plan before making any payment.",
+    "kind": "text",
+    "default": "You choose your plan before making any payment."
+  },
+  "SignupPage.66": {
+    "group": "SignupPage",
+    "label": "Your account is ready",
+    "kind": "text",
+    "default": "Your account is ready"
+  },
+  "SignupPage.67": {
+    "group": "SignupPage",
+    "label": "Your trial request is received.",
+    "kind": "text",
+    "default": "Your trial request is received."
+  },
+  "SignupPage.68": {
+    "group": "SignupPage",
+    "label": "Choose your next step.",
+    "kind": "text",
+    "default": "Choose your next step."
+  },
+  "SignupPage.69": {
+    "group": "SignupPage",
+    "label": "View purchase & invoice",
+    "kind": "text",
+    "default": "View purchase & invoice"
+  },
+  "SignupPage.70": {
+    "group": "SignupPage",
+    "label": "Signed in as",
+    "kind": "text",
+    "default": "Signed in as "
+  },
+  "SignupPage.71": {
+    "group": "SignupPage",
+    "label": "My account & invoices",
+    "kind": "text",
+    "default": "My account & invoices"
+  },
+  "SignupPage.72": {
+    "group": "SignupPage",
+    "label": "Our team will contact you to arrange trial access. You can still get 50% off if you purcha",
+    "kind": "text",
+    "default": "Our team will contact you to arrange trial access. You can still get {discount} off if you purchase within your 24-hour offer window."
+  },
+  "SignupPage.73": {
+    "group": "SignupPage",
+    "label": "Book a demo to discuss your setup, or continue to checkout if you have already chosen your",
+    "kind": "text",
+    "default": "Continue to checkout to review your selected plan and final total. Your invoices and onboarding status stay in your account."
+  },
+  "SignupPage.74": {
+    "group": "SignupPage",
+    "label": "Review checkout",
+    "kind": "text",
+    "default": "Review checkout"
+  },
+  "SignupPage.75": {
+    "group": "SignupPage",
+    "label": "Payments processed by Razorpay",
+    "kind": "text",
+    "default": " Payments processed by Razorpay"
+  },
+  "SignupPage.76": {
+    "group": "SignupPage",
+    "label": "Accessibility label: Signup information",
+    "kind": "text",
+    "default": "Signup information"
+  },
+  "SignupPage.77": {
+    "group": "SignupPage",
+    "label": "Privacy",
+    "kind": "text",
+    "default": "Privacy"
+  },
+  "SignupPage.78": {
+    "group": "SignupPage",
+    "label": "Terms",
+    "kind": "text",
+    "default": "Terms"
+  },
+  "SignupPage.79": {
+    "group": "SignupPage",
+    "label": "Link destination: mailto:support@loomiq.com",
+    "kind": "url",
+    "default": "mailto:support@loomiq.com"
+  },
+  "SignupPage.80": {
+    "group": "SignupPage",
+    "label": "Need help? Contact us ↗",
+    "kind": "text",
+    "default": "Need help? Contact us ↗"
+  },
+  "ThankYouPage.1": {
+    "group": "ThankYouPage",
+    "label": "Image: logo",
+    "kind": "url",
+    "default": "/api/content/assets/company.logo.webp"
+  },
+  "ThankYouPage.2": {
+    "group": "ThankYouPage",
+    "label": "Loom",
+    "kind": "text",
+    "default": "Loom"
+  },
+  "ThankYouPage.3": {
+    "group": "ThankYouPage",
+    "label": "IQ",
+    "kind": "text",
+    "default": "IQ"
+  },
+  "ThankYouPage.4": {
+    "group": "ThankYouPage",
+    "label": "Link destination: #support",
+    "kind": "url",
+    "default": "#support"
+  },
+  "ThankYouPage.5": {
+    "group": "ThankYouPage",
+    "label": "Need a hand? Contact support ↗",
+    "kind": "text",
+    "default": "Need a hand? Contact support ↗"
+  },
+  "ThankYouPage.7": {
+    "group": "ThankYouPage",
+    "label": "Test payment complete",
+    "kind": "text",
+    "default": "Test payment complete"
+  },
+  "ThankYouPage.8": {
+    "group": "ThankYouPage",
+    "label": "Payment confirmed",
+    "kind": "text",
+    "default": "Payment confirmed"
+  },
+  "ThankYouPage.9": {
+    "group": "ThankYouPage",
+    "label": "Checking your payment",
+    "kind": "text",
+    "default": "Checking your payment"
+  },
+  "ThankYouPage.10": {
+    "group": "ThankYouPage",
+    "label": "Request received",
+    "kind": "text",
+    "default": "Request received"
+  },
+  "ThankYouPage.11": {
+    "group": "ThankYouPage",
+    "label": "You’re one step closer to better work.",
+    "kind": "text",
+    "default": "You’re one step closer to better work."
+  },
+  "ThankYouPage.12": {
+    "group": "ThankYouPage",
+    "label": "Let’s confirm your purchase.",
+    "kind": "text",
+    "default": "Let’s confirm your purchase."
+  },
+  "ThankYouPage.13": {
+    "group": "ThankYouPage",
+    "label": "Your next chapter starts here.",
+    "kind": "text",
+    "default": "Your next chapter starts here."
+  },
+  "ThankYouPage.14": {
+    "group": "ThankYouPage",
+    "label": "Let’s build a clearer workflow.",
+    "kind": "text",
+    "default": "Let’s build a clearer workflow."
+  },
+  "ThankYouPage.15": {
+    "group": "ThankYouPage",
+    "label": "We’re retrieving your payment details and invoice securely.",
+    "kind": "text",
+    "default": "We’re retrieving your payment details and invoice securely."
+  },
+  "ThankYouPage.16": {
+    "group": "ThankYouPage",
+    "label": "Your trial request is with our team. We’ll get in touch to arrange your access.",
+    "kind": "text",
+    "default": "Your trial request is with our team. We’ll get in touch to arrange your access."
+  },
+  "ThankYouPage.17": {
+    "group": "ThankYouPage",
+    "label": "Your demo request is received. Our team will contact you to arrange a personalized demo, t",
+    "kind": "text",
+    "default": "Your demo request is received. Our team will contact you to arrange a personalized demo, then help you decide whether trial access or a paid plan fits your needs."
+  },
+  "ThankYouPage.18": {
+    "group": "ThankYouPage",
+    "label": "Test Mode · No real money was charged.",
+    "kind": "text",
+    "default": "Test Mode · No real money was charged."
+  },
+  "ThankYouPage.19": {
+    "group": "ThankYouPage",
+    "label": "Check again",
+    "kind": "text",
+    "default": "Check again"
+  },
+  "ThankYouPage.20": {
+    "group": "ThankYouPage",
+    "label": "Sign in",
+    "kind": "text",
+    "default": "Sign in"
+  },
+  "ThankYouPage.21": {
+    "group": "ThankYouPage",
+    "label": "Accessibility label: Payment summary",
+    "kind": "text",
+    "default": "Payment summary"
+  },
+  "ThankYouPage.22": {
+    "group": "ThankYouPage",
+    "label": "Your membership",
+    "kind": "text",
+    "default": "Your membership"
+  },
+  "ThankYouPage.23": {
+    "group": "ThankYouPage",
+    "label": "LoomIQ",
+    "kind": "text",
+    "default": "LoomIQ "
+  },
+  "ThankYouPage.24": {
+    "group": "ThankYouPage",
+    "label": "First month · One-time payment",
+    "kind": "text",
+    "default": "One membership month · One-time payment"
+  },
+  "ThankYouPage.25": {
+    "group": "ThankYouPage",
+    "label": "Test amount",
+    "kind": "text",
+    "default": "Test amount"
+  },
+  "ThankYouPage.26": {
+    "group": "ThankYouPage",
+    "label": "Amount paid",
+    "kind": "text",
+    "default": "Amount paid"
+  },
+  "ThankYouPage.27": {
+    "group": "ThankYouPage",
+    "label": "Invoice number",
+    "kind": "text",
+    "default": "Invoice number"
+  },
+  "ThankYouPage.28": {
+    "group": "ThankYouPage",
+    "label": "Payment date",
+    "kind": "text",
+    "default": "Payment date"
+  },
+  "ThankYouPage.29": {
+    "group": "ThankYouPage",
+    "label": "Billed to",
+    "kind": "text",
+    "default": "Billed to"
+  },
+  "ThankYouPage.30": {
+    "group": "ThankYouPage",
+    "label": "Payment reference",
+    "kind": "text",
+    "default": "Payment reference"
+  },
+  "ThankYouPage.31": {
+    "group": "ThankYouPage",
+    "label": "View & save invoice",
+    "kind": "text",
+    "default": "View & save invoice "
+  },
+  "ThankYouPage.32": {
+    "group": "ThankYouPage",
+    "label": "Print or save as PDF from your browser.",
+    "kind": "text",
+    "default": "Print or save as PDF from your browser."
+  },
+  "ThankYouPage.33": {
+    "group": "ThankYouPage",
+    "label": "What happens next",
+    "kind": "text",
+    "default": "What happens next"
+  },
+  "ThankYouPage.34": {
+    "group": "ThankYouPage",
+    "label": "We connect",
+    "kind": "text",
+    "default": "We connect"
+  },
+  "ThankYouPage.35": {
+    "group": "ThankYouPage",
+    "label": "Our team reaches out to understand your operation and goals.",
+    "kind": "text",
+    "default": "Our team reaches out to understand your operation and goals."
+  },
+  "ThankYouPage.36": {
+    "group": "ThankYouPage",
+    "label": "We plan your setup",
+    "kind": "text",
+    "default": "We plan your setup"
+  },
+  "ThankYouPage.37": {
+    "group": "ThankYouPage",
+    "label": "Walk through your workflows and agree on the next steps together.",
+    "kind": "text",
+    "default": "Walk through your workflows and agree on the next steps together."
+  },
+  "ThankYouPage.38": {
+    "group": "ThankYouPage",
+    "label": "You get started",
+    "kind": "text",
+    "default": "You get started"
+  },
+  "ThankYouPage.39": {
+    "group": "ThankYouPage",
+    "label": "Get guidance as you begin bringing your work into LoomIQ.",
+    "kind": "text",
+    "default": "Get guidance as you begin bringing your work into LoomIQ."
+  },
+  "ThankYouPage.40": {
+    "group": "ThankYouPage",
+    "label": "← Back to LoomIQ",
+    "kind": "text",
+    "default": "← Back to LoomIQ"
+  },
+  "ThankYouPage.41": {
+    "group": "ThankYouPage",
+    "label": "Questions?",
+    "kind": "text",
+    "default": "Questions? "
+  },
+  "ThankYouPage.42": {
+    "group": "ThankYouPage",
+    "label": "Link destination: #support",
+    "kind": "url",
+    "default": "#support"
+  },
+  "ThankYouPage.43": {
+    "group": "ThankYouPage",
+    "label": "We’re here to help.",
+    "kind": "text",
+    "default": "We’re here to help."
+  },
+  "ThankYouPage.44": {
+    "group": "ThankYouPage",
+    "label": "LoomIQ · Built around the way your business works.",
+    "kind": "text",
+    "default": "LoomIQ · Built around the way your business works."
+  },
+  "ThankYouPage.45": {
+    "group": "ThankYouPage",
+    "label": "My account & invoices",
+    "kind": "text",
+    "default": "My account & invoices"
+  },
+  "ThankYouPage.46": {
+    "group": "ThankYouPage",
+    "label": "Privacy",
+    "kind": "text",
+    "default": "Privacy"
+  },
+  "ThankYouPage.47": {
+    "group": "ThankYouPage",
+    "label": "Terms",
+    "kind": "text",
+    "default": "Terms"
+  },
+  "TrustSection.1": {
+    "group": "TrustSection",
+    "label": "trustItems",
+    "kind": "structured",
+    "default": [
+      {
+        "title": "Protected accounts",
+        "description": "Password-protected accounts with email verification and secure password recovery."
+      },
+      {
+        "title": "Verified payments",
+        "description": "Payment confirmation is checked with Razorpay before an invoice is issued."
+      },
+      {
+        "title": "Private invoices",
+        "description": "Sign in to view your own payment history and save your invoices."
+      },
+      {
+        "title": "Guided onboarding",
+        "description": "Track your setup and open your workspace when our team has arranged access."
+      }
+    ]
+  },
+  "TrustSection.2": {
+    "group": "TrustSection",
+    "label": "Trust & security",
+    "kind": "text",
+    "default": "Trust & security"
+  },
+  "TrustSection.3": {
+    "group": "TrustSection",
+    "label": "Built for controlled, traceable operations.",
+    "kind": "text",
+    "default": "Clear payments. Protected customer accounts."
+  },
+  "TrustSection.4": {
+    "group": "TrustSection",
+    "label": "Production, inventory, quality, and finance records need clear ownership. LoomIQ supports ",
+    "kind": "text",
+    "default": "Your account, payment confirmation, and invoices are handled by the existing LoomIQ billing service."
+  },
+  "TrustSection.5": {
+    "group": "TrustSection",
+    "label": "Specific compliance certifications vary by deployment. Contact us for details relevant to ",
+    "kind": "text",
+    "default": "Read our privacy and refund policies before purchase. No security certification or uptime guarantee is claimed."
+  },
+  "ValueSection.1": {
+    "group": "ValueSection",
+    "label": "valuePoints",
+    "kind": "structured",
+    "default": [
+      {
+        "title": "Plan against real orders",
+        "description": "Turn customer requirements and delivery dates into clear material and production plans."
+      },
+      {
+        "title": "Control material movement",
+        "description": "Track yarn, fabric, trims, chemicals, and finished goods across stores and processes."
+      },
+      {
+        "title": "Protect order margins",
+        "description": "Bring purchases, wastage, rework, labour, and dispatch costs into the same order view."
+      },
+      {
+        "title": "Grow without losing control",
+        "description": "Add products, machines, locations, users, and workflows as your manufacturing operation grows."
+      }
+    ]
+  },
+  "ValueSection.2": {
+    "group": "ValueSection",
+    "label": "Why LoomIQ",
+    "kind": "text",
+    "default": "Why LoomIQ"
+  },
+  "ValueSection.3": {
+    "group": "ValueSection",
+    "label": "Built around the way cloth manufacturers work.",
+    "kind": "text",
+    "default": "Built around the way cloth manufacturers work."
+  },
+  "ValueSection.4": {
+    "group": "ValueSection",
+    "label": "One operating system for commercial teams, stores, production, quality, dispatch, and acco",
+    "kind": "text",
+    "default": " One operating system for commercial teams, stores, production, quality, dispatch, and accounts — without forcing the factory into a generic workflow. "
+  },
+  "AnalyticsConsent.1": {
+    "group": "AnalyticsConsent",
+    "label": "Accessibility label: Analytics preference",
+    "kind": "text",
+    "default": "Analytics preference"
+  },
+  "AnalyticsConsent.2": {
+    "group": "AnalyticsConsent",
+    "label": "We use essential cookies for accounts and checkout. Allow optional analytics to help us un",
+    "kind": "text",
+    "default": "We use essential cookies for accounts and checkout. Allow optional Google Analytics and Meta Pixel to measure website visits and purchases?"
+  },
+  "AnalyticsConsent.3": {
+    "group": "AnalyticsConsent",
+    "label": "Essential only",
+    "kind": "text",
+    "default": "Essential only"
+  },
+  "AnalyticsConsent.4": {
+    "group": "AnalyticsConsent",
+    "label": "Allow analytics",
+    "kind": "text",
+    "default": "Allow analytics"
+  },
+  "AnalyticsConsent.5": {
+    "group": "AnalyticsConsent",
+    "label": "Privacy",
+    "kind": "text",
+    "default": "Privacy"
+  },
+  "AnalyticsConsent.6": {
+    "group": "AnalyticsConsent",
+    "label": "Cookie preferences",
+    "kind": "text",
+    "default": "Cookie preferences"
+  },
+  "AnnouncementBanner.1": {
+    "group": "AnnouncementBanner",
+    "label": "Accessibility label: 50 percent membership offer",
+    "kind": "text",
+    "default": "50 percent membership offer"
+  },
+  "AnnouncementBanner.2": {
+    "group": "AnnouncementBanner",
+    "label": "50% OFF",
+    "kind": "text",
+    "default": "{discount} OFF"
+  },
+  "AnnouncementBanner.3": {
+    "group": "AnnouncementBanner",
+    "label": "Your 24-hour offer has ended.",
+    "kind": "text",
+    "default": "Your 24-hour offer has ended."
+  },
+  "AnnouncementBanner.4": {
+    "group": "AnnouncementBanner",
+    "label": "Save 50% on your membership month.",
+    "kind": "text",
+    "default": "First purchase: save {discount} on one month."
+  },
+  "AnnouncementBanner.5": {
+    "group": "AnnouncementBanner",
+    "label": "Everyone qualifies · 24h from first visit · Regular rates afterward.",
+    "kind": "text",
+    "default": "First purchase only · 24h from first offer visit · No automatic renewal."
+  },
+  "AnnouncementBanner.6": {
+    "group": "AnnouncementBanner",
+    "label": "Your offer ends in",
+    "kind": "text",
+    "default": "Your offer ends in"
+  },
+  "AnnouncementBanner.7": {
+    "group": "AnnouncementBanner",
+    "label": "Link destination: #pricing",
+    "kind": "url",
+    "default": "#pricing"
+  },
+  "AnnouncementBanner.8": {
+    "group": "AnnouncementBanner",
+    "label": "Get 50% off →",
+    "kind": "text",
+    "default": "Get LoomIQ"
+  },
+  "AnnouncementBanner.9": {
+    "group": "AnnouncementBanner",
+    "label": "View plans →",
+    "kind": "text",
+    "default": "Get LoomIQ"
+  },
+  "OffersPopup.1": {
+    "group": "OffersPopup",
+    "label": "Your welcome offer",
+    "kind": "text",
+    "default": " Your welcome offer "
+  },
+  "OffersPopup.2": {
+    "group": "OffersPopup",
+    "label": "Accessibility label: Close welcome offer",
+    "kind": "text",
+    "default": "Close welcome offer"
+  },
+  "OffersPopup.3": {
+    "group": "OffersPopup",
+    "label": "A welcome to better work",
+    "kind": "text",
+    "default": " A welcome to better work"
+  },
+  "OffersPopup.4": {
+    "group": "OffersPopup",
+    "label": "Your next chapter.",
+    "kind": "text",
+    "default": "Your next chapter."
+  },
+  "OffersPopup.5": {
+    "group": "OffersPopup",
+    "label": "A better start.",
+    "kind": "text",
+    "default": "A better start."
+  },
+  "OffersPopup.6": {
+    "group": "OffersPopup",
+    "label": "Orders, stock, and production. One connected workspace. Two ways to get started.",
+    "kind": "text",
+    "default": "Orders, stock, and production. One connected workspace. Two ways to get started."
+  },
+  "OffersPopup.7": {
+    "group": "OffersPopup",
+    "label": "Ready to get going?",
+    "kind": "text",
+    "default": "Ready to get going?"
+  },
+  "OffersPopup.8": {
+    "group": "OffersPopup",
+    "label": "off",
+    "kind": "text",
+    "default": "off"
+  },
+  "OffersPopup.9": {
+    "group": "OffersPopup",
+    "label": "On your membership month",
+    "kind": "text",
+    "default": "On your membership month"
+  },
+  "OffersPopup.10": {
+    "group": "OffersPopup",
+    "label": "or explore first",
+    "kind": "text",
+    "default": "or explore first"
+  },
+  "OffersPopup.11": {
+    "group": "OffersPopup",
+    "label": "7-day free trial",
+    "kind": "text",
+    "default": "7-day free trial"
+  },
+  "OffersPopup.12": {
+    "group": "OffersPopup",
+    "label": "Get a feel for LoomIQ with your team.",
+    "kind": "text",
+    "default": "Get a feel for LoomIQ with your team."
+  },
+  "OffersPopup.13": {
+    "group": "OffersPopup",
+    "label": "Create my account",
+    "kind": "text",
+    "default": "Create my account "
+  },
+  "OffersPopup.14": {
+    "group": "OffersPopup",
+    "label": "No card needed to sign up · Choose your option next",
+    "kind": "text",
+    "default": "No card needed to sign up · Choose your option next"
+  },
+  "OffersPopup.15": {
+    "group": "OffersPopup",
+    "label": "Trial accounts can use the purchase discount within 24 hours of their first offer visit. T",
+    "kind": "text",
+    "default": "Trial accounts can use the purchase discount within 24 hours of their first offer visit. The deadline does not reset. Each checkout is a one-time payment with no automatic charges."
+  },
+  "OffersPopup.16": {
+    "group": "OffersPopup",
+    "label": "I’ll keep exploring",
+    "kind": "text",
+    "default": "I’ll keep exploring"
+  },
+  "PlanConditions.1": {
+    "group": "PlanConditions",
+    "label": "Accessibility label: LoomIQ membership offer",
+    "kind": "text",
+    "default": "LoomIQ membership offer"
+  },
+  "PlanConditions.2": {
+    "group": "PlanConditions",
+    "label": "TODAY’S MEMBERSHIP OFFER · 50% OFF",
+    "kind": "text",
+    "default": "TODAY’S MEMBERSHIP OFFER · {discount} OFF"
+  },
+  "PlanConditions.3": {
+    "group": "PlanConditions",
+    "label": "Save 50% on your membership month.",
+    "kind": "text",
+    "default": "Save {discount} on your membership month."
+  },
+  "PlanConditions.4": {
+    "group": "PlanConditions",
+    "label": "Get started with LoomIQ at 50% off your membership month within your 24-hour offer window,",
+    "kind": "text",
+    "default": "Get started with LoomIQ at {discount} off your membership month within your 24-hour offer window, including trial accounts."
+  },
+  "PlanConditions.5": {
+    "group": "PlanConditions",
+    "label": "Starter · save ₹995",
+    "kind": "text",
+    "default": "Starter · save {starterOffer}"
+  },
+  "PlanConditions.6": {
+    "group": "PlanConditions",
+    "label": "For the membership month, then ₹1,990/month",
+    "kind": "text",
+    "default": "For the membership month, then {starterRegular}/month"
+  },
+  "PlanConditions.7": {
+    "group": "PlanConditions",
+    "label": "Growth · save ₹1,495",
+    "kind": "text",
+    "default": "Growth · save {growthOffer}"
+  },
+  "PlanConditions.8": {
+    "group": "PlanConditions",
+    "label": "For the membership month, then ₹2,990/month",
+    "kind": "text",
+    "default": "For the membership month, then {growthRegular}/month"
+  },
+  "PlanConditions.9": {
+    "group": "PlanConditions",
+    "label": "Today’s checkout window closes in",
+    "kind": "text",
+    "default": "Today’s checkout window closes in"
+  },
+  "PlanConditions.10": {
+    "group": "PlanConditions",
+    "label": "24 hours from your first offer visit. This deadline does not reset.",
+    "kind": "text",
+    "default": "24 hours from your first offer visit. This deadline does not reset."
+  },
+  "PlanConditions.11": {
+    "group": "PlanConditions",
+    "label": "Checking your offer…",
+    "kind": "text",
+    "default": "Checking your offer…"
+  },
+  "PlanConditions.12": {
+    "group": "PlanConditions",
+    "label": "Offer availability is confirmed at checkout.",
+    "kind": "text",
+    "default": "Offer availability is confirmed at checkout."
+  },
+  "PlanConditions.13": {
+    "group": "PlanConditions",
+    "label": "Get 50% off →",
+    "kind": "text",
+    "default": "Get {discount} off →"
+  },
+  "PlanConditions.14": {
+    "group": "PlanConditions",
+    "label": "View paid plans →",
+    "kind": "text",
+    "default": "View paid plans →"
+  },
+  "PlanConditions.15": {
+    "group": "PlanConditions",
+    "label": "Check my offer →",
+    "kind": "text",
+    "default": "Check my offer →"
+  },
+  "PlanConditions.16": {
+    "group": "PlanConditions",
+    "label": "Review your total before payment.",
+    "kind": "text",
+    "default": "Review your total before payment."
+  },
+  "PlanConditions.17": {
+    "group": "PlanConditions",
+    "label": "Create an account, then review your checkout.",
+    "kind": "text",
+    "default": "Create an account, then review your checkout."
+  },
+  "PlanConditions.18": {
+    "group": "PlanConditions",
+    "label": "Your account:",
+    "kind": "text",
+    "default": "Your account:"
+  },
+  "PlanConditions.19": {
+    "group": "PlanConditions",
+    "label": "Selecting a trial does not remove your discount during the 24-hour window.",
+    "kind": "text",
+    "default": " Selecting a trial does not remove your discount during the 24-hour window."
+  },
+  "PlanConditions.20": {
+    "group": "PlanConditions",
+    "label": "For eligible Starter and Growth purchases, including trial accounts. Each checkout is a on",
+    "kind": "text",
+    "default": "For eligible Starter and Growth purchases, including trial accounts. Each checkout is a one-time payment with no automatic charges."
+  },
+  "PlanConditions.21": {
+    "group": "PlanConditions",
+    "label": "Offer & trial conditions",
+    "kind": "text",
+    "default": "Offer & trial conditions"
+  },
+  "PlanConditions.22": {
+    "group": "PlanConditions",
+    "label": "The offer expires 24 hours after your first offer visit. Complete payment before the deadl",
+    "kind": "text",
+    "default": "The offer expires 24 hours after your first offer visit. Complete payment before the deadline shown at checkout; late captured discounted payments are submitted for refund."
+  },
+  "PlanConditions.23": {
+    "group": "PlanConditions",
+    "label": "A 7-day trial requires no payment and access is arranged by our team. Creating an account ",
+    "kind": "text",
+    "default": "A 7-day trial requires no payment and access is arranged by our team. Creating an account alone does not select a trial or make a payment."
+  },
+  "PlanConditions.24": {
+    "group": "PlanConditions",
+    "label": "Prefer to see the product first?",
+    "kind": "text",
+    "default": "Prefer to see the product first? "
+  },
+  "PlanConditions.25": {
+    "group": "PlanConditions",
+    "label": "Book a personalized demo",
+    "kind": "text",
+    "default": "Book a personalized demo"
+  },
+  "PlanConditions.26": {
+    "group": "PlanConditions",
+    "label": "without an account or payment.",
+    "kind": "text",
+    "default": " without an account or payment."
+  },
+  "SupportForm.1": {
+    "group": "SupportForm",
+    "label": "How can we help?",
+    "kind": "text",
+    "default": "How can we help?"
+  },
+  "SupportForm.2": {
+    "group": "SupportForm",
+    "label": "Tell us about your issue. Our team will reply to your email.",
+    "kind": "text",
+    "default": "Tell us about your issue. Our team will reply to your email."
+  },
+  "SupportForm.3": {
+    "group": "SupportForm",
+    "label": "Your message has been sent. We’ll get back to you by email.",
+    "kind": "text",
+    "default": "Your message has been sent. We’ll get back to you by email."
+  },
+  "SupportForm.4": {
+    "group": "SupportForm",
+    "label": "Your name",
+    "kind": "text",
+    "default": "Your name"
+  },
+  "SupportForm.5": {
+    "group": "SupportForm",
+    "label": "Your email",
+    "kind": "text",
+    "default": "Your email"
+  },
+  "SupportForm.6": {
+    "group": "SupportForm",
+    "label": "Subject",
+    "kind": "text",
+    "default": "Subject"
+  },
+  "SupportForm.7": {
+    "group": "SupportForm",
+    "label": "Describe your issue",
+    "kind": "text",
+    "default": "Describe your issue"
+  },
+  "SupportForm.8": {
+    "group": "SupportForm",
+    "label": "Send message",
+    "kind": "text",
+    "default": "Send message"
+  },
+  "seo.1": {
+    "group": "seo",
+    "label": "title: Your Account | LoomIQ",
+    "kind": "text",
+    "default": "Your Account | LoomIQ"
+  },
+  "seo.2": {
+    "group": "seo",
+    "label": "description: Manage your LoomIQ account, onboarding and invoices.",
+    "kind": "text",
+    "default": "Manage your LoomIQ account, onboarding and invoices."
+  },
+  "seo.3": {
+    "group": "seo",
+    "label": "title: ERP Software for Connected Business Operations | LoomIQ",
+    "kind": "text",
+    "default": "Garment ERP for Clothing Manufacturers | LoomIQ"
+  },
+  "seo.4": {
+    "group": "seo",
+    "label": "description: Manage orders, inventory, production, finance, and operations from one",
+    "kind": "text",
+    "default": "Run your garment factory from one place. Explore LoomIQ, compare Starter at ₹1,990/month and Growth at ₹2,990/month, and purchase online."
+  },
+  "seo.5": {
+    "group": "seo",
+    "label": "title: Privacy Policy | LoomIQ",
+    "kind": "text",
+    "default": "Privacy Policy | LoomIQ"
+  },
+  "seo.6": {
+    "group": "seo",
+    "label": "description: Review how LoomIQ handles demo requests, business information, and web",
+    "kind": "text",
+    "default": "Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes."
+  },
+  "seo.7": {
+    "group": "seo",
+    "label": "title: Terms of Service | LoomIQ",
+    "kind": "text",
+    "default": "Terms of Service | LoomIQ"
+  },
+  "seo.8": {
+    "group": "seo",
+    "label": "description: Read the LoomIQ website terms covering demo requests, product informat",
+    "kind": "text",
+    "default": "Read the LoomIQ website terms covering demo requests, product information, and the use of this platform."
+  },
+  "seo.9": {
+    "group": "seo",
+    "label": "title: Refund & Cancellation Policy | LoomIQ",
+    "kind": "text",
+    "default": "Refund & Cancellation Policy | LoomIQ"
+  },
+  "seo.10": {
+    "group": "seo",
+    "label": "description: Review LoomIQ membership renewal, cancellation, access, and refund inf",
+    "kind": "text",
+    "default": "Review LoomIQ membership renewal, cancellation, access, and refund information."
+  },
+  "seo.11": {
+    "group": "seo",
+    "label": "title: Thank You | LoomIQ",
+    "kind": "text",
+    "default": "Thank You | LoomIQ"
+  },
+  "seo.12": {
+    "group": "seo",
+    "label": "description: Review your LoomIQ confirmation and next steps.",
+    "kind": "text",
+    "default": "Review your LoomIQ confirmation and next steps."
+  },
+  "seo.13": {
+    "group": "seo",
+    "label": "title: Sign Up & Choose Your Welcome Offer | LoomIQ",
+    "kind": "text",
+    "default": "Sign Up & Choose Your Welcome Offer | LoomIQ"
+  },
+  "seo.14": {
+    "group": "seo",
+    "label": "description: Review LoomIQ pricing and conditions before creating an account. Book ",
+    "kind": "text",
+    "default": "Create your LoomIQ account and continue to checkout for your garment ERP membership."
+  },
+  "seo.15": {
+    "group": "seo",
+    "label": "title: Secure Membership Checkout | LoomIQ",
+    "kind": "text",
+    "default": "Secure Membership Checkout | LoomIQ"
+  },
+  "seo.16": {
+    "group": "seo",
+    "label": "description: Choose your LoomIQ ERP membership, share your business details, and co",
+    "kind": "text",
+    "default": "Choose your LoomIQ ERP membership, share your business details, and continue to secure payment."
+  },
+  "seo.17": {
+    "group": "seo",
+    "label": "title: Page Not Found | LoomIQ",
+    "kind": "text",
+    "default": "Page Not Found | LoomIQ"
+  },
+  "seo.18": {
+    "group": "seo",
+    "label": "description: The page you requested could not be found. Explore LoomIQ ERP features",
+    "kind": "text",
+    "default": "The page you requested could not be found. Explore LoomIQ ERP features and request a walkthrough."
+  },
+  "Site.layout": {
+    "group": "Site",
+    "label": "Homepage sections (reorder or remove)",
+    "kind": "structured",
+    "default": [
+      "Hero",
+      "DemoSection",
+      "ProblemSection",
+      "FeaturesSection",
+      "HowItWorksSection",
+      "PricingSection",
+      "TrustSection",
+      "FaqSection",
+      "FinalCTA"
+    ],
+    "options": [
+      "Hero",
+      "FeaturesSection",
+      "HowItWorksSection",
+      "PricingSection",
+      "TrustSection",
+      "FaqSection",
+      "DemoFormSection",
+      "BenefitsSection",
+      "BusinessFlexibilitySection",
+      "ValueSection",
+      "ProblemSection",
+      "PlatformHighlights",
+      "DemoSection",
+      "FinalCTA"
+    ]
+  },
+  "Site.announcement": {
+    "group": "Site",
+    "label": "Show announcement banner",
+    "kind": "boolean",
+    "default": true
+  },
+  "Site.pricing": {
+    "group": "Site",
+    "label": "Checkout pricing (INR, first membership month and regular price)",
+    "kind": "structured",
+    "default": {
+      "Starter": {
+        "firstMonth": 995,
+        "recurring": 1990
+      },
+      "Growth": {
+        "firstMonth": 1495,
+        "recurring": 2990
+      },
+      "Enterprise": {
+        "recurring": 4990
+      }
+    }
+  },
+  "AccountPage.extra38": {
+    "group": "AccountPage",
+    "label": "Form message: Your trial request is received. Our team will arrange access.",
+    "kind": "text",
+    "default": "Your trial request is received. Our team will arrange access."
+  },
+  "AccountPage.extra39": {
+    "group": "AccountPage",
+    "label": "Welcome, {0}",
+    "kind": "text",
+    "default": "Welcome, {0}"
+  },
+  "DemoFormSection.extra31": {
+    "group": "DemoFormSection",
+    "label": "Form message: Please fill in your name, work email, and company name.",
+    "kind": "text",
+    "default": "Please fill in your name, work email, and company name."
+  },
+  "DemoFormSection.extra32": {
+    "group": "DemoFormSection",
+    "label": "Form message: Please enter a valid work email address.",
+    "kind": "text",
+    "default": "Please enter a valid work email address."
+  },
+  "PaymentPage.extra65": {
+    "group": "PaymentPage",
+    "label": "Form message: Checkout closed. You can review your details and try again.",
+    "kind": "text",
+    "default": "Checkout closed. You can review your details and try again."
+  },
+  "PaymentPage.extra66": {
+    "group": "PaymentPage",
+    "label": "Form message: We could not confirm your payment. If you were charged, contact suppor",
+    "kind": "text",
+    "default": "We could not confirm your payment. If you were charged, contact support with your payment reference before trying again."
+  },
+  "PaymentPage.extra68": {
+    "group": "PaymentPage",
+    "label": "Pay {0}",
+    "kind": "text",
+    "default": "Pay {0}"
+  },
+  "PlatformHighlights.extra4": {
+    "group": "PlatformHighlights",
+    "label": "Highlights",
+    "kind": "structured",
+    "default": [
+      {
+        "value": "One workflow",
+        "label": "Order to dispatch",
+        "description": "Connect customer orders to material planning, production status, finished goods, and dispatch."
+      },
+      {
+        "value": "Traceable",
+        "label": "Materials and batches",
+        "description": "Know what was purchased, issued, processed, inspected, and delivered without chasing spreadsheets."
+      },
+      {
+        "value": "Connected",
+        "label": "Factory and finance",
+        "description": "Give production, stores, sales, and accounts the same current view of commitments and stock."
+      }
+    ]
+  },
+  "PricingSection.extra14": {
+    "group": "PricingSection",
+    "label": "Get {0} — save {1}%",
+    "kind": "text",
+    "default": "Get {0} — save {1}%"
+  },
+  "PricingSection.extra15": {
+    "group": "PricingSection",
+    "label": "Choose {0}",
+    "kind": "text",
+    "default": "Choose {0}"
+  },
+  "ThankYouPage.extra49": {
+    "group": "ThankYouPage",
+    "label": "Thank you{0}. Your LoomIQ {1} payment is confirmed. We’ll help you get started.",
+    "kind": "text",
+    "default": "Thank you{0}. Your LoomIQ {1} payment is confirmed. We’ll help you get started."
+  },
+  "Site.social": {
+    "group": "Site",
+    "label": "Social sharing & brand metadata",
+    "kind": "structured",
+    "default": {
+      "siteName": "LoomIQ",
+      "image": "/og-image.svg",
+      "imageAlt": "LoomIQ ERP platform overview"
+    }
+  },
+  "PricingSection.recurring": {
+    "group": "PricingSection",
+    "label": "Regular price label · {0} is the current price",
+    "kind": "text",
+    "default": "Regular price: {0}/month"
+  },
+  "OffersPopup.discount": {
+    "group": "OffersPopup",
+    "label": "Offer percentage · uses the current checkout discount",
+    "kind": "text",
+    "default": "{discount}"
+  }
+}

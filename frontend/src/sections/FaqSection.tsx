@@ -1,4 +1,6 @@
-const faqs = [
+import '../FaqSection.css';
+import { cmsValue } from '../websiteContent';
+const faqs = cmsValue("FaqSection.1", [
   {
     question: "What happens after I request a demo?",
     answer: "Our team contacts you to arrange a personalized demo around your workflow. We then discuss the appropriate modules, setup requirements, and whether trial access or a paid plan fits. You do not need an account or payment to request a demo."
@@ -32,15 +34,20 @@ const faqs = [
     answer:
       "The platform supports location-based stock and workflows. Multi-unit and multi-company requirements can be configured with the appropriate permissions, approvals, and reporting."
   },
-];
+]);
 
 function FaqSection() {
   return (
     <section id="faq" className="section section-shell section-faq">
-      <div className="section-heading">
-        <p className="eyebrow">FAQs</p>
-        <h2>Questions textile teams ask before changing systems.</h2>
+      <details className="faq-disclosure">
+      <summary className="faq-disclosure-summary">
+      <div className="faq-disclosure-heading">
+        <p className="eyebrow">{cmsValue("FaqSection.2", "FAQs")}</p>
+        <h2>{cmsValue("FaqSection.3", "Questions textile teams ask before changing systems.")}</h2>
+        <p className="faq-disclosure-description">Pricing, payments, setup, and support — find the answers here.</p>
       </div>
+      <span className="faq-disclosure-action"><span className="faq-disclosure-show">View FAQs</span><span className="faq-disclosure-hide">Close FAQs</span><span className="faq-disclosure-icon" aria-hidden="true">+</span></span>
+      </summary>
       <div className="faq-list">
         {faqs.map((faq) => (
           <details key={faq.question} className="faq-item">
@@ -49,6 +56,7 @@ function FaqSection() {
           </details>
         ))}
       </div>
+      </details>
     </section>
   );
 }

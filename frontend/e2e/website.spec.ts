@@ -3,14 +3,17 @@ import AxeBuilder from '@axe-core/playwright';
 import { createHmac } from 'node:crypto';
 
 test.beforeEach(async ({ page }) => {
+  await page.route('https://connect.facebook.net/**', route => route.fulfill({contentType:'application/javascript',body:'/* isolated Pixel stub */'}));
+  await page.route('https://www.facebook.com/**', route => route.abort());
   await page.addInitScript(() => localStorage.setItem('loomiq-analytics', 'denied'));
 });
 
 test('public routes refresh correctly; unknown routes return 404', async ({ page }) => {
-  for (const route of ['/', '/privacy', '/terms', '/refunds', '/signup', '/forgot-password']) {
+  for (const route of ['/', '/garment-erp', '/privacy', '/terms', '/refunds', '/signup', '/forgot-password']) {
     expect((await page.goto(route))?.status()).toBe(200);
     await expect(page.locator('h1')).toBeVisible();
     expect((await page.reload())?.status()).toBe(200);
+    await expect(page.locator('h1')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
     const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
     expect.soft(accessibility.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) })), route).toEqual([]);
@@ -76,10 +79,10 @@ test('account recovery and service failures remain usable', async ({ page }) => 
 
 test('analytics requires consent and never loads on private token pages', async ({ page }) => {
   const tags: string[] = [];
+  await page.addInitScript(() => localStorage.removeItem('loomiq-analytics'));
   await page.route('https://www.googletagmanager.com/**', route => { tags.push(route.request().url()); return route.fulfill({ contentType: 'application/javascript', body: '' }); });
   await page.goto('/');
   expect(tags).toHaveLength(0);
-  await page.getByRole('button', { name: 'Cookie preferences' }).click();
   await page.getByRole('button', { name: 'Allow analytics' }).click();
   await expect.poll(() => tags.length).toBe(1);
   await page.addInitScript(() => localStorage.setItem('loomiq-analytics', 'granted'));

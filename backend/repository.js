@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const collections = ['customers', 'visitors', 'sessions', 'orders', 'demoRequests'];
+const cmsCollections = new Set(['pages', 'page_versions', 'media', 'preview_tokens']);
+const collections = ['customers', 'visitors', 'sessions', 'orders', 'demoRequests', 'admins', 'roles', 'permissions', 'pricing_history', 'audit_logs', 'events', 'pages', 'page_versions', 'media', 'preview_tokens', 'website_content', 'website_versions', 'supportRequests'];
 function readLegacy(filename, demoFilename) {
   const state = fs.existsSync(filename) ? JSON.parse(fs.readFileSync(filename, 'utf8')) : {};
   for (const name of collections) state[name] ||= {};
@@ -21,7 +22,9 @@ function fileRepository(filename, demoFilename) {
   return {
     kind: 'file',
     get: (name, id) => access(state).get(name, id),
+    put: (name, id, value) => { const q = access(state).put(name, id, value); fs.mkdirSync(path.dirname(filename), { recursive: true }); fs.writeFileSync(filename + '.tmp', JSON.stringify(state), { mode: 0o600 }); fs.renameSync(filename + '.tmp', filename); return q.then(() => value); },
     list: name => access(state).list(name),
+    listWithIds: async name => Object.entries(state[name]).map(([id, value]) => ({...structuredClone(value), id})),
     paidOrders: async customerKey => structuredClone(Object.entries(state.orders).filter(([, order]) => order.customerKey === customerKey && order.status === 'paid').map(([id, order]) => ({ ...order, id }))),
     transaction(work) {
       const result = queue.then(async () => {
@@ -44,6 +47,7 @@ function mongoRepository(db) {
       if (!id) return null;
       const doc = await db.collection(name).findOne({ _id: id }, { session });
       if (!doc) return null;
+      if (cmsCollections.has(name)) return doc;
       const { _id, ...value } = doc;
       return value;
     },
@@ -52,10 +56,11 @@ function mongoRepository(db) {
       if (name === 'sessions') doc.expiresAtDate = new Date(value.expiresAt);
       await db.collection(name).replaceOne({ _id: id }, doc, { upsert: true, session });
     },
-    async list(name) { return db.collection(name).find({}, { session, projection: { _id: 0 } }).toArray(); },
+    async list(name) { return db.collection(name).find({}, { session, ...(cmsCollections.has(name) ? {} : { projection: { _id: 0 } }) }).toArray(); },
   });
   return {
     kind: 'mongodb', ...access(),
+    async listWithIds(name) { return (await db.collection(name).find({}).toArray()).map(({_id, ...value}) => ({...value, id:_id})); },
     async paidOrders(customerKey) {
       return (await db.collection('orders').find({ customerKey, status: 'paid' }).sort({ createdAt: -1 }).toArray()).map(({ _id, ...order }) => ({ ...order, id: _id }));
     },
@@ -78,7 +83,16 @@ async function initializeMongo(db, filename, demoFilename) {
   }
   await db.collection('customers').createIndex({ email: 1 }, { unique: true, partialFilterExpression: { email: { $type: 'string' } } });
   await db.collection('sessions').createIndex({ expiresAtDate: 1 }, { expireAfterSeconds: 0 });
+  try { await db.collection('admins').createIndex({ email: 1 }, { unique: true, partialFilterExpression: { email: { $type: 'string' } } }); } catch (e) { /* ignore */ }
+  try { await db.collection('pricing_history').createIndex({ plan: 1, createdAt: -1 }); } catch (e) { /* ignore */ }
+  try { await db.collection('audit_logs').createIndex({ admin: 1, action: 1, createdAt: -1 }); } catch (e) { /* ignore */ }
+  try { await db.collection('events').createIndex({ type: 1, timestamp: -1 }); } catch (e) { /* ignore */ }
   await db.collection('orders').createIndex({ customerKey: 1, createdAt: -1 });
+  try { await db.collection('pages').createIndex({ slug: 1 }, { unique: true, partialFilterExpression: { slug: { $type: 'string', $ne: null } } }); } catch (e) { /* ignore */ }
+  try { await db.collection('pages').createIndex({ status: 1, lastModifiedAt: -1 }); } catch (e) { /* ignore */ }
+  try { await db.collection('page_versions').createIndex({ pageId: 1, createdAt: -1 }); } catch (e) { /* ignore */ }
+  try { await db.collection('media').createIndex({ uploadedAt: -1 }); } catch (e) { /* ignore */ }
+  try { await db.collection('preview_tokens').createIndex({ token: 1 }, { unique: true, partialFilterExpression: { token: { $type: 'string' } } }); } catch (e) { /* ignore */ }
   const migrations = db.collection('migrations');
   if (!await migrations.findOne({ _id: 'local-json-v1' })) {
     const legacy = readLegacy(filename, demoFilename);

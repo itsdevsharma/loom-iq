@@ -1,5 +1,6 @@
+import { cmsValue } from '../websiteContent';
 function PlatformHighlights() {
-  const highlights = [
+  const highlights = cmsValue("PlatformHighlights.extra4", [
     {
       value: "One workflow",
       label: "Order to dispatch",
@@ -18,17 +19,14 @@ function PlatformHighlights() {
       description:
       "Give production, stores, sales, and accounts the same current view of commitments and stock.",
     },
-  ];
+  ]);
 
   return (
     <section className="section section-shell section-counters">
       <div className="counter-intro section-heading">
-        <p className="eyebrow">Built for textile operations</p>
-        <h2>Know what is ordered, in production, and ready to ship.</h2>
-        <p>
-          LoomIQ brings commercial, factory, stores, and finance data into one
-          view so your team can act before delays become expensive.
-        </p>
+        <p className="eyebrow">{cmsValue("PlatformHighlights.1", "Built for textile operations")}</p>
+        <h2>{cmsValue("PlatformHighlights.2", "Know what is ordered, in production, and ready to ship.")}</h2>
+        <p>{cmsValue("PlatformHighlights.3", " LoomIQ brings commercial, factory, stores, and finance data into one view so your team can act before delays become expensive. ")}</p>
       </div>
 
       <div className="counter-row standard-grid">

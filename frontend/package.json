@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:e2e": "npm run build && playwright test"
+    "test:e2e": "npm run build && playwright test",
+    "test:analytics": "playwright test e2e/analytics-delivery.spec.ts",
+    "test:analytics:live": "RUN_GA_LIVE_TEST=1 playwright test e2e/analytics-delivery.spec.ts"
   },
   "dependencies": {
     "react": "^19.2.8",

@@ -1,0 +1,36 @@
+const {test}=require('node:test');const assert=require('node:assert/strict');const express=require('express');const fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+const {fileRepository}=require('./repository');const {keyFor}=require('./account-service');const cms=require('./admin-content-routes');const {registerWebsiteContentRoutes,configuredPricing}=require('./website-content');const {registerAdminRecordRoutes}=require('./admin-records');
+test('website draft/publish/restore, validation, permissions, records and private data boundaries',async t=>{
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'website-cms-')),store=fileRepository(path.join(dir,'state.json')),token='c'.repeat(64);
+ await store.put('admins','admin',{email:'admin@example.invalid',roles:['superadmin']});await store.put('sessions',keyFor(token),{adminKey:'admin',expiresAt:Date.now()+60000});
+ const app=express();app.use(express.json({limit:'1mb'}));registerWebsiteContentRoutes(app,{store:()=>store,addAudit:async()=>{},...cms});registerAdminRecordRoutes(app,{store:()=>store,addAudit:async()=>{}});app.use((e,req,res,next)=>res.status(e.status||500).json({message:e.message}));
+ const server=app.listen(0,'127.0.0.1');await new Promise(resolve=>server.once('listening',resolve));t.after(async()=>{await new Promise(resolve=>server.close(resolve));fs.rmSync(dir,{recursive:true,force:true})});const base=`http://127.0.0.1:${server.address().port}`;
+ async function request(route,method='GET',data,auth=true){const response=await fetch(base+route,{method,headers:{'Content-Type':'application/json',...(auth?{Cookie:`loomiq_admin_session=${token}`}:{})},body:data?JSON.stringify(data):undefined});return {status:response.status,body:await response.json()}}
+ const route='/api/admin/website';assert.equal((await request(route,'GET',null,false)).status,401);
+ let data=(await request(route)).body;
+ for(const [key,field]of Object.entries(data.catalog)){assert.ok(Object.hasOwn(field,'default'),`Missing default for ${key}`);assert.ok(Object.hasOwn(data.values,key),`Missing value for ${key}`)}const key=Object.keys(data.catalog).find(k=>data.catalog[k].group==='Hero'&&k==='Hero.2');
+ const original=data.values[key];data.values[key]='A website managed from the CMS';
+ assert.equal((await request(route,'PUT',{values:data.values,revision:0})).status,200);
+ assert.equal((await request('/api/content/website','GET',null,false)).body.values[key],original);
+ assert.equal((await request(route,'PUT',{values:data.values,revision:0})).status,409);
+ assert.equal((await request(route+'/publish','POST',{revision:1})).status,200);
+ assert.equal((await request('/api/content/website','GET',null,false)).body.values[key],'A website managed from the CMS');
+ data=(await request(route)).body;const firstVersion=data.versions[0].id;
+ data.values['Site.pricing'].Starter.firstMonth=900;
+ assert.equal((await request(route,'PUT',{values:data.values,revision:data.revision})).status,200);
+ data=(await request(route)).body;assert.equal((await request(route+'/publish','POST',{revision:data.revision})).status,200);
+ assert.equal((await configuredPricing(store)).Starter.firstMonth,900);
+ data=(await request(route)).body;
+ assert.equal((await request(route+'/restore/'+firstVersion,'POST',{revision:data.revision})).status,200);
+ assert.equal((await configuredPricing(store)).Starter.firstMonth,900);
+ data=(await request(route)).body;assert.equal(data.values['Site.pricing'].Starter.firstMonth,995);
+ data.values['Site.pricing'].Starter.firstMonth=-10;assert.equal((await request(route,'PUT',{values:data.values,revision:data.revision})).status,400);
+ data=(await request(route)).body;data.values['Site.layout']=['Hero','Hero'];assert.equal((await request(route,'PUT',{values:data.values,revision:data.revision})).status,400);
+ data=(await request(route)).body;const urlKey=Object.keys(data.catalog).find(k=>data.catalog[k].kind==='url');data.values[urlKey]='javascript:alert(1)';assert.equal((await request(route,'PUT',{values:data.values,revision:data.revision})).status,400);
+ await store.put('customers',keyFor('client@example.invalid'),{name:'Client',email:'client@example.invalid',company:'Test',passwordHash:'never-return-this',trialRequest:true});
+ const customers=await request('/api/admin/records/customers');assert.equal(customers.body.items[0].email,'client@example.invalid');assert.equal(JSON.stringify(customers.body).includes('never-return-this'),false);
+ assert.equal((await request('/api/admin/records/customers/client%40example.invalid','PATCH',{status:'active',workspaceUrl:'https://workspace.example.invalid'})).status,200);
+ assert.equal((await store.get('customers',keyFor('client@example.invalid'))).onboarding.status,'active');
+ assert.equal((await request('/api/admin/records/orders/example','PATCH',{status:'paid',amount:1})).status,400);
+ const publicData=(await request('/api/content/website','GET',null,false)).body;assert.equal(publicData.catalog,undefined);assert.equal(JSON.stringify(publicData).includes('client@example.invalid'),false);
+});

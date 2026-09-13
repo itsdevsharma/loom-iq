@@ -32,6 +32,7 @@ function generateSeoFiles() {
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+  <url><loc>${siteUrl}${normalizedBase}garment-erp</loc><changefreq>weekly</changefreq></url>
 </urlset>
 `;
 
@@ -53,7 +54,7 @@ Sitemap: ${siteUrl}${normalizedBase}sitemap.xml
       writeFileSync('dist/robots.txt', robots, 'utf8');
       writeFileSync('dist/sitemap.xml', sitemap, 'utf8');
       // Static previews need real entry files for direct links and refreshes.
-      for (const route of ['signup', 'payment', 'thank-you', 'privacy', 'terms', 'refunds', 'account', 'forgot-password', 'reset-password', 'verify-email']) {
+      for (const route of ['garment-erp', 'demo', 'signup', 'payment', 'thank-you', 'privacy', 'terms', 'refunds', 'account', 'forgot-password', 'reset-password', 'verify-email']) {
         mkdirSync(`dist/${route}`, { recursive: true });
         copyFileSync('dist/index.html', `dist/${route}/index.html`);
       }
@@ -67,7 +68,11 @@ export default defineConfig({
   base: normalizedBase,
   server: {
     proxy: {
-      '/api': 'http://localhost:3001',
+      '/api': {
+        target: 'http://localhost:3001',
+        // Keep the browser host for the backend's same-origin login checks.
+        changeOrigin: false,
+      },
     },
   },
   resolve: {

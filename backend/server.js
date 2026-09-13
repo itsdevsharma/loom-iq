@@ -17,12 +17,34 @@ const maxRequestsPerWindow = 5;
 const rateLimitWindowMs = 15 * 60 * 1000;
 const requestLog = new Map();
 const { createInvoice, renderInvoice } = require("./invoice");
-const { pricing, equal } = require("./early-bird");
+const { equal } = require("./early-bird");
 const { fileRepository, initializeMongo } = require("./repository");
 const { keyFor, fail, eligibility, profile, enroll } = require("./account-service");
 const offerDbPath = process.env.OFFER_DB_PATH || path.join(__dirname, "data", "offers.json");
 const demoDbPath = path.join(__dirname, "data", "demo-requests.json");
 let repository = fileRepository(offerDbPath, demoDbPath);
+function createAuditLogger(store) {
+  return async (entry, tx) => {
+    const doc = { ...entry, createdAt: Date.now() };
+    if (tx) {
+      try {
+        const id = crypto.randomBytes(8).toString('hex');
+        await tx.put('audit_logs', id, doc);
+      } catch (e) {
+        console.error('audit log failed', e.message);
+      }
+    } else {
+      try {
+        await store().transaction(tx2 => {
+          const id = crypto.randomBytes(8).toString('hex');
+          return tx2.put('audit_logs', id, doc);
+        });
+      } catch (e) {
+        console.error('audit log failed', e.message);
+      }
+    }
+  };
+}
 function visitorId(req) { return /(?:^|; )loomiq_visitor=([a-f0-9]{64})(?:;|$)/.exec(req.headers.cookie || "")?.[1]; }
 function visitorCookie(res, id) {
   res.cookie("loomiq_visitor", id, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", maxAge: 365 * 86400000, path: "/" });
@@ -70,6 +92,7 @@ const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
 app.disable("x-powered-by");
 if (process.env.TRUST_PROXY_HOPS) app.set('trust proxy', Number(process.env.TRUST_PROXY_HOPS));
 app.use(helmet());
+app.use(["/api/admin/content", "/api/admin/website"], express.json({ limit: "1mb" }));
 app.use(express.json({ limit: "20kb", verify: (req, _res, buffer) => { req.rawBody = buffer; } }));
 app.use(morgan("combined"));
 app.use((request, response, next) => {
@@ -175,7 +198,7 @@ function sendDemoNotification(demoRequest) {
 
 app.use("/api", (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
-  if (req.method === "POST" && req.headers.origin && req.headers.origin !== process.env.FRONTEND_ORIGIN && req.headers.origin !== `${req.protocol}://${req.get("host")}`) {
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method) && req.headers.origin && req.headers.origin !== process.env.FRONTEND_ORIGIN && req.headers.origin !== `${req.protocol}://${req.get("host")}`) {
     return res.status(403).json({ success: false, message: "Origin not allowed." });
   }
   next();
@@ -190,7 +213,18 @@ app.get("/api/offers/status", async (req, res) => res.json(await offerStatus(req
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
 require('./account-routes').registerAccountRoutes(app, { store: () => repository, account, limiter: authLimiter });
 require('./operator-routes').registerOperatorRoutes(app, () => repository);
-require('./support').registerSupport(app, rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, message: { message: 'Too many messages. Please try again in 15 minutes.' } }));
+// Register admin routes
+const auditLogger = createAuditLogger(() => repository);
+require('./admin-routes').registerAdminRoutes(app, { store: () => repository, addAudit: auditLogger });
+require('./admin-content-routes').registerAdminContentRoutes(app, { store: () => repository, addAudit: auditLogger });
+require('./content-routes').registerContentRoutes(app, { store: () => repository, PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL });
+require('./website-content').registerWebsiteContentRoutes(app, {store: () => repository, addAudit: auditLogger, ...require('./admin-content-routes')});
+require('./admin-records').registerAdminRecordRoutes(app, {store: () => repository, addAudit: auditLogger});
+require('./admin-commerce').registerAdminCommerce(app, {store: () => repository, addAudit: auditLogger, razorpay});
+
+
+
+require('./support').registerSupport(app, rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, message: { message: 'Too many messages. Please try again in 15 minutes.' } }), () => repository);
 app.post("/api/account/:action", authLimiter, async (req, res) => {
   const action = req.params.action;
   if (!["signup", "login"].includes(action)) return res.sendStatus(404);
@@ -307,10 +341,10 @@ app.post("/api/demo-requests", async (request, response) => {
   response.status(201).json({ success: true, message: "Demo request submitted successfully" });
 });
 app.post("/api/purchase/quote", async (req, res) => {
-  const plan = pricing[req.body?.plan];
-  if (!plan || !Object.hasOwn(pricing, req.body?.plan)) return res.status(400).json({ success: false, message: "Invalid plan." });
   const offer = await offerStatus(req);
-  res.json({ success: true, offer, amount: (offer.eligible ? plan.firstMonth : plan.recurring) * 100, recurring: plan.recurring });
+  const session = await account(req);
+  const quote = await require('./customer-pricing').customerQuote(repository, session?.customerKey, req.body?.plan, offer);
+  res.json({success:true,offer,...quote});
 });
 
 app.post("/api/purchase/order", requireAccount, async (request, response) => {
@@ -318,7 +352,7 @@ app.post("/api/purchase/order", requireAccount, async (request, response) => {
   const customer = request.body?.customer && typeof request.body.customer === "object" ? request.body.customer : {};
   const requiredFields = ["name", "email", "phone", "company", "address", "city", "state"];
   const missingField = requiredFields.find((field) => !cleanText(customer[field]));
-  if (!Object.prototype.hasOwnProperty.call(pricing, plan) || missingField) {
+  if (!["Starter", "Growth"].includes(plan) || missingField) {
     response.status(400).json({ success: false, message: "Choose a plan and complete all required customer details." });
     return;
   }
@@ -338,11 +372,12 @@ app.post("/api/purchase/order", requireAccount, async (request, response) => {
     if (cleanText(customer.email).toLowerCase() !== (await repository.get("customers", key)).email) return response.status(400).json({ message: "Use the email of your signed-in account." });
     if (request.body.acceptConditions !== true) return response.status(400).json({ message: "Please accept the purchase conditions." });
     const offer = await offerStatus(request);
-    if (offer.eligible && !process.env.RAZORPAY_WEBHOOK_SECRET) return response.status(503).json({ success: false, message: "Early-bird payment confirmation is not configured. Please contact support." });
-    const amount = (offer.eligible ? pricing[plan].firstMonth : pricing[plan].recurring) * 100;
-    if (request.body.expectedAmount !== amount) return response.status(409).json({ success: false, message: "Your eligibility or price changed. Review the updated total and pay again.", amount, offer });
+    const quote = await require('./customer-pricing').customerQuote(repository, key, plan, offer);
+    if (quote.discounted && !process.env.RAZORPAY_WEBHOOK_SECRET) return response.status(503).json({ success: false, message: "Early-bird payment confirmation is not configured. Please contact support." });
+    const amount = quote.amount;
+    if (request.body.expectedAmount !== amount) return response.status(409).json({ success: false, message: "Your eligibility or price changed. Review the updated total and pay again.", amount, offer, quote });
     const order = await razorpay.orders.create({ amount, currency: "INR", receipt: "loomiq_" + crypto.randomBytes(12).toString("hex"), notes: { plan } });
-    await repository.transaction(tx => tx.put("orders", order.id, { visitorId: id, customerKey: key, amount, plan, discounted: offer.eligible, expiresAt: offer.expiresAt, createdAt: Date.now(), testMode: !process.env.RAZORPAY_KEY_ID.startsWith("rzp_live_"), billing: Object.fromEntries(["name", "email", "company", "phone", "address", "city", "state"].map(field => [field, cleanText(customer[field])])), seller: { name: process.env.INVOICE_BUSINESS_NAME || "LoomIQ", address: process.env.INVOICE_BUSINESS_ADDRESS || "", gstin: process.env.INVOICE_GSTIN || "", email: "support@loomiq.com" } }));
+    await repository.transaction(tx => tx.put("orders", order.id, { id: order.id, visitorId: id, customerKey: key, amount, plan, discounted: quote.discounted, expiresAt: quote.expiresAt, pricingSource: quote.source, pricingRevision: quote.pricingRevision, createdAt: Date.now(), testMode: !process.env.RAZORPAY_KEY_ID.startsWith("rzp_live_"), billing: Object.fromEntries(["name", "email", "company", "phone", "address", "city", "state"].map(field => [field, cleanText(customer[field])])), seller: { name: process.env.INVOICE_BUSINESS_NAME || "LoomIQ", address: process.env.INVOICE_BUSINESS_ADDRESS || "", gstin: process.env.INVOICE_GSTIN || "", email: "support@loomiq.com" } }));
     response.status(201).json({
       success: true,
       orderId: order.id,
@@ -382,7 +417,7 @@ async function settle(paymentId, observedAt = Date.now(), authoritativeTime = fa
     const c = await tx.get("customers", order.customerKey);
     const v = await tx.get("visitors", order.visitorId);
     if (order.discounted && observedAt >= order.expiresAt && !authoritativeTime && order.status !== "rejected") return { success: false, message: "Payment confirmation is pending the gateway timestamp. Contact support with your payment reference; do not pay again." };
-    const invalid = order.status === "rejected" || order.discounted && (observedAt >= order.expiresAt);
+    const invalid = order.status === "rejected" || order.discounted && (observedAt >= order.expiresAt || Boolean(c.paidOrder && c.paidOrder !== payment.order_id));
     if (invalid) {
       order.status = "rejected";
       await tx.put("orders", payment.order_id, order);
@@ -425,6 +460,22 @@ async function ownedInvoice(req) {
     return order.invoice;
   });
 }
+// A consented browser may claim each real, paid order once across reloads/devices.
+// Never infer conversion success from a return URL or a client-supplied amount.
+app.post('/api/purchase/conversion/:orderId', requireAccount, async (req, res) => {
+  if (req.body?.consent !== true) return res.status(400).json({message:'Analytics consent is required.'});
+  const session = await account(req);
+  const conversion = await repository.transaction(async tx => {
+    const order = await tx.get('orders', req.params.orderId);
+    if (!order || order.customerKey !== session.customerKey || order.status !== 'paid' || order.testMode !== false) return null;
+    if (order.conversionClaimedAt) return null;
+    order.conversionClaimedAt = Date.now();
+    await tx.put('orders', order.id, order);
+    return {eventId:'purchase_' + order.id, orderId:order.id, amount:order.amount, plan:order.plan};
+  });
+  res.setHeader('Cache-Control', 'no-store');
+  res.json({conversion});
+});
 app.get("/api/purchase/receipt", requireAccount, async (req, res) => res.json(await ownedInvoice(req)));
 app.get("/api/purchase/receipt/:orderId", requireAccount, async (req, res) => res.json(await ownedInvoice(req)));
 app.get("/api/purchase/invoice/:orderId", requireAccount, async (req, res) => {
@@ -454,10 +505,11 @@ app.post("/api/purchase/webhook", async (req, res) => {
   catch (error) { console.error("Webhook settlement failed:", error.message); res.sendStatus(500); }
 });
 
-if (process.env.SERVE_FRONTEND === 'true') require('./web').registerWebsite(app, path.join(__dirname, '../frontend/dist'));
+if (process.env.SERVE_FRONTEND === 'true') require('./web').registerWebsite(app, path.join(__dirname, '../frontend/dist'), () => repository);
 
 app.use((error, _request, response, _next) => {
-  const status = error.status || (error.type === "entity.parse.failed" ? 400 : 503);
+  console.error('Unhandled error:', error);
+  const status = error.status || (error.code === "LIMIT_FILE_SIZE" ? 413 : error.code?.startsWith("LIMIT_") ? 400 : null) || (error.type === "entity.parse.failed" ? 400 : 503);
   response.status(status).json({ success: false, message: status < 500 ? error.message : "Unable to save or retrieve your information. Please try again shortly." });
 });
 

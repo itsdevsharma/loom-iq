@@ -1,4 +1,5 @@
-const benefits = [
+import { cmsValue } from '../websiteContent';
+const benefits = cmsValue("BenefitsSection.1", [
   {
     title: "Reduce manual coordination",
     description:
@@ -19,7 +20,7 @@ const benefits = [
     description:
       "Bring material, wastage, production, purchase, dispatch, and finance data together to understand the real cost of each order.",
   },
-];
+]);
 
 function BenefitsSection() {
   return (
@@ -28,12 +29,9 @@ function BenefitsSection() {
       className="section section-shell section-automation"
     >
       <div className="section-heading">
-        <p className="eyebrow">Benefits</p>
-        <h2>More control across the manufacturing cycle.</h2>
-        <p>
-          The value shows up in fewer handoff gaps, clearer production status, and
-          better visibility into the costs behind every delivery.
-        </p>
+        <p className="eyebrow">{cmsValue("BenefitsSection.2", "Benefits")}</p>
+        <h2>{cmsValue("BenefitsSection.3", "More control across the manufacturing cycle.")}</h2>
+        <p>{cmsValue("BenefitsSection.4", " The value shows up in fewer handoff gaps, clearer production status, and better visibility into the costs behind every delivery. ")}</p>
       </div>
       <div className="benefit-grid">
         {benefits.map((benefit) => (

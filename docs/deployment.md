@@ -12,7 +12,7 @@ Copy missing settings from `backend/.env.example` into your private environment.
 
 1. Choose the production domain and point DNS to a server with Docker Compose and ports 80/443 accessible.
 2. Populate `backend/.env` with production database, SMTP, payment, webhook, invoice business name/address, and a random operator token of at least 32 characters. Set `PUBLIC_SITE_URL=https://your-domain/` and `FRONTEND_ORIGIN=https://your-domain`. Staging may explicitly use `ALLOW_TEST_PAYMENTS=true` with test gateway keys.
-3. Set `SITE_DOMAIN` in the root private `.env` used by Compose. Set optional public `VITE_GOOGLE_ANALYTICS_ID` there for the build.
+3. Set `SITE_DOMAIN` in the root private `.env` used by Compose. Set optional public `VITE_GOOGLE_ANALYTICS_ID` and `VITE_META_PIXEL_ID` there for the build. See `meta-pixel.md` for consent and purchase-event behavior.
 4. From backend, run `npm run check:release`. It reports missing setting names without exposing values.
 5. From the repository root, run `docker compose up -d --build`. Caddy terminates HTTPS and forwards to the Node application, which serves both the built website and API. The API port is not publicly published. One trusted proxy hop is configured.
 6. Check `https://your-domain/health`, signup, account, checkout, and route refreshes. Docker restarts crashed services. Configure an external monitor; Docker health status alone does not restart a still-running unhealthy process.

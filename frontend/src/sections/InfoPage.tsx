@@ -1,9 +1,10 @@
+import { cmsValue } from '../websiteContent';
 import "../InfoPage.css";
 import logo from "../assets/company.logo.webp";
 
 type InfoPageProps = { kind: "privacy" | "terms" | "refunds" };
 
-const pageContent = {
+const pageContent = cmsValue("InfoPage.1", {
   privacy: {
     title: "Privacy Policy",
     intro: "This policy describes the information used for LoomIQ accounts, demo and trial requests, membership purchases, support, and website analytics.",
@@ -39,7 +40,7 @@ const pageContent = {
       ["Support", "For cancellation or billing help, email support@loomiq.com with your account email and company name."],
     ],
   },
-} as const;
+} as const);
 
 function InfoPage({ kind }: InfoPageProps) {
   const content = pageContent[kind];
@@ -50,23 +51,23 @@ function InfoPage({ kind }: InfoPageProps) {
   return (
     <div className="legal-page">
       <header className="legal-header">
-        <a className="legal-brand" href={base}><img src={logo} alt="" width="32" height="32" /><span>LoomIQ</span></a>
-        <a className="legal-home" href={base}>Back to website <span aria-hidden="true">↗</span></a>
+        <a className="legal-brand" href={base}><img src={cmsValue("InfoPage.2", logo)} alt="" width="32" height="32" /><span>{cmsValue("InfoPage.3", "LoomIQ")}</span></a>
+        <a className="legal-home" href={base}>{cmsValue("InfoPage.4", "Back to website ")}<span aria-hidden="true">↗</span></a>
       </header>
       <main className="legal-main">
-        <nav className="legal-breadcrumb" aria-label="Breadcrumb"><a href={base}>Home</a><span aria-hidden="true">/</span><span aria-current="page">{content.title}</span></nav>
+        <nav className="legal-breadcrumb" aria-label={cmsValue("InfoPage.5", "Breadcrumb")}><a href={base}>{cmsValue("InfoPage.6", "Home")}</a><span aria-hidden="true">/</span><span aria-current="page">{content.title}</span></nav>
         <div className="legal-title">
-          <p className="legal-eyebrow">LEGAL INFORMATION</p>
+          <p className="legal-eyebrow">{cmsValue("InfoPage.7", "LEGAL INFORMATION")}</p>
           <h1>{content.title}</h1>
           <p>{content.intro}</p>
         </div>
         <div className="legal-layout">
           <aside className="legal-sidebar">
-            <nav aria-label="On this page">
-              <p className="legal-nav-label">ON THIS PAGE</p>
+            <nav aria-label={cmsValue("InfoPage.8", "On this page")}>
+              <p className="legal-nav-label">{cmsValue("InfoPage.9", "ON THIS PAGE")}</p>
               <ol>{content.sections.map(([heading], index) => <li key={heading}><a href={`#${sectionId(index)}`}><span>{String(index + 1).padStart(2, "0")}</span>{heading}</a></li>)}</ol>
             </nav>
-            <div className="legal-help"><strong>Questions about this policy?</strong><p>Contact our team for clarification.</p><a href="mailto:support@loomiq.com">support@loomiq.com</a></div>
+            <div className="legal-help"><strong>{cmsValue("InfoPage.10", "Questions about this policy?")}</strong><p>{cmsValue("InfoPage.11", "Contact our team for clarification.")}</p><a href={cmsValue("InfoPage.12", "mailto:support@loomiq.com")}>{cmsValue("InfoPage.13", "support@loomiq.com")}</a></div>
           </aside>
           <article className="legal-document" aria-label={content.title}>
             {content.sections.map(([heading, body], index) => (
@@ -75,11 +76,11 @@ function InfoPage({ kind }: InfoPageProps) {
                 <div><h2 id={`${sectionId(index)}-heading`}>{heading}</h2><p>{body}</p></div>
               </section>
             ))}
-            <div className="legal-document-contact"><h2>Contact LoomIQ</h2><p>For questions regarding {kind === "terms" ? "these terms" : "this policy"}, please email <a href="mailto:support@loomiq.com">support@loomiq.com</a>.</p></div>
+            <div className="legal-document-contact"><h2>{cmsValue("InfoPage.14", "Contact LoomIQ")}</h2><p>{cmsValue("InfoPage.15", "For questions regarding ")}{kind === "terms" ? cmsValue("InfoPage.16", "these terms") : cmsValue("InfoPage.17", "this policy")}{cmsValue("InfoPage.18", ", please email ")}<a href={cmsValue("InfoPage.19", "mailto:support@loomiq.com")}>{cmsValue("InfoPage.20", "support@loomiq.com")}</a>.</p></div>
           </article>
         </div>
       </main>
-      <footer className="legal-footer"><span>© {new Date().getFullYear()} LoomIQ. All rights reserved.</span><nav aria-label="Legal pages">{([['privacy', 'Privacy Policy'], ['terms', 'Terms of Service'], ['refunds', 'Refund Policy']] as const).map(([route, label]) => <a key={route} href={base + route} aria-current={kind === route ? 'page' : undefined}>{label}</a>)}</nav></footer>
+      <footer className="legal-footer"><span>{cmsValue("InfoPage.21", "© ")}{new Date().getFullYear()}{cmsValue("InfoPage.22", " LoomIQ. All rights reserved.")}</span><nav aria-label={cmsValue("InfoPage.23", "Legal pages")}>{([['privacy', cmsValue("InfoPage.24", "Privacy Policy")], ['terms', cmsValue("InfoPage.25", "Terms of Service")], ['refunds', cmsValue("InfoPage.26", "Refund Policy")]] as const).map(([route, label]) => <a key={route} href={base + route} aria-current={kind === route ? 'page' : undefined}>{label}</a>)}</nav></footer>
     </div>
   );
 }

@@ -1,6 +1,7 @@
+import { cmsValue } from '../websiteContent';
 import "../HowItWorksSection.css";
 
-const steps = [
+const steps = cmsValue("HowItWorksSection.1", [
   {
     number: "01",
     title: "Capture the order",
@@ -19,14 +20,14 @@ const steps = [
     description:
       "Release approved goods for dispatch and connect delivery, invoicing, collections, and order margin back to the original requirement.",
   },
-];
+]);
 
 function HowItWorksSection() {
   return (
     <section id="how-it-works" className="section section-shell section-how">
       <div className="section-heading">
-        <p className="eyebrow">How it works</p>
-        <h2>From order confirmation to customer delivery.</h2>
+        <p className="eyebrow">{cmsValue("HowItWorksSection.2", "How it works")}</p>
+        <h2>{cmsValue("HowItWorksSection.3", "From order confirmation to customer delivery.")}</h2>
       </div>
 
       <div className="how-grid">

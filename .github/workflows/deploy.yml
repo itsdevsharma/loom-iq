@@ -57,6 +57,8 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Browser tests
+        env:
+          VITE_META_PIXEL_ID: "123456789012345" # Test fixture; Pixel requests are intercepted.
         working-directory: frontend
         run: npm run test:e2e
 

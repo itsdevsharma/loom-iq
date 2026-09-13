@@ -1,3 +1,4 @@
+import { cmsTemplate, cmsValue, websitePricing } from '../websiteContent';
 import logoImage from "../assets/company.logo.webp";
 import { offerUnavailableMessage } from '../offerMessage';
 import { useOffer } from "../offer";
@@ -5,34 +6,30 @@ import type { Offer } from "../offer";
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import "../PaymentPage.css";
-import { trackEvent } from "../analytics";
+import { trackEvent, trackCheckout } from "../analytics";
+
+type Quote = { amount:number; recurring:number; source:'customer'|'website'; discounted:boolean; expiresAt:number|null };
 
 type PlanKey = "Starter" | "Growth";
 
 type PaymentPlan = {
   name: PlanKey;
-  price: number;
-  recurring: number;
   description: string;
   features: string[];
 };
 
-const plans: PaymentPlan[] = [
+const plans: PaymentPlan[] = cmsValue("PaymentPage.1", [
   {
     name: "Starter",
-    price: 995,
-    recurring: 1990,
     description: "A focused operating system for growing teams.",
     features: ["Orders and invoicing", "Stock, purchasing, and suppliers", "Multi-location transfers", "Batch and wastage records", "Quality and rework tracking", "Costing and margin reports"],
   },
   {
     name: "Growth",
-    price: 1495,
-    recurring: 2990,
     description: "Advanced control for multi-location operations.",
     features: ["Everything in Starter", "Material planning and work orders", "Production stage tracking", "Cash-flow and expense reports", "Custom workflows and permissions", "Priority support"],
   },
-];
+]);
 
 type RazorpayOptions = {
   key: string;
@@ -82,19 +79,51 @@ function PaymentPage() {
   const initialPlan: PlanKey = queryPlan === "Growth" ? "Growth" : "Starter";
   const [selectedPlan, setSelectedPlan] = useState<PlanKey>(initialPlan);
   const [form, setForm] = useState({ name: "", email: "", phone: "", company: "", address: "", city: "", state: "", gstin: "" });
+  const [pendingOrder, setPendingOrder] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [quotes, setQuotes] = useState<Partial<Record<PlanKey, Quote>>>({});
+  const [quoteError, setQuoteError] = useState('');
+  const [quoteLoading, setQuoteLoading] = useState(true);
+  const [quoteRevision, setQuoteRevision] = useState(0);
+  useEffect(() => {
+    if (!ready || !offer.signedUp) return;
+    let active = true;
+    const timer = window.setTimeout(() => {
+    setQuoteLoading(true); setQuoteError('');
+    Promise.all(plans.map(async item => {
+      const response = await fetch(`${import.meta.env.VITE_API_URL ?? ""}/api/purchase/quote`, {method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({plan:item.name}), signal:AbortSignal.timeout(10000)});
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Unable to load your price.');
+      return [item.name, data] as const;
+    })).then(entries => { if(active)setQuotes(Object.fromEntries(entries)); }).catch(error => {if(active)setQuoteError(error.message)}).finally(()=>{if(active)setQuoteLoading(false)});
+    }, 0);
+    return () => {active=false;window.clearTimeout(timer)};
+  }, [ready, offer.signedUp, offer.eligible, quoteRevision]);
+  useEffect(()=>{const refresh=()=>setQuoteRevision(n=>n+1);window.addEventListener('focus',refresh);return()=>window.removeEventListener('focus',refresh)},[]);
   const plan = useMemo(() => plans.find((item) => item.name === selectedPlan) ?? plans[0], [selectedPlan]);
-  const price = offer.eligible ? plan.price : plan.recurring;
-  const discount = plan.recurring - price;
+  const configured = websitePricing()[plan.name];
+  const quote = quotes[selectedPlan];
+  const price = quote ? quote.amount / 100 : 0;
+  const introductory = quote?.discounted === true;
+  const recurring = quote?.recurring ?? configured.recurring;
+  const discount = recurring - price;
 
+  useEffect(() => {
+    if (!quote || quoteLoading || quoteError) return;
+    const track = () => trackCheckout(selectedPlan, quote.amount);
+    track(); window.addEventListener('loomiq-analytics-ready', track);
+    return () => window.removeEventListener('loomiq-analytics-ready', track);
+  }, [selectedPlan, quote, quoteLoading, quoteError]);
+  const customerForm = { ...form, name:form.name || offer.customer?.name || "", company:form.company || offer.customer?.company || "" };
   const updateField = (field: keyof typeof form, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
   };
 
   const submitPayment = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!quote || quoteLoading || quoteError) return;
     setMessage("");
     setIsSubmitting(true);
     trackEvent("checkout_started");
@@ -104,12 +133,13 @@ function PaymentPage() {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: selectedPlan, customer: { ...form, email: offer.customer?.email }, expectedAmount: price * 100, acceptConditions: true }),
+        body: JSON.stringify({ plan: selectedPlan, customer: { ...customerForm, email: offer.customer?.email }, expectedAmount: quote.amount, acceptConditions: true }),
       });
       const result = await response.json() as { success?: boolean; message?: string; orderId?: string; keyId?: string; amount?: number; offer?: Offer };
 
       if (result.offer) update(result.offer);
       if (!response.ok || !result.success) {
+        if (response.status === 409) setQuoteRevision(n => n + 1);
         throw new Error(result.message ?? "Secure checkout is not configured yet.");
       }
 
@@ -125,11 +155,12 @@ function PaymentPage() {
         name: "LoomIQ",
         description: `${plan.name} ERP membership`,
         order_id: result.orderId,
-        prefill: { name: form.name, email: offer.customer?.email ?? "", contact: form.phone },
-        notes: { company: form.company, plan: plan.name },
+        prefill: { name: customerForm.name, email: offer.customer?.email ?? "", contact: form.phone },
+        notes: { company: customerForm.company, plan: plan.name },
         theme: { color: "#5145a5" },
-        modal: { ondismiss: () => { setIsSubmitting(false); setMessage("Checkout closed. You can review your details and try again."); } },
+        modal: { ondismiss: () => { setIsSubmitting(false); setMessage(cmsValue("PaymentPage.extra65", "Checkout closed. You can review your details and try again.")); } },
         handler: async (paymentResponse) => {
+          setPendingOrder(paymentResponse.razorpay_order_id);
           try {
           const verification = await fetch(`${import.meta.env.VITE_API_URL ?? ""}/api/purchase/verify`, {
             method: "POST",
@@ -145,12 +176,13 @@ function PaymentPage() {
           trackEvent("checkout_completed");
           window.location.href = `${import.meta.env.BASE_URL}thank-you?type=purchase&order=${encodeURIComponent(paymentResponse.razorpay_order_id)}`;
           } catch {
-            setMessage("We could not confirm your payment. If you were charged, contact support with your payment reference before trying again.");
+            setMessage(cmsValue("PaymentPage.extra66", "We could not confirm your payment. If you were charged, contact support with your payment reference before trying again."));
           } finally {
             setIsSubmitting(false);
           }
         },
       });
+      trackEvent("payment_initiated");
       razorpay.open();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Secure checkout is unavailable right now.");
@@ -158,87 +190,88 @@ function PaymentPage() {
     }
   };
 
-  if (!ready || !offer.signedUp) return <main className="payment-page"><p role="status">Checking your account…</p></main>;
+  if (!ready || !offer.signedUp) return <main className="payment-page"><p role="status">{cmsValue("PaymentPage.2", "Checking your account…")}</p></main>;
 
   return (
     <main className="payment-page">
       <header className="payment-header">
-        <a className="payment-brand" href={import.meta.env.BASE_URL} aria-label="LoomIQ home">
-          <img className="payment-brand-mark" src={logoImage} alt="" />Loom<span className="payment-brand-iq">IQ</span>
+        <a className="payment-brand" href={import.meta.env.BASE_URL} aria-label={cmsValue("PaymentPage.3", "LoomIQ home")}>
+          <img className="payment-brand-mark" src={cmsValue("PaymentPage.4", logoImage)} alt="" />{cmsValue("PaymentPage.5", "Loom")}<span className="payment-brand-iq">{cmsValue("PaymentPage.6", "IQ")}</span>
         </a>
-        <span className="payment-header-note"><LockIcon /> Payments processed by Razorpay</span>
-        <a className="payment-back" href={`${import.meta.env.BASE_URL}#pricing`}>← Back to plans</a>
+        <span className="payment-header-note"><LockIcon />{cmsValue("PaymentPage.7", " Payments processed by Razorpay")}</span>
+        <a className="payment-back" href={`${import.meta.env.BASE_URL}#pricing`}>{cmsValue("PaymentPage.8", "← Back to plans")}</a>
       </header>
 
 
       <div className="payment-content">
         <div className="payment-intro">
-          <h1>Complete your purchase</h1>
-          <p>LoomIQ membership · Billed in INR</p>
+          <h1>{cmsValue("PaymentPage.9", "Complete your purchase")}</h1>
+          <p>{cmsValue("PaymentPage.10", "LoomIQ membership · Billed in INR")}</p>
         </div>
 
         <form className="payment-layout" onSubmit={submitPayment}>
-          <div className="payment-form">
+          <div className="payment-form"><section className="setup-disclosure"><h2>After your payment</h2><p>Your invoice becomes available after payment verification. Our team arranges your ERP workspace and you can follow onboarding in your account. Access is not instant; a setup date has not been specified.</p></section>
             <fieldset className="payment-card payment-plan-fieldset" disabled={isSubmitting}>
-              <legend className="payment-sr-only">Choose your plan</legend>
-              <div className="payment-section-heading"><h2>Your plan</h2>{offer.eligible && <span className="payment-offer-badge">24-hour offer · 50% off</span>}</div>
+              <legend className="payment-sr-only">{cmsValue("PaymentPage.11", "Choose your plan")}</legend>
+              <div className="payment-section-heading"><h2>{cmsValue("PaymentPage.12", "Your plan")}</h2>{introductory && <span className="payment-offer-badge">{cmsValue("PaymentPage.13", "24-hour offer · {discount} off")}</span>}</div>
               <div className="payment-offers">
                 {plans.map((item) => (
                   <label className={`payment-plan ${selectedPlan === item.name ? "is-selected" : ""}`} key={item.name}>
                     <div className="payment-plan-top"><strong>{item.name}</strong><input type="radio" name="plan" value={item.name} checked={selectedPlan === item.name} onChange={() => setSelectedPlan(item.name)} /></div>
-                    {offer.eligible && <div className="payment-plan-original"><s>{formatPrice(item.recurring)}</s><span>50% OFF</span></div>}
-                    <div className="payment-plan-price">{formatPrice(offer.eligible ? item.price : item.recurring)}<span>/ month</span></div>
+                    {quotes[item.name]?.discounted && <div className="payment-plan-original"><s>{formatPrice(quotes[item.name]?.recurring ?? websitePricing()[item.name].recurring)}</s><span>{cmsValue("PaymentPage.14", "{discount} OFF")}</span></div>}
+                    <div className="payment-plan-price">{quotes[item.name] ? formatPrice(quotes[item.name]!.amount / 100) : cmsValue("PaymentPage.65", "Loading…")}<span>{cmsValue("PaymentPage.15", "/ month")}</span></div>
                   </label>
                 ))}
               </div>
             </fieldset>
 
             <fieldset className="payment-card" disabled={isSubmitting}>
-              <legend className="payment-sr-only">Business and contact details</legend>
-              <div className="payment-section-heading"><h2>Contact &amp; billing details</h2><span className="payment-required-note">All fields required</span></div>
+              <legend className="payment-sr-only">{cmsValue("PaymentPage.16", "Business and contact details")}</legend>
+              <div className="payment-section-heading"><h2>{cmsValue("PaymentPage.17", "Contact &amp; billing details")}</h2><span className="payment-required-note">{cmsValue("PaymentPage.18", "All fields required")}</span></div>
               <div className="payment-fields">
                 <div className="payment-form-row">
-                  <label>Full name<input required autoComplete="name" placeholder="Your full name" value={form.name} onChange={(event) => updateField("name", event.target.value)} /></label>
-                  <label>Work email<input required type="email" autoComplete="email" placeholder="you@company.com" value={offer.customer?.email ?? ""} readOnly /></label>
+                  <label>{cmsValue("PaymentPage.19", "Full name")}<input required autoComplete="name" placeholder={cmsValue("PaymentPage.20", "Your full name")} value={customerForm.name} onChange={(event) => updateField("name", event.target.value)} /></label>
+                  <label>{cmsValue("PaymentPage.21", "Work email")}<input required type="email" autoComplete="email" placeholder={cmsValue("PaymentPage.22", "you@company.com")} value={offer.customer?.email ?? ""} readOnly /></label>
                 </div>
                 <div className="payment-form-row">
-                  <label>Phone number<input required type="tel" autoComplete="tel" placeholder="+91 98765 43210" value={form.phone} onChange={(event) => updateField("phone", event.target.value)} /></label>
-                  <label>Business name<input required autoComplete="organization" placeholder="Company or trading name" value={form.company} onChange={(event) => updateField("company", event.target.value)} /></label>
+                  <label>{cmsValue("PaymentPage.23", "Phone number")}<input required type="tel" autoComplete="tel" placeholder={cmsValue("PaymentPage.24", "+91 98765 43210")} value={form.phone} onChange={(event) => updateField("phone", event.target.value)} /></label>
+                  <label>{cmsValue("PaymentPage.25", "Business name")}<input required autoComplete="organization" placeholder={cmsValue("PaymentPage.26", "Company or trading name")} value={customerForm.company} onChange={(event) => updateField("company", event.target.value)} /></label>
                 </div>
                 <div className="payment-field-divider" />
-                <label>Billing address<input required autoComplete="street-address" placeholder="Building, street and area" value={form.address} onChange={(event) => updateField("address", event.target.value)} /></label>
+                <label>{cmsValue("PaymentPage.27", "Billing address")}<input required autoComplete="street-address" placeholder={cmsValue("PaymentPage.28", "Building, street and area")} value={form.address} onChange={(event) => updateField("address", event.target.value)} /></label>
                 <div className="payment-form-row">
-                  <label>City<input required autoComplete="address-level2" placeholder="City" value={form.city} onChange={(event) => updateField("city", event.target.value)} /></label>
-                  <label>State<input required autoComplete="address-level1" placeholder="State" value={form.state} onChange={(event) => updateField("state", event.target.value)} /></label>
+                  <label>{cmsValue("PaymentPage.29", "City")}<input required autoComplete="address-level2" placeholder={cmsValue("PaymentPage.30", "City")} value={form.city} onChange={(event) => updateField("city", event.target.value)} /></label>
+                  <label>{cmsValue("PaymentPage.31", "State")}<input required autoComplete="address-level1" placeholder={cmsValue("PaymentPage.32", "State")} value={form.state} onChange={(event) => updateField("state", event.target.value)} /></label>
                 </div>
               </div>
             </fieldset>
 
           </div>
 
-          <aside className="payment-sidebar" aria-label="Order summary">
+          <aside className="payment-sidebar" aria-label={cmsValue("PaymentPage.33", "Order summary")}>
             <section className="payment-summary">
-              <div className="payment-summary-header"><span>YOUR ORDER</span><span className="payment-summary-currency">INR</span></div>
-              <p className="payment-limited-offer">{offer.eligible ? "24-hour offer: save 50% on this membership month. Available to everyone, including trial accounts. Complete this checkout before its deadline; late payments on expired orders are refunded." : offerUnavailableMessage(offer.reason)}</p>
-              <div className="payment-product"><img className="payment-product-icon" src={logoImage} alt="" /><div><h2>LoomIQ {plan.name}</h2><p>ERP membership · First month</p></div></div>
+              <div className="payment-summary-header"><span>{cmsValue("PaymentPage.34", "YOUR ORDER")}</span><span className="payment-summary-currency">{cmsValue("PaymentPage.35", "INR")}</span></div>
+              <p className="payment-limited-offer">{quote?.source === 'customer' ? `Your agreed customer price applies to this purchase${quote.expiresAt ? ` until ${new Date(quote.expiresAt).toLocaleString()}` : ''}.` : introductory ? cmsValue("PaymentPage.36", "24-hour offer: save {discount} on this membership month. Available to everyone, including trial accounts. Complete this checkout before its deadline; late payments on expired orders are refunded.") : offerUnavailableMessage(offer.reason)}</p>
+              <div className="payment-product"><img className="payment-product-icon" src={cmsValue("PaymentPage.37", logoImage)} alt="" /><div><h2>{cmsValue("PaymentPage.38", "LoomIQ ")}{plan.name}</h2><p>{cmsValue("PaymentPage.39", "ERP membership · First month")}</p></div></div>
               <div className="payment-breakdown">
-                <div><span>Original monthly price</span><s>{formatPrice(plan.recurring)}</s></div>
-                {offer.eligible && <div className="payment-discount"><span>24-hour offer savings <small>50%</small></span><span>−{formatPrice(discount)}</span></div>}
+                <div><span>{cmsValue("PaymentPage.40", "Original monthly price")}</span><span>{introductory ? <s>{formatPrice(recurring)}</s> : formatPrice(recurring)}</span></div>
+                {introductory && <div className="payment-discount"><span>{cmsValue("PaymentPage.41", "24-hour offer savings ")}<small>{Math.round(discount / recurring * 100)}%</small></span><span>−{formatPrice(discount)}</span></div>}
               </div>
-              <div className="payment-total"><div><strong>Due today</strong><span>First month</span></div><strong>{formatPrice(price)}</strong></div>
-              <div className="payment-billing-note"><p>One membership month. No automatic charges.<br />Regular price: {formatPrice(plan.recurring)}/month.</p></div>
+              <div className="payment-total"><div><strong>{cmsValue("PaymentPage.42", "Due today")}</strong><span>{cmsValue("PaymentPage.43", "First month")}</span></div><strong>{quote ? formatPrice(price) : cmsValue("PaymentPage.65", "Loading…")}</strong></div>
+              <div className="payment-billing-note"><p>{cmsValue("PaymentPage.44", "One membership month. No automatic charges.")}<br />{cmsValue("PaymentPage.45", "Regular price: ")}{formatPrice(recurring)}{cmsValue("PaymentPage.46", "/month.")}</p></div>
             </section>
             <div className="payment-consent-area">
-              <label className="payment-consent"><input required type="checkbox" disabled={isSubmitting} /><span>I agree to the <a href={`${import.meta.env.BASE_URL}terms`} target="_blank" rel="noreferrer">Terms</a>, <a href={`${import.meta.env.BASE_URL}privacy`} target="_blank" rel="noreferrer">Privacy</a> and <a href={`${import.meta.env.BASE_URL}refunds`} target="_blank" rel="noreferrer">Refund Policy</a>. I understand the discount is available for 24 hours from my first offer visit, including for trial accounts, and discounted payment must complete before the checkout deadline.</span></label>
-              {message && <p className="payment-message" role="alert">{message}</p>}
-              <button className="payment-submit" type="submit" disabled={isSubmitting || !ready}><LockIcon />{isSubmitting ? "Completing checkout…" : `Pay ${formatPrice(price)}`}<span aria-hidden="true">→</span></button>
-              <p className="payment-submit-note">Payment details are handled by Razorpay.</p>
+              <label className="payment-consent"><input required type="checkbox" disabled={isSubmitting} /><span>{cmsValue("PaymentPage.47", "I agree to the ")}<a href={`${import.meta.env.BASE_URL}terms`} target="_blank" rel="noreferrer">{cmsValue("PaymentPage.48", "Terms")}</a>, <a href={`${import.meta.env.BASE_URL}privacy`} target="_blank" rel="noreferrer">{cmsValue("PaymentPage.49", "Privacy")}</a>{cmsValue("PaymentPage.50", " and ")}<a href={`${import.meta.env.BASE_URL}refunds`} target="_blank" rel="noreferrer">{cmsValue("PaymentPage.51", "Refund Policy")}</a>{quote?.source === 'customer' ? ". The agreed price covers one membership month, with no automatic charges." : cmsValue("PaymentPage.52", ". I understand the discount is available for 24 hours from my first offer visit, including for trial accounts, and discounted payment must complete before the checkout deadline.")}</span></label>
+              {quoteError && <p role="alert">{quoteError} <button type="button" onClick={()=>setQuoteRevision(n=>n+1)}>Retry price</button></p>}
+              {message && <p className="payment-message" role="alert">{message}</p>}{pendingOrder && <p><a href={`${import.meta.env.BASE_URL}thank-you?type=purchase&order=${encodeURIComponent(pendingOrder)}`}>Check payment status & invoice</a> before making another payment.</p>}
+              <button className="payment-submit" type="submit" disabled={isSubmitting || !!pendingOrder || !ready || quoteLoading || !!quoteError || !quote}><LockIcon />{isSubmitting ? cmsValue("PaymentPage.53", "Completing checkout…") : cmsTemplate("PaymentPage.extra68", "Pay {0}", [formatPrice(price)])}<span aria-hidden="true">→</span></button>
+              <p className="payment-submit-note">{cmsValue("PaymentPage.54", "Payment details are handled by Razorpay.")}</p>
             </div>
 
-            <p className="payment-support">Need help? <a href="mailto:support@loomiq.com">Contact support ↗</a></p>
+            <p className="payment-support">{cmsValue("PaymentPage.55", "Need help? ")}<a href={cmsValue("PaymentPage.56", "mailto:support@loomiq.com")}>{cmsValue("PaymentPage.57", "Contact support ↗")}</a></p>
           </aside>
         </form>
-        <footer className="payment-footer"><span>© {new Date().getFullYear()} LoomIQ</span><nav aria-label="Checkout policies"><a href={`${import.meta.env.BASE_URL}privacy`}>Privacy</a><a href={`${import.meta.env.BASE_URL}terms`}>Terms</a><a href={`${import.meta.env.BASE_URL}refunds`}>Refund policy</a></nav><span><LockIcon /> Payment via Razorpay</span></footer>
+        <footer className="payment-footer"><span>{cmsValue("PaymentPage.58", "© ")}{new Date().getFullYear()}{cmsValue("PaymentPage.59", " LoomIQ")}</span><nav aria-label={cmsValue("PaymentPage.60", "Checkout policies")}><a href={`${import.meta.env.BASE_URL}privacy`}>{cmsValue("PaymentPage.61", "Privacy")}</a><a href={`${import.meta.env.BASE_URL}terms`}>{cmsValue("PaymentPage.62", "Terms")}</a><a href={`${import.meta.env.BASE_URL}refunds`}>{cmsValue("PaymentPage.63", "Refund policy")}</a></nav><span><LockIcon />{cmsValue("PaymentPage.64", " Payment via Razorpay")}</span></footer>
       </div>
     </main>
   );

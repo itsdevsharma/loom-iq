@@ -1,6 +1,7 @@
+import { cmsValue } from '../websiteContent';
 import "../FeaturesSection.css";
 
-const features = [
+const features = cmsValue("FeaturesSection.1", [
   {
     id: "01",
     icon: "◎",
@@ -43,7 +44,7 @@ const features = [
     description: "See order status, production performance, stock position, delivery commitments, and margins together.",
     detail: "Move from a management view into the order, batch, purchase, or production record behind every number.",
   },
-];
+]);
 
 function FeaturesSection() {
   return (
@@ -51,15 +52,10 @@ function FeaturesSection() {
       <div className="fs03__inner">
         <div className="fs03__top">
           <div>
-            <p className="fs03__badge">Business management modules</p>
-            <h2 className="fs03__headline">
-              From customer order to production, stock, and dispatch
-            </h2>
+            <p className="fs03__badge">{cmsValue("FeaturesSection.2", "Business management modules")}</p>
+            <h2 className="fs03__headline">{cmsValue("FeaturesSection.3", " From customer order to production, stock, and dispatch ")}</h2>
           </div>
-          <p className="fs03__right-text">
-            LoomIQ connects the commercial, operational, and financial records teams rely on every day.
-            Plan, produce, inspect, account for, and dispatch from one shared operating view.
-          </p>
+          <p className="fs03__right-text">{cmsValue("FeaturesSection.4", " LoomIQ connects the commercial, operational, and financial records teams rely on every day. Plan, produce, inspect, account for, and dispatch from one shared operating view. ")}</p>
         </div>
 
         <div className="fs03__grid">
@@ -76,9 +72,7 @@ function FeaturesSection() {
         <div className="fs03__sep" />
         <div className="fs03__bottom">
           <div className="fs03__trust">
-            <span className="fs03__dots" aria-hidden="true"><i /><i /><i /></span>
-            Built to connect order, material, production, quality, and dispatch
-          </div>
+            <span className="fs03__dots" aria-hidden="true"><i /><i /><i /></span>{cmsValue("FeaturesSection.5", " Built to connect order, material, production, quality, and dispatch ")}</div>
         </div>
       </div>
     </section>

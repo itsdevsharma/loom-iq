@@ -1,6 +1,7 @@
+import { cmsValue, siteLink } from '../websiteContent';
 import logoImage from "../assets/company.logo.webp";
 
-const footerGroups = [
+const footerGroups = cmsValue("FooterSection.1", [
   {
     title: "Platform",
     links: [
@@ -24,7 +25,7 @@ const footerGroups = [
       ["Contact", "#demo"],
     ],
   },
-];
+]);
 
 function FooterSection() {
   return (
@@ -32,16 +33,11 @@ function FooterSection() {
       <div className="footer-container">
         <div className="footer">
           <div className="footer-brand-column">
-            <a className="footer-brand" href="#hero" aria-label="LoomIQ home">
-              <img src={logoImage} alt="" className="footer-logo" />
-              <span>LoomIQ</span>
+            <a className="footer-brand" href={siteLink(cmsValue("FooterSection.2", "#hero"))} aria-label={cmsValue("FooterSection.3", "LoomIQ home")}>
+              <img src={cmsValue("FooterSection.4", logoImage)} alt="" className="footer-logo" />
+              <span>{cmsValue("FooterSection.5", "LoomIQ")}</span>
             </a>
-            <p>ERP for cloth manufacturers: orders, materials, production, quality, dispatch, and finance.</p>
-            <div className="ff-social" aria-label="Social links">
-              <a href="#hero">LinkedIn</a>
-              <a href="#hero">Github</a>
-              <a href="#hero">Instagram</a>
-            </div>
+            <p>{cmsValue("FooterSection.6", "ERP for cloth manufacturers: orders, materials, production, quality, dispatch, and finance.")}</p>
           </div>
 
           {footerGroups.map((group) => (
@@ -49,23 +45,23 @@ function FooterSection() {
               <h3>{group.title}</h3>
               <ul>
                 {group.links.map(([label, href]) => (
-                  <li key={label}><a href={href}>{label}</a></li>
+                  <li key={label}><a href={siteLink(href)}>{label}</a></li>
                 ))}
               </ul>
             </div>
           ))}
 
           <div className="footer-column footer-contact">
-            <h3>Talk through your workflow</h3>
-            <p>See how LoomIQ can fit your textile manufacturing workflow.</p>
-            <a className="footer-contact-link" href="#demo">Book a personalized demo <span aria-hidden="true">→</span></a>
+            <h3>{cmsValue("FooterSection.14", "Talk through your workflow")}</h3>
+            <p>{cmsValue("FooterSection.15", "See how LoomIQ can fit your textile manufacturing workflow.")}</p>
+            <a className="footer-contact-link" href={siteLink(cmsValue("FooterSection.16", "#demo"))}>{cmsValue("FooterSection.17", "Book a personalized demo ")}<span aria-hidden="true">→</span></a>
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} LoomIQ. All rights reserved.</span>
+          <span>{cmsValue("FooterSection.18", "© ")}{new Date().getFullYear()}{cmsValue("FooterSection.19", " LoomIQ. All rights reserved.")}</span>
           <div>
-            <a href={`${import.meta.env.BASE_URL}privacy`}>Privacy</a>
-            <a href={`${import.meta.env.BASE_URL}terms`}>Terms</a>
+            <a href={`${import.meta.env.BASE_URL}privacy`}>{cmsValue("FooterSection.20", "Privacy")}</a>
+            <button className="analytics-settings" onClick={() => window.dispatchEvent(new Event("loomiq-consent-settings"))}>Analytics settings</button><a href={`${import.meta.env.BASE_URL}refunds`}>Refund policy</a><a href={`${import.meta.env.BASE_URL}terms`}>{cmsValue("FooterSection.21", "Terms")}</a>
           </div>
         </div>
       </div>
