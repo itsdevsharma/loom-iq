@@ -85,7 +85,10 @@ test('invoice emails require ownership and confirmed payments', async () => {
   await repo.transaction(tx => tx.put('orders', 'owned', { status: 'paid', customerKey: keyFor(credentials.email), invoice }));
   assert.equal((await request('account/invoices/owned/email', {}, cookie)).status, 200);
   assert.equal(messages.at(-1).to, credentials.email);
-  assert.match(messages.at(-1).attachments[0].content, /TEST INVOICE/);
+  const attachment = messages.at(-1).attachments[0];
+  assert.equal(attachment.filename, 'LIQ-TEST.pdf');
+  assert.equal(attachment.contentType, 'application/pdf');
+  assert.equal(attachment.content.subarray(0, 5).toString(), '%PDF-');
 });
 test('account invoice history includes legacy paid orders and stays scoped to the owner', async () => {
   await repo.transaction(tx => tx.put('orders', 'legacy-paid', { status: 'paid', customerKey: keyFor(credentials.email), plan: 'Starter', amount: 99500, paidAt: Date.now(), paymentId: 'pay_legacy', testMode: true }));

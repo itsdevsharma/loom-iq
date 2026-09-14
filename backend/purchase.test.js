@@ -103,7 +103,7 @@ test('signed-in customer cannot substitute another account email or skip purchas
  assert.equal((await post('/api/purchase/order', { ...data, acceptConditions: false }, v.cookie)).status, 400);
  assert.equal((await post('/api/purchase/order', { ...data, expectedAmount: 1 }, v.cookie)).status, 409);
 });
-test('invoices require a paid order and its owner; invoice is stable and escapes customer text', async () => {
+test('invoices require a paid order and its owner; invoice is stable and returns a PDF', async () => {
  const v = await visit('invoice@example.com');
  const data = orderBody('invoice@example.com', 99500); data.customer.company = '<script>alert(1)</script>';
  const o = await post('/api/purchase/order', data, v.cookie);
@@ -113,8 +113,10 @@ test('invoices require a paid order and its owner; invoice is stable and escapes
  assert.equal((await verify(o.body, v.cookie, 'pay_invoice')).status, 200);
  const response = await fetch(url, { headers: { Cookie: v.cookie } });
  assert.equal(response.status, 200);
- const html = await response.text();
- assert.ok(html.includes('TEST INVOICE')); assert.ok(html.includes('&lt;script&gt;')); assert.ok(!html.includes('<script>alert'));
+ assert.match(response.headers.get('content-type'), /application\/pdf/);
+ assert.match(response.headers.get('content-disposition'), /inline; filename="LIQ.*\.pdf"/);
+ const pdf = Buffer.from(await response.arrayBuffer());
+ assert.equal(pdf.subarray(0, 5).toString(), '%PDF-');
  const receiptUrl = base + '/api/purchase/receipt/' + o.body.orderId;
  const receipt = await (await fetch(receiptUrl, { headers: { Cookie: v.cookie } })).json();
  assert.equal(receipt.amount, 99500); assert.equal(receipt.customer.address, 'Road');

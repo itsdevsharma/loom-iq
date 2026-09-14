@@ -3584,5 +3584,17 @@
     "label": "Email support@loomiq.com",
     "kind": "text",
     "default": "Email support@loomiq.com"
+  },
+  "ThankYouPage.pdfHelp": {
+    "group": "ThankYouPage",
+    "label": "PDF invoice help",
+    "kind": "text",
+    "default": "Your PDF invoice is ready to open, save, or print."
+  },
+  "PaymentPage.requiredFields": {
+    "group": "PaymentPage",
+    "label": "Billing field requirements",
+    "kind": "text",
+    "default": "Required unless marked optional"
   }
 }

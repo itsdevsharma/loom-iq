@@ -78,7 +78,7 @@ function PaymentPage() {
   const queryPlan = new URLSearchParams(window.location.search).get("plan");
   const initialPlan: PlanKey = queryPlan === "Growth" ? "Growth" : "Starter";
   const [selectedPlan, setSelectedPlan] = useState<PlanKey>(initialPlan);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", company: "", address: "", city: "", state: "", gstin: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", company: "", address: "", city: "", state: "", gstin: "", pan: "", stateCode: "" });
   const [pendingOrder, setPendingOrder] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -222,12 +222,17 @@ function PaymentPage() {
                     <div className="payment-plan-price">{quotes[item.name] ? formatPrice(quotes[item.name]!.amount / 100) : cmsValue("PaymentPage.65", "Loading…")}<span>{cmsValue("PaymentPage.15", "/ month")}</span></div>
                   </label>
                 ))}
+                <div className="payment-form-row">
+                  <label>PAN (optional)<input maxLength={10} value={form.pan} onChange={(event) => updateField("pan", event.target.value.toUpperCase())} /></label>
+                  <label>GSTIN (optional)<input maxLength={15} value={form.gstin} onChange={(event) => updateField("gstin", event.target.value.toUpperCase())} /></label>
+                </div>
+                <label>State code (optional)<input inputMode="numeric" pattern="[0-9]{2}" maxLength={2} value={form.stateCode} onChange={(event) => updateField("stateCode", event.target.value)} /></label>
               </div>
             </fieldset>
 
             <fieldset className="payment-card" disabled={isSubmitting}>
               <legend className="payment-sr-only">{cmsValue("PaymentPage.16", "Business and contact details")}</legend>
-              <div className="payment-section-heading"><h2>{cmsValue("PaymentPage.17", "Contact &amp; billing details")}</h2><span className="payment-required-note">{cmsValue("PaymentPage.18", "All fields required")}</span></div>
+              <div className="payment-section-heading"><h2>{cmsValue("PaymentPage.17", "Contact &amp; billing details")}</h2><span className="payment-required-note">{cmsValue("PaymentPage.requiredFields", "Required unless marked optional")}</span></div>
               <div className="payment-fields">
                 <div className="payment-form-row">
                   <label>{cmsValue("PaymentPage.19", "Full name")}<input required autoComplete="name" placeholder={cmsValue("PaymentPage.20", "Your full name")} value={customerForm.name} onChange={(event) => updateField("name", event.target.value)} /></label>
@@ -243,6 +248,11 @@ function PaymentPage() {
                   <label>{cmsValue("PaymentPage.29", "City")}<input required autoComplete="address-level2" placeholder={cmsValue("PaymentPage.30", "City")} value={form.city} onChange={(event) => updateField("city", event.target.value)} /></label>
                   <label>{cmsValue("PaymentPage.31", "State")}<input required autoComplete="address-level1" placeholder={cmsValue("PaymentPage.32", "State")} value={form.state} onChange={(event) => updateField("state", event.target.value)} /></label>
                 </div>
+                <div className="payment-form-row">
+                  <label>PAN (optional)<input maxLength={10} value={form.pan} onChange={(event) => updateField("pan", event.target.value.toUpperCase())} /></label>
+                  <label>GSTIN (optional)<input maxLength={15} value={form.gstin} onChange={(event) => updateField("gstin", event.target.value.toUpperCase())} /></label>
+                </div>
+                <label>State code (optional)<input inputMode="numeric" pattern="[0-9]{2}" maxLength={2} value={form.stateCode} onChange={(event) => updateField("stateCode", event.target.value)} /></label>
               </div>
             </fieldset>
 
