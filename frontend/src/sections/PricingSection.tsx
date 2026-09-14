@@ -80,7 +80,7 @@ function PricingSection() {
             recurringText={cmsTemplate("PricingSection.recurring", "Regular price: {0}/month", [money(prices[plan.name as keyof typeof prices].recurring)])}
             period={plan.period}
             features={plan.features}
-            ctaLabel={plan.name === "Enterprise" ? cmsValue("PricingSection.7", "Book a personalized demo") : "Get LoomIQ"}
+            ctaLabel={plan.name === "Enterprise" ? cmsValue("PricingSection.7", "Book a personalized demo") : `Get ${plan.name}`}
             href={plan.name === "Enterprise" ? `${import.meta.env.BASE_URL}demo` : `${import.meta.env.BASE_URL}${offer.signedUp ? "payment" : "signup"}?plan=${plan.name}`}
             onCtaClick={() => trackEvent(plan.name === "Enterprise" ? "demo_cta_clicked" : "direct_purchase_clicked")}
             featured={!!plan.featured}
