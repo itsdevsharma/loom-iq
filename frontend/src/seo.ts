@@ -3,7 +3,7 @@ type PageRoute = "garment-erp" | "demo" | "home" | "privacy" | "terms" | "refund
 
 const runtimeOrigin = typeof window !== "undefined" ? window.location.origin : "https://www.loomiq.com";
 const basePath = import.meta.env.BASE_URL || "/";
-const siteUrl = (import.meta.env.VITE_SITE_URL || runtimeOrigin).replace(/\/$/, "");
+const siteUrl = (import.meta.env.PUBLIC_SITE_URL || runtimeOrigin).replace(/\/$/, "");
 const imageUrl = `${siteUrl}${basePath}og-image.svg`;
 
 function setMeta(name: string, content: string, type: "name" | "property" = "name") {

@@ -1,12 +1,8 @@
 import { writeFileSync, copyFileSync, mkdirSync } from 'node:fs';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const siteUrl = process.env.VITE_SITE_URL || 'https://www.loomiq.com';
-const basePath = process.env.VITE_BASE_PATH || '/';
-const normalizedBase = basePath === '/' ? '/' : basePath.replace(/\/+$/, '') + '/';
-
-function generateSeoFiles() {
+function generateSeoFiles(siteUrl: string, normalizedBase: string) {
   return {
     name: 'generate-seo-files',
     writeBundle() {
@@ -63,19 +59,27 @@ Sitemap: ${siteUrl}${normalizedBase}sitemap.xml
   };
 }
 
-export default defineConfig({
-  plugins: [react(), generateSeoFiles()],
-  base: normalizedBase,
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001',
-        // Keep the browser host for the backend's same-origin login checks.
-        changeOrigin: false,
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), 'PUBLIC_');
+  const siteUrl = env.PUBLIC_SITE_URL || 'https://www.loomiq.com';
+  const basePath = env.PUBLIC_BASE_PATH || '/';
+  const normalizedBase = basePath === '/' ? '/' : basePath.replace(/\/+$/, '') + '/';
+
+  return {
+    envPrefix: 'PUBLIC_',
+    plugins: [react(), generateSeoFiles(siteUrl, normalizedBase)],
+    base: normalizedBase,
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3001',
+          // Keep the browser host for the backend's same-origin login checks.
+          changeOrigin: false,
+        },
       },
     },
-  },
-  resolve: {
-    dedupe: ['react', 'react-dom'],
-  },
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
+  };
 });

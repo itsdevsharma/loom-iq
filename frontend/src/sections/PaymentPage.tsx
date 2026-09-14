@@ -52,7 +52,7 @@ declare global {
 }
 
 function formatPrice(value: number) {
-  return `₹${value.toLocaleString("en-IN")}`;
+  return `â‚¹${value.toLocaleString("en-IN")}`;
 }
 
 function loadRazorpay() {
@@ -93,7 +93,7 @@ function PaymentPage() {
     const timer = window.setTimeout(() => {
     setQuoteLoading(true); setQuoteError('');
     Promise.all(plans.map(async item => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL ?? ""}/api/purchase/quote`, {method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({plan:item.name}), signal:AbortSignal.timeout(10000)});
+      const response = await fetch(`${import.meta.env.PUBLIC_API_URL ?? ""}/api/purchase/quote`, {method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({plan:item.name}), signal:AbortSignal.timeout(10000)});
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Unable to load your price.');
       return [item.name, data] as const;
@@ -129,7 +129,7 @@ function PaymentPage() {
     trackEvent("checkout_started");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL ?? ""}/api/purchase/order`, {
+      const response = await fetch(`${import.meta.env.PUBLIC_API_URL ?? ""}/api/purchase/order`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -162,7 +162,7 @@ function PaymentPage() {
         handler: async (paymentResponse) => {
           setPendingOrder(paymentResponse.razorpay_order_id);
           try {
-          const verification = await fetch(`${import.meta.env.VITE_API_URL ?? ""}/api/purchase/verify`, {
+          const verification = await fetch(`${import.meta.env.PUBLIC_API_URL ?? ""}/api/purchase/verify`, {
             method: "POST",
         credentials: "include",
             headers: { "Content-Type": "application/json" },
@@ -190,7 +190,7 @@ function PaymentPage() {
     }
   };
 
-  if (!ready || !offer.signedUp) return <main className="payment-page"><p role="status">{cmsValue("PaymentPage.2", "Checking your account…")}</p></main>;
+  if (!ready || !offer.signedUp) return <main className="payment-page"><p role="status">{cmsValue("PaymentPage.2", "Checking your accountâ€¦")}</p></main>;
 
   return (
     <main className="payment-page">
@@ -199,27 +199,27 @@ function PaymentPage() {
           <img className="payment-brand-mark" src={cmsValue("PaymentPage.4", logoImage)} alt="" />{cmsValue("PaymentPage.5", "Loom")}<span className="payment-brand-iq">{cmsValue("PaymentPage.6", "IQ")}</span>
         </a>
         <span className="payment-header-note"><LockIcon />{cmsValue("PaymentPage.7", " Payments processed by Razorpay")}</span>
-        <a className="payment-back" href={`${import.meta.env.BASE_URL}#pricing`}>{cmsValue("PaymentPage.8", "← Back to plans")}</a>
+        <a className="payment-back" href={`${import.meta.env.BASE_URL}#pricing`}>{cmsValue("PaymentPage.8", "â† Back to plans")}</a>
       </header>
 
 
       <div className="payment-content">
         <div className="payment-intro">
           <h1>{cmsValue("PaymentPage.9", "Complete your purchase")}</h1>
-          <p>{cmsValue("PaymentPage.10", "LoomIQ membership · Billed in INR")}</p>
+          <p>{cmsValue("PaymentPage.10", "LoomIQ membership Â· Billed in INR")}</p>
         </div>
 
         <form className="payment-layout" onSubmit={submitPayment}>
           <div className="payment-form"><section className="setup-disclosure"><h2>After your payment</h2><p>Your invoice becomes available after payment verification. Our team arranges your ERP workspace and you can follow onboarding in your account. Access is not instant; a setup date has not been specified.</p></section>
             <fieldset className="payment-card payment-plan-fieldset" disabled={isSubmitting}>
               <legend className="payment-sr-only">{cmsValue("PaymentPage.11", "Choose your plan")}</legend>
-              <div className="payment-section-heading"><h2>{cmsValue("PaymentPage.12", "Your plan")}</h2>{introductory && <span className="payment-offer-badge">{cmsValue("PaymentPage.13", "24-hour offer · {discount} off")}</span>}</div>
+              <div className="payment-section-heading"><h2>{cmsValue("PaymentPage.12", "Your plan")}</h2>{introductory && <span className="payment-offer-badge">{cmsValue("PaymentPage.13", "24-hour offer Â· {discount} off")}</span>}</div>
               <div className="payment-offers">
                 {plans.map((item) => (
                   <label className={`payment-plan ${selectedPlan === item.name ? "is-selected" : ""}`} key={item.name}>
                     <div className="payment-plan-top"><strong>{item.name}</strong><input type="radio" name="plan" value={item.name} checked={selectedPlan === item.name} onChange={() => setSelectedPlan(item.name)} /></div>
                     {quotes[item.name]?.discounted && <div className="payment-plan-original"><s>{formatPrice(quotes[item.name]?.recurring ?? websitePricing()[item.name].recurring)}</s><span>{cmsValue("PaymentPage.14", "{discount} OFF")}</span></div>}
-                    <div className="payment-plan-price">{quotes[item.name] ? formatPrice(quotes[item.name]!.amount / 100) : cmsValue("PaymentPage.65", "Loading…")}<span>{cmsValue("PaymentPage.15", "/ month")}</span></div>
+                    <div className="payment-plan-price">{quotes[item.name] ? formatPrice(quotes[item.name]!.amount / 100) : cmsValue("PaymentPage.65", "Loadingâ€¦")}<span>{cmsValue("PaymentPage.15", "/ month")}</span></div>
                   </label>
                 ))}
               </div>
@@ -252,26 +252,26 @@ function PaymentPage() {
             <section className="payment-summary">
               <div className="payment-summary-header"><span>{cmsValue("PaymentPage.34", "YOUR ORDER")}</span><span className="payment-summary-currency">{cmsValue("PaymentPage.35", "INR")}</span></div>
               <p className="payment-limited-offer">{quote?.source === 'customer' ? `Your agreed customer price applies to this purchase${quote.expiresAt ? ` until ${new Date(quote.expiresAt).toLocaleString()}` : ''}.` : introductory ? cmsValue("PaymentPage.36", "24-hour offer: save {discount} on this membership month. Available to everyone, including trial accounts. Complete this checkout before its deadline; late payments on expired orders are refunded.") : offerUnavailableMessage(offer.reason)}</p>
-              <div className="payment-product"><img className="payment-product-icon" src={cmsValue("PaymentPage.37", logoImage)} alt="" /><div><h2>{cmsValue("PaymentPage.38", "LoomIQ ")}{plan.name}</h2><p>{cmsValue("PaymentPage.39", "ERP membership · First month")}</p></div></div>
+              <div className="payment-product"><img className="payment-product-icon" src={cmsValue("PaymentPage.37", logoImage)} alt="" /><div><h2>{cmsValue("PaymentPage.38", "LoomIQ ")}{plan.name}</h2><p>{cmsValue("PaymentPage.39", "ERP membership Â· First month")}</p></div></div>
               <div className="payment-breakdown">
                 <div><span>{cmsValue("PaymentPage.40", "Original monthly price")}</span><span>{introductory ? <s>{formatPrice(recurring)}</s> : formatPrice(recurring)}</span></div>
-                {introductory && <div className="payment-discount"><span>{cmsValue("PaymentPage.41", "24-hour offer savings ")}<small>{Math.round(discount / recurring * 100)}%</small></span><span>−{formatPrice(discount)}</span></div>}
+                {introductory && <div className="payment-discount"><span>{cmsValue("PaymentPage.41", "24-hour offer savings ")}<small>{Math.round(discount / recurring * 100)}%</small></span><span>âˆ’{formatPrice(discount)}</span></div>}
               </div>
-              <div className="payment-total"><div><strong>{cmsValue("PaymentPage.42", "Due today")}</strong><span>{cmsValue("PaymentPage.43", "First month")}</span></div><strong>{quote ? formatPrice(price) : cmsValue("PaymentPage.65", "Loading…")}</strong></div>
+              <div className="payment-total"><div><strong>{cmsValue("PaymentPage.42", "Due today")}</strong><span>{cmsValue("PaymentPage.43", "First month")}</span></div><strong>{quote ? formatPrice(price) : cmsValue("PaymentPage.65", "Loadingâ€¦")}</strong></div>
               <div className="payment-billing-note"><p>{cmsValue("PaymentPage.44", "One membership month. No automatic charges.")}<br />{cmsValue("PaymentPage.45", "Regular price: ")}{formatPrice(recurring)}{cmsValue("PaymentPage.46", "/month.")}</p></div>
             </section>
             <div className="payment-consent-area">
               <label className="payment-consent"><input required type="checkbox" disabled={isSubmitting} /><span>{cmsValue("PaymentPage.47", "I agree to the ")}<a href={`${import.meta.env.BASE_URL}terms`} target="_blank" rel="noreferrer">{cmsValue("PaymentPage.48", "Terms")}</a>, <a href={`${import.meta.env.BASE_URL}privacy`} target="_blank" rel="noreferrer">{cmsValue("PaymentPage.49", "Privacy")}</a>{cmsValue("PaymentPage.50", " and ")}<a href={`${import.meta.env.BASE_URL}refunds`} target="_blank" rel="noreferrer">{cmsValue("PaymentPage.51", "Refund Policy")}</a>{quote?.source === 'customer' ? ". The agreed price covers one membership month, with no automatic charges." : cmsValue("PaymentPage.52", ". I understand the discount is available for 24 hours from my first offer visit, including for trial accounts, and discounted payment must complete before the checkout deadline.")}</span></label>
               {quoteError && <p role="alert">{quoteError} <button type="button" onClick={()=>setQuoteRevision(n=>n+1)}>Retry price</button></p>}
               {message && <p className="payment-message" role="alert">{message}</p>}{pendingOrder && <p><a href={`${import.meta.env.BASE_URL}thank-you?type=purchase&order=${encodeURIComponent(pendingOrder)}`}>Check payment status & invoice</a> before making another payment.</p>}
-              <button className="payment-submit" type="submit" disabled={isSubmitting || !!pendingOrder || !ready || quoteLoading || !!quoteError || !quote}><LockIcon />{isSubmitting ? cmsValue("PaymentPage.53", "Completing checkout…") : cmsTemplate("PaymentPage.extra68", "Pay {0}", [formatPrice(price)])}<span aria-hidden="true">→</span></button>
+              <button className="payment-submit" type="submit" disabled={isSubmitting || !!pendingOrder || !ready || quoteLoading || !!quoteError || !quote}><LockIcon />{isSubmitting ? cmsValue("PaymentPage.53", "Completing checkoutâ€¦") : cmsTemplate("PaymentPage.extra68", "Pay {0}", [formatPrice(price)])}<span aria-hidden="true">â†’</span></button>
               <p className="payment-submit-note">{cmsValue("PaymentPage.54", "Payment details are handled by Razorpay.")}</p>
             </div>
 
-            <p className="payment-support">{cmsValue("PaymentPage.55", "Need help? ")}<a href={cmsValue("PaymentPage.56", "mailto:support@loomiq.com")}>{cmsValue("PaymentPage.57", "Contact support ↗")}</a></p>
+            <p className="payment-support">{cmsValue("PaymentPage.55", "Need help? ")}<a href={cmsValue("PaymentPage.56", "mailto:support@loomiq.com")}>{cmsValue("PaymentPage.57", "Contact support â†—")}</a></p>
           </aside>
         </form>
-        <footer className="payment-footer"><span>{cmsValue("PaymentPage.58", "© ")}{new Date().getFullYear()}{cmsValue("PaymentPage.59", " LoomIQ")}</span><nav aria-label={cmsValue("PaymentPage.60", "Checkout policies")}><a href={`${import.meta.env.BASE_URL}privacy`}>{cmsValue("PaymentPage.61", "Privacy")}</a><a href={`${import.meta.env.BASE_URL}terms`}>{cmsValue("PaymentPage.62", "Terms")}</a><a href={`${import.meta.env.BASE_URL}refunds`}>{cmsValue("PaymentPage.63", "Refund policy")}</a></nav><span><LockIcon />{cmsValue("PaymentPage.64", " Payment via Razorpay")}</span></footer>
+        <footer className="payment-footer"><span>{cmsValue("PaymentPage.58", "Â© ")}{new Date().getFullYear()}{cmsValue("PaymentPage.59", " LoomIQ")}</span><nav aria-label={cmsValue("PaymentPage.60", "Checkout policies")}><a href={`${import.meta.env.BASE_URL}privacy`}>{cmsValue("PaymentPage.61", "Privacy")}</a><a href={`${import.meta.env.BASE_URL}terms`}>{cmsValue("PaymentPage.62", "Terms")}</a><a href={`${import.meta.env.BASE_URL}refunds`}>{cmsValue("PaymentPage.63", "Refund policy")}</a></nav><span><LockIcon />{cmsValue("PaymentPage.64", " Payment via Razorpay")}</span></footer>
       </div>
     </main>
   );

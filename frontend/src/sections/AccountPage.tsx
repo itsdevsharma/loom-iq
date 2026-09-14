@@ -40,7 +40,7 @@ export default function AccountPage() {
     <h1>{data ? cmsTemplate("AccountPage.extra39", "Welcome, {0}", [data.customer.name]) : cmsValue("AccountPage.7", "Your account")}</h1>
     {error && <div role="alert"><p>{error}</p><button onClick={() => { setError(''); setAttempt(n => n + 1); }}>{cmsValue("AccountPage.8", "Retry loading account")}</button></div>}
     {message && <p role="status">{message}</p>}
-    {!data && !error && <p role="status">{cmsValue("AccountPage.9", "Loading your account…")}</p>}
+    {!data && !error && <p role="status">{cmsValue("AccountPage.9", "Loading your accountâ€¦")}</p>}
     {data && <>
       <section><h2>{cmsValue("AccountPage.10", "Account details")}</h2><p>{data.customer.company}</p><p>{data.customer.email}</p>
         <p>{data.emailVerified ? cmsValue("AccountPage.11", "Email verified") : cmsValue("AccountPage.12", "Your email has not been verified.")}</p>
@@ -60,9 +60,9 @@ export default function AccountPage() {
       </section>
       <section><h2>{cmsValue("AccountPage.27", "Payments & invoices")}</h2>
         {!data.invoices.length ? <p>{cmsValue("AccountPage.28", "No confirmed payments yet. ")}<a href={base + 'payment'}>{cmsValue("AccountPage.29", "Review plans")}</a></p> : <ul className="account-invoices">{data.invoices.map(invoice => <li key={invoice.orderId}>
-          <h3>{invoice.plan} {invoice.testMode && <span>{cmsValue("AccountPage.30", "— Test payment")}</span>}</h3>
-          <p>{new Date(invoice.issuedAt).toLocaleDateString('en-IN')}{cmsValue("AccountPage.31", " · INR ")}{(invoice.amount / 100).toLocaleString('en-IN')} · {invoice.number}</p>
-          <a href={`${import.meta.env.VITE_API_URL ?? ''}/api/purchase/invoice/${encodeURIComponent(invoice.orderId)}`} target="_blank" rel="noreferrer">{cmsValue("AccountPage.32", "View / save invoice")}</a>
+          <h3>{invoice.plan} {invoice.testMode && <span>{cmsValue("AccountPage.30", "â€” Test payment")}</span>}</h3>
+          <p>{new Date(invoice.issuedAt).toLocaleDateString('en-IN')}{cmsValue("AccountPage.31", " Â· INR ")}{(invoice.amount / 100).toLocaleString('en-IN')} Â· {invoice.number}</p>
+          <a href={`${import.meta.env.PUBLIC_API_URL ?? ''}/api/purchase/invoice/${encodeURIComponent(invoice.orderId)}`} target="_blank" rel="noreferrer">{cmsValue("AccountPage.32", "View / save invoice")}</a>
           <button disabled={busy || !data.emailVerified} onClick={() => void action(`account/invoices/${encodeURIComponent(invoice.orderId)}/email`)}>{cmsValue("AccountPage.33", "Email invoice")}</button>
         </li>)}</ul>}
         {!data.emailVerified && data.invoices.length > 0 && <p>{cmsValue("AccountPage.34", "Verify your email to receive invoice emails.")}</p>}

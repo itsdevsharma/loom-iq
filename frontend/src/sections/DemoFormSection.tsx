@@ -41,7 +41,7 @@ function DemoFormSection() {
     trackEvent("demo_form_submitted");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL ?? ""}/api/demo-requests`, {
+      const response = await fetch(`${import.meta.env.PUBLIC_API_URL ?? ""}/api/demo-requests`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -90,14 +90,14 @@ function DemoFormSection() {
         <div className="demo-form-card">
           {status === "success" ? (
             <div className="demo-form-success" role="status" aria-live="polite">
-              <span className="demo-form-success-icon" aria-hidden="true">✓</span>
-              <h3>{cmsValue("DemoFormSection.8", "Thanks — request received.")}</h3>
+              <span className="demo-form-success-icon" aria-hidden="true">âœ“</span>
+              <h3>{cmsValue("DemoFormSection.8", "Thanks â€” request received.")}</h3>
               <p>{cmsValue("DemoFormSection.9", " A LoomIQ specialist will reach out within one business day to understand your operation and confirm a walkthrough time. ")}</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} onFocus={() => trackEvent("demo_form_started")} noValidate>
               <h3>{cmsValue("DemoFormSection.10", "Book a personalized demo")}</h3>
-              <p className="demo-form-meta">{cmsValue("DemoFormSection.11", "No account or payment needed. After the demo, we’ll help you decide whether a trial or paid plan fits.")}</p>
+              <p className="demo-form-meta">{cmsValue("DemoFormSection.11", "No account or payment needed. After the demo, weâ€™ll help you decide whether a trial or paid plan fits.")}</p>
 
               <label htmlFor="demo-name">{cmsValue("DemoFormSection.12", "Full name")}</label>
               <input

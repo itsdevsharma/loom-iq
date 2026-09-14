@@ -31,7 +31,7 @@ export function analyticsAllowed(): boolean {
 }
 export function initializeAnalytics(): void {
   if (/\/(reset-password|verify-email)\/?$/.test(window.location.pathname) || !analyticsAllowed() || !import.meta.env.PROD) return;
-  const measurementId = import.meta.env.VITE_GOOGLE_ANALYTICS_ID?.trim();
+  const measurementId = import.meta.env.PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
   if (!initialized && measurementId && /^G-[A-Z0-9]+$/.test(measurementId)) {
     initialized = true;
     window.dataLayer ||= [];
@@ -45,7 +45,7 @@ export function initializeAnalytics(): void {
     script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
     document.head.appendChild(script);
   }
-  const pixelId = import.meta.env.VITE_META_PIXEL_ID?.trim();
+  const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
   if (!metaInitialized && pixelId && /^\d{5,20}$/.test(pixelId)) {
     metaInitialized = true;
     const tag = function (...args: unknown[]) { if (tag.callMethod) tag.callMethod(...args); else tag.queue.push(args); } as MetaTag;
@@ -78,7 +78,7 @@ export async function trackVerifiedPurchase(orderId: string): Promise<void> {
   if (!analyticsAllowed() || (!initialized && !metaInitialized) || pendingPurchases.has(orderId)) return;
   pendingPurchases.add(orderId);
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL ?? ''}/api/purchase/conversion/${encodeURIComponent(orderId)}`, {method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({consent:true})});
+    const response = await fetch(`${import.meta.env.PUBLIC_API_URL ?? ''}/api/purchase/conversion/${encodeURIComponent(orderId)}`, {method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({consent:true})});
     if (!response.ok) return;
     const {conversion} = await response.json();
     if (!conversion || !analyticsAllowed()) return;

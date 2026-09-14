@@ -15,7 +15,7 @@ test('ad landing page has a complete purchase path and valid internal links', as
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
   await page.screenshot({path:testInfo.outputPath('garment-erp.png'),fullPage:true});
   const starter = page.locator('.pricing-card-anim').filter({has:page.getByRole('heading',{name:'Starter',exact:true})});
-  await expect(starter).toContainText('₹1,990');
+  await expect(starter).toContainText('â‚¹1,990');
   await starter.getByRole('link',{name:'Get LoomIQ'}).click();
   await expect(page).toHaveURL(/signup\?plan=Starter/);
   await page.getByLabel('Full name').fill('Garment Buyer');
@@ -28,7 +28,7 @@ test('ad landing page has a complete purchase path and valid internal links', as
   await expect(page.getByLabel('Full name')).toHaveValue('Garment Buyer');
   await expect(page.getByLabel('Business name')).toHaveValue('Garment Company');
   await expect(page.getByRole('heading',{name:'After your payment'})).toBeVisible();
-  if (process.env.VITE_META_PIXEL_ID) {
+  if (process.env.PUBLIC_META_PIXEL_ID) {
     await expect.poll(()=>page.evaluate(()=>(window.fbq?.queue ?? []).filter(e=>e[1]==='InitiateCheckout').length)).toBe(1);
     expect(await page.evaluate(()=>(window.fbq?.queue ?? []).some(e=>e[1]==='Purchase'))).toBe(false);
   }
@@ -36,7 +36,7 @@ test('ad landing page has a complete purchase path and valid internal links', as
 });
 
 test('Meta events require consent and a server-confirmed real purchase claim', async ({ page }) => {
-  test.skip(!process.env.VITE_META_PIXEL_ID, 'Run with a test-only VITE_META_PIXEL_ID at build and test time.');
+  test.skip(!process.env.PUBLIC_META_PIXEL_ID, 'Run with a test-only PUBLIC_META_PIXEL_ID at build and test time.');
   await page.addInitScript(()=>{if(!sessionStorage.getItem('meta-consent-test')){localStorage.removeItem('loomiq-analytics');sessionStorage.setItem('meta-consent-test','1');}});
   const scripts: string[] = [];
   await page.route('https://connect.facebook.net/**', route=>{scripts.push(route.request().url());return route.fulfill({contentType:'application/javascript',body:'/* Pixel stub; no data leaves the browser */'});});

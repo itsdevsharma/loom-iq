@@ -1,5 +1,5 @@
 export async function accountApi<T = { message: string }>(path: string, body?: unknown): Promise<T> {
-  const response = await fetch(`${import.meta.env.VITE_API_URL ?? ''}/api/${path}`, {
+  const response = await fetch(`${import.meta.env.PUBLIC_API_URL ?? ''}/api/${path}`, {
     method: body === undefined ? 'GET' : 'POST', credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
