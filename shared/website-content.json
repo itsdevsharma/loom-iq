@@ -3596,5 +3596,17 @@
     "label": "Billing field requirements",
     "kind": "text",
     "default": "Required unless marked optional"
+  },
+  "ThankYouPage.credentialsDeliveryLead": {
+    "group": "ThankYouPage",
+    "label": "Thank you{0}. Your LoomIQ {1} payment is confirmed. You’ll receive your ERP login credentials at {2} by email within 1–2 hours.",
+    "kind": "text",
+    "default": "Thank you{0}. Your LoomIQ {1} payment is confirmed. You’ll receive your ERP login credentials at {2} by email within 1–2 hours."
+  },
+  "ThankYouPage.credentialsDeliveryHelp": {
+    "group": "ThankYouPage",
+    "label": "Haven’t received your credentials after 2 hours? Check your spam or junk folder, then contact us for help.",
+    "kind": "text",
+    "default": "Haven’t received your credentials after 2 hours? Check your spam or junk folder, then contact us for help."
   }
 }
