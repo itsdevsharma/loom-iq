@@ -7,11 +7,17 @@ import "./index.css";
 
 initializeAnalytics();
 
-await loadWebsiteContent();
-const { default: App } = await import("./App");
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-    <AnalyticsConsent />
-  </StrictMode>,
-);
+import App from "./App";
+
+const root = createRoot(document.getElementById("root")!);
+function renderApp() {
+  root.render(
+    <StrictMode>
+      <App />
+      <AnalyticsConsent />
+    </StrictMode>,
+  );
+}
+
+renderApp();
+void loadWebsiteContent().then(renderApp);
