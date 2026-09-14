@@ -7,3 +7,4 @@ function dailyEligibility(v, c, now = Date.now()) {
   return { eligible, reason: purchased ? 'purchased' : eligible ? 'eligible' : expiresAt === null ? 'unavailable' : 'expired', expiresAt, serverNow: now, trialSelected: Boolean(c?.trialAt || v?.trialAt), policy: '24-hour' };
 }
 module.exports = { dailyEligibility };
+//
