@@ -21,6 +21,7 @@ const { renderInvoicePdf } = require("./invoice-pdf");
 const { equal } = require("./early-bird");
 const { fileRepository, initializeMongo } = require("./repository");
 const { keyFor, fail, eligibility, profile, enroll } = require("./account-service");
+const { sendMail, mailConfigured } = require('./mail');
 const offerDbPath = process.env.OFFER_DB_PATH || path.join(__dirname, "data", "offers.json");
 const demoDbPath = path.join(__dirname, "data", "demo-requests.json");
 let repository = fileRepository(offerDbPath, demoDbPath);
@@ -242,6 +243,9 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
     if (req.body.acceptTerms !== true) return res.status(400).json({ message: "Please accept the terms to sign up." });
     values = validation.values;
     passwordHash = await bcrypt.hash(password, 12);
+    if (!mailConfigured() || !(process.env.ACCOUNT_NOTIFICATION_EMAIL || process.env.SALES_EMAIL)) {
+      return res.status(503).json({ message: "Account email is temporarily unavailable. Please contact support." });
+    }
   } else {
     const existing = await repository.get("customers", key);
     if (!existing?.passwordHash || !await bcrypt.compare(password, existing.passwordHash)) return res.status(401).json({ message: "Email or password is incorrect." });
@@ -249,19 +253,34 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   }
   const id = visitorId(req) || crypto.randomBytes(32).toString("hex");
   const token = crypto.randomBytes(32).toString("hex");
+  const verificationToken = action === 'signup' ? crypto.randomBytes(32).toString('hex') : null;
   const now = Date.now();
   const result = await repository.transaction(async tx => {
     const existing = await tx.get("customers", key);
     if (action === "signup" && existing?.passwordHash) throw fail(409, "Unable to create this account. Try signing in.");
     if (action === "login" && (!existing?.passwordHash || existing.passwordHash !== passwordHash)) throw fail(401, "Please sign in again.");
     const { c, v } = await enroll(tx, id, key, now);
-    if (action === "signup") Object.assign(c, values, { passwordHash, registeredAt: now, termsAcceptedAt: now });
+    if (action === "signup") Object.assign(c, values, { passwordHash, registeredAt: now, termsAcceptedAt: now, emailVerification: { hash: keyFor(verificationToken), expiresAt: now + 86400000 } });
     await tx.put("customers", key, c);
     await tx.put("sessions", keyFor(token), { customerKey: key, visitorId: id, version: c.sessionVersion || 0, expiresAt: now + 30 * 86400000 });
     return { ...eligibility(v, c), signedUp: true, customer: profile(c) };
   });
   visitorCookie(res, id);
   res.cookie("loomiq_session", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", maxAge: 30 * 86400000, path: "/" });
+  if (action === 'signup') {
+    const verificationUrl = new URL('verify-email', process.env.PUBLIC_SITE_URL || 'http://localhost:5173/');
+    verificationUrl.hash = new URLSearchParams({ token: verificationToken, email }).toString();
+    const notificationEmail = process.env.ACCOUNT_NOTIFICATION_EMAIL || process.env.SALES_EMAIL;
+    try {
+      await Promise.all([
+        sendMail({ to: email, subject: 'Verify your LoomIQ email', text: `Welcome to LoomIQ. Confirm your email address within 24 hours:\n${verificationUrl}` }),
+        sendMail({ to: notificationEmail, replyTo: email, subject: 'New LoomIQ account', text: `A new LoomIQ account was created.\n\nName: ${values.name}\nCompany: ${values.company}\nEmail: ${email}` }),
+      ]);
+    } catch {
+      console.error('Signup email delivery failed.');
+      return res.status(502).json({ message: 'Your account was created, but we could not send the verification email. Please sign in and request another verification link.' });
+    }
+  }
   res.status(action === "signup" ? 201 : 200).json(result);
 });
 app.post("/api/trial/select", requireAccount, async (req, res) => {

@@ -37,17 +37,16 @@ export default function AccountPage() {
   }
   return <main className="account-page">
     <header><a href={base}>{cmsValue("AccountPage.1", "LoomIQ")}</a><nav aria-label={cmsValue("AccountPage.2", "Account navigation")}><a href={base + '#pricing'}>{cmsValue("AccountPage.3", "Plans")}</a><a href={cmsValue("AccountPage.4", "#support")}>{cmsValue("AccountPage.5", "Support")}</a><button disabled={busy} onClick={() => void action('account/logout')}>{cmsValue("AccountPage.6", "Sign out")}</button></nav></header>
-    <h1>{data ? cmsTemplate("AccountPage.extra39", "Welcome, {0}", [data.customer.name]) : cmsValue("AccountPage.7", "Your account")}</h1>
+    <div className="account-hero"><div><p className="account-eyebrow">Account overview</p><h1>{data ? cmsTemplate("AccountPage.extra39", "Welcome, {0}", [data.customer.name]) : cmsValue("AccountPage.7", "Your account")}</h1><p>Manage your workspace, account access, and billing in one place.</p></div>{data && <div className={`account-verification ${data.emailVerified ? 'is-verified' : ''}`}><span className="account-status-dot" aria-hidden="true" />{data.emailVerified ? cmsValue("AccountPage.11", "Email verified") : cmsValue("AccountPage.12", "Your email has not been verified.")}</div>}</div>
     {error && <div role="alert"><p>{error}</p><button onClick={() => { setError(''); setAttempt(n => n + 1); }}>{cmsValue("AccountPage.8", "Retry loading account")}</button></div>}
     {message && <p role="status">{message}</p>}
     {!data && !error && <p role="status">{cmsValue("AccountPage.9", "Loading your account…")}</p>}
     {data && <>
-      <section><h2>{cmsValue("AccountPage.10", "Account details")}</h2><p>{data.customer.company}</p><p>{data.customer.email}</p>
-        <p>{data.emailVerified ? cmsValue("AccountPage.11", "Email verified") : cmsValue("AccountPage.12", "Your email has not been verified.")}</p>
+      <div className="account-dashboard"><section className="account-card account-profile"><div className="account-card-heading"><div><p className="account-eyebrow">Profile</p><h2>{cmsValue("AccountPage.10", "Account details")}</h2></div><span className="account-avatar" aria-hidden="true">{data.customer.name.slice(0, 1).toUpperCase()}</span></div><dl className="account-details"><div><dt>Company</dt><dd>{data.customer.company}</dd></div><div><dt>Email address</dt><dd>{data.customer.email}</dd></div></dl>
         {!data.emailVerified && <button disabled={busy} onClick={() => void action('account/send-verification')}>{cmsValue("AccountPage.13", "Send verification email")}</button>}
-        <p><a href={base + 'forgot-password'}>{cmsValue("AccountPage.14", "Reset password")}</a></p>
+        <a className="account-text-action" href={base + 'forgot-password'}>{cmsValue("AccountPage.14", "Reset password")}</a>
       </section>
-      <section><h2>{cmsValue("AccountPage.15", "Your workspace")}</h2>
+      <section className="account-card account-workspace"><p className="account-eyebrow">Workspace</p><h2>{cmsValue("AccountPage.15", "Your workspace")}</h2>
         <p>{data.onboarding === 'active' ? cmsValue("AccountPage.16", "Your workspace is ready.") : data.onboarding === 'in-progress' ? cmsValue("AccountPage.17", "Our team is setting up your workspace.") : data.onboarding === 'requested' ? cmsValue("AccountPage.18", "Your request is received. Our team will contact you to arrange access.") : cmsValue("AccountPage.19", "Book a demo to discuss your setup, or choose a membership.")}</p>
         {data.workspaceUrl ? <a className="button button-primary" href={data.workspaceUrl} rel="noreferrer">{cmsValue("AccountPage.20", "Open workspace")}</a> : <a href={base + 'demo'}>{cmsValue("AccountPage.21", "Book a demo")}</a>}
         <p>{cmsValue("AccountPage.22", "Membership purchases are one-time payments. There are no automatic charges.")}</p>
@@ -57,8 +56,8 @@ export default function AccountPage() {
           <label className="account-check"><input type="checkbox" required disabled={busy} />{cmsValue("AccountPage.25", "I agree to the trial conditions and understand that access is arranged by the team.")}</label>
           <button disabled={busy} type="submit">{cmsValue("AccountPage.26", "Request trial access")}</button>
         </form>}
-      </section>
-      <section><h2>{cmsValue("AccountPage.27", "Payments & invoices")}</h2>
+      </section></div>
+      <section className="account-card account-billing"><div className="account-card-heading"><div><p className="account-eyebrow">Billing</p><h2>{cmsValue("AccountPage.27", "Payments & invoices")}</h2></div>{data.invoices.length > 0 && <span className="account-count">{data.invoices.length}</span>}</div>
         {!data.invoices.length ? <p>{cmsValue("AccountPage.28", "No confirmed payments yet. ")}<a href={base + 'payment'}>{cmsValue("AccountPage.29", "Review plans")}</a></p> : <ul className="account-invoices">{data.invoices.map(invoice => <li key={invoice.orderId}>
           <h3>{invoice.plan} {invoice.testMode && <span>{cmsValue("AccountPage.30", "— Test payment")}</span>}</h3>
           <p>{new Date(invoice.issuedAt).toLocaleDateString('en-IN')}{cmsValue("AccountPage.31", " · INR ")}{(invoice.amount / 100).toLocaleString('en-IN')} · {invoice.number}</p>
