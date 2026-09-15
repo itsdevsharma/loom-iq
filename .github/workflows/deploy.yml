@@ -58,7 +58,7 @@ jobs:
 
       - name: Browser tests
         env:
-          VITE_META_PIXEL_ID: "123456789012345" # Test fixture; Pixel requests are intercepted.
+          PUBLIC_META_PIXEL_ID: "123456789012345" # Test fixture; Pixel requests are intercepted.
         working-directory: frontend
         run: npm run test:e2e
 

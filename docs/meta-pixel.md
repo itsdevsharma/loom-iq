@@ -1,6 +1,8 @@
 # Meta Pixel and purchase tracking
 
-Set `VITE_META_PIXEL_ID` to your numeric Pixel ID before building. Docker and Compose pass this optional public value into Vite. An empty ID disables Meta while preserving configured GA. No CAPI credentials or Pixel IDs belong in frontend source code.
+Production builds use Pixel `1811066650319146` from `frontend/.env.production`. Override `PUBLIC_META_PIXEL_ID` for direct Vite builds, or `VITE_META_PIXEL_ID` for Docker and Compose (mapped to `PUBLIC_META_PIXEL_ID` during the build). An explicitly empty ID disables Meta while preserving configured GA. CAPI credentials must never be included in frontend configuration.
+
+The existing consent-aware loader installs the Meta script and sends PageView once per document. Do not add a second inline snippet or an unconditional noscript tracking image, which would bypass the consent setting.
 
 All optional tags require the existing `loomiq-analytics=granted` preference. The nonmodal consent dialog and footer settings allow refusal/revocation. Reset-password and verify-email routes never initialize tags. Meta automatic configuration is disabled; custom events do not contain names, email, phone, billing fields, or payment instrument data. Meta/GA still receive their normal browser/page information when consented.
 
@@ -24,7 +26,7 @@ Backend tests cover consent, ownership, paid/test states, repeated claims, concu
 
 ```sh
 cd frontend
-VITE_META_PIXEL_ID=123456789012345 npm run test:e2e
+PUBLIC_META_PIXEL_ID=123456789012345 npm run test:e2e
 # Test fixture only; rebuild your release with the real ID or no ID afterward.
 ```
 
