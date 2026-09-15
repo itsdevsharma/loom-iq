@@ -1,14 +1,12 @@
 # Meta Pixel and purchase tracking
 
-Production builds use Pixel `1811066650319146` from `frontend/.env.production`. Override `PUBLIC_META_PIXEL_ID` for direct Vite builds, or `VITE_META_PIXEL_ID` for Docker and Compose (mapped to `PUBLIC_META_PIXEL_ID` during the build). An explicitly empty ID disables Meta while preserving configured GA. CAPI credentials must never be included in frontend configuration.
+The global `frontend/index.html` head loads Pixel `1811066650319146` and sends one PageView per document immediately, including before analytics consent and on account recovery pages. The ID is configured directly in that script; environment Pixel overrides no longer control it. The application reuses this tracker without initializing it or sending PageView again.
 
-The existing consent-aware loader installs the Meta script and sends PageView once per document. Do not add a second inline snippet or an unconditional noscript tracking image, which would bypass the consent setting.
-
-All optional tags require the existing `loomiq-analytics=granted` preference. The nonmodal consent dialog and footer settings allow refusal/revocation. Reset-password and verify-email routes never initialize tags. Meta automatic configuration is disabled; custom events do not contain names, email, phone, billing fields, or payment instrument data. Meta/GA still receive their normal browser/page information when consented.
+Additional application events and GA require `loomiq-analytics=granted`. Reset-password and verify-email routes skip these additional events. Purchase uses the server-confirmed amount and event ID.
 
 | Event | Trigger |
 |---|---|
-| PageView | Pixel initialized after consent, once per document |
+| PageView | Global head loads, once per document |
 | ViewContent | Homepage or `/garment-erp` viewed with Pixel enabled |
 | InitiateCheckout | Signed-in checkout obtains a server quote; once per plan/amount per document |
 | CompleteRegistration | Account signup successfully returns |
@@ -30,4 +28,4 @@ PUBLIC_META_PIXEL_ID=123456789012345 npm run test:e2e
 # Test fixture only; rebuild your release with the real ID or no ID afterward.
 ```
 
-In staging, use the actual Pixel and Meta Test Events to verify consent → product view → signup → checkout. Test gateway purchases intentionally do not emit Purchase. Use a controlled real captured transaction to verify production Purchase delivery, actual amount, INR, and a single event on reload. Confirm the signed Razorpay webhook independently. Review [Meta's conversion tracking documentation](https://developers.facebook.com/docs/meta-pixel/implementation/conversion-tracking/) when configuring Events Manager; dashboard delivery has not been verified here.
+In staging, use the actual Pixel and Meta Test Events to verify PageView → consent → product view → signup → checkout. Test gateway purchases intentionally do not emit Purchase. Use a controlled real captured transaction to verify production Purchase delivery, actual amount, INR, and a single event on reload. Confirm the signed Razorpay webhook independently. Review [Meta's conversion tracking documentation](https://developers.facebook.com/docs/meta-pixel/implementation/conversion-tracking/) when configuring Events Manager; dashboard delivery has not been verified here.

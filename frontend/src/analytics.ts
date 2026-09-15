@@ -45,16 +45,11 @@ export function initializeAnalytics(): void {
     script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
     document.head.appendChild(script);
   }
-  const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID?.trim();
-  if (!metaInitialized && pixelId && /^\d{5,20}$/.test(pixelId)) {
+  // The global head owns Pixel initialization and the document PageView.
+  if (!metaInitialized && window.fbq) {
     metaInitialized = true;
-    const tag = function (...args: unknown[]) { if (tag.callMethod) tag.callMethod(...args); else tag.queue.push(args); } as MetaTag;
-    tag.queue = []; tag.push = tag; tag.loaded = true; tag.version = '2.0';
-    window.fbq = window.fbq || tag; window._fbq ||= window.fbq;
-    window.fbq('init', pixelId); window.fbq('set', 'autoConfig', false, pixelId);
-    window.fbq('track', 'PageView');
+    window.fbq('set', 'autoConfig', false, '1811066650319146');
     if (/\/(garment-erp)?$/.test(window.location.pathname)) window.fbq('track', 'ViewContent', {content_name:'LoomIQ garment ERP',content_type:'product'});
-    const script = document.createElement('script'); script.async = true; script.src = 'https://connect.facebook.net/en_US/fbevents.js'; document.head.appendChild(script);
   }
   window.dispatchEvent(new Event('loomiq-analytics-ready'));
 }

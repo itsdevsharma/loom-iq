@@ -5,8 +5,9 @@ function registerWebsite(app, directory, store) {
   const index = path.join(directory, 'index.html');
   if (!fs.existsSync(index)) throw new Error('Build the frontend before starting with SERVE_FRONTEND=true.');
   app.use('/api', (_req, res) => res.status(404).json({ message: 'API route not found.' }));
+  // The script hash permits only the exact Meta Pixel snippet in frontend/index.html.
   app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' https://checkout.razorpay.com https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.razorpay.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.facebook.com https://connect.facebook.net; frame-src https://*.razorpay.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'sha256-QQIGov9CWWEVvhH8ZY7yWmc+LJ/kSPS3pj0Xjiqbg8g=' https://checkout.razorpay.com https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.razorpay.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.facebook.com https://connect.facebook.net; frame-src https://*.razorpay.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'");
     next();
   });
   app.use('/assets', express.static(path.join(directory, 'assets'), { maxAge: '1y', immutable: true, fallthrough: false }));

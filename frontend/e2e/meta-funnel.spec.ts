@@ -35,18 +35,21 @@ test('ad landing page has a complete purchase path and valid internal links', as
   expect(errors).toEqual([]);
 });
 
-test('Meta events require consent and a server-confirmed real purchase claim', async ({ page }) => {
-  test.skip(!process.env.PUBLIC_META_PIXEL_ID, 'Run with a test-only PUBLIC_META_PIXEL_ID at build and test time.');
+test('Global Pixel sends PageView once; conversions require consent and a confirmed purchase', async ({ page }) => {
   await page.addInitScript(()=>{if(!sessionStorage.getItem('meta-consent-test')){localStorage.removeItem('loomiq-analytics');sessionStorage.setItem('meta-consent-test','1');}});
   const scripts: string[] = [];
   await page.route('https://connect.facebook.net/**', route=>{scripts.push(route.request().url());return route.fulfill({contentType:'application/javascript',body:'/* Pixel stub; no data leaves the browser */'});});
   await page.route('https://www.googletagmanager.com/**', route=>route.fulfill({contentType:'application/javascript',body:''}));
-  const queue = () => page.evaluate(()=>window.fbq?.queue ?? []);
+  const queue = () => page.evaluate(()=>(window.fbq?.queue ?? []).map(event => Array.from(event)));
   await page.goto('/garment-erp');
-  expect(scripts).toHaveLength(0);
+  await expect.poll(()=>scripts.length).toBe(1);
+  expect(await queue()).toContainEqual(['init', '1811066650319146']);
+  expect((await queue()).filter(e=>e[1]==='PageView')).toHaveLength(1);
+  expect((await queue()).some(e=>e[1]==='ViewContent')).toBe(false);
   await page.getByRole('button',{name:'Allow analytics'}).click();
   await expect.poll(()=>scripts.length).toBe(1);
-  expect(await queue()).toContainEqual(['track','PageView']);
+  expect((await queue()).filter(e=>e[1]==='PageView')).toHaveLength(1);
+  expect((await queue()).filter(e=>e[0]==='init')).toHaveLength(1);
   expect((await queue()).some(e=>e[1]==='ViewContent')).toBe(true);
   expect((await queue()).some(e=>e[1]==='Purchase')).toBe(false);
   await page.goto('/thank-you?type=purchase&order=forged');
@@ -63,5 +66,6 @@ test('Meta events require consent and a server-confirmed real purchase claim', a
   expect((await queue()).some(e=>e[1]==='Purchase')).toBe(false);
   await page.goto('/reset-password#token=secret');
   await expect(page.locator('h1')).toBeVisible();
-  expect(await queue()).toEqual([]);
+  expect(await queue()).toContainEqual(['track', 'PageView']);
+  expect((await queue()).some(e=>e[1]==='Purchase')).toBe(false);
 });
