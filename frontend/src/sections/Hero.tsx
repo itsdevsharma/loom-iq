@@ -31,6 +31,7 @@ function Hero({ landing = false }: { landing?: boolean }) {
             width={1440}
             height={921}
             fetchPriority="high"
+            decoding="async"
             draggable={false}
           />
         </div>

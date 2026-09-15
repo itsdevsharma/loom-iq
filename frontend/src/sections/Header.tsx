@@ -29,7 +29,7 @@ function Header() {
     <header className={`topbar ${isScrolled ? "topbar--scrolled" : ""}`}>
       <div className="topbar-inner">
         <a className="brand" href={siteLink(cmsValue("Header.2", "#hero"))} onClick={() => setIsMenuOpen(false)}>
-          <img src={cmsValue("Header.3", logoImage)} alt={cmsValue("Header.4", "LoomIQ")} className="brand-logo" />{cmsValue("Header.5", " LoomIQ ")}</a>
+          <img src={cmsValue("Header.3", logoImage)} alt={cmsValue("Header.4", "LoomIQ")} className="brand-logo" width="56" height="56" decoding="async" />{cmsValue("Header.5", " LoomIQ ")}</a>
         <button
           className="menu-toggle"
           type="button"
