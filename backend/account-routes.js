@@ -81,24 +81,22 @@ function registerAccountRoutes(app, { store, account, limiter }) {
   app.post('/api/account/send-verification', limiter, async (req, res) => {
     const session = await signedIn(req);
     if (!mailConfigured()) throw fail(503, 'Account email is temporarily unavailable. Please contact support.');
-    const token = crypto.randomBytes(32).toString('hex');
+    const token = String(crypto.randomInt(100000, 1000000));
     const email = await store().transaction(async tx => {
       const c = await tx.get('customers', session.customerKey);
       if (c.emailVerifiedAt) return null;
-      c.emailVerification = { hash: keyFor(token), expiresAt: Date.now() + 86400000 };
+      c.emailVerification = { hash: keyFor(token), expiresAt: Date.now() + 10 * 60000 };
       await tx.put('customers', session.customerKey, c);
       return c.email;
     });
     if (email) {
-      const url = new URL('verify-email', process.env.PUBLIC_SITE_URL || 'http://localhost:5173/');
-      url.hash = new URLSearchParams({ token, email }).toString();
-      await sendMail({ to: email, subject: 'Verify your LoomIQ email', text: `Confirm your email address within 24 hours:\n${url}` });
+      await sendMail({ to: email, subject: 'Your LoomIQ verification code', text: `Your LoomIQ verification code is: ${token}\n\nEnter it within 10 minutes. Do not share it with anyone.` });
     }
     res.json({ message: email ? 'Verification link sent. Check your inbox.' : 'Your email is already verified.' });
   });
   app.post('/api/account/verify-email', limiter, async (req, res) => {
     const { email, token } = req.body || {};
-    if (typeof email !== 'string' || typeof token !== 'string' || !/^[a-f0-9]{64}$/.test(token)) throw fail(400, 'Invalid verification link.');
+    if (typeof email !== 'string' || typeof token !== 'string' || !/^\d{6}$/.test(token)) throw fail(400, 'Enter the six-digit verification code.');
     await store().transaction(async tx => {
       const key = keyFor(email), c = await tx.get('customers', key);
       if (!c?.emailVerification || c.emailVerification.expiresAt <= Date.now() || c.emailVerification.hash !== keyFor(token)) throw fail(400, 'Verification link is invalid or expired. Request another link from your account.');

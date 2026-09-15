@@ -253,14 +253,14 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   }
   const id = visitorId(req) || crypto.randomBytes(32).toString("hex");
   const token = crypto.randomBytes(32).toString("hex");
-  const verificationToken = action === 'signup' ? crypto.randomBytes(32).toString('hex') : null;
+  const verificationToken = action === 'signup' ? String(crypto.randomInt(100000, 1000000)) : null;
   const now = Date.now();
   const result = await repository.transaction(async tx => {
     const existing = await tx.get("customers", key);
     if (action === "signup" && existing?.passwordHash) throw fail(409, "Unable to create this account. Try signing in.");
     if (action === "login" && (!existing?.passwordHash || existing.passwordHash !== passwordHash)) throw fail(401, "Please sign in again.");
     const { c, v } = await enroll(tx, id, key, now);
-    if (action === "signup") Object.assign(c, values, { passwordHash, registeredAt: now, termsAcceptedAt: now, emailVerification: { hash: keyFor(verificationToken), expiresAt: now + 86400000 } });
+    if (action === "signup") Object.assign(c, values, { passwordHash, registeredAt: now, termsAcceptedAt: now, emailVerification: { hash: keyFor(verificationToken), expiresAt: now + 10 * 60000 } });
     await tx.put("customers", key, c);
     await tx.put("sessions", keyFor(token), { customerKey: key, visitorId: id, version: c.sessionVersion || 0, expiresAt: now + 30 * 86400000 });
     return { ...eligibility(v, c), signedUp: true, customer: profile(c) };
@@ -268,12 +268,10 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   visitorCookie(res, id);
   res.cookie("loomiq_session", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", maxAge: 30 * 86400000, path: "/" });
   if (action === 'signup') {
-    const verificationUrl = new URL('verify-email', process.env.PUBLIC_SITE_URL || 'http://localhost:5173/');
-    verificationUrl.hash = new URLSearchParams({ token: verificationToken, email }).toString();
     const notificationEmail = process.env.ACCOUNT_NOTIFICATION_EMAIL || process.env.SALES_EMAIL;
     try {
       await Promise.all([
-        sendMail({ to: email, subject: 'Verify your LoomIQ email', text: `Welcome to LoomIQ. Confirm your email address within 24 hours:\n${verificationUrl}` }),
+        sendMail({ to: email, subject: 'Your LoomIQ verification code', text: `Welcome to LoomIQ. Your verification code is: ${verificationToken}\n\nEnter this code in your account within 10 minutes. Do not share it with anyone.` }),
         sendMail({ to: notificationEmail, replyTo: email, subject: 'New LoomIQ account', text: `A new LoomIQ account was created.\n\nName: ${values.name}\nCompany: ${values.company}\nEmail: ${email}` }),
       ]);
     } catch {

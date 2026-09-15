@@ -13,7 +13,7 @@ export default function AccountHelpPage({ kind }: { kind: 'forgot-password' | 'r
     event.preventDefault(); setBusy(true); setError('');
     const fields = Object.fromEntries(new FormData(event.currentTarget));
     try {
-      const result = await accountApi('account/' + kind, kind === 'forgot-password' ? fields : { ...fields, email: link.get('email'), token: link.get('token') });
+      const result = await accountApi('account/' + kind, kind === 'forgot-password' || kind === 'verify-email' ? fields : { ...fields, email: link.get('email'), token: link.get('token') });
       setMessage(result.message); setComplete(true);
       window.history.replaceState(null, '', window.location.pathname);
     } catch (e) { setError(e instanceof Error ? e.message : 'Please try again.'); }
@@ -26,6 +26,7 @@ export default function AccountHelpPage({ kind }: { kind: 'forgot-password' | 'r
     {!complete && <form onSubmit={submit}><fieldset disabled={busy}>
       {kind === 'forgot-password' && <label>{cmsValue("AccountHelpPage.8", "Email")}<input name="email" type="email" autoComplete="email" maxLength={254} required /></label>}
       {kind === 'reset-password' && <label>{cmsValue("AccountHelpPage.9", "New password")}<input name="password" type="password" autoComplete="new-password" minLength={10} maxLength={72} required /><small>{cmsValue("AccountHelpPage.10", "At least 10 characters; maximum 72 bytes.")}</small></label>}
+      {kind === 'verify-email' && <><label>Email<input name="email" type="email" autoComplete="email" maxLength={254} required /></label><label>Verification code<input name="token" inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} required /></label></>}
       <button type="submit">{busy ? cmsValue("AccountHelpPage.11", "Please wait…") : kind === 'forgot-password' ? cmsValue("AccountHelpPage.12", "Send reset link") : kind === 'reset-password' ? cmsValue("AccountHelpPage.13", "Update password") : cmsValue("AccountHelpPage.14", "Verify email")}</button>
     </fieldset></form>}
     {error && <p role="alert">{error}</p>}{message && <p role="status">{message}</p>}

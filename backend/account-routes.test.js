@@ -31,8 +31,8 @@ test('account data requires a session; logout revokes it on the server', async (
   const signup = await request('account/signup', credentials); assert.equal(signup.status, 201); cookie = signup.cookie;
   assert.equal(messages.length, 2);
   assert.equal(messages[0].to, credentials.email);
-  assert.match(messages[0].subject, /Verify your LoomIQ email/);
-  assert.match(messages[0].text, /verify-email/);
+  assert.match(messages[0].subject, /LoomIQ verification code/);
+  assert.match(messages[0].text, /verification code is: \d{6}/);
   assert.equal(messages[1].to, 'owner@example.invalid');
   assert.equal(messages[1].replyTo, credentials.email);
   const me = await request('account/me', undefined, cookie);
@@ -68,8 +68,8 @@ test('reset links are hashed, expire, are single-use and invalidate prior sessio
 test('email verification needs a valid single-use token', async () => {
   assert.equal((await request('account/send-verification', {})).status, 401);
   assert.equal((await request('account/send-verification', {}, cookie)).status, 200);
-  const url = new URL(messages.at(-1).text.split('\n')[1]);
-  const body = Object.fromEntries(new URLSearchParams(url.hash.slice(1)));
+  const token = /verification code is: (\d{6})/.exec(messages.at(-1).text)?.[1];
+  const body = { email: credentials.email, token };
   assert.equal((await request('account/verify-email', { ...body, email: 'other@example.invalid' })).status, 400);
   assert.equal((await request('account/verify-email', body)).status, 200);
   assert.equal((await request('account/verify-email', body)).status, 400);
