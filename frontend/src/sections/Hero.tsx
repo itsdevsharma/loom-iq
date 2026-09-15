@@ -6,9 +6,9 @@ function Hero({ landing = false }: { landing?: boolean }) {
   return (
     <section id="hero" className="hero" aria-labelledby="hero-title">
       <div className="hero-copy">
-        <p className="eyebrow">{cmsValue("Hero.1", "ERP software for growing businesses")}</p>
-        <h1 id="hero-title">{landing ? "Replace Excel with a garment ERP built for manufacturers." : cmsValue("Hero.2", "Run your garment factory from one place.")}</h1>
-        <p className="hero-text">{cmsValue("Hero.3", " LoomIQ gives teams a single view of sales, inventory, manufacturing, quality, dispatch, and finance so operations stay connected as the business grows. ")}</p>
+        <p className="eyebrow">{cmsValue("Hero.1", "ERP software for clothing manufacturers in India")}</p>
+        <h1 id="hero-title">{landing ? "Garment manufacturing ERP software for India." : cmsValue("Hero.2", "ERP Software Built for Clothing Manufacturers")}</h1>
+        <p className="hero-text">{cmsValue("Hero.3", "LoomIQ helps clothing manufacturers manage customer orders, fabric stock, production stages, invoices and reports from one simple ERP platform.")}</p>
         <div className="hero-actions">
           <a href={cmsValue("Hero.4", "#pricing")} className="button button-primary" onClick={() => trackEvent("direct_purchase_clicked")}>{cmsValue("Hero.5", " View plans & offer ")}</a>
           <a href={cmsValue("Hero.6", "#demo")} className="hero-text-link">{cmsValue("Hero.7", " Book a personalized demo ")}<span aria-hidden="true">→</span>

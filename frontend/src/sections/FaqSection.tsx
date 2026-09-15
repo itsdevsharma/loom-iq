@@ -1,10 +1,12 @@
 import '../FaqSection.css';
 import { cmsValue } from '../websiteContent';
 const faqs = cmsValue("FaqSection.1", [
-  {
-    question: "What happens after I request a demo?",
-    answer: "Our team contacts you to arrange a personalized demo around your workflow. We then discuss the appropriate modules, setup requirements, and whether trial access or a paid plan fits. You do not need an account or payment to request a demo."
-  },
+  { question: "What is garment manufacturing ERP software?", answer: "Garment manufacturing ERP software connects orders, fabric and trims inventory, production stages, invoices and reporting in one system." },
+  { question: "Is LoomIQ suitable for small garment factories?", answer: "Yes. LoomIQ is designed for garment factories, apparel brands and boutique production units that need a simpler way to manage daily operations." },
+  { question: "Can LoomIQ manage inventory and fabric stock?", answer: "Yes. Track fabric, trims, work in progress and finished goods to reduce stock mistakes." },
+  { question: "Can LoomIQ track production stages?", answer: "Yes. Follow each order from cutting through production, quality checks and dispatch." },
+  { question: "Is LoomIQ useful for apparel brands?", answer: "Yes. Apparel brands can manage orders, production visibility, inventory, invoices and business reports in one place." },
+  { question: "Does LoomIQ support invoices and reports?", answer: "Yes. LoomIQ connects operational information with invoicing and business reporting." },
   {
     question: "What do the subscription prices cover?",
     answer: "The prices cover the software modules listed in each plan and onboarding support. We confirm user and location limits, migration, customization, integrations, and applicable taxes for your requirements before you commit. Trial and direct-purchase conditions are available in the pricing section without registration."

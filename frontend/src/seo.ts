@@ -39,8 +39,8 @@ const routeMetadata: Record<PageRoute, { title: string; description: string; can
   demo: {title:"Request a LoomIQ Walkthrough", description:"Optional product walkthrough for garment manufacturers.", canonical:`${siteUrl}${basePath}demo`},
   account: { title: cmsValue("seo.1", "Your Account | LoomIQ"), description: cmsValue("seo.2", "Manage your LoomIQ account, onboarding and invoices."), canonical: `${siteUrl}${basePath}account` },
   home: {
-    title: cmsValue("seo.3", "ERP Software for Connected Business Operations | LoomIQ"),
-    description: cmsValue("seo.4", "Manage orders, inventory, production, finance, and operations from one flexible ERP platform built for growing businesses."),
+    title: cmsValue("seo.3", "LoomIQ | ERP Software for Clothing Manufacturers in India"),
+    description: cmsValue("seo.4", "LoomIQ is ERP software built for clothing manufacturers, garment factories and apparel brands in India. Manage orders, inventory, production, invoices and business reports from one platform."),
     canonical: `${siteUrl}${basePath}`,
   },
   privacy: {
