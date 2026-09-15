@@ -222,11 +222,6 @@ function PaymentPage() {
                     <div className="payment-plan-price">{quotes[item.name] ? formatPrice(quotes[item.name]!.amount / 100) : cmsValue("PaymentPage.65", "Loading…")}<span>{cmsValue("PaymentPage.15", "/ month")}</span></div>
                   </label>
                 ))}
-                <div className="payment-form-row">
-                  <label>PAN (optional)<input maxLength={10} value={form.pan} onChange={(event) => updateField("pan", event.target.value.toUpperCase())} /></label>
-                  <label>GSTIN (optional)<input maxLength={15} value={form.gstin} onChange={(event) => updateField("gstin", event.target.value.toUpperCase())} /></label>
-                </div>
-                <label>State code (optional)<input inputMode="numeric" pattern="[0-9]{2}" maxLength={2} value={form.stateCode} onChange={(event) => updateField("stateCode", event.target.value)} /></label>
               </div>
             </fieldset>
 
