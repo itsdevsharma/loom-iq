@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const cmsCollections = new Set(['pages', 'page_versions', 'media', 'preview_tokens']);
-const collections = ['customers', 'visitors', 'sessions', 'orders', 'demoRequests', 'admins', 'roles', 'permissions', 'pricing_history', 'audit_logs', 'events', 'pages', 'page_versions', 'media', 'preview_tokens', 'website_content', 'website_versions', 'supportRequests'];
+const collections = ['invoice_counters', 'customers', 'visitors', 'sessions', 'orders', 'demoRequests', 'admins', 'roles', 'permissions', 'pricing_history', 'audit_logs', 'events', 'pages', 'page_versions', 'media', 'preview_tokens', 'website_content', 'website_versions', 'supportRequests'];
 function readLegacy(filename, demoFilename) {
   const state = fs.existsSync(filename) ? JSON.parse(fs.readFileSync(filename, 'utf8')) : {};
   for (const name of collections) state[name] ||= {};

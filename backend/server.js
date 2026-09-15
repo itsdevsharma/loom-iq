@@ -16,7 +16,8 @@ const port = Number(process.env.PORT || 3001);
 const maxRequestsPerWindow = 5;
 const rateLimitWindowMs = 15 * 60 * 1000;
 const requestLog = new Map();
-const { createInvoice, renderInvoice } = require("./invoice");
+const { createInvoice, invoiceSeller } = require("./invoice");
+const { renderInvoicePdf } = require("./invoice-pdf");
 const { equal } = require("./early-bird");
 const { fileRepository, initializeMongo } = require("./repository");
 const { keyFor, fail, eligibility, profile, enroll } = require("./account-service");
@@ -377,7 +378,7 @@ app.post("/api/purchase/order", requireAccount, async (request, response) => {
     const amount = quote.amount;
     if (request.body.expectedAmount !== amount) return response.status(409).json({ success: false, message: "Your eligibility or price changed. Review the updated total and pay again.", amount, offer, quote });
     const order = await razorpay.orders.create({ amount, currency: "INR", receipt: "loomiq_" + crypto.randomBytes(12).toString("hex"), notes: { plan } });
-    await repository.transaction(tx => tx.put("orders", order.id, { id: order.id, visitorId: id, customerKey: key, amount, plan, discounted: quote.discounted, expiresAt: quote.expiresAt, pricingSource: quote.source, pricingRevision: quote.pricingRevision, createdAt: Date.now(), testMode: !process.env.RAZORPAY_KEY_ID.startsWith("rzp_live_"), billing: Object.fromEntries(["name", "email", "company", "phone", "address", "city", "state"].map(field => [field, cleanText(customer[field])])), seller: { name: process.env.INVOICE_BUSINESS_NAME || "LoomIQ", address: process.env.INVOICE_BUSINESS_ADDRESS || "", gstin: process.env.INVOICE_GSTIN || "", email: "support@loomiq.com" } }));
+    await repository.transaction(tx => tx.put("orders", order.id, { id: order.id, visitorId: id, customerKey: key, amount, plan, unitPrice: quote.discounted ? Math.max(amount, Math.round(quote.recurring * 100)) : amount, discounted: quote.discounted, expiresAt: quote.expiresAt, pricingSource: quote.source, pricingRevision: quote.pricingRevision, createdAt: Date.now(), testMode: !process.env.RAZORPAY_KEY_ID.startsWith("rzp_live_"), billing: Object.fromEntries(["name", "email", "company", "phone", "address", "city", "state", "stateCode", "pan", "gstin"].map(field => [field, cleanText(customer[field])])), seller: invoiceSeller() }));
     response.status(201).json({
       success: true,
       orderId: order.id,
@@ -424,7 +425,7 @@ async function settle(paymentId, observedAt = Date.now(), authoritativeTime = fa
       return { success: false, refund: true };
     }
     order.status = "paid"; order.paymentId = paymentId; order.paidAt = observedAt;
-    order.invoice ||= createInvoice(payment.order_id, order, c);
+    order.invoice ||= await createInvoice(payment.order_id, order, c, tx);
     c.paidOrder = payment.order_id; v.paidOrder = payment.order_id;
     await tx.put("orders", payment.order_id, order);
     await tx.put("customers", order.customerKey, c);
@@ -454,7 +455,7 @@ async function ownedInvoice(req) {
     const order = id && await tx.get("orders", id);
     if (!order || order.customerKey !== session.customerKey || order.status !== "paid") throw fail(404, "No confirmed payment was found for this account.");
     if (!order.invoice) {
-      order.invoice = createInvoice(id, order, customer);
+      order.invoice = await createInvoice(id, order, customer, tx);
       await tx.put("orders", id, order);
     }
     return order.invoice;
@@ -481,7 +482,11 @@ app.get("/api/purchase/receipt/:orderId", requireAccount, async (req, res) => re
 app.get("/api/purchase/invoice/:orderId", requireAccount, async (req, res) => {
   const invoice = await ownedInvoice(req);
   res.setHeader("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'");
-  res.type("html").send(renderInvoice(invoice));
+  const pdf = await renderInvoicePdf(invoice);
+  const filename = String(invoice.number).replace(/[^a-zA-Z0-9_-]/g, "_") + ".pdf";
+  res.setHeader("Content-Disposition", `inline; filename="${filename}"`);
+  res.setHeader("Cache-Control", "private, no-store");
+  res.type("application/pdf").send(pdf);
 });
 
 app.post("/api/purchase/verify", async (req, res) => {

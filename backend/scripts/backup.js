@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const { BSON } = require('mongodb');
 const { connectDatabase, closeDatabase } = require('../database');
 const { encryptBackup, decryptBackup } = require('../backup');
-const names = ['customers', 'visitors', 'sessions', 'orders', 'demoRequests', 'migrations'];
+const names = ['invoice_counters', 'customers', 'visitors', 'sessions', 'orders', 'demoRequests', 'migrations'];
 async function main() {
   const [command, filename, target] = process.argv.slice(2);
   if (!filename || !['create', 'restore'].includes(command)) throw new Error('Usage: node scripts/backup.js create <file> | restore <file> <loomiq_restore_name>');

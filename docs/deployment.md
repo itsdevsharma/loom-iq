@@ -58,3 +58,20 @@ Set `BACKUP_PASSWORD` to a long random secret stored separately from archives. C
 Set GitHub repository variable `HEALTHCHECK_URL=https://your-domain/health` to enable the scheduled health workflow. Enable workflow failure notifications for the responsible operator. Schedules may be delayed; use a dedicated uptime service if you need tighter timing. `/health` checks database reachability and returns 503 on failure.
 
 Run backend `npm test`, frontend `npm run lint`, and frontend `npm run test:e2e` before release. Install the browser once with `npx playwright install chromium`. The browser suite uses isolated temporary data, fake SMTP, and fake Razorpay with desktop and mobile viewports. Live gateway behavior, mailbox delivery, GA4 reporting, DNS/TLS, and provider backup retention still require checks in the configured service accounts.
+
+
+## Commercial invoice configuration
+
+Invoices are PDFs for a non-GST-registered supplier, labelled INVOICE with GST INR 0.00 and the explicit non-registration statement. Supplier GSTIN is not printed. This workflow does not calculate GST.
+
+Set these Render/backend environment variables before taking new orders:
+
+- `INVOICE_BUSINESS_NAME`, `INVOICE_BUSINESS_ADDRESS`, `INVOICE_PHONE`, `INVOICE_EMAIL`, `INVOICE_WEBSITE`, `INVOICE_PAN`.
+- Optional: `INVOICE_CIN` (CIN/LLPIN), `INVOICE_SAC` (confirmed service classification).
+- Optional payment details: `INVOICE_BANK_NAME`, `INVOICE_ACCOUNT_HOLDER`, `INVOICE_ACCOUNT_NUMBER`, `INVOICE_IFSC`, `INVOICE_UPI`.
+
+Missing optional details are omitted. Business details and quoted price are saved when the order is created; subsequent configuration changes do not rewrite issued invoices. The customer can supply PAN, GSTIN, and a two-digit state code at checkout.
+
+New live invoices use `LIQ/YYYY-YY/0001`, increasing within the April–March financial year in Asia/Kolkata. Test invoices use an independent `LIQ-TEST` sequence. Counters and invoices are committed together in the payment transaction, and counters are included in backups. Previously issued invoice numbers remain unchanged. Restore orders and counters from the same backup; do not reset production counters.
+
+The current purchase covers one month, not an annual subscription. The invoice shows the duration and says dates are confirmed on activation unless an order already contains `subscription.start` and `subscription.end` timestamps. Older orders without a saved list price show the recorded payment as subtotal and zero discount; historical discounts are not reconstructed from current prices.

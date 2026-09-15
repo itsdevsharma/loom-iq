@@ -3,8 +3,11 @@ let content: Record<string, unknown> = Object.fromEntries(Object.entries(catalog
 const apiOrigin = (import.meta.env.PUBLIC_API_URL ?? '').replace(/\/$/, '')
 
 function apiAssetUrl(value: string) {
-  // CMS defaults and uploaded CMS media use API-relative URLs. When the website
-  // is hosted separately (for example, Vercel) those URLs must target the API.
+  // Built-in images ship with the frontend; they must not wait for the API.
+  if (value.startsWith("/api/content/assets/")) {
+    return import.meta.env.BASE_URL + "cms-defaults/" + value.slice("/api/content/assets/".length)
+  }
+  // Uploaded CMS media still belongs to the API.
   return apiOrigin && value.startsWith('/api/') ? apiOrigin + value : value
 }
 

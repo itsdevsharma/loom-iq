@@ -2,7 +2,8 @@ const crypto = require('node:crypto');
 const bcrypt = require('bcrypt');
 const { keyFor, fail, profile } = require('./account-service');
 const { sendMail, mailConfigured } = require('./mail');
-const { createInvoice, renderInvoice } = require('./invoice');
+const { createInvoice } = require('./invoice');
+const { renderInvoicePdf } = require('./invoice-pdf');
 
 function registerAccountRoutes(app, { store, account, limiter }) {
   const signedIn = async req => {
@@ -18,7 +19,7 @@ function registerAccountRoutes(app, { store, account, limiter }) {
       if (!order.invoice) order.invoice = await store().transaction(async tx => {
         const current = await tx.get('orders', order.id);
         if (!current || current.status !== 'paid' || current.customerKey !== session.customerKey) return null;
-        current.invoice ||= createInvoice(order.id, current, customer);
+        current.invoice ||= await createInvoice(order.id, current, customer, tx);
         await tx.put('orders', order.id, current);
         return current.invoice;
       });
@@ -112,7 +113,7 @@ function registerAccountRoutes(app, { store, account, limiter }) {
     if (!order || order.customerKey !== session.customerKey || order.status !== 'paid' || !order.invoice) throw fail(404, 'Invoice not found.');
     const customer = await store().get('customers', session.customerKey);
     if (!customer.emailVerifiedAt) throw fail(403, 'Verify your email before requesting an invoice email.');
-    await sendMail({ to: customer.email, subject: `LoomIQ invoice ${order.invoice.number}`, text: 'Your membership payment invoice is attached. Open the HTML file in your browser to print or save as PDF.', attachments: [{ filename: `${order.invoice.number}.html`, content: renderInvoice(order.invoice), contentType: 'text/html' }] });
+    await sendMail({ to: customer.email, subject: `LoomIQ invoice ${order.invoice.number}`, text: 'Your membership payment invoice is attached. You can open, save, or print the attached PDF.', attachments: [{ filename: `${order.invoice.number.replace(/[^a-zA-Z0-9_-]/g, "_")}.pdf`, content: await renderInvoicePdf(order.invoice), contentType: 'application/pdf' }] });
     res.json({ message: 'Invoice sent to your verified email.' });
   });
 }

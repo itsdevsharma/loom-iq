@@ -3554,5 +3554,59 @@
     "label": "Offer percentage · uses the current checkout discount",
     "kind": "text",
     "default": "{discount}"
+  },
+  "ThankYouPage.credentialsTitle": {
+    "group": "ThankYouPage",
+    "label": "Your LoomIQ ERP login credentials are being created.",
+    "kind": "text",
+    "default": "Your LoomIQ ERP login credentials are being created."
+  },
+  "ThankYouPage.credentialsLead": {
+    "group": "ThankYouPage",
+    "label": "Thank you{0}. Your LoomIQ {1} payment is confirmed. We’ll send your ERP login credentials to {2} by email.",
+    "kind": "text",
+    "default": "Thank you{0}. Your LoomIQ {1} payment is confirmed. We’ll send your ERP login credentials to {2} by email."
+  },
+  "ThankYouPage.credentialsHelp": {
+    "group": "ThankYouPage",
+    "label": "Haven’t received your credentials? Check your spam or junk folder, then contact us for help.",
+    "kind": "text",
+    "default": "Haven’t received your credentials? Check your spam or junk folder, then contact us for help."
+  },
+  "ThankYouPage.credentialsContact": {
+    "group": "ThankYouPage",
+    "label": "Contact us",
+    "kind": "text",
+    "default": "Contact us"
+  },
+  "ThankYouPage.credentialsEmail": {
+    "group": "ThankYouPage",
+    "label": "Email support@loomiq.com",
+    "kind": "text",
+    "default": "Email support@loomiq.com"
+  },
+  "ThankYouPage.pdfHelp": {
+    "group": "ThankYouPage",
+    "label": "PDF invoice help",
+    "kind": "text",
+    "default": "Your PDF invoice is ready to open, save, or print."
+  },
+  "PaymentPage.requiredFields": {
+    "group": "PaymentPage",
+    "label": "Billing field requirements",
+    "kind": "text",
+    "default": "Required unless marked optional"
+  },
+  "ThankYouPage.credentialsDeliveryLead": {
+    "group": "ThankYouPage",
+    "label": "Thank you{0}. Your LoomIQ {1} payment is confirmed. You’ll receive your ERP login credentials at {2} by email within 1–2 hours.",
+    "kind": "text",
+    "default": "Thank you{0}. Your LoomIQ {1} payment is confirmed. You’ll receive your ERP login credentials at {2} by email within 1–2 hours."
+  },
+  "ThankYouPage.credentialsDeliveryHelp": {
+    "group": "ThankYouPage",
+    "label": "Haven’t received your credentials after 2 hours? Check your spam or junk folder, then contact us for help.",
+    "kind": "text",
+    "default": "Haven’t received your credentials after 2 hours? Check your spam or junk folder, then contact us for help."
   }
 }
