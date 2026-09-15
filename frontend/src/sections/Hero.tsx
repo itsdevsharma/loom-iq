@@ -1,41 +1,26 @@
 import { trackEvent } from '../analytics';
-import { cmsValue } from '../websiteContent';
 import analyticsDashboard from "../assets/analytics-dashboard.webp";
 
-function Hero({ landing = false }: { landing?: boolean }) {
+function Hero() {
   return (
     <section id="hero" className="hero" aria-labelledby="hero-title">
       <div className="hero-copy">
-        <p className="eyebrow">{cmsValue("Hero.1", "ERP software for clothing manufacturers in India")}</p>
-        <h1 id="hero-title">{landing ? "Garment manufacturing ERP software for India." : cmsValue("Hero.2", "ERP Software Built for Clothing Manufacturers")}</h1>
-        <p className="hero-text">{cmsValue("Hero.3", "LoomIQ helps clothing manufacturers manage customer orders, fabric stock, production stages, invoices and reports from one simple ERP platform.")}</p>
+        <p className="eyebrow">Made specifically for Indian garment manufacturers</p>
+        <h1 id="hero-title">Stop losing track of garment orders and production.</h1>
+        <p className="hero-text">LoomIQ brings orders, fabric inventory, job work, production, invoices and reports into one simple ERP built for clothing manufacturers.</p>
         <div className="hero-actions">
-          <a href={cmsValue("Hero.4", "#pricing")} className="button button-primary" onClick={() => trackEvent("direct_purchase_clicked")}>{cmsValue("Hero.5", " View plans & offer ")}</a>
-          <a href={cmsValue("Hero.6", "#demo")} className="hero-text-link">{cmsValue("Hero.7", " Book a personalized demo ")}<span aria-hidden="true">→</span>
-          </a>
+          <a href="#pricing" className="button button-primary" onClick={() => trackEvent("direct_purchase_clicked")}>Start Using LoomIQ — ₹1,990/month</a>
+          <a href="#showcase" className="hero-text-link">Watch 90-second product tour <span aria-hidden="true">→</span></a>
         </div>
+        <p className="hero-reassurance">Instant account • Guided setup • 7-day money-back guarantee</p>
       </div>
 
-      <div className="hero-product" aria-label={cmsValue("Hero.9", "LoomIQ textile manufacturing dashboard preview")}>
-        <div className="hero-product-bar">
-          <span />
-          <span />
-          <span />
-          <p>{cmsValue("Hero.10", "Manufacturing overview")}</p>
-        </div>
+      <div className="hero-product" aria-label="LoomIQ garment manufacturing dashboard preview">
+        <div className="hero-product-bar"><span /><span /><span /><p>Manufacturing overview</p></div>
         <div className="hero-product-image-wrap" tabIndex={0} role="region" aria-label="Scrollable interface preview">
-          <img
-            src={cmsValue("Hero.11", analyticsDashboard)}
-            alt={cmsValue("Hero.12", "LoomIQ manufacturing dashboard showing revenue, inventory, and operations")}
-            className="analytics-dashboard-image"
-            width={1440}
-            height={921}
-            fetchPriority="high"
-            decoding="async"
-            draggable={false}
-          />
+          <img src={analyticsDashboard} alt="LoomIQ manufacturing dashboard showing revenue, inventory, and operations" className="analytics-dashboard-image" width={1440} height={921} fetchPriority="high" decoding="async" draggable={false} />
         </div>
-        <p className="preview-caption">Interface preview · example data. Garment-specific product screens pending.</p>
+        <p className="preview-caption">Product preview · example data</p>
       </div>
     </section>
   );

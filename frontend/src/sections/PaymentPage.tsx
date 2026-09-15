@@ -210,7 +210,7 @@ function PaymentPage() {
         </div>
 
         <form className="payment-layout" onSubmit={submitPayment}>
-          <div className="payment-form"><section className="setup-disclosure"><h2>After your payment</h2><p>Your invoice becomes available after payment verification. Our team arranges your ERP workspace and you can follow onboarding in your account. Access is not instant; a setup date has not been specified.</p></section>
+          <div className="payment-form"><section className="setup-disclosure"><h2>After purchasing</h2><ol><li>Your account is created instantly</li><li>Select your garment-production workflow</li><li>Import products, customers and stock</li><li>Receive guided onboarding</li></ol><p><strong>7-Day Money-Back Guarantee:</strong> try LoomIQ with your actual business. If it isn’t right for you, request a refund within seven days.</p></section>
             <fieldset className="payment-card payment-plan-fieldset" disabled={isSubmitting}>
               <legend className="payment-sr-only">{cmsValue("PaymentPage.11", "Choose your plan")}</legend>
               <div className="payment-section-heading"><h2>{cmsValue("PaymentPage.12", "Your plan")}</h2>{introductory && <span className="payment-offer-badge">{cmsValue("PaymentPage.13", "24-hour offer · {discount} off")}</span>}</div>

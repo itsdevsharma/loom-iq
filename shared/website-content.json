@@ -3439,11 +3439,11 @@
     "kind": "structured",
     "default": {
       "Starter": {
-        "firstMonth": 995,
+        "firstMonth": 1990,
         "recurring": 1990
       },
       "Growth": {
-        "firstMonth": 1495,
+        "firstMonth": 2990,
         "recurring": 2990
       },
       "Enterprise": {

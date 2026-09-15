@@ -4115,6 +4115,28 @@ h1 {
 #account { scroll-margin-top: 24px; }
 @media (max-width: 700px) { .conversion-offer-main { grid-template-columns: 1fr; gap: 28px; } .conversion-offer-action { border-top: 1px solid var(--border); padding-top: 18px; } }
 
+/* Sales proof, straightforward plan disclosure, and payment reassurance. */
+.proof-section { padding-top: 56px; }
+.proof-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr); gap: 28px; align-items: stretch; margin-top: 30px; }
+.proof-screen, .proof-early-access, .guarantee-card { margin: 0; border: 1px solid var(--border); border-radius: 18px; background: var(--panel); box-shadow: var(--shadow-card); overflow: hidden; }
+.proof-screen img { display: block; width: 100%; height: auto; }
+.proof-screen figcaption { padding: 10px 16px; color: var(--muted); font-size: .8rem; }
+.proof-early-access { padding: 28px; }
+.proof-early-access h3, .guarantee-card h3 { margin: 8px 0; color: var(--text-strong); font-size: 1.35rem; }
+.proof-early-access p { margin: 0 0 16px; }
+.proof-early-access ul { display: grid; gap: 10px; margin: 0; padding-left: 20px; }
+.launch-offer { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; margin: 20px auto 30px; padding: 12px 18px; width: fit-content; border-radius: 999px; background: var(--accent-soft); color: var(--accent-strong); }
+.launch-offer strong { font-weight: 800; }
+.launch-offer span { color: var(--text); }
+.pc-purchase-steps { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); color: var(--muted); font-size: .73rem; line-height: 1.45; }
+.pc-purchase-steps strong { color: var(--text-strong); }
+.pc-purchase-steps ol { display: grid; gap: 3px; margin: 6px 0 0; padding-left: 18px; }
+.guarantee-card { display: flex; gap: 16px; max-width: 720px; margin: 34px auto 0; padding: 22px; overflow: visible; }
+.guarantee-card > div:first-child { display: grid; place-items: center; flex: 0 0 38px; height: 38px; border-radius: 50%; background: var(--success); color: #fff; font-weight: 800; }
+.guarantee-card p { margin: 0 0 6px; }
+.guarantee-card a { color: var(--accent-strong); font-weight: 700; text-decoration: underline; }
+@media (max-width: 760px) { .proof-layout { grid-template-columns: 1fr; } .launch-offer { border-radius: 14px; text-align: center; } .guarantee-card { align-items: flex-start; } }
+
 .purchase-announcement { margin: 0; width: 100%; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 6px 24px; padding: 12px var(--page-gutter, 16px); border-radius: 0; background: linear-gradient(115deg, #26133f, #4b2180); color: #fff; }
 .purchase-announcement-copy { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .purchase-announcement-badge { flex-shrink: 0; padding: 4px 7px; border: 1px solid #ffc48666; border-radius: 5px; background: #ffc48618; color: #ffcf99; font-size: 12px; font-weight: 800; white-space: nowrap; }

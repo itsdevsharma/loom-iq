@@ -391,11 +391,10 @@ app.post("/api/purchase/order", requireAccount, async (request, response) => {
     if (request.body.acceptConditions !== true) return response.status(400).json({ message: "Please accept the purchase conditions." });
     const offer = await offerStatus(request);
     const quote = await require('./customer-pricing').customerQuote(repository, key, plan, offer);
-    if (quote.discounted && !process.env.RAZORPAY_WEBHOOK_SECRET) return response.status(503).json({ success: false, message: "Early-bird payment confirmation is not configured. Please contact support." });
     const amount = quote.amount;
     if (request.body.expectedAmount !== amount) return response.status(409).json({ success: false, message: "Your eligibility or price changed. Review the updated total and pay again.", amount, offer, quote });
     const order = await razorpay.orders.create({ amount, currency: "INR", receipt: "loomiq_" + crypto.randomBytes(12).toString("hex"), notes: { plan } });
-    await repository.transaction(tx => tx.put("orders", order.id, { id: order.id, visitorId: id, customerKey: key, amount, plan, unitPrice: quote.discounted ? Math.max(amount, Math.round(quote.recurring * 100)) : amount, discounted: quote.discounted, expiresAt: quote.expiresAt, pricingSource: quote.source, pricingRevision: quote.pricingRevision, createdAt: Date.now(), testMode: !process.env.RAZORPAY_KEY_ID.startsWith("rzp_live_"), billing: Object.fromEntries(["name", "email", "company", "phone", "address", "city", "state", "stateCode", "pan", "gstin"].map(field => [field, cleanText(customer[field])])), seller: invoiceSeller() }));
+    await repository.transaction(tx => tx.put("orders", order.id, { id: order.id, visitorId: id, customerKey: key, amount, plan, unitPrice: amount, pricingSource: quote.source, pricingRevision: quote.pricingRevision, createdAt: Date.now(), testMode: !process.env.RAZORPAY_KEY_ID.startsWith("rzp_live_"), billing: Object.fromEntries(["name", "email", "company", "phone", "address", "city", "state", "stateCode", "pan", "gstin"].map(field => [field, cleanText(customer[field])])), seller: invoiceSeller() }));
     response.status(201).json({
       success: true,
       orderId: order.id,
@@ -430,38 +429,20 @@ async function settle(paymentId, observedAt = Date.now(), authoritativeTime = fa
     const order = await tx.get("orders", payment.order_id);
     if (!order || payment.amount !== order.amount || payment.currency !== "INR") throw new Error("Payment does not match a stored order.");
     if (order.paymentId === paymentId && order.status === "paid") return { success: true };
-    if (order.status === "rejected" && payment.amount_refunded === payment.amount) return { success: false, message: "This ineligible payment has been refunded. Please purchase at the regular price." };
+    if (order.status === "rejected") return { success: false, message: "This payment has been rejected. Please contact support with your payment reference." };
     if (payment.status !== "captured") return { success: false, message: "Payment is awaiting capture. Please contact support with your payment reference." };
     const c = await tx.get("customers", order.customerKey);
     const v = await tx.get("visitors", order.visitorId);
-    if (order.discounted && observedAt >= order.expiresAt && !authoritativeTime && order.status !== "rejected") return { success: false, message: "Payment confirmation is pending the gateway timestamp. Contact support with your payment reference; do not pay again." };
-    const invalid = order.status === "rejected" || order.discounted && (observedAt >= order.expiresAt || Boolean(c.paidOrder && c.paidOrder !== payment.order_id));
-    if (invalid) {
-      order.status = "rejected";
-      await tx.put("orders", payment.order_id, order);
-      return { success: false, refund: true };
-    }
     order.status = "paid"; order.paymentId = paymentId; order.paidAt = observedAt;
     order.invoice ||= await createInvoice(payment.order_id, order, c, tx);
     c.paidOrder = payment.order_id; v.paidOrder = payment.order_id;
+    c.launchPriceLock ||= {};
+    c.launchPriceLock[order.plan] ||= { amount: order.amount, expiresAt: observedAt + 90 * 86400000 };
     await tx.put("orders", payment.order_id, order);
     await tx.put("customers", order.customerKey, c);
     await tx.put("visitors", order.visitorId, v);
     return { success: true, message: "Payment verified successfully." };
   });
-  // External gateway calls must stay outside retryable database transactions.
-  if (result.refund) {
-    if (!payment.amount_refunded) {
-      const refundClient = new Razorpay({ key_id: process.env.RAZORPAY_KEY_ID, key_secret: process.env.RAZORPAY_KEY_SECRET, headers: { "X-Refund-Idempotency": `early-bird-${paymentId}` } });
-      const refund = await refundClient.payments.refund(paymentId, { amount: payment.amount });
-      await repository.transaction(async tx => {
-        const order = await tx.get("orders", payment.order_id);
-        order.refundId = refund.id;
-        await tx.put("orders", payment.order_id, order);
-      });
-    }
-    return { success: false, message: "This early-bird payment is no longer eligible. A full refund was requested. Please purchase at the regular price." };
-  }
   return result;
 }
 async function ownedInvoice(req) {

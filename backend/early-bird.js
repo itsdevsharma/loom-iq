@@ -1,8 +1,8 @@
 const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
-const DURATION = 86400000;
-const pricing = { Starter: { firstMonth: 995, recurring: 1990 }, Growth: { firstMonth: 1495, recurring: 2990 } };
+const DURATION = 90 * 86400000;
+const pricing = { Starter: { firstMonth: 1990, recurring: 1990 }, Growth: { firstMonth: 2990, recurring: 2990 } };
 function signature(value, secret) { return crypto.createHmac('sha256', secret).update(value).digest('hex'); }
 function equal(a, b) { return typeof a === 'string' && typeof b === 'string' && /^[a-f0-9]{64}$/.test(a) && a.length === b.length && crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b)); }
 function validCampaign(token, secret, now) {

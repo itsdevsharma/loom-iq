@@ -8,8 +8,9 @@ function amountInPaise(value){
 async function customerQuote(store,customerKey,planName,offer,now=Date.now()){
   if(!PLANS.includes(planName))throw fail(400,'Invalid plan.');
   const [pricing,customer]=await Promise.all([configuredPricing(store),customerKey?store.get('customers',customerKey):null]);
-  const plan=pricing[planName],override=customer?.pricingOverrides?.[planName];
+  const plan=pricing[planName],override=customer?.pricingOverrides?.[planName],locked=customer?.launchPriceLock?.[planName];
   const active=override&&(!override.expiresAt||override.expiresAt>now);
-  return {plan:planName,currency:'INR',amount:active?override.amount:Math.round((offer.eligible?plan.firstMonth:plan.recurring)*100),recurring:plan.recurring,source:active?'customer':'website',discounted:!active&&offer.eligible,pricingRevision:customer?.pricingRevision||0,expiresAt:active?override.expiresAt||null:offer.eligible?offer.expiresAt:null};
+  const lockActive=locked&&locked.expiresAt>now;
+  return {plan:planName,currency:'INR',amount:active?override.amount:lockActive?locked.amount:Math.round(plan.recurring*100),recurring:plan.recurring,source:active?'customer':lockActive?'launch-lock':'website',discounted:false,pricingRevision:customer?.pricingRevision||0,expiresAt:active ? override.expiresAt : lockActive ? locked.expiresAt : null};
 }
 module.exports={customerQuote,amountInPaise,PLANS};

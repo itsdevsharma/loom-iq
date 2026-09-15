@@ -13,10 +13,10 @@ test('commerce: signup privacy, authorization, customer quotes, revisions, expir
  assert.equal((await request(route,'PUT',{...change,amount:-1})).status,400);assert.equal((await request(route,'PUT',{...change,amount:1.001})).status,400);assert.equal((await request(route,'PUT',{...change,reason:''})).status,400);
  assert.equal((await request(route,'PUT',change)).status,200);assert.equal((await request(route,'PUT',change)).status,409);
  let quote=await customerQuote(repo,key,'Starter',{eligible:true,expiresAt:now+60000});assert.equal(quote.amount,75025);assert.equal(quote.source,'customer');assert.equal(quote.discounted,false);
- assert.equal((await customerQuote(repo,'other','Starter',{eligible:true})).amount,99500);assert.equal((await repo.get('orders','order_live')).amount,199000);
+ assert.equal((await customerQuote(repo,'other','Starter',{eligible:true})).amount,199000);assert.equal((await repo.get('orders','order_live')).amount,199000);
  assert.equal((await request('customers/'+email)).body.history[0].reason,change.reason);
  assert.equal((await request(route,'PUT',{...change,revision:1,expiresAt:now+60000})).status,200);assert.equal((await customerQuote(repo,key,'Starter',{eligible:false},now+60001)).amount,199000);
- assert.equal((await request(route,'PUT',{remove:true,reason:'Restore regular rules',revision:2})).status,200);assert.equal((await customerQuote(repo,key,'Starter',{eligible:true})).amount,99500);
+ assert.equal((await request(route,'PUT',{remove:true,reason:'Restore regular rules',revision:2})).status,200);assert.equal((await customerQuote(repo,key,'Starter',{eligible:true})).amount,199000);
  result=await request('payments?days=all');assert.equal(result.body.summary.captured,199000);assert.equal(result.body.items.length,1);assert.equal(result.body.items[0].mode,'live');
  assert.equal((await request('payments/order_live/refresh','POST',{})).status,409);assert.equal(calls,0);
  assert.equal((await request('payments/order_test/refresh','POST',{})).status,200);assert.equal((await request('payments/order_test/refresh','POST',{})).status,429);

@@ -21,6 +21,7 @@ type PricingCardProps = {
   accentStrong?: string;
   background?: string;
   className?: string;
+  purchaseSteps?: string[];
 };
 
 export default function PricingCard({
@@ -43,6 +44,7 @@ export default function PricingCard({
   accentStrong = "var(--accent-strong)",
   background = "var(--panel)",
   className = "",
+  purchaseSteps,
 }: PricingCardProps) {
   const CTA = href ? "a" : "button";
 
@@ -92,6 +94,7 @@ export default function PricingCard({
         >
           {ctaLabel}
         </CTA>
+        {purchaseSteps && <div className="pc-purchase-steps"><strong>After purchasing</strong><ol>{purchaseSteps.map(step => <li key={step}>{step}</li>)}</ol></div>}
       </div>
 
       {bottomText && <span className="pc-bottom-text">{bottomText}</span>}
