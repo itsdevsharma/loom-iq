@@ -22,6 +22,7 @@ const { equal } = require("./early-bird");
 const { fileRepository, initializeMongo } = require("./repository");
 const { keyFor, fail, eligibility, profile, enroll } = require("./account-service");
 const { sendMail, mailConfigured } = require('./mail');
+const erpIntegration = require('./erp-integration');
 const offerDbPath = process.env.OFFER_DB_PATH || path.join(__dirname, "data", "offers.json");
 const demoDbPath = path.join(__dirname, "data", "demo-requests.json");
 let repository = fileRepository(offerDbPath, demoDbPath);
@@ -143,10 +144,11 @@ function cleanText(value) {
   return typeof value === "string" ? value.trim().replace(/\s+/g, " ") : "";
 }
 
-function validateDemoRequest(body) {
+function validateDemoRequest(body, { requireMobile = false } = {}) {
   const name = cleanText(body.name);
   const email = cleanText(body.email).toLowerCase();
   const company = cleanText(body.company);
+  const mobile = cleanText(body.mobile).replace(/[^0-9+]/g, '');
   const businessType = cleanText(body.businessType);
   const errors = {};
   if (!name) errors.name = "Name is required.";
@@ -156,7 +158,8 @@ function validateDemoRequest(body) {
   if (!company) errors.company = "Company is required.";
   else if (company.length < 2 || company.length > 150) errors.company = "Company must be between 2 and 150 characters.";
   if (businessType.length > 80) errors.businessType = "Business type is too long.";
-  return { values: { name, email, company, businessType }, errors };
+  if (requireMobile && (mobile.length < 10 || mobile.length > 16)) errors.mobile = "Enter a valid mobile number.";
+  return { values: { name, email, company, mobile, businessType }, errors };
 }
 function sendDemoNotification(demoRequest) {
   const salesEmail = process.env.SALES_EMAIL || process.env.EMAIL_API_KEY;
@@ -329,6 +332,33 @@ app.post("/api/demo-requests", async (request, response) => {
     return;
   }
   const body = request.body && typeof request.body === "object" ? request.body : {};
+  if (String(body.action || '').toLowerCase() === 'verify') {
+    const requestId = cleanText(body.requestId);
+    const otp = cleanText(body.otp);
+    if (!requestId || !/^\d{6}$/.test(otp)) return response.status(400).json({ success: false, message: 'Enter the six-digit verification code.' });
+    const demoRequest = await repository.get('demoRequests', requestId);
+    if (!demoRequest || demoRequest.status !== 'verification_pending') return response.status(404).json({ success: false, message: 'This demo verification request is no longer available.' });
+    try {
+      const result = await erpIntegration.verifyDemo({ requestId: demoRequest.erpRequestId, otp });
+      const credentials = result.credentials;
+      await repository.transaction(async tx => {
+        const current = await tx.get('demoRequests', requestId);
+        if (!current) return;
+        Object.assign(current, { status: 'active', updatedAt: new Date().toISOString(), expiresAt: credentials.expiresAt, erp: { userId: result.userId, organizationId: result.organizationId } });
+        await tx.put('demoRequests', requestId, current);
+      });
+      // Email is a delivery channel; credentials are also returned once to the
+      // verified browser so a temporary mail delay cannot lock out the prospect.
+      let credentialEmailDelivered = false;
+      try {
+        await sendMail({ to: demoRequest.email, subject: 'Your LoomIQ 3-hour demo credentials', text: `Your LoomIQ ERP demo is ready.\n\nLogin: ${result.loginUrl}\nUsername: ${credentials.username}\nTemporary password: ${credentials.temporaryPassword}\nExpires: ${new Date(credentials.expiresAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', timeZoneName: 'short' })}\n\nDo not share these credentials.` });
+        credentialEmailDelivered = true;
+      } catch (error) { console.error('Demo credential email failed:', error.message); }
+      return response.status(201).json({ success: true, data: { credentials, loginUrl: result.loginUrl, credentialEmailDelivered } });
+    } catch (error) {
+      return response.status(error.status || 502).json({ success: false, message: error.message || 'Unable to verify your demo.' });
+    }
+  }
   if (cleanText(body.website)) {
     response.status(400).json({ success: false, message: "Validation failed", errors: { form: "Unable to process request." } });
     return;
@@ -337,26 +367,36 @@ app.post("/api/demo-requests", async (request, response) => {
     response.status(400).json({ success: false, message: "Validation failed", errors: { form: "Please take a moment before submitting." } });
     return;
   }
-  const { values, errors } = validateDemoRequest(body);
+  const { values, errors } = validateDemoRequest(body, { requireMobile: true });
   if (Object.keys(errors).length > 0) {
     response.status(400).json({ success: false, message: "Validation failed", errors });
     return;
   }
+  if (!erpIntegration.configured()) return response.status(503).json({ success: false, message: 'The LoomIQ demo service is temporarily unavailable. Please contact support.' });
   await setVisitor(request, response);
   // Demo requests do not change account eligibility.
   const trialSelected = Boolean((await offerStatus(request)).trialSelected);
   const now = new Date().toISOString();
+  let erpRequest;
+  try {
+    erpRequest = await erpIntegration.startDemo({ name: values.name, businessName: values.company, email: values.email, mobile: values.mobile, source: 'loomiq_marketing', campaign: cleanText(body.campaign), ip: getClientAddress(request) });
+    if (!erpRequest.otp) throw new Error('ERP verification code was not supplied to the trusted delivery service.');
+    await sendMail({ to: values.email, subject: 'Your LoomIQ demo verification code', text: `Your LoomIQ verification code is: ${erpRequest.otp}\n\nIt expires in 10 minutes. Do not share this code.` });
+  } catch (error) {
+    return response.status(error.status || 502).json({ success: false, message: error.message || 'Unable to start your demo.' });
+  }
   const demoRequest = {
     id: "demo_" + crypto.randomUUID(),
     ...values,
-    status: "new",
-    requestType: trialSelected ? "trial" : "demo",
+    status: "verification_pending",
+    requestType: "three_hour_demo",
+    erpRequestId: erpRequest.requestId,
     createdAt: now,
     updatedAt: now,
   };
   await repository.transaction(tx => tx.put("demoRequests", demoRequest.id, demoRequest));
   sendDemoNotification(demoRequest).catch(() => {});
-  response.status(201).json({ success: true, message: "Demo request submitted successfully" });
+  response.status(202).json({ success: true, message: "Verification code sent.", data: { requestId: demoRequest.id } });
 });
 app.post("/api/purchase/quote", async (req, res) => {
   const offer = await offerStatus(req);
@@ -422,18 +462,137 @@ app.post("/api/purchase/order", requireAccount, async (request, response) => {
   }
 });
 
+const ERP_CONVERSION_LEASE_MS = 2 * 60 * 1000;
+const ERP_CONVERSION_MAX_DELAY_MS = 60 * 60 * 1000;
+const erpRetryInterval = () => Math.max(5000, Math.min(Number(process.env.ERP_CONVERSION_RETRY_INTERVAL_MS || 30000), 5 * 60 * 1000));
+const retryDelay = attempts => Math.min(ERP_CONVERSION_MAX_DELAY_MS, erpRetryInterval() * 2 ** Math.min(Math.max(0, attempts - 1), 7));
+
+const workspaceUrl = value => {
+  try {
+    const url = new URL(String(value || ''));
+    return url.protocol === 'https:' && !url.username && !url.password ? url.href : null;
+  } catch { return null; }
+};
+
+async function findAssociatedDemo(customerKey, requestedId) {
+  if (requestedId) {
+    const demo = await repository.get('demoRequests', requestedId);
+    if (demo?.erp?.userId) return demo;
+  }
+  const demos = await repository.list('demoRequests');
+  // An expired demo remains eligible until its secure cleanup removes it.
+  return demos.filter(item => ['active', 'expired'].includes(item.status) && item.erp?.userId && item.email && keyFor(item.email) === customerKey)
+    .sort((a, b) => String(b.updatedAt || b.createdAt || '').localeCompare(String(a.updatedAt || a.createdAt || '')))[0];
+}
+
+async function claimErpConversion(orderId) {
+  return repository.transaction(async tx => {
+    const order = await tx.get('orders', orderId);
+    if (!order || order.status !== 'paid') return null;
+    const now = Date.now();
+    const conversion = order.erpConversion || { status: 'pending', attempts: 0, nextAttemptAt: now };
+    if (['converted', 'not_applicable'].includes(conversion.status)) return null;
+    if (conversion.status === 'processing' && conversion.startedAt > now - ERP_CONVERSION_LEASE_MS) return null;
+    if (conversion.nextAttemptAt && conversion.nextAttemptAt > now) return null;
+    order.erpConversion = { ...conversion, status: 'processing', attempts: (conversion.attempts || 0) + 1, startedAt: now, nextAttemptAt: null, lastError: null };
+    await tx.put('orders', order.id, order);
+    return { id: order.id, customerKey: order.customerKey, plan: order.plan, conversion: order.erpConversion };
+  });
+}
+
+async function deferErpConversion(orderId, error) {
+  await repository.transaction(async tx => {
+    const order = await tx.get('orders', orderId);
+    if (!order?.erpConversion || order.erpConversion.status !== 'processing') return;
+    const attempts = order.erpConversion.attempts || 1;
+    order.erpConversion = { ...order.erpConversion, status: 'pending', startedAt: null, nextAttemptAt: Date.now() + retryDelay(attempts), lastError: String(error?.message || 'ERP conversion failed').slice(0, 500) };
+    await tx.put('orders', order.id, order);
+  });
+}
+
+async function markConversionNotApplicable(orderId) {
+  await repository.transaction(async tx => {
+    const order = await tx.get('orders', orderId);
+    if (!order?.erpConversion || order.erpConversion.status !== 'processing') return;
+    order.erpConversion = { ...order.erpConversion, status: 'not_applicable', completedAt: Date.now(), startedAt: null, nextAttemptAt: null };
+    await tx.put('orders', order.id, order);
+  });
+}
+
+async function bindDemoToConversion(orderId, demoId) {
+  await repository.transaction(async tx => {
+    const order = await tx.get('orders', orderId);
+    if (!order?.erpConversion || order.erpConversion.status !== 'processing') return;
+    order.erpConversion = { ...order.erpConversion, demoRequestId: demoId };
+    await tx.put('orders', order.id, order);
+  });
+}
+
+async function completeErpConversion(claim, demo, result) {
+  const url = workspaceUrl(result.workspaceUrl);
+  if (!url) throw new Error('ERP conversion succeeded but ERP_LOGIN_URL is not a valid HTTPS URL.');
+  await repository.transaction(async tx => {
+    const order = await tx.get('orders', claim.id);
+    const customer = await tx.get('customers', claim.customerKey);
+    if (!order || !customer || order.erpConversion?.status !== 'processing') return;
+    const completedAt = Date.now();
+    order.erpConversion = { ...order.erpConversion, status: 'converted', startedAt: null, nextAttemptAt: null, completedAt, workspaceUrl: url, demoRequestId: demo.id };
+    customer.onboarding = { status: 'active', workspaceUrl: url, updatedAt: completedAt };
+    await tx.put('orders', order.id, order);
+    await tx.put('customers', claim.customerKey, customer);
+    const current = await tx.get('demoRequests', demo.id);
+    if (current && ['active', 'expired'].includes(current.status)) {
+      current.status = 'converted'; current.convertedAt = new Date(completedAt).toISOString(); current.updatedAt = current.convertedAt; current.purchaseOrderId = order.id;
+      await tx.put('demoRequests', current.id, current);
+    }
+  });
+}
+
+async function processErpConversion(orderId) {
+  const claim = await claimErpConversion(orderId);
+  if (!claim) return { status: 'unchanged' };
+  try {
+    const demo = await findAssociatedDemo(claim.customerKey, claim.conversion.demoRequestId);
+    if (!demo) { await markConversionNotApplicable(claim.id); return { status: 'manual_onboarding' }; }
+    await bindDemoToConversion(claim.id, demo.id);
+    if (!erpIntegration.configured()) throw new Error('ERP paid-demo conversion is not configured.');
+    const result = await erpIntegration.convertDemo({
+      userId: demo.erp.userId, subscriptionId: claim.id, planCode: String(claim.plan || 'Starter').toLowerCase(),
+      currentPeriodEndsAt: new Date(Date.now() + 30 * 86400000).toISOString(),
+    });
+    await completeErpConversion(claim, demo, result || {});
+    return { status: 'converted' };
+  } catch (error) {
+    await deferErpConversion(claim.id, error);
+    throw error;
+  }
+}
+
+async function retryPendingErpConversions() {
+  const orders = await repository.list('orders');
+  await Promise.all(orders.filter(order => order.status === 'paid' && !['converted', 'not_applicable'].includes(order.erpConversion?.status)).map(order => processErpConversion(order.id).catch(error => console.error('ERP paid-demo conversion retry failed:', error.message))));
+}
+
+function startErpConversionRetryWorker() {
+  const timer = setInterval(() => retryPendingErpConversions().catch(error => console.error('ERP conversion retry worker failed:', error.message)), erpRetryInterval());
+  timer.unref?.();
+  retryPendingErpConversions().catch(error => console.error('ERP conversion retry worker failed:', error.message));
+  return timer;
+}
+
 async function settle(paymentId, observedAt = Date.now(), authoritativeTime = false) {
   const payment = await razorpay.payments.fetch(paymentId);
   if (!authoritativeTime) observedAt = Date.now();
   const result = await repository.transaction(async tx => {
     const order = await tx.get("orders", payment.order_id);
     if (!order || payment.amount !== order.amount || payment.currency !== "INR") throw new Error("Payment does not match a stored order.");
-    if (order.paymentId === paymentId && order.status === "paid") return { success: true };
+    if (order.paymentId === paymentId && order.status === "paid") return { success: true, customerKey: order.customerKey, orderId: order.id, plan: order.plan };
     if (order.status === "rejected") return { success: false, message: "This payment has been rejected. Please contact support with your payment reference." };
     if (payment.status !== "captured") return { success: false, message: "Payment is awaiting capture. Please contact support with your payment reference." };
     const c = await tx.get("customers", order.customerKey);
     const v = await tx.get("visitors", order.visitorId);
     order.status = "paid"; order.paymentId = paymentId; order.paidAt = observedAt;
+    order.erpConversion ||= { status: 'pending', attempts: 0, nextAttemptAt: Date.now() };
     order.invoice ||= await createInvoice(payment.order_id, order, c, tx);
     c.paidOrder = payment.order_id; v.paidOrder = payment.order_id;
     c.launchPriceLock ||= {};
@@ -441,8 +600,20 @@ async function settle(paymentId, observedAt = Date.now(), authoritativeTime = fa
     await tx.put("orders", payment.order_id, order);
     await tx.put("customers", order.customerKey, c);
     await tx.put("visitors", order.visitorId, v);
-    return { success: true, message: "Payment verified successfully." };
+    return { success: true, message: "Payment verified successfully.", customerKey: order.customerKey, orderId: order.id, plan: order.plan };
   });
+  if (result.success && result.customerKey) {
+    try {
+      const workspace = await processErpConversion(result.orderId);
+      if (workspace.status === 'converted') result.message = 'Payment verified and your LoomIQ workspace is now active.';
+    } catch (error) {
+      // Payment is already settled and must not be rolled back because a
+      // downstream provisioning call is temporarily unavailable.
+      console.error('ERP paid-demo conversion failed:', error.message);
+      result.message = 'Payment verified. Workspace activation is in progress.';
+    }
+    delete result.customerKey;
+  }
   return result;
 }
 async function ownedInvoice(req) {
@@ -528,6 +699,7 @@ async function startServer() {
     console.log("MongoDB connected; website storage is ready.");
   }
   const server = app.listen(port, () => console.log("LoomIQ API listening on port " + port));
+  startErpConversionRetryWorker();
   const shutdown = () => {
     server.close(() => { closeDatabase().then(() => process.exit(0)).catch(() => process.exit(1)); });
     setTimeout(() => process.exit(1), 10000).unref();

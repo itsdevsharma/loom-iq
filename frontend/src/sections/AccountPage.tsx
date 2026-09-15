@@ -32,10 +32,6 @@ export default function AccountPage() {
     } catch (e) { setError(e instanceof Error ? e.message : 'Please try again.'); }
     finally { setBusy(false); }
   }
-  function requestTrial(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    void action('trial/select', { acceptConditions: true });
-  }
   function verifyEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (data) void action('account/verify-email', { email: data.customer.email, token: verificationCode });
@@ -52,15 +48,9 @@ export default function AccountPage() {
         <a className="account-text-action" href={base + 'forgot-password'}>{cmsValue("AccountPage.14", "Reset password")}</a>
       </section>
       <section className="account-card account-workspace"><p className="account-eyebrow">Workspace</p><h2>{cmsValue("AccountPage.15", "Your workspace")}</h2>
-        <p>{data.onboarding === 'active' ? cmsValue("AccountPage.16", "Your workspace is ready.") : data.onboarding === 'in-progress' ? cmsValue("AccountPage.17", "Our team is setting up your workspace.") : data.onboarding === 'requested' ? cmsValue("AccountPage.18", "Your request is received. Our team will contact you to arrange access.") : cmsValue("AccountPage.19", "Book a demo to discuss your setup, or choose a membership.")}</p>
-        {data.workspaceUrl ? <a className="button button-primary" href={data.workspaceUrl} rel="noreferrer">{cmsValue("AccountPage.20", "Open workspace")}</a> : <a href={base + 'demo'}>{cmsValue("AccountPage.21", "Book a demo")}</a>}
+        <p>{data.onboarding === 'active' ? cmsValue("AccountPage.16", "Your workspace is ready.") : data.onboarding === 'in-progress' ? cmsValue("AccountPage.17", "Your workspace is being activated.") : data.onboarding === 'requested' ? cmsValue("AccountPage.18", "Your request is being prepared.") : 'Start a private three-hour LoomIQ ERP demo, then activate the same workspace when you are ready.'}</p>
+        {data.workspaceUrl ? <a className="button button-primary" href={data.workspaceUrl} rel="noreferrer">{cmsValue("AccountPage.20", "Open workspace")}</a> : <a href={base + 'demo'}>{cmsValue("AccountPage.21", "Start 3-hour demo")}</a>}
         <p>{cmsValue("AccountPage.22", "Membership purchases are one-time payments. There are no automatic charges.")}</p>
-        {!data.trialRequested && !data.invoices.length && data.onboarding !== 'active' && <form onSubmit={requestTrial}>
-          <h3>{cmsValue("AccountPage.23", "Request a 7-day trial")}</h3>
-          <p>{cmsValue("AccountPage.24", "Our team arranges trial access after discussing your setup. No payment is required. Your purchase discount still expires at its original 24-hour deadline.")}</p>
-          <label className="account-check"><input type="checkbox" required disabled={busy} />{cmsValue("AccountPage.25", "I agree to the trial conditions and understand that access is arranged by the team.")}</label>
-          <button disabled={busy} type="submit">{cmsValue("AccountPage.26", "Request trial access")}</button>
-        </form>}
       </section></div>
       <section className="account-card account-billing"><div className="account-card-heading"><div><p className="account-eyebrow">Billing</p><h2>{cmsValue("AccountPage.27", "Payments & invoices")}</h2></div>{data.invoices.length > 0 && <span className="account-count">{data.invoices.length}</span>}</div>
         {!data.invoices.length ? <p>{cmsValue("AccountPage.28", "No confirmed payments yet. ")}<a href={base + 'payment'}>{cmsValue("AccountPage.29", "Review plans")}</a></p> : <ul className="account-invoices">{data.invoices.map(invoice => <li key={invoice.orderId}>

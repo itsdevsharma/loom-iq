@@ -11,11 +11,13 @@ Copy missing settings from `backend/.env.example` into your private environment.
 ## Single-domain production deployment
 
 1. Choose the production domain and point DNS to a server with Docker Compose and ports 80/443 accessible.
-2. Populate `backend/.env` with production database, SMTP, payment, webhook, invoice business name/address, and a random operator token of at least 32 characters. Set `PUBLIC_SITE_URL=https://your-domain/` and `FRONTEND_ORIGIN=https://your-domain`. Staging may explicitly use `ALLOW_TEST_PAYMENTS=true` with test gateway keys.
+2. Populate `backend/.env` with production database, SMTP, payment, webhook, invoice business name/address, and a random operator token of at least 32 characters. Set `PUBLIC_SITE_URL=https://your-domain/` and `FRONTEND_ORIGIN=https://your-domain`. Also set the private `ERP_API_URL`, `ERP_LOGIN_URL`, and a 32+-character `ERP_MARKETING_INTEGRATION_TOKEN`. Staging may explicitly use `ALLOW_TEST_PAYMENTS=true` with test gateway keys.
 3. Set `SITE_DOMAIN` in the root private `.env` used by Compose. Set optional public `VITE_GOOGLE_ANALYTICS_ID` and `VITE_META_PIXEL_ID` there for the build. See `meta-pixel.md` for consent and purchase-event behavior.
 4. From backend, run `npm run check:release`. It reports missing setting names without exposing values.
 5. From the repository root, run `docker compose up -d --build`. Caddy terminates HTTPS and forwards to the Node application, which serves both the built website and API. The API port is not publicly published. One trusted proxy hop is configured.
 6. Check `https://your-domain/health`, signup, account, checkout, and route refreshes. Docker restarts crashed services. Configure an external monitor; Docker health status alone does not restart a still-running unhealthy process.
+
+Configure the ERP with the same value as `LOOMIQ_MARKETING_INTEGRATION_TOKEN`, its public HTTPS `ERP_LOGIN_URL`, and a populated `DEMO_TEMPLATE_ORGANIZATION_ID`. Both services reject incomplete production integration settings. Test one Razorpay test-mode capture end-to-end against the deployed APIs, SMTP inbox, and a real template tenant before release. Paid-demo conversion state is kept with the marketing order and retries with exponential backoff when the ERP is unavailable.
 
 The existing GitHub Pages workflow remains a static preview deployment, now gated by lint, backend tests, and desktop/mobile browser tests. It supports direct route entry files. A `VITE_API_URL` repository variable may be used for preview APIs, but cross-site cookies are deliberately not enabled. Use the single-domain deployment for authenticated production purchases. A Pages preview without a same-site API cannot provide a working signed-in checkout.
 

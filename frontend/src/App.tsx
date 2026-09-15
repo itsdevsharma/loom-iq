@@ -50,7 +50,7 @@ function App() {
     applyPageSeo(landing ? "garment-erp" : path === `${basePath}/demo` ? "demo" : route);
   }, [basePath, normalizedHomePath, path, paymentPath, landing]);
 
-  if (path === `${basePath}/demo`) return <OfferProvider><div className="app-shell"><a className="button" href={import.meta.env.BASE_URL}>Back to LoomIQ</a><main><h1>Optional Enterprise walkthrough</h1><DemoFormSection /></main><a className="button button-primary" href={import.meta.env.BASE_URL + "#pricing"}>Start Using LoomIQ — ₹1,990/month</a></div></OfferProvider>;
+  if (path === `${basePath}/demo`) return <OfferProvider><div className="app-shell demo-page"><header className="demo-page-header"><a className="demo-page-brand" href={import.meta.env.BASE_URL}>LoomIQ<span>ERP</span></a><nav aria-label="Demo navigation"><a href={import.meta.env.BASE_URL}>Back to site</a><a className="demo-page-login" href={import.meta.env.BASE_URL + 'account'}>Already have access? <strong>Sign in</strong></a></nav></header><main className="demo-page-main"><DemoFormSection /></main></div></OfferProvider>;
   if (path === `${basePath}/account`) return <AccountPage />;
   for (const kind of ['forgot-password', 'reset-password', 'verify-email'] as const) if (path === `${basePath}/${kind}`) return <AccountHelpPage kind={kind} />;
   if (path === `${basePath}/signup` || path === "/signup") return <OfferProvider><SignupPage /></OfferProvider>;

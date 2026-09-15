@@ -43,6 +43,42 @@ test('checkout uses the published monthly price and creates a three-month price 
   assert.ok(customer.launchPriceLock.Starter.expiresAt > Date.now());
 });
 
+test('an expired demo conversion is durably retried and activates the customer workspace', async () => {
+  const account = await signup('expired-demo@example.com');
+  const order = await post('/api/purchase/order', orderBody('expired-demo@example.com', 199000), account.cookie);
+  const customerKey = require('./account-service').keyFor('expired-demo@example.com');
+  await repository.transaction(tx => tx.put('demoRequests', 'demo_expired', { id: 'demo_expired', email: 'expired-demo@example.com', status: 'expired', erp: { userId: 'erp-user' }, updatedAt: new Date().toISOString() }));
+  payments.pay_expired = { order_id: order.body.orderId, amount: order.body.amount, currency: 'INR', status: 'captured' };
+  const originalFetch = global.fetch;
+  const previous = { api: process.env.ERP_API_URL, token: process.env.ERP_MARKETING_INTEGRATION_TOKEN, login: process.env.ERP_LOGIN_URL };
+  process.env.ERP_API_URL = 'https://erp.example.invalid'; process.env.ERP_MARKETING_INTEGRATION_TOKEN = 'x'.repeat(32); process.env.ERP_LOGIN_URL = 'https://erp.example.invalid/login';
+  try {
+    global.fetch = async (input, init) => String(input).startsWith(process.env.ERP_API_URL)
+      ? { ok: false, status: 503, json: async () => ({ success: false, message: 'ERP unavailable' }) }
+      : originalFetch(input, init);
+    const first = await post('/api/purchase/verify', { razorpay_order_id: order.body.orderId, razorpay_payment_id: 'pay_expired', razorpay_signature: signature(`${order.body.orderId}|pay_expired`, 'secret') }, account.cookie);
+    assert.equal(first.status, 200);
+    assert.match(first.body.message, /activation is in progress/i);
+    const pending = await repository.get('orders', order.body.orderId);
+    assert.equal(pending.erpConversion.status, 'pending');
+    assert.equal(pending.erpConversion.attempts, 1);
+    await repository.transaction(async tx => { const current = await tx.get('orders', order.body.orderId); current.erpConversion.nextAttemptAt = 0; await tx.put('orders', current.id, current); });
+    global.fetch = async (input, init) => String(input).startsWith(process.env.ERP_API_URL)
+      ? { ok: true, status: 200, json: async () => ({ success: true, data: { workspaceUrl: 'https://erp.example.invalid/login' } }) }
+      : originalFetch(input, init);
+    const retried = await post('/api/purchase/verify', { razorpay_order_id: order.body.orderId, razorpay_payment_id: 'pay_expired', razorpay_signature: signature(`${order.body.orderId}|pay_expired`, 'secret') }, account.cookie);
+    assert.equal(retried.status, 200);
+    assert.match(retried.body.message, /workspace is now active/i);
+    assert.equal((await repository.get('customers', customerKey)).onboarding.workspaceUrl, 'https://erp.example.invalid/login');
+    assert.equal((await repository.get('demoRequests', 'demo_expired')).status, 'converted');
+  } finally {
+    global.fetch = originalFetch;
+    for (const [key, value] of Object.entries({ ERP_API_URL: previous.api, ERP_MARKETING_INTEGRATION_TOKEN: previous.token, ERP_LOGIN_URL: previous.login })) {
+      if (value === undefined) delete process.env[key]; else process.env[key] = value;
+    }
+  }
+});
+
 test('an account is required before order creation and a mismatched price is rejected', async () => {
   const anonymous = await post('/api/offers/visit', {});
   assert.equal((await post('/api/purchase/order', orderBody('anonymous@example.com', 199000), anonymous.cookie)).status, 401);

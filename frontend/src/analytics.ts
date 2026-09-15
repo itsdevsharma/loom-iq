@@ -15,6 +15,8 @@ export type AnalyticsEvent =
   | "demo_cta_clicked"
   | "demo_form_started"
   | "demo_form_submitted"
+  | "demo_otp_sent"
+  | "demo_otp_error"
   | "demo_form_success"
   | "demo_form_error"
   | "offers_popup_cta_clicked"
