@@ -68,7 +68,7 @@ export default function AccountPage() {
         {!data.emailVerified && data.invoices.length > 0 && <p>{cmsValue("AccountPage.34", "Verify your email to receive invoice emails.")}</p>}
       </section>
     </>}
-    <SupportForm />
+    {data && <SupportForm />}
     <footer><a href={base + 'privacy'}>{cmsValue("AccountPage.35", "Privacy")}</a><a href={base + 'terms'}>{cmsValue("AccountPage.36", "Terms")}</a><a href={base + 'refunds'}>{cmsValue("AccountPage.37", "Refund policy")}</a></footer>
   </main>;
 }

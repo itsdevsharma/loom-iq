@@ -77,6 +77,18 @@ test('account recovery and service failures remain usable', async ({ page }) => 
   await expect(page.getByRole('button', { name: 'Retry loading account' })).toBeVisible();
 });
 
+test('account support form waits for the account to load', async ({ page }) => {
+  await page.route('**/api/account/me', async route => {
+    await new Promise(resolve => setTimeout(resolve, 250));
+    await route.fulfill({ json: { customer: { name: 'Loading Tester', email: 'loading@example.invalid', company: 'Test Company' }, emailVerified: true, trialRequested: false, onboarding: 'requested', workspaceUrl: null, invoices: [] } });
+  });
+  await page.goto('/account');
+  await expect(page.getByRole('status')).toContainText('Loading your account');
+  await expect(page.getByRole('heading', { name: 'How can we help?' })).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: 'Welcome, Loading Tester' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'How can we help?' })).toBeVisible();
+});
+
 test('analytics requires consent and never loads on private token pages', async ({ page }) => {
   const tags: string[] = [];
   await page.addInitScript(() => localStorage.removeItem('loomiq-analytics'));
