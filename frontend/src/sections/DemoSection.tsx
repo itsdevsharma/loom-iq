@@ -31,7 +31,7 @@ function DemoSection() {
 
           <p className="demo-disclaimer">{cmsValue("DemoSection.6", " Manufacturing overview dashboard preview. ")}</p>
         </div>
-        <div className="preview-actions"><a className="button button-primary" href="#pricing">Get LoomIQ</a><a href={analyticsDashboard} target="_blank" rel="noreferrer">Open full-size preview ↗</a></div>
+        <div className="preview-actions"><a className="button button-primary" href="#pricing">Compare plans</a><a href={analyticsDashboard} target="_blank" rel="noreferrer">Open full-size preview ↗</a></div>
         <aside id="demo" className="demo-support"><h3>Product questions?</h3><p>A recorded video and a public garment ERP demo are not available in the supplied materials. Email <a href="mailto:support@loomiq.com">support@loomiq.com</a> for product or onboarding questions. Purchasing online does not require a demo booking.</p></aside>
       </div>
     </section>

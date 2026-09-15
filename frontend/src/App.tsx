@@ -58,7 +58,7 @@ function App() {
     applyPageSeo(landing ? "garment-erp" : path === `${basePath}/demo` ? "demo" : route);
   }, [basePath, normalizedHomePath, path, paymentPath, landing]);
 
-  if (path === `${basePath}/demo`) return <OfferProvider><div className="app-shell"><a className="button" href={import.meta.env.BASE_URL}>Back to LoomIQ</a><main><h1>Optional product walkthrough</h1><DemoFormSection /></main><a className="button button-primary" href={import.meta.env.BASE_URL + "#pricing"}>Get LoomIQ</a></div></OfferProvider>;
+  if (path === `${basePath}/demo`) return <OfferProvider><div className="app-shell"><a className="button" href={import.meta.env.BASE_URL}>Back to LoomIQ</a><main><h1>Optional product walkthrough</h1><DemoFormSection /></main><a className="button button-primary" href={import.meta.env.BASE_URL + "#pricing"}>View plans</a></div></OfferProvider>;
   if (path === `${basePath}/account`) return <AccountPage />;
   for (const kind of ['forgot-password', 'reset-password', 'verify-email'] as const) {
     if (path === `${basePath}/${kind}`) return <AccountHelpPage kind={kind} />;
@@ -73,7 +73,7 @@ function App() {
 
   return (
     <OfferProvider><div className="app-shell">
-      {landing ? <header className="landing-topbar"><a className="brand" href={import.meta.env.BASE_URL}>LoomIQ</a><nav aria-label="Purchase navigation"><a href="#showcase">Product</a><a href={import.meta.env.BASE_URL + "account"}>Login</a><a className="button button-primary" href="#pricing">Get LoomIQ</a></nav></header> : <Header />}
+      {landing ? <header className="landing-topbar"><a className="brand" href={import.meta.env.BASE_URL}>LoomIQ</a><nav aria-label="Purchase navigation"><a href="#showcase">Product</a><a href={import.meta.env.BASE_URL + "account"}>Login</a><a className="button button-primary" href="#pricing">View plans</a></nav></header> : <Header />}
       {cmsValue('Site.announcement', true) && <AnnouncementBanner />}
       <main>
         {cmsValue('Site.layout', ['Hero','FeaturesSection','HowItWorksSection','PricingSection','TrustSection','FaqSection','DemoFormSection']).map(name => {
@@ -82,7 +82,7 @@ function App() {
         })}
       </main>
 
-      <FooterSection /><aside className="mobile-purchase" aria-label="Quick purchase"><span>Plans from ₹{websitePricing().Starter.recurring.toLocaleString("en-IN")}/month</span><a className="button button-primary" href="#pricing">Get LoomIQ</a></aside>
+      <FooterSection /><aside className="mobile-purchase" aria-label="Quick purchase"><span>Plans from ₹{websitePricing().Starter.recurring.toLocaleString("en-IN")}/month</span><a className="button button-primary" href="#pricing">View plans</a></aside>
     </div></OfferProvider>
   );
 }
