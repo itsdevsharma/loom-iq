@@ -36,7 +36,7 @@ function registerWebsite(app, directory, store) {
       html = html.replace(/<title>[^<]*<\/title>/, () => '<title>'+escape(title)+'</title>');
       html = html.replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, (_,a,b)=>a+escape(description)+b);
     }
-    const origin = (process.env.PUBLIC_SITE_URL || 'https://www.loomiq.com').replace(/\/$/, '');
+    const origin = (process.env.PUBLIC_SITE_URL || 'https://loomiq.site').replace(/\/$/, '');
     const canonical = origin + route;
     const safe = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const title = html.match(/<title>(.*?)<\/title>/)?.[1] || 'LoomIQ';

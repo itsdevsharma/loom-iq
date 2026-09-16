@@ -1,5 +1,6 @@
 import { trackEvent } from '../analytics';
-import analyticsDashboard from "../assets/analytics-dashboard.webp";
+
+const analyticsDashboard = `${import.meta.env.BASE_URL}cms-defaults/analytics-dashboard.webp`;
 
 function Hero() {
   return (

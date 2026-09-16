@@ -1,7 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /thank-you
-Sitemap: https://www.loomiq.com/sitemap.xml
+Sitemap: https://loomiq.site/sitemap.xml

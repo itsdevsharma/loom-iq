@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.loomiq.com/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://loomiq.site/</loc>
   </url>
   <url>
-    <loc>https://www.loomiq.com/privacy</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://loomiq.site/garment-erp</loc>
   </url>
   <url>
-    <loc>https://www.loomiq.com/terms</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://loomiq.site/demo</loc>
   </url>
-  <url><loc>https://www.loomiq.com/garment-erp</loc></url>
-  <url><loc>https://www.loomiq.com/refunds</loc></url>
+  <url>
+    <loc>https://loomiq.site/privacy</loc>
+  </url>
+  <url><loc>https://loomiq.site/terms</loc></url>
+  <url><loc>https://loomiq.site/refunds</loc></url>
 </urlset>

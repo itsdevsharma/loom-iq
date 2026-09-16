@@ -1,101 +1,81 @@
-import { cmsValue } from './websiteContent';
 type PageRoute = "garment-erp" | "demo" | "home" | "privacy" | "terms" | "refunds" | "thank-you" | "payment" | "signup" | "account" | "404";
 
-const runtimeOrigin = typeof window !== "undefined" ? window.location.origin : "https://www.loomiq.com";
+const runtimeOrigin = typeof window !== "undefined" ? window.location.origin : "https://loomiq.site";
 const basePath = import.meta.env.BASE_URL || "/";
 const siteUrl = (import.meta.env.PUBLIC_SITE_URL || runtimeOrigin).replace(/\/$/, "");
 const imageUrl = `${siteUrl}${basePath}og-image.svg`;
 
+type PageMetadata = { title: string; description: string; canonical: string | null; robots: string };
+
 function setMeta(name: string, content: string, type: "name" | "property" = "name") {
   let tag = document.querySelector(`meta[${type}="${name}"]`) as HTMLMetaElement | null;
-
   if (!tag) {
     tag = document.createElement("meta");
     tag.setAttribute(type, name);
     document.head.appendChild(tag);
   }
-
-  tag.setAttribute("content", content);
+  tag.content = content;
 }
 
-function setCanonical(url: string) {
+function setCanonical(url: string | null) {
   let tag = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-
+  if (!url) {
+    tag?.remove();
+    return;
+  }
   if (!tag) {
     tag = document.createElement("link");
-    tag.setAttribute("rel", "canonical");
+    tag.rel = "canonical";
     document.head.appendChild(tag);
   }
-
-  tag.setAttribute("href", url);
+  tag.href = url;
 }
 
-function setTitle(title: string) {
-  document.title = title;
-}
-
-const routeMetadata: Record<PageRoute, { title: string; description: string; canonical: string }> = {
-  "garment-erp": {title:"Replace Excel with Garment ERP | LoomIQ", description:"ERP built for garment and clothing manufacturers. Explore LoomIQ, compare monthly pricing, and purchase online.", canonical:`${siteUrl}${basePath}garment-erp`},
-  demo: {title:"Request a LoomIQ Walkthrough", description:"Optional product walkthrough for garment manufacturers.", canonical:`${siteUrl}${basePath}demo`},
-  account: { title: cmsValue("seo.1", "Your Account | LoomIQ"), description: cmsValue("seo.2", "Manage your LoomIQ account, onboarding and invoices."), canonical: `${siteUrl}${basePath}account` },
-  home: {
-    title: cmsValue("seo.3", "LoomIQ | ERP Software for Clothing Manufacturers in India"),
-    description: cmsValue("seo.4", "LoomIQ is ERP software built for clothing manufacturers, garment factories and apparel brands in India. Manage orders, inventory, production, invoices and business reports from one platform."),
-    canonical: `${siteUrl}${basePath}`,
-  },
-  privacy: {
-    title: cmsValue("seo.5", "Privacy Policy | LoomIQ"),
-    description: cmsValue("seo.6", "Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes."),
-    canonical: `${siteUrl}${basePath}privacy`,
-  },
-  terms: {
-    title: cmsValue("seo.7", "Terms of Service | LoomIQ"),
-    description: cmsValue("seo.8", "Read the LoomIQ website terms covering demo requests, product information, and the use of this platform."),
-    canonical: `${siteUrl}${basePath}terms`,
-  },
-  refunds: {
-    title: cmsValue("seo.9", "Refund & Cancellation Policy | LoomIQ"),
-    description: cmsValue("seo.10", "Review LoomIQ membership renewal, cancellation, access, and refund information."),
-    canonical: `${siteUrl}${basePath}refunds`,
-  },
-  "thank-you": {
-    title: cmsValue("seo.11", "Thank You | LoomIQ"),
-    description: cmsValue("seo.12", "Review your LoomIQ confirmation and next steps."),
-    canonical: `${siteUrl}${basePath}thank-you`,
-  },
-  signup: {
-    title: cmsValue("seo.13", "Sign Up & Choose Your Welcome Offer | LoomIQ"),
-    description: cmsValue("seo.14", "Review LoomIQ pricing and conditions before creating an account. Book a personalized demo with no signup required."),
-    canonical: `${siteUrl}${basePath}signup`,
-  },
-  payment: {
-    title: cmsValue("seo.15", "Secure Membership Checkout | LoomIQ"),
-    description: cmsValue("seo.16", "Choose your LoomIQ ERP membership, share your business details, and continue to secure payment."),
-    canonical: `${siteUrl}${basePath}payment`,
-  },
-  404: {
-    title: cmsValue("seo.17", "Page Not Found | LoomIQ"),
-    description: cmsValue("seo.18", "The page you requested could not be found. Explore LoomIQ ERP features and request a walkthrough."),
-    canonical: `${siteUrl}/`,
-  },
+const routeMetadata: Record<PageRoute, PageMetadata> = {
+  "garment-erp": { title: "Replace Excel with Garment ERP | LoomIQ", description: "Explore LoomIQ ERP for garment and clothing manufacturers: production, inventory, orders, billing, and business management.", canonical: `${siteUrl}${basePath}garment-erp`, robots: "index, follow" },
+  demo: { title: "Request a LoomIQ Walkthrough", description: "Request a LoomIQ walkthrough for your garment or textile manufacturing workflow.", canonical: `${siteUrl}${basePath}demo`, robots: "index, follow" },
+  home: { title: "LoomIQ - ERP Software for Garment & Textile Manufacturers", description: "LoomIQ ERP helps garment and textile manufacturers manage production, inventory, orders, billing, and day-to-day business operations in one place.", canonical: `${siteUrl}${basePath}`, robots: "index, follow" },
+  privacy: { title: "Privacy Policy | LoomIQ", description: "Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes.", canonical: `${siteUrl}${basePath}privacy`, robots: "index, follow" },
+  terms: { title: "Terms of Service | LoomIQ", description: "Read the LoomIQ website terms covering demo requests, product information, and the use of this platform.", canonical: `${siteUrl}${basePath}terms`, robots: "index, follow" },
+  refunds: { title: "Refund & Cancellation Policy | LoomIQ", description: "Review LoomIQ membership renewal, cancellation, access, and refund information.", canonical: `${siteUrl}${basePath}refunds`, robots: "index, follow" },
+  "thank-you": { title: "Thank You | LoomIQ", description: "Review your LoomIQ confirmation and next steps.", canonical: `${siteUrl}${basePath}thank-you`, robots: "noindex, nofollow" },
+  signup: { title: "Sign Up & Choose Your Welcome Offer | LoomIQ", description: "Review LoomIQ pricing and conditions before creating an account.", canonical: `${siteUrl}${basePath}signup`, robots: "noindex, nofollow" },
+  payment: { title: "Secure Membership Checkout | LoomIQ", description: "Choose your LoomIQ ERP membership, share your business details, and continue to secure payment.", canonical: `${siteUrl}${basePath}payment`, robots: "noindex, nofollow" },
+  account: { title: "Your Account | LoomIQ", description: "Manage your LoomIQ account, onboarding and invoices.", canonical: `${siteUrl}${basePath}account`, robots: "noindex, nofollow" },
+  "404": { title: "Page Not Found | LoomIQ", description: "The page you requested could not be found. Explore LoomIQ ERP features and request a walkthrough.", canonical: null, robots: "noindex, follow" },
 };
 
-export function applyPageSeo(route: PageRoute) {
-  const metadata = routeMetadata[route];
-  const social = cmsValue("Site.social", {siteName:"LoomIQ", image:"/og-image.svg", imageAlt:"LoomIQ ERP platform overview"});
-
-  setTitle(metadata.title);
+function applyMetadata(metadata: PageMetadata) {
+  document.title = metadata.title;
   setMeta("description", metadata.description);
-  setMeta("robots", route === "404" || route === "thank-you" || route === "signup" || route === "payment" || route === 'account' ? "noindex, nofollow" : "index, follow");
+  setMeta("robots", metadata.robots);
   setMeta("og:title", metadata.title, "property");
   setMeta("og:description", metadata.description, "property");
-  setMeta("og:url", metadata.canonical, "property");
+  setMeta("og:url", metadata.canonical || `${siteUrl}${basePath}`, "property");
   setMeta("og:type", "website", "property");
-  setMeta("og:site_name", social.siteName, "property");
-  setMeta("og:image", new URL(social.image || imageUrl, siteUrl).href, "property");
-  setMeta("og:image:alt", social.imageAlt, "property");
+  setMeta("og:site_name", "LoomIQ", "property");
+  setMeta("og:image", imageUrl, "property");
+  setMeta("og:image:alt", "LoomIQ ERP platform overview", "property");
+  setMeta("twitter:card", "summary_large_image");
   setMeta("twitter:title", metadata.title);
   setMeta("twitter:description", metadata.description);
-  setMeta("twitter:image", new URL(social.image || imageUrl, siteUrl).href);
+  setMeta("twitter:image", imageUrl);
   setCanonical(metadata.canonical);
+}
+
+export function applyPageSeo(route: PageRoute) {
+  applyMetadata(routeMetadata[route]);
+}
+
+export function applyManagedPageSeo(page: { title: string; description?: string; seo?: { title?: string; description?: string; canonical?: string; robots?: string } }) {
+  const pathname = window.location.pathname.replace(/\/$/, "") || "/";
+  const fallbackCanonical = `${siteUrl}${pathname === "/" ? basePath : pathname}`;
+  const requestedCanonical = page.seo?.canonical;
+  const canonical = requestedCanonical && new URL(requestedCanonical, siteUrl).origin === siteUrl ? requestedCanonical : fallbackCanonical;
+  applyMetadata({
+    title: page.seo?.title || page.title,
+    description: page.seo?.description || page.description || "Learn more about LoomIQ ERP for garment and textile manufacturers.",
+    canonical,
+    robots: page.seo?.robots || "index, follow",
+  });
 }
