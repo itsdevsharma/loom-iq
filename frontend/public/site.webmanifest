@@ -3,9 +3,8 @@
   "short_name": "LoomIQ",
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/cms-defaults/company.logo.webp",
+      "type": "image/webp",
       "purpose": "any"
     }
   ],
