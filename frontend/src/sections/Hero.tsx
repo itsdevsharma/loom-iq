@@ -9,8 +9,8 @@ function Hero() {
         <h1 id="hero-title">Stop losing track of garment orders and production.</h1>
         <p className="hero-text">LoomIQ brings orders, fabric inventory, job work, production, invoices and reports into one simple ERP built for clothing manufacturers.</p>
         <div className="hero-actions">
-          <a href="#pricing" className="button button-primary" onClick={() => trackEvent("direct_purchase_clicked")}>Start Using LoomIQ — ₹1,990/month</a>
-          <a href={`${import.meta.env.BASE_URL}demo`} className="hero-text-link">Watch 90-second product tour <span aria-hidden="true">→</span></a>
+          <a href="#pricing" className="button button-primary" onClick={() => trackEvent("direct_purchase_clicked")}>Start Your Setup</a>
+          <a href={`${import.meta.env.BASE_URL}demo`} className="hero-text-link">See LoomIQ in Action <span aria-hidden="true">→</span></a>
         </div>
         <p className="hero-reassurance">Instant account • Guided setup • 7-day money-back guarantee</p>
       </div>

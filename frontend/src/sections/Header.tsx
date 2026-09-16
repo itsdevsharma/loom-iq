@@ -52,7 +52,7 @@ function Header() {
         <div className="nav-actions">
           <a href={import.meta.env.BASE_URL + 'account'} className="text-link">{cmsValue("Header.9", "My account")}</a>
           <a href={import.meta.env.BASE_URL + 'demo'} className="text-link" onClick={() => setIsMenuOpen(false)}>{cmsValue("Header.11", "Book a demo")}</a>
-          <a href="#pricing" className="button button-primary" onClick={() => { setIsMenuOpen(false); trackEvent("direct_purchase_nav_clicked"); }}>Start Using LoomIQ — ₹1,990/month</a>
+          <a href="#pricing" className="button button-primary" onClick={() => { setIsMenuOpen(false); trackEvent("direct_purchase_nav_clicked"); }}>Get Started</a>
         </div>
       </div>
     </header>

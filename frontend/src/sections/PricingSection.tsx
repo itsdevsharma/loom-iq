@@ -26,7 +26,7 @@ function PricingSection() {
   return <section id="pricing" className="section section-shell section-pricing">
     <div className="section-heading">
       <p className="eyebrow">Simple monthly pricing</p>
-      <h2>Choose the LoomIQ plan that fits your factory today.</h2>
+      <h2>Choose Your Plan</h2>
       <p>Clear monthly pricing for Indian garment manufacturers. There are no visitor timers or surprise checkout discounts.</p>
     </div>
     <div className="launch-offer"><strong>Launch Offer: Starter at ₹1,990/month</strong><span>Price locked for your first 3 months.</span></div>
@@ -34,7 +34,7 @@ function PricingSection() {
       {plans.map(plan => {
         const enterprise = plan.name === 'Enterprise';
         const key = plan.name as keyof typeof prices;
-        return <PricingCard key={plan.name} planName={plan.name} tagline={plan.description} price={money(prices[key].recurring)} period="/month" features={plan.features} ctaLabel={enterprise ? "Talk to sales" : "Start Using LoomIQ — ₹1,990/month"} href={enterprise ? `${import.meta.env.BASE_URL}demo` : `${import.meta.env.BASE_URL}${offer.signedUp ? "payment" : "signup"}?plan=${plan.name}`} onCtaClick={() => trackEvent(enterprise ? "demo_cta_clicked" : "direct_purchase_clicked")} featured={plan.featured} badge={plan.featured ? "Most popular" : null} purchaseSteps={enterprise ? undefined : afterPurchase} />;
+        return <PricingCard key={plan.name} planName={plan.name} tagline={plan.description} price={money(prices[key].recurring)} period="/month" features={plan.features} ctaLabel={enterprise ? "Talk to sales" : `Buy Now — ${money(prices[key].recurring)}/month`} href={enterprise ? `${import.meta.env.BASE_URL}demo` : `${import.meta.env.BASE_URL}${offer.signedUp ? "payment" : "signup"}?plan=${plan.name}`} onCtaClick={() => trackEvent(enterprise ? "demo_cta_clicked" : "direct_purchase_clicked")} featured={plan.featured} badge={plan.featured ? "Most popular" : null} purchaseSteps={enterprise ? undefined : afterPurchase} />;
       })}
     </div>
     <p className="pricing-demo-alternative">Need a tailored multi-unit rollout? <a href={`${import.meta.env.BASE_URL}demo`}>Talk to our Enterprise team.</a></p>

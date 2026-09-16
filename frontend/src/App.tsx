@@ -63,7 +63,7 @@ function App() {
 
   const layout = cmsValue('Site.layout', ['Hero', 'DemoSection', 'HowItWorksSection', 'PricingSection', 'FaqSection', 'FinalCTA']);
   return <OfferProvider><div className="app-shell">
-    {landing ? <header className="landing-topbar"><a className="brand" href={import.meta.env.BASE_URL}>LoomIQ</a><nav aria-label="Purchase navigation"><a href="#showcase">Product</a><a href={import.meta.env.BASE_URL + "account"}>Login</a><a className="button button-primary" href="#pricing">Start Using LoomIQ — ₹1,990/month</a></nav></header> : <Header />}
+    {landing ? <header className="landing-topbar"><a className="brand" href={import.meta.env.BASE_URL}>LoomIQ</a><nav aria-label="Purchase navigation"><a href="#showcase">Product</a><a href={import.meta.env.BASE_URL + "account"}>Login</a><a className="button button-primary" href="#pricing">Get Started</a></nav></header> : <Header />}
     <main>{layout.map(name => {
       const Section = sections[name];
       if (!Section) return null;
