@@ -1,0 +1,20 @@
+import { test, expect } from '@playwright/test';
+test('email errors preserve the profile and verification refreshes it', async ({ page }) => {
+  await page.route('https://connect.facebook.net/**', r => r.fulfill({ body: '' }));
+  let verified = false;
+  await page.route('**/api/account/me', r => r.fulfill({ json: { customer: {name:'Test',email:'test@example.invalid',company:'Test Company'},emailVerified:verified,trialRequested:false,onboarding:'not-requested',workspaceUrl:null,invoices:[] } }));
+  await page.route('**/api/account/send-verification', r => r.fulfill({ status:502,json:{message:'We could not send your verification code.'} }));
+  await page.route('**/api/account/verify-email', r => { verified = true; return r.fulfill({json:{message:'Email verified.'}}); });
+  await page.goto('/account');
+  const verify = page.getByRole('button', {name:'Verify email',exact:true});
+  await expect(verify).toBeDisabled();
+  expect(await verify.evaluate(el => getComputedStyle(el,'::after').content)).toBe('none');
+  await page.getByRole('button',{name:'Send verification email'}).click();
+  await expect(page.getByRole('alert')).toContainText('could not send your verification code');
+  await expect(page.getByRole('button',{name:'Retry loading account'})).toHaveCount(0);
+  await expect(page.getByText('Test Company',{exact:true})).toBeVisible();
+  await page.getByLabel('Verification code',{exact:true}).fill('123456');
+  await verify.click();
+  await expect(page.locator('.account-verification')).toHaveText('Email verified');
+  await expect(verify).toHaveCount(0);
+});
