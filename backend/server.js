@@ -272,14 +272,14 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   res.cookie("loomiq_session", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", maxAge: 30 * 86400000, path: "/" });
   if (action === 'signup') {
     const notificationEmail = process.env.ACCOUNT_NOTIFICATION_EMAIL || process.env.SALES_EMAIL;
-    try {
-      await Promise.all([
+    const [verificationDelivery, notificationDelivery] = await Promise.allSettled([
         sendMail({ to: email, subject: 'Your LoomIQ verification code', text: `Welcome to LoomIQ. Your verification code is: ${verificationToken}\n\nEnter this code in your account within 10 minutes. Do not share it with anyone.` }),
         sendMail({ to: notificationEmail, replyTo: email, subject: 'New LoomIQ account', text: `A new LoomIQ account was created.\n\nName: ${values.name}\nCompany: ${values.company}\nEmail: ${email}` }),
       ]);
-    } catch {
-      console.error('Signup email delivery failed.');
-      return res.status(502).json({ message: 'Your account was created, but we could not send the verification email. Please sign in and request another verification link.' });
+    if (notificationDelivery.status === 'rejected') console.error('Signup internal notification delivery failed.');
+    if (verificationDelivery.status === 'rejected') {
+      console.error('Signup verification email delivery failed.');
+      return res.status(502).json({ message: 'Your account was created, but we could not send the verification code. Please sign in and request another code from your account.' });
     }
   }
   res.status(action === "signup" ? 201 : 200).json(result);

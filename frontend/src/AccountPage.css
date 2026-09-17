@@ -63,3 +63,7 @@
 .account-workspace > h2 { margin-bottom: 14px; }.account-workspace > p:not(.account-eyebrow) { min-height: 52px; }.account-workspace form { margin-top: 24px; padding-top: 4px; border-top: 1px solid var(--line); }.account-billing { margin-top: 22px !important; }.account-billing > .account-card-heading { margin-bottom: 4px; }
 .account-otp { display: grid; gap: 14px; }.account-otp form { display: flex; align-items: end; gap: 10px; }.account-otp label { flex: 1; margin: 0; font-size: 12px; }.account-otp input { letter-spacing: .12em; }.account-otp button { white-space: nowrap; }
 @media (max-width: 720px) { .account-hero { align-items: flex-start; flex-direction: column; margin-top: 32px; padding: 25px 22px; }.account-dashboard { grid-template-columns: 1fr; }.account-workspace > p:not(.account-eyebrow) { min-height: 0; } }
+
+/* Account controls do not use the global animated button overlay. */
+.account-page button::before, .account-page button::after { content: none; display: none; }
+.account-page button:disabled { opacity: 1; background: #e7e2f2; color: #51456a; border-color: #d5cce5; }

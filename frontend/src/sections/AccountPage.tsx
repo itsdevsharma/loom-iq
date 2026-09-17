@@ -9,6 +9,7 @@ export default function AccountPage() {
   const [data, setData] = useState<Account | null>(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [actionError, setActionError] = useState('');
   const [busy, setBusy] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [verificationCode, setVerificationCode] = useState('');
@@ -23,13 +24,13 @@ export default function AccountPage() {
     return () => { active = false; };
   }, [base, attempt]);
   async function action(path: string, payload: unknown = {}) {
-    setBusy(true); setError(''); setMessage('');
+    setBusy(true); setActionError(''); setMessage('');
     try {
       const result = await accountApi(path, payload);
       if (path === 'account/logout') window.location.assign(base + 'signup?login=1');
       else if (path === 'trial/select') { setMessage(cmsValue("AccountPage.extra38", "Your trial request is received. Our team will arrange access.")); setAttempt(n => n + 1); }
-      else setMessage(result.message);
-    } catch (e) { setError(e instanceof Error ? e.message : 'Please try again.'); }
+      else { setMessage(result.message); if (path === 'account/verify-email') { setVerificationCode(''); setAttempt(n => n + 1); } }
+    } catch (e) { setActionError(e instanceof Error ? e.message : 'Please try again.'); }
     finally { setBusy(false); }
   }
   function verifyEmail(event: FormEvent<HTMLFormElement>) {
@@ -40,6 +41,7 @@ export default function AccountPage() {
     <header><a href={base}>{cmsValue("AccountPage.1", "LoomIQ")}</a><nav aria-label={cmsValue("AccountPage.2", "Account navigation")}><a href={base + '#pricing'}>{cmsValue("AccountPage.3", "Plans")}</a><a href={cmsValue("AccountPage.4", "#support")}>{cmsValue("AccountPage.5", "Support")}</a><button disabled={busy} onClick={() => void action('account/logout')}>{cmsValue("AccountPage.6", "Sign out")}</button></nav></header>
     <div className="account-hero"><div><p className="account-eyebrow">Account overview</p><h1>{data ? cmsTemplate("AccountPage.extra39", "Welcome, {0}", [data.customer.name]) : cmsValue("AccountPage.7", "Your account")}</h1><p>Manage your workspace, account access, and billing in one place.</p></div>{data && <div className={`account-verification ${data.emailVerified ? 'is-verified' : ''}`}><span className="account-status-dot" aria-hidden="true" />{data.emailVerified ? cmsValue("AccountPage.11", "Email verified") : cmsValue("AccountPage.12", "Your email has not been verified.")}</div>}</div>
     {error && <div role="alert"><p>{error}</p><button onClick={() => { setError(''); setAttempt(n => n + 1); }}>{cmsValue("AccountPage.8", "Retry loading account")}</button></div>}
+    {actionError && <div role="alert"><p>{actionError}</p></div>}
     {message && <p role="status">{message}</p>}
     {!data && !error && <p role="status">{cmsValue("AccountPage.9", "Loading your account…")}</p>}
     {data && <>

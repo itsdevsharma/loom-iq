@@ -45,7 +45,7 @@ function registerAccountRoutes(app, { store, account, limiter }) {
     const key = keyFor(email);
     const customer = await store().get('customers', key);
     if (!customer?.passwordHash) throw fail(404, 'No account exists with this email address. Please sign up first.');
-    if (!mailConfigured()) throw fail(503, 'Account email is temporarily unavailable. Please contact support.');
+    if (!mailConfigured()) return res.status(503).json({ message: 'Verification email is temporarily unavailable. Please contact support.' });
     {
       const token = crypto.randomBytes(32).toString('hex');
       await store().transaction(async tx => {
@@ -80,7 +80,7 @@ function registerAccountRoutes(app, { store, account, limiter }) {
   });
   app.post('/api/account/send-verification', limiter, async (req, res) => {
     const session = await signedIn(req);
-    if (!mailConfigured()) throw fail(503, 'Account email is temporarily unavailable. Please contact support.');
+    if (!mailConfigured()) return res.status(503).json({ message: 'Verification email is temporarily unavailable. Please contact support.' });
     const token = String(crypto.randomInt(100000, 1000000));
     const email = await store().transaction(async tx => {
       const c = await tx.get('customers', session.customerKey);
@@ -90,9 +90,14 @@ function registerAccountRoutes(app, { store, account, limiter }) {
       return c.email;
     });
     if (email) {
-      await sendMail({ to: email, subject: 'Your LoomIQ verification code', text: `Your LoomIQ verification code is: ${token}\n\nEnter it within 10 minutes. Do not share it with anyone.` });
+      try {
+        await sendMail({ to: email, subject: 'Your LoomIQ verification code', text: `Your LoomIQ verification code is: ${token}\n\nEnter it within 10 minutes. Do not share it with anyone.` });
+      } catch {
+        console.error('Verification email delivery failed. Check the SMTP service configuration.');
+        return res.status(502).json({ message: 'We could not send your verification code. Please try again shortly or contact support if this continues.' });
+      }
     }
-    res.json({ message: email ? 'Verification link sent. Check your inbox.' : 'Your email is already verified.' });
+    res.json({ message: email ? 'Verification code sent. Check your inbox and spam folder.' : 'Your email is already verified.' });
   });
   app.post('/api/account/verify-email', limiter, async (req, res) => {
     const { email, token } = req.body || {};
