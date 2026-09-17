@@ -14,7 +14,14 @@ async function sendMail(message) {
   try {
     const result = await transport.sendMail({ from: env.EMAIL_FROM || env.SMTP_USER, ...message });
     if (!result.accepted?.length) throw new Error('Email was not accepted');
-  } catch {
+  } catch (error) {
+    console.error('SMTP delivery failed:', {
+      code: error.code,
+      command: error.command,
+      responseCode: error.responseCode,
+      response: error.response,
+      message: error.message,
+    });
     throw Object.assign(new Error('Email could not be sent. Please try again shortly.'), { status: 502 });
   } finally { transport.close(); }
 }
