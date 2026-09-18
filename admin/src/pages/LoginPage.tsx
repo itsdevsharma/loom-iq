@@ -11,7 +11,7 @@ export default function LoginPage(){
       const res = await fetch('/api/admin/login', { method: 'POST', signal: AbortSignal.timeout(15000), headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify({ email, password }) })
       const json = await res.json().catch(() => ({ message: 'The server is unavailable. Please try again.' }))
       if(!res.ok) throw new Error(json?.message || 'Login failed')
-      window.location.href = '/'
+      window.location.href = '/admin/'
     }catch(err:any){ setError(err.message || 'Login failed') }
     finally{ setLoading(false) }
   }

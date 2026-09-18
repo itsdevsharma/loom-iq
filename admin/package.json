@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test:e2e": "npm run build && npm --prefix ../frontend run build && node --test tests/cms.e2e.mjs"
+    "test:e2e": "npm --prefix ../frontend run build:with-admin && node --test tests/cms.e2e.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",

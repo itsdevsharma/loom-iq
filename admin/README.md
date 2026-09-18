@@ -1,6 +1,29 @@
 # LoomIQ CMS admin
 
-Run the backend on port 3001, then `npm install` and `npm run dev` in this directory. Open http://localhost:5174 and sign in with an existing admin account. The Vite proxy preserves the browser host for backend origin checks and excludes source-module requests from API proxying.
+Run the backend on port 3001, then `npm install` and `npm run dev` in this directory. Open http://localhost:5174/admin/ and sign in with an existing admin account. The Vite proxy preserves the browser host for backend origin checks and excludes source-module requests from API proxying.
+
+## Deployment on loomiq.site
+
+The existing website Vercel project builds both apps into `frontend/dist`, with admin assets under `dist/admin`. No separate admin domain or paid instance is required.
+
+In that Vercel project's settings, keep **Root Directory: frontend** and enable **Include source files outside of the Root Directory in the Build Step** so `admin` and `shared` are available. The checked-in `frontend/vercel.json` sets the install/build commands and output directory. Deploy the commit containing these changes. See [Vercel monorepo settings](https://vercel.com/docs/monorepos/monorepo-faq).
+
+Routes on the existing canonical domain:
+
+| URL | Purpose |
+| --- | --- |
+| `/admin/` | Admin overview (requires sign-in) |
+| `/admin/login` | Admin sign-in |
+| `/admin/website` | Website editor |
+| `/admin/content` | Custom pages |
+| `/admin/media` | Media library |
+| `/admin/customers` | Customers |
+| `/admin/payments` | Payment analytics |
+| `/admin/records` | Customer activity |
+
+`/api/admin/...` continues through the existing Vercel rewrite to the marketing Render backend; the ERP backend is not involved. Keep `FRONTEND_ORIGIN=https://www.loomiq.site` for the current canonical website. Sign in with an existing admin account; customer accounts and `ADMIN_API_TOKEN` are not admin login credentials. No default account is created by this deployment.
+
+To build the combined artifact locally, install dependencies in `frontend` and `admin`, then run `npm --prefix frontend run build:with-admin` from the repository root. Production SPA rewrites send `/admin` and nested admin URLs to the admin entry point, leaving the public homepage and customer account routes in the marketing app.
 
 The workspace includes content counts, recent pages, search and status filtering, draft creation, section editing, live preview, SEO and social metadata, version restore, and a media library. Saving a published page updates the working copy; publish updates to release the content. Unsaved edits trigger a navigation warning. Saves include a modification timestamp to reject stale edits from another editor.
 

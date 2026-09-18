@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:with-admin": "npm run build && npm --prefix ../admin run build && node scripts/include-admin.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test:e2e": "npm run build && playwright test",

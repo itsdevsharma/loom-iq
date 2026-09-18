@@ -1,4 +1,7 @@
 {
+  "installCommand": "npm ci && npm --prefix ../admin ci",
+  "buildCommand": "npm run build:with-admin",
+  "outputDirectory": "dist",
   "routes": [
     {
       "handle": "filesystem"
@@ -6,6 +9,11 @@
     {
       "src": "/api/(.*)",
       "dest": "https://loom-iq.onrender.com/api/$1"
+    },
+    {
+      "src": "/admin(?:/.*)?",
+      "dest": "/admin/index.html",
+      "headers": { "X-Robots-Tag": "noindex, nofollow" }
     },
     {
       "src": "/(.*)",

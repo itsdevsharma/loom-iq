@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
+  base: '/admin/',
   plugins: [react()],
   root: path.resolve(import.meta.dirname, 'src'),
   build: { emptyOutDir: true, outDir: path.resolve(import.meta.dirname, 'dist') },
