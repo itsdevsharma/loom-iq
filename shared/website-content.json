@@ -682,7 +682,7 @@
       },
       {
         "question": "How do I get support?",
-        "answer": "Email support@loomiq.com. After purchase, the confirmation page also provides a support request form. No response-time guarantee is published."
+        "answer": "Use the support request form to contact the team. After purchase, the confirmation page also provides the form. No response-time guarantee is published."
       }
     ]
   },
@@ -876,7 +876,7 @@
           ],
           [
             "Support",
-            "mailto:support@loomiq.com"
+            "#support"
           ]
         ]
       }
@@ -970,13 +970,13 @@
     "group": "FooterSection",
     "label": "Link destination: #demo",
     "kind": "url",
-    "default": "mailto:support@loomiq.com"
+    "default": "#support"
   },
   "FooterSection.17": {
     "group": "FooterSection",
     "label": "Book a personalized demo",
     "kind": "text",
-    "default": "Email support "
+    "default": "Contact support "
   },
   "FooterSection.18": {
     "group": "FooterSection",
@@ -1226,7 +1226,7 @@
           ],
           [
             "Retention and requests",
-            "Account, inquiry, and transaction records are retained to operate the service and maintain payment records. To request access, correction, or deletion, email support@loomiq.com. We may need to verify account ownership and retain records needed for unresolved transactions or applicable recordkeeping obligations."
+            "Account, inquiry, and transaction records are retained to operate the service and maintain payment records. To request access, correction, or deletion, use the support form. We may need to verify account ownership and retain records needed for unresolved transactions or applicable recordkeeping obligations."
           ],
           [
             "Account security",
@@ -1264,7 +1264,7 @@
           ],
           [
             "Support and billing questions",
-            "Contact support@loomiq.com for account, payment, or service questions. The Refund Policy describes cancellation requests and payment issues."
+            "Use the support form for account, payment, or service questions. The Refund Policy describes cancellation requests and payment issues."
           ]
         ]
       },
@@ -1290,7 +1290,7 @@
           ],
           [
             "Support",
-            "For cancellation or billing help, email support@loomiq.com with your account email and company name."
+            "For cancellation or billing help, use the support form with your account email and company name."
           ]
         ]
       }
@@ -1358,15 +1358,15 @@
   },
   "InfoPage.12": {
     "group": "InfoPage",
-    "label": "Link destination: mailto:support@loomiq.com",
+    "label": "Link destination: support form",
     "kind": "url",
-    "default": "mailto:support@loomiq.com"
+    "default": "#support"
   },
   "InfoPage.13": {
     "group": "InfoPage",
-    "label": "support@loomiq.com",
+    "label": "Contact support",
     "kind": "text",
-    "default": "support@loomiq.com"
+    "default": "Contact support"
   },
   "InfoPage.14": {
     "group": "InfoPage",
@@ -1400,15 +1400,15 @@
   },
   "InfoPage.19": {
     "group": "InfoPage",
-    "label": "Link destination: mailto:support@loomiq.com",
+    "label": "Link destination: support form",
     "kind": "url",
-    "default": "mailto:support@loomiq.com"
+    "default": "#support"
   },
   "InfoPage.20": {
     "group": "InfoPage",
-    "label": "support@loomiq.com",
+    "label": "Contact support",
     "kind": "text",
-    "default": "support@loomiq.com"
+    "default": "Contact support"
   },
   "InfoPage.21": {
     "group": "InfoPage",
@@ -1803,9 +1803,9 @@
   },
   "PaymentPage.56": {
     "group": "PaymentPage",
-    "label": "Link destination: mailto:support@loomiq.com",
+    "label": "Link destination: support form",
     "kind": "url",
-    "default": "mailto:support@loomiq.com"
+    "default": "#support"
   },
   "PaymentPage.57": {
     "group": "PaymentPage",
@@ -3581,9 +3581,9 @@
   },
   "ThankYouPage.credentialsEmail": {
     "group": "ThankYouPage",
-    "label": "Email support@loomiq.com",
+    "label": "Contact support",
     "kind": "text",
-    "default": "Email support@loomiq.com"
+    "default": "Contact support"
   },
   "ThankYouPage.pdfHelp": {
     "group": "ThankYouPage",

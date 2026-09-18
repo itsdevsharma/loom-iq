@@ -5,6 +5,7 @@ import type { FormEvent } from 'react';
 import { useOffer } from '../offer';
 import logo from '../assets/company.logo.webp';
 import '../SignupPage.css';
+import SupportForm from '../components/SupportForm';
 
 export default function SignupPage() {
   const { offer, ready, authenticate } = useOffer();
@@ -81,7 +82,8 @@ export default function SignupPage() {
       </section>
     )}
     {offer.signedUp && error && <p className="signup-error" role="alert">{error}</p>}
-    <footer className="signup-footer"><span><LockIcon />{cmsValue("SignupPage.75", " Payments processed by Razorpay")}</span><nav aria-label={cmsValue("SignupPage.76", "Signup information")}><a href={base + 'privacy'}>{cmsValue("SignupPage.77", "Privacy")}</a><a href={base + 'terms'}>{cmsValue("SignupPage.78", "Terms")}</a><a href={cmsValue("SignupPage.79", "mailto:support@loomiq.com")}>{cmsValue("SignupPage.80", "Need help? Contact us ↗")}</a></nav></footer>
+    <SupportForm />
+    <footer className="signup-footer"><span><LockIcon />{cmsValue("SignupPage.75", " Payments processed by Razorpay")}</span><nav aria-label={cmsValue("SignupPage.76", "Signup information")}><a href={base + 'privacy'}>{cmsValue("SignupPage.77", "Privacy")}</a><a href={base + 'terms'}>{cmsValue("SignupPage.78", "Terms")}</a><a href="#support">{cmsValue("SignupPage.80", "Need help? Contact us ↗")}</a></nav></footer>
   </main>;
 }
 

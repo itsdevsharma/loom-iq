@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import "../PaymentPage.css";
 import { trackEvent, trackCheckout } from "../analytics";
+import SupportForm from '../components/SupportForm';
 
 type Quote = { amount:number; recurring:number; source:'customer'|'website'; discounted:boolean; expiresAt:number|null };
 
@@ -273,9 +274,10 @@ function PaymentPage() {
               <p className="payment-submit-note">{cmsValue("PaymentPage.54", "Payment details are handled by Razorpay.")}</p>
             </div>
 
-            <p className="payment-support">{cmsValue("PaymentPage.55", "Need help? ")}<a href={cmsValue("PaymentPage.56", "mailto:support@loomiq.com")}>{cmsValue("PaymentPage.57", "Contact support ↗")}</a></p>
+            <p className="payment-support">{cmsValue("PaymentPage.55", "Need help? ")}<a href="#support">{cmsValue("PaymentPage.57", "Contact support ↗")}</a></p>
           </aside>
         </form>
+        <SupportForm />
         <footer className="payment-footer"><span>{cmsValue("PaymentPage.58", "© ")}{new Date().getFullYear()}{cmsValue("PaymentPage.59", " LoomIQ")}</span><nav aria-label={cmsValue("PaymentPage.60", "Checkout policies")}><a href={`${import.meta.env.BASE_URL}privacy`}>{cmsValue("PaymentPage.61", "Privacy")}</a><a href={`${import.meta.env.BASE_URL}terms`}>{cmsValue("PaymentPage.62", "Terms")}</a><a href={`${import.meta.env.BASE_URL}refunds`}>{cmsValue("PaymentPage.63", "Refund policy")}</a></nav><span><LockIcon />{cmsValue("PaymentPage.64", " Payment via Razorpay")}</span></footer>
       </div>
     </main>

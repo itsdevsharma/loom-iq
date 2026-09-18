@@ -40,7 +40,7 @@ export default function ThankYouPage() {
         {receipt && <div className="confirmation-credentials-help">
           <p>{cmsValue("ThankYouPage.credentialsDeliveryHelp", "Haven’t received your credentials after 2 hours? Check your spam or junk folder, then contact us for help.")}</p>
           <a href="#support">{cmsValue("ThankYouPage.credentialsContact", "Contact us")}</a>
-          <a href="mailto:support@loomiq.com">{cmsValue("ThankYouPage.credentialsEmail", "Email support@loomiq.com")}</a>
+          <a href="#support">{cmsValue("ThankYouPage.credentialsEmail", "Contact support")}</a>
         </div>}
         {receipt?.testMode && <p className="confirmation-test">{cmsValue("ThankYouPage.18", "Test Mode · No real money was charged.")}</p>}
       </div>

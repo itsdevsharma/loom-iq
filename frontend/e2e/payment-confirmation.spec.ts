@@ -10,7 +10,7 @@ test('confirmed purchase explains credential delivery and offers support', async
   await expect(page.getByRole('heading', { name: 'Your LoomIQ ERP login credentials are being created.' })).toBeVisible();
   await expect(page.locator('.confirmation-lead')).toContainText('customer@example.com');
   await expect(page.getByRole('link', { name: 'Contact us', exact: true })).toHaveAttribute('href', '#support');
-  await expect(page.getByRole('link', { name: 'Email support@loomiq.com' })).toHaveAttribute('href', 'mailto:support@loomiq.com');
+  await expect(page.getByRole('link', { name: 'Contact support' })).toHaveAttribute('href', '#support');
   await expect(page.getByRole('link', { name: /View & save invoice/ })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'We plan your setup' })).toHaveCount(0);
 });
