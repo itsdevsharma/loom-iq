@@ -2523,9 +2523,9 @@
   },
   "SignupPage.79": {
     "group": "SignupPage",
-    "label": "Link destination: mailto:support@loomiq.com",
+    "label": "Link destination: support form",
     "kind": "url",
-    "default": "mailto:support@loomiq.com"
+    "default": "#support"
   },
   "SignupPage.80": {
     "group": "SignupPage",
