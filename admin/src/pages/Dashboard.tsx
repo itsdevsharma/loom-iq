@@ -15,7 +15,7 @@ export default function Dashboard() {
       .catch(e => { if (active) setError(e.message) })
     return () => { active = false }
   }, [retry])
-  return <div className="admin-shell">
+  return <div className="admin-shell dashboard">
     <div className="page-heading"><div><p className="eyebrow">YOUR WORKSPACE</p><h1>Content overview</h1><p className="sub">A clear view of your website content and publishing activity.</p></div><Link className="primary-link" to="/admin/website">Edit website →</Link></div>
     {error && <div className="error" role="alert">{error} <button onClick={() => setRetry(r => r + 1)}>Retry</button></div>}
     <div className="stat-grid">{['Custom pages', 'Published pages', 'Draft pages', 'Media assets'].map((label, i) => <Link to={i === 3 ? '/admin/media' : `/admin/content${i === 1 ? '?status=published' : i === 2 ? '?status=draft' : ''}`} className="stat-card" key={label}><span>{label}</span><strong>{data ? data.counts[i] : '—'}</strong><small>{['Additional public pages', 'Currently live', 'Work in progress', 'Images and videos'][i]}</small></Link>)}</div>

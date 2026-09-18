@@ -139,5 +139,31 @@ table.cms tr:hover{background:#fafbff}
 .status-pill{display:inline-flex;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:600;text-transform:capitalize;background:#f1edf7;color:#766381}.status-pill.published{background:#e8f6ed;color:#27704a}.status-pill.draft{background:#fff3d9;color:#8c611d}.status-pill.archived{background:#eeeef2;color:#696578}
 .website-editor-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px}.content-groups{align-self:start;position:sticky;top:74px;max-height:calc(100vh - 100px);overflow:auto;padding:14px}.content-groups>button{width:100%;justify-content:space-between;text-align:left;background:transparent;color:#60566d;font-size:12px;padding:9px;margin-bottom:3px}.content-groups>button.active{background:#eee8f7;color:#5c378c}.content-list-item{padding:16px;border:1px solid #e9e2ef;border-radius:8px;margin:12px 0}.content-object{padding-left:12px;border-left:2px solid #ece6f4}.content-check{display:flex;gap:10px;align-items:center}.content-check input{width:auto}.website-editor-layout h3{overflow-wrap:anywhere}.content-groups small{margin-left:8px}
 @media(max-width:850px){.website-editor-layout{grid-template-columns:1fr}.content-groups{position:static;max-height:250px}.content-groups>button{display:inline-flex;width:auto;margin-right:4px}.content-list-item{padding:10px}.sidebar nav{flex-wrap:wrap}}
+
+@media(max-width:700px){
+	.sidebar{padding:14px 16px;overflow:hidden}
+	.brand{display:block;line-height:1.15}
+	.sidebar nav{width:max-content;max-width:none;overflow:visible;flex-wrap:nowrap;margin:14px -16px 0;padding:0 16px 4px}
+	.sidebar nav a{flex:0 0 auto;padding:8px 10px;font-size:12px;white-space:nowrap}
+	.topbar{padding:10px 16px}
+	.account span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+	.dashboard{padding:18px 14px 48px}
+	.dashboard .page-heading{gap:14px;margin-bottom:18px}
+	.dashboard .page-heading>div{min-width:0}
+	.dashboard .page-heading .primary-link{width:100%;text-align:center}
+	.dashboard .sub{line-height:1.45}
+	.dashboard .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin:18px 0;gap:8px}
+	.dashboard .stat-card{min-width:0;padding:13px 12px}
+	.dashboard .stat-card strong{font-size:27px;line-height:1.1}
+	.dashboard .stat-card small{line-height:1.35}
+	.dashboard .panel{margin-bottom:14px;padding:15px}
+	.dashboard .panel>.page-heading{align-items:flex-start}
+	.dashboard .panel>.page-heading>a{flex:0 0 auto;font-size:13px}
+	.dashboard .recent-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;padding:13px 0}
+	.dashboard .recent-row>div{grid-column:1 / -1}
+	.dashboard .recent-row .status-pill{grid-column:1}
+	.dashboard .recent-row time{display:block;grid-column:2;grid-row:2;align-self:center}
+	.dashboard .guide-grid{gap:0}
+}
 .record-details{display:grid;grid-template-columns:150px 1fr;gap:10px}.record-details dt{font-weight:600}.record-details dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
 .commerce-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:24px 0}.commerce-stats .panel{margin:0}.commerce-stats strong{display:block;font-size:25px;margin-top:12px}.commerce-meta{display:block;color:#64748b;font-size:12px;line-height:1.7;overflow-wrap:anywhere}.commerce-form{max-width:650px;display:grid;gap:14px}.commerce-form label{display:grid;gap:7px}.commerce-trend{max-height:320px;overflow:auto}.commerce-trend>div{display:flex;align-items:center;gap:15px;padding:5px}.commerce-trend meter{flex:1;width:50%;min-width:20px}.commerce-trend strong{min-width:100px;text-align:right}.panel details{padding:14px 0;border-bottom:1px solid #e2e8f0}.panel summary{cursor:pointer;overflow-wrap:anywhere}
