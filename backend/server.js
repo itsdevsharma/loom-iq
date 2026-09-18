@@ -13,9 +13,6 @@ dotenv.config({ path: path.join(__dirname, '.env'), quiet: true });
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
-const maxRequestsPerWindow = 5;
-const rateLimitWindowMs = 15 * 60 * 1000;
-const requestLog = new Map();
 const { createInvoice, invoiceSeller } = require("./invoice");
 const { renderInvoicePdf } = require("./invoice-pdf");
 const { equal } = require("./early-bird");
@@ -93,7 +90,10 @@ const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
   : null;
 
 app.disable("x-powered-by");
-if (process.env.TRUST_PROXY_HOPS) app.set('trust proxy', Number(process.env.TRUST_PROXY_HOPS));
+// Render terminates public requests at its reverse proxy. Trust only the
+// nearest hop; other deployments can explicitly configure their topology.
+const proxyHops = process.env.TRUST_PROXY_HOPS || (process.env.RENDER === 'true' ? '1' : '');
+if (proxyHops) app.set('trust proxy', Number(proxyHops));
 app.use(helmet());
 app.use(["/api/admin/content", "/api/admin/website"], express.json({ limit: "1mb" }));
 app.use(express.json({ limit: "20kb", verify: (req, _res, buffer) => { req.rawBody = buffer; } }));
@@ -106,6 +106,7 @@ app.use((request, response, next) => {
     response.setHeader("Access-Control-Allow-Credentials", "true");
     response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
     response.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    response.setHeader("Access-Control-Expose-Headers", "Retry-After");
   }
   if (request.method === "OPTIONS") {
     response.sendStatus(204);
@@ -119,6 +120,7 @@ const globalLimiter = rateLimit({
   max: 100,
   standardHeaders: true,
   legacyHeaders: false,
+  handler: rateLimitResponse,
 });
 app.use("/api/", globalLimiter);
 
@@ -126,18 +128,18 @@ function getClientAddress(request) {
   return request.ip || request.socket.remoteAddress || "unknown";
 }
 
-function isRateLimited(address) {
-  const now = Date.now();
-  const recentRequests = (requestLog.get(address) || []).filter(
-    (timestamp) => now - timestamp < rateLimitWindowMs
-  );
-  if (recentRequests.length >= maxRequestsPerWindow) {
-    requestLog.set(address, recentRequests);
-    return true;
-  }
-  recentRequests.push(now);
-  requestLog.set(address, recentRequests);
-  return false;
+function rateLimitResponse(request, response) {
+  const retryAfter = Math.max(1, Math.ceil(((request.rateLimit?.resetTime?.getTime() || Date.now() + 900000) - Date.now()) / 1000));
+  response.set('Retry-After', String(retryAfter)).status(429).json({ success: false, message: 'Too many requests. Please wait before trying again.', retryAfter });
+}
+const demoStartLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, handler: rateLimitResponse });
+const demoVerifyLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false, handler: rateLimitResponse });
+function demoLimiter(req, res, next) {
+  return (String(req.body?.action || '').toLowerCase() === 'verify' ? demoVerifyLimiter : demoStartLimiter)(req, res, next);
+}
+function demoError(response, error, fallback) {
+  if (error.retryAfter) response.set('Retry-After', String(error.retryAfter));
+  return response.status(error.status || 502).json({ success: false, message: error.message || fallback, ...(error.retryAfter ? { retryAfter: error.retryAfter } : {}) });
 }
 
 function cleanText(value) {
@@ -326,11 +328,7 @@ app.get("/api/demo-requests", async (request, response) => {
   response.json({ requests: await repository.list("demoRequests") });
 });
 
-app.post("/api/demo-requests", async (request, response) => {
-  if (isRateLimited(getClientAddress(request))) {
-    response.status(429).json({ success: false, message: "Too many requests. Please try again later." });
-    return;
-  }
+app.post("/api/demo-requests", demoLimiter, async (request, response) => {
   const body = request.body && typeof request.body === "object" ? request.body : {};
   if (String(body.action || '').toLowerCase() === 'verify') {
     const requestId = cleanText(body.requestId);
@@ -356,7 +354,7 @@ app.post("/api/demo-requests", async (request, response) => {
       } catch (error) { console.error('Demo credential email failed:', error.message); }
       return response.status(201).json({ success: true, data: { credentials, loginUrl: result.loginUrl, credentialEmailDelivered } });
     } catch (error) {
-      return response.status(error.status || 502).json({ success: false, message: error.message || 'Unable to verify your demo.' });
+      return demoError(response, error, 'Unable to verify your demo.');
     }
   }
   if (cleanText(body.website)) {
@@ -383,7 +381,7 @@ app.post("/api/demo-requests", async (request, response) => {
     if (!erpRequest.otp) throw new Error('ERP verification code was not supplied to the trusted delivery service.');
     await sendMail({ to: values.email, subject: 'Your LoomIQ demo verification code', text: `Your LoomIQ verification code is: ${erpRequest.otp}\n\nIt expires in 10 minutes. Do not share this code.` });
   } catch (error) {
-    return response.status(error.status || 502).json({ success: false, message: error.message || 'Unable to start your demo.' });
+    return demoError(response, error, 'Unable to start your demo.');
   }
   const demoRequest = {
     id: "demo_" + crypto.randomUUID(),

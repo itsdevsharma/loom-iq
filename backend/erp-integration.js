@@ -16,7 +16,15 @@ async function request(path, payload) {
       signal: controller.signal,
     });
     const body = await response.json().catch(() => ({}));
-    if (!response.ok || !body.success) throw Object.assign(new Error(body.message || 'The ERP demo service is unavailable.'), { status: response.status || 502 });
+    if (!response.ok || !body?.success) {
+      const rawRetry = response.headers.get('retry-after');
+      const seconds = rawRetry && /^\d+$/.test(rawRetry) ? Number(rawRetry) : rawRetry ? Math.ceil((Date.parse(rawRetry) - Date.now()) / 1000) : Number(body?.retryAfter);
+      const retryAfter = Number.isFinite(seconds) && seconds > 0 ? Math.ceil(seconds) : undefined;
+      const fallback = response.status === 429
+        ? 'The ERP demo service is receiving too many requests. Please wait before trying again.'
+        : 'The ERP demo service is unavailable.';
+      throw Object.assign(new Error(typeof body?.message === 'string' && body.message ? body.message : fallback), { status: response.ok ? 502 : response.status, retryAfter });
+    }
     return body.data;
   } catch (error) {
     if (error.name === 'AbortError') throw Object.assign(new Error('The ERP demo service timed out. Please try again.'), { status: 504 });

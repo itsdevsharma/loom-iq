@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import '../DemoFormSection.css';
 import { trackEvent } from '../analytics';
 
@@ -9,6 +9,28 @@ const apiUrl = (path: string) => `${import.meta.env.PUBLIC_API_URL ?? ''}${path}
 function DemoFormSection() {
   const [phase, setPhase] = useState<Phase>('details');
   const [busy, setBusy] = useState(false);
+  const inFlight = useRef(false);
+  const [retryUntil, setRetryUntil] = useState(0);
+  const [retrySeconds, setRetrySeconds] = useState(0);
+  useEffect(() => {
+    if (!retryUntil) return;
+    const tick = () => {
+      const remaining = Math.max(0, Math.ceil((retryUntil - Date.now()) / 1000));
+      setRetrySeconds(remaining);
+      if (!remaining) setRetryUntil(0);
+    };
+    const timer = window.setInterval(tick, 1000);
+    return () => window.clearInterval(timer);
+  }, [retryUntil]);
+  const handleRateLimit = (response: Response, result: { retryAfter?: number }) => {
+    if (response.status !== 429) return;
+    const header = response.headers.get('Retry-After');
+    const seconds = header && /^\d+$/.test(header) ? Number(header) : header ? Math.ceil((Date.parse(header) - Date.now()) / 1000) : Number(result.retryAfter);
+    // If the upstream service supplies no reset time, pause briefly before
+    // allowing a manual retry. Never automatically resend an OTP request.
+    const wait = Number.isFinite(seconds) && seconds > 0 ? Math.ceil(seconds) : 60;
+    setRetrySeconds(wait); setRetryUntil(Date.now() + wait * 1000);
+  };
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [requestId, setRequestId] = useState('');
@@ -19,14 +41,17 @@ function DemoFormSection() {
   const [formStartedAt] = useState(() => Date.now());
 
   const requestDemo = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); setErrorMessage(''); setFieldErrors({}); setBusy(true);
+    event.preventDefault();
+    if (inFlight.current || Date.now() < retryUntil) return;
+    inFlight.current = true;
+    setErrorMessage(''); setFieldErrors({}); setBusy(true);
     const formData = new FormData(event.currentTarget);
     const name = String(formData.get('name') || '').trim();
     const email = String(formData.get('email') || '').trim();
     const company = String(formData.get('company') || '').trim();
     const mobile = String(formData.get('mobile') || '').trim();
     if (!name || !email || !company || !mobile) {
-      setErrorMessage('Please enter your name, business name, email, and mobile number.'); setPhase('error'); setBusy(false); return;
+      setErrorMessage('Please enter your name, business name, email, and mobile number.'); setPhase('error'); setBusy(false); inFlight.current = false; return;
     }
     try {
       trackEvent('demo_form_submitted');
@@ -34,24 +59,29 @@ function DemoFormSection() {
         method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, company, mobile, businessType: formData.get('businessType'), website: formData.get('website'), formStartedAt, campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '' }),
       });
-      const result = await response.json() as { success?: boolean; message?: string; errors?: Record<string, string>; data?: { requestId?: string } };
+      const result = await response.json().catch(() => ({})) as { success?: boolean; message?: string; retryAfter?: number; errors?: Record<string, string>; data?: { requestId?: string } };
+      handleRateLimit(response, result);
       if (!response.ok || !result.success || !result.data?.requestId) { setFieldErrors(result.errors ?? {}); throw new Error(result.message || 'We could not start your demo.'); }
       setRequestId(result.data.requestId); setPhase('verifying'); trackEvent('demo_otp_sent');
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Network error. Please try again.'); setPhase('error'); trackEvent('demo_form_error');
-    } finally { setBusy(false); }
+    } finally { setBusy(false); inFlight.current = false; }
   };
 
   const verifyDemo = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); setErrorMessage(''); setBusy(true);
+    event.preventDefault();
+    if (inFlight.current || Date.now() < retryUntil) return;
+    inFlight.current = true;
+    setErrorMessage(''); setBusy(true);
     try {
       const response = await fetch(apiUrl('/api/demo-requests'), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'verify', requestId, otp }) });
-      const result = await response.json() as { success?: boolean; message?: string; data?: { credentials?: Credentials; loginUrl?: string; credentialEmailDelivered?: boolean } };
+      const result = await response.json().catch(() => ({})) as { success?: boolean; message?: string; retryAfter?: number; data?: { credentials?: Credentials; loginUrl?: string; credentialEmailDelivered?: boolean } };
+      handleRateLimit(response, result);
       if (!response.ok || !result.success || !result.data?.credentials) throw new Error(result.message || 'We could not verify your code.');
       setCredentials(result.data.credentials); setLoginUrl(result.data.loginUrl || ''); setCredentialEmailDelivered(result.data.credentialEmailDelivered === true); setPhase('ready'); trackEvent('demo_form_success');
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Network error. Please try again.'); trackEvent('demo_otp_error');
-    } finally { setBusy(false); }
+    } finally { setBusy(false); inFlight.current = false; }
   };
 
   const step = phase === 'details' || phase === 'error' ? 1 : 2;
@@ -77,7 +107,7 @@ function DemoFormSection() {
         </div> : phase === 'verifying' ? <form onSubmit={verifyDemo} noValidate>
           <h3>Check your email</h3><p className="demo-form-meta">Enter the six-digit verification code we sent to start your three-hour demo.</p>
           <label htmlFor="demo-otp">Verification code</label><input className="demo-otp-field" id="demo-otp" value={otp} onChange={event => setOtp(event.target.value.replace(/\D/g, '').slice(0, 6))} inputMode="numeric" autoComplete="one-time-code" placeholder="000000" required pattern="[0-9]{6}" />
-          <button type="submit" className="button button-primary demo-form-submit" disabled={busy || otp.length !== 6}>{busy ? 'Verifying…' : 'Verify and create my demo'}</button>
+          <button type="submit" className="button button-primary demo-form-submit" disabled={busy || retrySeconds > 0 || otp.length !== 6}>{retrySeconds > 0 ? `Try again in ${retrySeconds}s` : busy ? 'Verifying…' : 'Verify and create my demo'}</button>
           <button type="button" className="demo-form-link" disabled={busy} onClick={() => { setPhase('details'); setOtp(''); }}>Use different details</button>
           {errorMessage && <p className="demo-form-error" role="alert">{errorMessage}</p>}
         </form> : <form onSubmit={requestDemo} onFocus={() => trackEvent('demo_form_started')} noValidate>
@@ -88,7 +118,7 @@ function DemoFormSection() {
           <div><label htmlFor="demo-company">Business name</label><input id="demo-company" name="company" autoComplete="organization" placeholder="Your business" required aria-invalid={Boolean(fieldErrors.company)} />{fieldErrors.company && <small>{fieldErrors.company}</small>}</div>
           <div><label htmlFor="demo-business">Business type <span>(optional)</span></label><select id="demo-business" name="businessType" defaultValue=""><option value="">Select an option</option><option value="garment">Garment manufacturing</option><option value="textile-trading">Textile trading / Distribution</option><option value="other">Other</option></select></div></div>
           <label className="demo-form-honeypot" htmlFor="demo-website">Website</label><input className="demo-form-honeypot" id="demo-website" name="website" tabIndex={-1} autoComplete="off" />
-          <button type="submit" className="button button-primary demo-form-submit" disabled={busy}>{busy ? 'Sending code…' : 'Send verification code'}</button>
+          <button type="submit" className="button button-primary demo-form-submit" disabled={busy || retrySeconds > 0}>{retrySeconds > 0 ? `Try again in ${retrySeconds}s` : busy ? 'Sending code…' : 'Send verification code'}</button>
           <p className="demo-form-privacy">By continuing, you agree to our <a href={`${import.meta.env.BASE_URL}privacy`}>privacy policy</a>.</p>
           {errorMessage && <p className="demo-form-error" role="alert">{errorMessage}</p>}
         </form>}

@@ -21,6 +21,14 @@ Configure the ERP with the same value as `LOOMIQ_MARKETING_INTEGRATION_TOKEN`, i
 
 The existing GitHub Pages workflow remains a static preview deployment, now gated by lint, backend tests, and desktop/mobile browser tests. It supports direct route entry files. A `VITE_API_URL` repository variable may be used for preview APIs, but cross-site cookies are deliberately not enabled. Use the single-domain deployment for authenticated production purchases. A Pages preview without a same-site API cannot provide a working signed-in checkout.
 
+## Demo requests returning 429 on Render
+
+The marketing backend trusts the nearest reverse proxy when Render's `RENDER=true` flag is present. `TRUST_PROXY_HOPS` overrides this for other proxy topologies. Direct local servers do not trust forwarded headers. This keeps different visitors from sharing the proxy's IP for demo limits. See [Express proxy configuration](https://expressjs.com/en/guide/behind-proxies/).
+
+Deploy the updated backend and frontend. Code requests and OTP verification have separate limits. The form prevents duplicate submissions and respects `Retry-After`. A missing upstream delay uses a 60-second pause before manual retry; the upstream limit may last longer.
+
+If 429 continues, inspect ERP or gateway logs for `/api/integrations/marketing/demo-requests`. The previous generic ERP-unavailable message means the upstream failure had no JSON `message`, which can also happen at a gateway. Confirm proxy hops and gateway limits for the authenticated integration. The ERP's persisted per-IP window is one hour; old entries expire naturally. Do not disable rate limits or automatically resend OTP requests.
+
 ## Payments and invoice delivery
 
 Configure Razorpay to send signed `payment.captured` events to `/api/purchase/webhook` using the matching webhook secret. Verify successful capture, rejected signatures, late-payment refunds, and retry delivery on staging before activating live keys. Tests use a fake gateway and do not establish real gateway connectivity.
