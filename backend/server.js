@@ -88,7 +88,10 @@ async function requireAccount(req, res, next) {
 const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
   ? new Razorpay({ key_id: process.env.RAZORPAY_KEY_ID, key_secret: process.env.RAZORPAY_KEY_SECRET, protocol: "https" })
   : null;
-const frontendOrigins = new Set((process.env.FRONTEND_ORIGIN || '').split(',').map(origin => origin.trim()).filter(Boolean));
+const frontendOrigins = new Set([
+  ...(process.env.FRONTEND_ORIGIN || '').split(',').map(origin => origin.trim()).filter(Boolean),
+  'https://loom-iq-eta.vercel.app',
+]);
 function originAllowed(origin, request) {
   return !origin || frontendOrigins.has(origin) || origin === `${request.protocol}://${request.get('host')}`;
 }

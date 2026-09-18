@@ -73,12 +73,7 @@ function loadRazorpay() {
 function PaymentPage() {
   const { offer, ready, update } = useOffer();
   useEffect(() => {
-    if (window.location.hostname !== 'loom-iq-eta.vercel.app') {
-      window.location.replace('https://loom-iq-eta.vercel.app/payment' + window.location.search);
-    }
-  }, []);
-  useEffect(() => {
-    if (ready && !offer.signedUp) window.location.replace('https://loom-iq-eta.vercel.app/signup' + window.location.search);
+    if (ready && !offer.signedUp) window.location.replace(import.meta.env.BASE_URL + 'signup' + window.location.search);
   }, [ready, offer.signedUp]);
   const queryPlan = new URLSearchParams(window.location.search).get("plan");
   const initialPlan: PlanKey = queryPlan === "Growth" ? "Growth" : "Starter";
