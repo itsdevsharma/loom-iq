@@ -7,7 +7,11 @@ async function check(name, work) {
 }
 async function main() {
   await check('MongoDB', async () => { try { await connectDatabase(); } finally { await closeDatabase(); } });
-  await check('SMTP', async () => {
+  const { mailProvider, mailConfigured } = require('../mail');
+  if (mailProvider() === 'resend') {
+    if (!mailConfigured()) { console.error('Resend: RESEND_API_KEY and EMAIL_FROM are required'); process.exitCode = 1; }
+    else console.log('Resend: HTTPS configuration present; key permissions, domain verification and delivery must be checked in Resend. No email sent.');
+  } else await check('SMTP', async () => {
     const e = process.env;
     if (!e.SMTP_HOST || !e.SMTP_USER || !e.SMTP_PASS) throw new Error('Missing SMTP');
     const transport = require('nodemailer').createTransport({ host: e.SMTP_HOST, port: Number(e.SMTP_PORT || 587), secure: e.SMTP_SECURE === 'true', auth: { user: e.SMTP_USER, pass: e.SMTP_PASS }, connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 10000 });

@@ -93,7 +93,7 @@ function registerAccountRoutes(app, { store, account, limiter }) {
       try {
         await sendMail({ to: email, subject: 'Your LoomIQ verification code', text: `Your LoomIQ verification code is: ${token}\n\nEnter it within 10 minutes. Do not share it with anyone.` });
       } catch {
-        console.error('Verification email delivery failed. Check the SMTP service configuration.');
+        console.error('Verification email delivery failed. Check the email provider configuration.');
         return res.status(502).json({ message: 'We could not send your verification code. Please try again shortly or contact support if this continues.' });
       }
     }

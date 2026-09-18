@@ -139,7 +139,7 @@ function demoLimiter(req, res, next) {
 }
 function demoError(response, error, fallback) {
   if (error.retryAfter) response.set('Retry-After', String(error.retryAfter));
-  return response.status(error.status || 502).json({ success: false, message: error.message || fallback, ...(error.retryAfter ? { retryAfter: error.retryAfter } : {}) });
+  return response.status(error.status || 502).json({ success: false, message: error.message || fallback, ...(error.code?.startsWith('ERP_') ? { code: error.code } : {}), ...(error.retryAfter ? { retryAfter: error.retryAfter } : {}) });
 }
 
 function cleanText(value) {
@@ -164,30 +164,12 @@ function validateDemoRequest(body, { requireMobile = false } = {}) {
   return { values: { name, email, company, mobile, businessType }, errors };
 }
 function sendDemoNotification(demoRequest) {
-  const salesEmail = process.env.SALES_EMAIL || process.env.EMAIL_API_KEY;
+  const salesEmail = process.env.SALES_EMAIL;
   if (!salesEmail) {
     console.log("Demo request received (no email configured):", demoRequest.email);
     return Promise.resolve();
   }
-  let transporterOptions;
-  if (process.env.SMTP_HOST) {
-    transporterOptions = {
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: process.env.SMTP_SECURE === "true",
-      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-    };
-  } else {
-    transporterOptions = {
-      host: "smtp-relay.brevo.com",
-      port: 587,
-      auth: { user: process.env.EMAIL_API_KEY, pass: process.env.EMAIL_API_KEY },
-    };
-  }
-  const transporter = nodemailer.createTransport(transporterOptions);
-  return transporter
-    .sendMail({
-      from: process.env.EMAIL_FROM || "noreply@loomiq.com",
+  return sendMail({
       to: salesEmail,
       subject: "New Demo Request: " + demoRequest.company,
       text: [

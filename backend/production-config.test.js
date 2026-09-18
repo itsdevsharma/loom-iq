@@ -11,3 +11,12 @@ test('production rejects incomplete settings, test payments and unsafe origin/st
   assert.throws(() => validateProduction({ ...valid, ERP_LOGIN_URL: 'http://erp.example.invalid/login' }), /ERP_LOGIN_URL/);
   assert.throws(() => validateProduction({ ...valid, STORAGE_DRIVER: 'file' }), /MongoDB/);
 });
+
+test('production accepts HTTPS email without SMTP and rejects incomplete provider settings', () => {
+  const env = { ...valid, MAIL_PROVIDER: 'resend', RESEND_API_KEY: 're_test', EMAIL_FROM: 'LoomIQ <mail@example.invalid>' };
+  delete env.SMTP_HOST; delete env.SMTP_USER; delete env.SMTP_PASS;
+  assert.doesNotThrow(() => validateProduction(env));
+  assert.throws(() => validateProduction({ ...env, RESEND_API_KEY: '' }), /RESEND_API_KEY/);
+  assert.throws(() => validateProduction({ ...env, EMAIL_FROM: '' }), /EMAIL_FROM/);
+  assert.throws(() => validateProduction({ ...env, MAIL_PROVIDER: 'unknown' }), /MAIL_PROVIDER/);
+});

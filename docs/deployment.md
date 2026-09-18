@@ -11,13 +11,13 @@ Copy missing settings from `backend/.env.example` into your private environment.
 ## Single-domain production deployment
 
 1. Choose the production domain and point DNS to a server with Docker Compose and ports 80/443 accessible.
-2. Populate `backend/.env` with production database, SMTP, payment, webhook, invoice business name/address, and a random operator token of at least 32 characters. Set `PUBLIC_SITE_URL=https://your-domain/` and `FRONTEND_ORIGIN=https://your-domain`. Also set the private `ERP_API_URL`, `ERP_LOGIN_URL`, and a 32+-character `ERP_MARKETING_INTEGRATION_TOKEN`. Staging may explicitly use `ALLOW_TEST_PAYMENTS=true` with test gateway keys.
+2. Populate `backend/.env` with production database, email provider, payment, webhook, invoice business name/address, and a random operator token of at least 32 characters. Set `PUBLIC_SITE_URL=https://your-domain/` and `FRONTEND_ORIGIN=https://your-domain`. Also set the private `ERP_API_URL`, `ERP_LOGIN_URL`, and a 32+-character `ERP_MARKETING_INTEGRATION_TOKEN`. Staging may explicitly use `ALLOW_TEST_PAYMENTS=true` with test gateway keys.
 3. Set `SITE_DOMAIN` in the root private `.env` used by Compose. Set optional public `VITE_GOOGLE_ANALYTICS_ID` and `VITE_META_PIXEL_ID` there for the build. See `meta-pixel.md` for consent and purchase-event behavior.
 4. From backend, run `npm run check:release`. It reports missing setting names without exposing values.
 5. From the repository root, run `docker compose up -d --build`. Caddy terminates HTTPS and forwards to the Node application, which serves both the built website and API. The API port is not publicly published. One trusted proxy hop is configured.
 6. Check `https://your-domain/health`, signup, account, checkout, and route refreshes. Docker restarts crashed services. Configure an external monitor; Docker health status alone does not restart a still-running unhealthy process.
 
-Configure the ERP with the same value as `LOOMIQ_MARKETING_INTEGRATION_TOKEN`, its public HTTPS `ERP_LOGIN_URL`, and a populated `DEMO_TEMPLATE_ORGANIZATION_ID`. Both services reject incomplete production integration settings. Test one Razorpay test-mode capture end-to-end against the deployed APIs, SMTP inbox, and a real template tenant before release. Paid-demo conversion state is kept with the marketing order and retries with exponential backoff when the ERP is unavailable.
+Configure the ERP with the same value as `LOOMIQ_MARKETING_INTEGRATION_TOKEN`, its public HTTPS `ERP_LOGIN_URL`, and a populated `DEMO_TEMPLATE_ORGANIZATION_ID`. Both services reject incomplete production integration settings. Test one Razorpay test-mode capture end-to-end against the deployed APIs, email inbox, and a real template tenant before release. Paid-demo conversion state is kept with the marketing order and retries with exponential backoff when the ERP is unavailable.
 
 The existing GitHub Pages workflow remains a static preview deployment, now gated by lint, backend tests, and desktop/mobile browser tests. It supports direct route entry files. A `VITE_API_URL` repository variable may be used for preview APIs, but cross-site cookies are deliberately not enabled. Use the single-domain deployment for authenticated production purchases. A Pages preview without a same-site API cannot provide a working signed-in checkout.
 
@@ -29,6 +29,20 @@ Deploy the updated backend and frontend. Code requests and OTP verification have
 
 If 429 continues, inspect ERP or gateway logs for `/api/integrations/marketing/demo-requests`. The previous generic ERP-unavailable message means the upstream failure had no JSON `message`, which can also happen at a gateway. Confirm proxy hops and gateway limits for the authenticated integration. The ERP's persisted per-IP window is one hour; old entries expire naturally. Do not disable rate limits or automatically resend OTP requests.
 
+## Demo requests returning 502
+
+The marketing backend can be healthy while its ERP dependency fails. Set `ERP_API_URL` on the marketing Render service to the ERP **backend origin**, without `/api` or a login path. Set `ERP_LOGIN_URL` separately to the browser login page. Editing `.env.example` does not change Render's deployed environment.
+
+Check the failed request's JSON `code` and the corresponding `ERP integration request failed` log entry:
+
+- `ERP_INVALID_RESPONSE`: upstream returned HTTP success without the expected JSON success envelope; HTML usually indicates the frontend URL or an intermediary page.
+- `ERP_REDIRECT`: configure the final backend URL directly; integration credentials are never forwarded across redirects.
+- `ERP_HTTP_ERROR`: inspect `upstreamStatus` in the log. A 502/503 requires checking ERP hosting/startup logs; a 401 requires checking the shared integration token.
+- `ERP_CONNECTION_FAILED`: inspect `networkCode` for DNS, TLS, or connection failure.
+- `ERP_TIMEOUT`: ERP did not finish within the request deadline.
+
+These diagnostics exclude request data, integration tokens, OTPs, and upstream response bodies. Check ERP logs at the same UTC timestamp as the website request before changing limits or retry behavior.
+
 ## Payments and invoice delivery
 
 Configure Razorpay to send signed `payment.captured` events to `/api/purchase/webhook` using the matching webhook secret. Verify successful capture, rejected signatures, late-payment refunds, and retry delivery on staging before activating live keys. Tests use a fake gateway and do not establish real gateway connectivity.
@@ -37,9 +51,28 @@ Users can view or save invoices in `/account` and on purchase confirmation. Afte
 
 ## Email
 
-Support, reset, verification, and invoice email require SMTP settings. Demo inquiries are persisted even when email delivery fails. With permission from the receiving mailbox owner, verify one support message, demo notification, reset link, verification link, and invoice email in staging. Automated tests mock delivery and never send real messages. Delivery failures need operational follow-up; there is no durable email retry queue.
+### Render Free: Resend over HTTPS
 
-`npm run check:services` performs read-only MongoDB, SMTP authentication, and Razorpay API checks without sending email or creating payment orders. Passing these checks does not prove inbox delivery or webhook receipt.
+The shared mail service supports Resend's HTTPS API for demo OTPs/credentials, signup/reset messages, support notifications, sales notifications and invoice PDF attachments. It uses port 443, with a 15-second timeout and no automatic resend or SMTP fallback on failure.
+
+1. Create a Resend account and [verify a domain you own](https://resend.com/docs/dashboard/domains/introduction), such as `loomiq.site`, using the DNS records Resend supplies.
+2. Create an API key with permission to send from that domain. Keep it only in the marketing backend's Render environment.
+3. Set these three variables on the **LoomIQ marketing backend** and redeploy the changed backend code:
+
+   ```env
+   MAIL_PROVIDER=resend
+   RESEND_API_KEY=<your-new-resend-key>
+   EMAIL_FROM=LoomIQ <noreply@loomiq.site>
+   ```
+
+   The sender above is an example and requires domain verification. A Gmail sender cannot be used as your verified domain sender. `SALES_EMAIL` and `ACCOUNT_NOTIFICATION_EMAIL` may remain Gmail recipient addresses. Old SMTP variables are ignored when `MAIL_PROVIDER=resend`; remove them from Render once migrated. No ERP email configuration change is required.
+4. Submit a demo request and confirm acceptance/delivery in the Resend dashboard and receipt in the inbox. API acceptance is not proof of inbox delivery. `npm run check:services` checks Resend configuration presence only and does not send messages or validate a sending-only key through unrelated admin endpoints.
+
+`MAIL_PROVIDER=smtp` remains available for local development or hosts that permit SMTP. With no explicit provider, a configured `RESEND_API_KEY` selects Resend; otherwise the legacy SMTP path is used. Production validation accepts either provider and requires the corresponding settings. See the [Resend send API](https://resend.com/docs/api-reference/emails/send-email).
+
+Support, reset, verification, and invoice email require a configured email provider. Demo inquiries are persisted even when email delivery fails. With permission from the receiving mailbox owner, verify one support message, demo notification, reset link, verification link, and invoice email in staging. Automated tests mock delivery and never send real messages. Delivery failures need operational follow-up; there is no durable email retry queue.
+
+`npm run check:services` performs read-only MongoDB and Razorpay API checks, plus SMTP authentication or Resend configuration checks without sending email or creating payment orders. Passing these checks does not prove inbox delivery or webhook receipt.
 
 ## Manual onboarding
 

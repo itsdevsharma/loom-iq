@@ -1,8 +1,10 @@
 function validateProduction(env = process.env) {
   if (env.NODE_ENV !== 'production') return;
-  const required = ['PUBLIC_SITE_URL', 'FRONTEND_ORIGIN', 'ADMIN_API_TOKEN', 'SMTP_HOST', 'SMTP_USER', 'SMTP_PASS', 'SALES_EMAIL', 'INVOICE_BUSINESS_NAME', 'INVOICE_BUSINESS_ADDRESS', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET', 'RAZORPAY_WEBHOOK_SECRET', 'ERP_API_URL', 'ERP_MARKETING_INTEGRATION_TOKEN', 'ERP_LOGIN_URL'];
+  const { mailProvider, mailConfigured } = require('./mail');
+  const required = ['PUBLIC_SITE_URL', 'FRONTEND_ORIGIN', 'ADMIN_API_TOKEN', 'SALES_EMAIL', 'INVOICE_BUSINESS_NAME', 'INVOICE_BUSINESS_ADDRESS', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET', 'RAZORPAY_WEBHOOK_SECRET', 'ERP_API_URL', 'ERP_MARKETING_INTEGRATION_TOKEN', 'ERP_LOGIN_URL'];
   const missing = required.filter(key => !env[key]);
   if (missing.length) throw new Error('Missing production settings: ' + missing.join(', '));
+  if (!mailConfigured(env)) throw new Error(mailProvider(env) === 'resend' ? 'Resend requires RESEND_API_KEY and EMAIL_FROM from a verified domain.' : 'Configure MAIL_PROVIDER=resend with RESEND_API_KEY and EMAIL_FROM, or MAIL_PROVIDER=smtp with SMTP_HOST, SMTP_USER and SMTP_PASS.');
   const site = new URL(env.PUBLIC_SITE_URL);
   if (site.protocol !== 'https:' || site.username || site.password || site.pathname !== '/' || site.search || site.hash || site.origin !== env.FRONTEND_ORIGIN) throw new Error('Production PUBLIC_SITE_URL must be an HTTPS root URL matching FRONTEND_ORIGIN.');
   if (env.STORAGE_DRIVER === 'file' || !(env.MONGODB_URI || env.MONGODB_HOST)) throw new Error('Production requires MongoDB storage.');

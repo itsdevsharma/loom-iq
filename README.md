@@ -24,7 +24,7 @@ npm exec --prefix frontend -- playwright install chromium
 npm run test:e2e --prefix frontend
 ```
 
-Backend `npm run check:services` checks MongoDB, SMTP authentication, and Razorpay connectivity without sending messages or creating orders. `npm run test:mongodb` verifies persistence and encrypted backup/restore in temporary databases. `npm run check:release` checks production environment requirements.
+Backend `npm run check:services` checks MongoDB and Razorpay connectivity, plus SMTP authentication or Resend configuration presence without sending messages or creating orders. `npm run test:mongodb` verifies persistence and encrypted backup/restore in temporary databases. `npm run check:release` checks production environment requirements.
 
 ## Deploy
 
