@@ -138,142 +138,6 @@ main {
     var(--bg);
 }
 
-/* Navbar dimensions and mobile behavior. */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  width: 100%;
-  min-height: 72px;
-  margin: 0;
-  padding: 10px var(--page-gutter);
-  border: 0;
-  border-bottom: 1px solid rgba(36, 31, 56, 0.08);
-  border-radius: 0;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 6px 20px rgba(36, 31, 56, 0.05);
-}
-
-.topbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  width: min(100%, 1200px);
-  min-height: 50px;
-  margin: 0 auto;
-}
-
-.topbar--scrolled {
-  min-height: 64px;
-  padding-block: 7px;
-  background: rgba(250, 249, 253, 0.96);
-  border-bottom-color: rgba(124, 58, 237, 0.14);
-  box-shadow: 0 10px 28px rgba(36, 31, 56, 0.08);
-  backdrop-filter: blur(14px);
-  transform: none;
-}
-
-.topbar .brand-logo,
-.topbar--scrolled .brand-logo {
-  width: 38px;
-  height: 38px;
-}
-
-.topbar .nav-links,
-.topbar .nav-actions {
-  display: flex;
-  align-items: center;
-}
-
-.topbar .nav-links {
-  gap: 26px;
-  margin-left: auto;
-}
-
-.topbar .nav-links a {
-  font-size: 0.9rem;
-}
-
-.topbar .nav-actions {
-  gap: 12px;
-}
-
-.menu-toggle {
-  display: none;
-  width: 48px;
-  height: 48px;
-  margin-left: auto;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--panel);
-}
-
-.menu-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  margin: 4px auto;
-  background: var(--text-strong);
-}
-
-@media (max-width: 760px) {
-  .topbar,
-  .topbar--scrolled {
-    min-height: 56px;
-    padding: 4px var(--page-gutter);
-  }
-
-  .topbar-inner {
-    min-height: 48px;
-  }
-
-  .topbar .brand {
-    font-size: 1rem;
-  }
-
-  .topbar .brand-logo,
-  .topbar--scrolled .brand-logo {
-    width: 32px;
-    height: 32px;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .topbar .nav-links {
-    position: absolute;
-    top: 100%;
-    right: var(--page-gutter);
-    left: var(--page-gutter);
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    margin: 0;
-    padding: 8px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--panel);
-    box-shadow: 0 16px 32px rgba(24, 16, 48, 0.12);
-  }
-
-  .topbar .nav-links.is-open {
-    display: flex;
-  }
-
-  .topbar .nav-links a {
-    min-height: 44px;
-    padding: 12px;
-  }
-
-  .topbar .nav-actions {
-    display: none;
-  }
-}
-
 /* Center content within the copy column and keep spacing consistent */
 .hero-copy {
   max-width: 680px;
@@ -289,26 +153,6 @@ main {
   justify-self: center;
   align-self: center;
   margin-left: 12px;
-}
-
-.topbar--scrolled {
-  padding: 10px 22px;
-  min-height: 50px;
-  background: rgba(248, 246, 255, 0.95);
-  border-color: rgba(124, 58, 237, 0.16);
-  box-shadow: 0 14px 34px rgba(24, 16, 48, 0.1);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  transform: translateY(2px);
-}
-
-.topbar--scrolled .brand-logo {
-  width: 36px;
-  height: 36px;
-}
-
-.topbar:hover {
-  border-color: rgba(124, 58, 237, 0.2);
 }
 
 .brand {
@@ -1760,14 +1604,6 @@ h1 {
   --card-radius: 10px;
 }
 
-.topbar {
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  box-shadow: 0 4px 14px rgba(20, 31, 38, 0.05);
-}
-
 .hero {
   background: var(--bg);
 }
@@ -2720,7 +2556,6 @@ button {
    Responsive
    ============================================================ */
 @media (max-width: 900px) {
-  .topbar,
   .hero,
   .split-section,
   .demo-layout,
@@ -2729,20 +2564,6 @@ button {
   .testimonial-grid,
   .pricing-grid {
     grid-template-columns: 1fr;
-  }
-
-  .topbar {
-    border-radius: 24px;
-    flex-wrap: wrap;
-    gap: 12px;
-    position: sticky;
-    top: 12px;
-  }
-
-  .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: center;
   }
 
   .hero {
@@ -2827,145 +2648,6 @@ button {
   }
 }
 
-/* Final navbar alignment override. */
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  width: 100%;
-  min-height: 72px;
-  margin: 0;
-  padding: 10px var(--page-gutter);
-  border: 0;
-  border-bottom: 1px solid var(--border);
-  border-radius: 0;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 8px 24px rgba(24, 16, 48, 0.06);
-}
-
-/* Keep the navigation shell edge-to-edge; only its inner content is constrained. */
-.topbar,
-.topbar--scrolled {
-  width: 100vw;
-  max-width: none;
-  margin-inline: 0;
-  border-radius: 0;
-}
-
-.topbar-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  width: min(100%, 1200px);
-  min-height: 50px;
-  margin: 0 auto;
-}
-
-.topbar--scrolled {
-  min-height: 64px;
-  padding-block: 7px;
-  transform: none;
-}
-
-.topbar .brand-logo,
-.topbar--scrolled .brand-logo {
-  width: 38px;
-  height: 38px;
-}
-
-.topbar .nav-links {
-  display: flex;
-  align-items: center;
-  gap: 26px;
-  margin-left: auto;
-}
-
-.topbar .nav-links a {
-  font-size: 0.9rem;
-}
-
-.topbar .nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.menu-toggle {
-  display: none;
-  width: 48px;
-  height: 48px;
-  margin-left: auto;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--panel);
-}
-
-.menu-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  margin: 4px auto;
-  background: var(--text-strong);
-}
-
-@media (max-width: 760px) {
-  .topbar,
-  .topbar--scrolled {
-    min-height: 56px;
-    padding: 4px var(--page-gutter);
-  }
-
-  .topbar-inner {
-    min-height: 48px;
-  }
-
-  .topbar .brand {
-    font-size: 1rem;
-  }
-
-  .topbar .brand-logo,
-  .topbar--scrolled .brand-logo {
-    width: 32px;
-    height: 32px;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .topbar .nav-links {
-    position: absolute;
-    top: 100%;
-    right: var(--page-gutter);
-    left: var(--page-gutter);
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    margin: 0;
-    padding: 8px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--panel);
-    box-shadow: 0 16px 32px rgba(24, 16, 48, 0.12);
-  }
-
-  .topbar .nav-links.is-open {
-    display: flex;
-  }
-
-  .topbar .nav-links a {
-    min-height: 44px;
-    padding: 12px;
-  }
-
-  .topbar .nav-actions {
-    display: none;
-  }
-}
-
 /* ============================================================
    Landing-page refinement
    A shared content rail, deliberate type scale, and a quieter visual system
@@ -2985,56 +2667,12 @@ main {
   max-width: none;
 }
 
-.topbar {
-  width: min(calc(100% - (var(--page-gutter) * 2)), var(--content-width));
-  max-width: none;
-  margin: 16px auto 0;
-  padding: 16px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  min-height: 60px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(24, 16, 48, 0.1);
-  border-radius: 999px;
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  position: sticky;
-  top: 16px;
-  z-index: 50;
-  box-shadow: 0 10px 28px rgba(24, 16, 48, 0.06);
-  transition:
-    padding 250ms ease,
-    min-height 250ms ease,
-    background-color 250ms ease,
-    border-color 250ms ease,
-    box-shadow 250ms ease,
-    backdrop-filter 250ms ease,
-    transform 250ms ease;
-  will-change: padding, min-height, background-color, box-shadow, backdrop-filter;
-}
-
-.topbar--scrolled {
-  padding: 8px 18px;
-}
-
-.nav-links,
-.nav-actions {
-  gap: 18px;
-}
-
 .nav-links a,
 .text-link,
 .footer-links a {
   font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0;
-}
-
-.topbar .button {
-  padding: 10px 17px;
-  font-size: 0.8rem;
 }
 
 .button,
@@ -3429,18 +3067,6 @@ h1 {
     --page-gutter: 20px;
   }
 
-  .topbar {
-    width: calc(100% - 28px);
-    margin-top: 14px;
-    border-radius: 16px;
-    top: 10px;
-  }
-
-  .topbar--scrolled {
-    padding: 8px 16px;
-    min-height: 46px;
-  }
-
   .brand {
     font-size: 1rem;
   }
@@ -3448,25 +3074,6 @@ h1 {
   .brand-logo {
     width: 32px;
     height: 32px;
-  }
-
-  .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: flex-start;
-    gap: 16px;
-  }
-
-  .nav-links a {
-    font-size: 0.78rem;
-  }
-
-  .nav-actions {
-    gap: 12px;
-  }
-
-  .nav-actions .text-link {
-    display: none;
   }
 
   .hero {
@@ -3986,23 +3593,51 @@ h1 {
   font-style: italic;
 }
 
-/* Authoritative full-width navbar override. */
+/* ============================================================
+   Navigation bar — single source of truth.
+   Desktop: full-bleed bar with inline links and actions.
+   <= 900px: rounded bar plus a hamburger that opens a dropdown
+   panel carrying the links, account, demo and purchase actions.
+   ============================================================ */
 .topbar,
 .topbar--scrolled {
   position: sticky;
   top: 0;
   z-index: 50;
-  width: 100vw;
+  width: 100%;
   max-width: none;
-  min-height: 72px;
   margin: 0;
-  padding: 10px var(--page-gutter);
+  padding: 10px var(--page-gutter, 20px);
   border: 0;
   border-bottom: 1px solid var(--border);
   border-radius: 0;
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 8px 24px rgba(24, 16, 48, 0.06);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 6px 20px rgba(36, 31, 56, 0.05);
   transform: none;
+  transition:
+    min-height 200ms ease,
+    padding 200ms ease,
+    background-color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.topbar {
+  min-height: 72px;
+}
+
+.topbar:hover {
+  border-bottom-color: rgba(124, 58, 237, 0.2);
+}
+
+.topbar--scrolled {
+  min-height: 64px;
+  padding-block: 7px;
+  background: rgba(250, 249, 253, 0.96);
+  border-bottom-color: rgba(124, 58, 237, 0.14);
+  box-shadow: 0 10px 28px rgba(36, 31, 56, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .topbar-inner {
@@ -4015,11 +3650,26 @@ h1 {
   margin: 0 auto;
 }
 
+/* Invisible on desktop so links and actions stay on a single row. */
+.nav-panel {
+  display: contents;
+}
+
+.topbar .brand-logo,
+.topbar--scrolled .brand-logo {
+  width: 38px;
+  height: 38px;
+}
+
 .topbar .nav-links {
   display: flex;
   align-items: center;
   gap: 26px;
   margin-left: auto;
+}
+
+.topbar .nav-links a {
+  font-size: 0.9rem;
 }
 
 .topbar .nav-actions {
@@ -4028,53 +3678,199 @@ h1 {
   gap: 12px;
 }
 
-.menu-toggle {
-  display: none;
+.topbar .button {
+  padding: 10px 17px;
+  font-size: 0.8rem;
 }
 
-@media (max-width: 760px) {
+/* Hamburger — hidden on desktop, morphs into a close icon while open. */
+.menu-toggle {
+  display: none;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--text-strong);
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.menu-toggle:hover,
+.menu-toggle:active {
+  transform: none;
+  box-shadow: none;
+  background: var(--panel-hover);
+}
+
+.menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin: 0;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 220ms ease, opacity 160ms ease;
+}
+
+.menu-toggle.is-open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-toggle.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.is-open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* Dimmed page behind the open mobile panel. */
+.nav-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: rgba(20, 14, 38, 0.42);
+  animation: nav-backdrop-in 180ms ease both;
+}
+
+@keyframes nav-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes nav-panel-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tablet + mobile: the bar floats inside the page gutter and the
+   panel becomes a dropdown anchored to the bar. */
+@media (max-width: 900px) {
   .topbar,
   .topbar--scrolled {
-    min-height: 56px;
-    padding: 4px var(--page-gutter);
+    width: auto;
+    min-height: 52px;
+    margin: 8px var(--page-gutter, 20px) 0;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(24, 16, 48, 0.07);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .topbar--scrolled {
+    min-height: 48px;
+    padding: 4px 12px;
+  }
+
+  /* Emphasise the bar while the dropdown is open, but keep its box
+     metrics untouched so the brand, toggle and panel anchor never jump. */
+  .topbar--scrolled,
+  .topbar--menu-open {
+    border-color: rgba(124, 58, 237, 0.18);
+    box-shadow: 0 12px 28px rgba(24, 16, 48, 0.12);
   }
 
   .topbar-inner {
-    min-height: 48px;
+    min-height: 40px;
+    gap: 12px;
+  }
+
+  .topbar .brand {
+    gap: 8px;
+    font-size: 1.05rem;
+  }
+
+  .topbar .brand-logo,
+  .topbar--scrolled .brand-logo {
+    width: 32px;
+    height: 32px;
   }
 
   .menu-toggle {
-    display: block;
+    display: inline-flex;
+  }
+
+  .nav-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    left: 0;
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    max-height: min(440px, calc(100vh - 150px));
+    max-height: min(440px, calc(100svh - 150px));
+    padding: 10px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--panel);
+    box-shadow: 0 20px 44px rgba(24, 16, 48, 0.18);
+  }
+
+  .nav-panel.is-open {
+    display: flex;
+    animation: nav-panel-in 200ms ease both;
+  }
+
+  .topbar .nav-links,
+  .topbar .nav-actions {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .topbar .nav-links {
-    position: absolute;
-    top: 100%;
-    right: var(--page-gutter);
-    left: var(--page-gutter);
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
+    gap: 2px;
     margin: 0;
-    padding: 8px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--panel);
-    box-shadow: 0 16px 32px rgba(24, 16, 48, 0.12);
   }
 
-  .topbar .nav-links.is-open {
+  .topbar .nav-links a,
+  .topbar .nav-actions .text-link {
     display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 14px;
+    border-radius: 10px;
+    font-size: 0.98rem;
   }
 
-  .topbar .nav-links a {
-    min-height: 44px;
-    padding: 12px;
+  .topbar .nav-links a::after {
+    display: none;
+  }
+
+  .topbar .nav-links a:hover,
+  .topbar .nav-links a:focus-visible,
+  .topbar .nav-actions .text-link:hover,
+  .topbar .nav-actions .text-link:focus-visible {
+    background: var(--panel-hover);
+    color: var(--text-strong);
   }
 
   .topbar .nav-actions {
-    display: none;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .topbar .nav-actions .button {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 18px;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
   }
 }
 
