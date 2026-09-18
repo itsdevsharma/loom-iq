@@ -88,6 +88,10 @@ async function requireAccount(req, res, next) {
 const razorpay = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
   ? new Razorpay({ key_id: process.env.RAZORPAY_KEY_ID, key_secret: process.env.RAZORPAY_KEY_SECRET, protocol: "https" })
   : null;
+const frontendOrigins = new Set((process.env.FRONTEND_ORIGIN || '').split(',').map(origin => origin.trim()).filter(Boolean));
+function originAllowed(origin, request) {
+  return !origin || frontendOrigins.has(origin) || origin === `${request.protocol}://${request.get('host')}`;
+}
 
 app.disable("x-powered-by");
 // Render terminates public requests at its reverse proxy. Trust only the
@@ -99,9 +103,8 @@ app.use(["/api/admin/content", "/api/admin/website"], express.json({ limit: "1mb
 app.use(express.json({ limit: "20kb", verify: (req, _res, buffer) => { req.rawBody = buffer; } }));
 app.use(morgan("combined"));
 app.use((request, response, next) => {
-  const allowedOrigin = process.env.FRONTEND_ORIGIN;
-  if (allowedOrigin) {
-    response.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+  if (request.headers.origin && originAllowed(request.headers.origin, request)) {
+    response.setHeader("Access-Control-Allow-Origin", request.headers.origin);
     response.setHeader("Vary", "Origin");
     response.setHeader("Access-Control-Allow-Credentials", "true");
     response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
@@ -187,7 +190,7 @@ function sendDemoNotification(demoRequest) {
 
 app.use("/api", (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
-  if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method) && req.headers.origin && req.headers.origin !== process.env.FRONTEND_ORIGIN && req.headers.origin !== `${req.protocol}://${req.get("host")}`) {
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(req.method) && !originAllowed(req.headers.origin, req)) {
     return res.status(403).json({ success: false, message: "Origin not allowed." });
   }
   next();

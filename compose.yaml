@@ -12,7 +12,7 @@ services:
       SERVE_FRONTEND: 'true'
       PORT: '3001'
       PUBLIC_SITE_URL: https://${SITE_DOMAIN}/
-      FRONTEND_ORIGIN: https://${SITE_DOMAIN}
+      FRONTEND_ORIGIN: https://${SITE_DOMAIN},https://loom-iq-eta.vercel.app
       TRUST_PROXY_HOPS: '1'
     restart: unless-stopped
     init: true

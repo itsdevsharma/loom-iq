@@ -6,7 +6,8 @@ function validateProduction(env = process.env) {
   if (missing.length) throw new Error('Missing production settings: ' + missing.join(', '));
   if (!mailConfigured(env)) throw new Error(mailProvider(env) === 'resend' ? 'Resend requires RESEND_API_KEY and EMAIL_FROM from a verified domain.' : 'Configure MAIL_PROVIDER=resend with RESEND_API_KEY and EMAIL_FROM, or MAIL_PROVIDER=smtp with SMTP_HOST, SMTP_USER and SMTP_PASS.');
   const site = new URL(env.PUBLIC_SITE_URL);
-  if (site.protocol !== 'https:' || site.username || site.password || site.pathname !== '/' || site.search || site.hash || site.origin !== env.FRONTEND_ORIGIN) throw new Error('Production PUBLIC_SITE_URL must be an HTTPS root URL matching FRONTEND_ORIGIN.');
+  const frontendOrigins = env.FRONTEND_ORIGIN.split(',').map(origin => origin.trim()).filter(Boolean);
+  if (site.protocol !== 'https:' || site.username || site.password || site.pathname !== '/' || site.search || site.hash || !frontendOrigins.includes(site.origin)) throw new Error('Production PUBLIC_SITE_URL must be an HTTPS root URL matching and included in FRONTEND_ORIGIN.');
   if (env.STORAGE_DRIVER === 'file' || !(env.MONGODB_URI || env.MONGODB_HOST)) throw new Error('Production requires MongoDB storage.');
   if (env.ADMIN_API_TOKEN.length < 32) throw new Error('Use an ADMIN_API_TOKEN of at least 32 characters.');
   if (!env.RAZORPAY_KEY_ID.startsWith('rzp_live_') && env.ALLOW_TEST_PAYMENTS !== 'true') throw new Error('Production requires live Razorpay keys, or ALLOW_TEST_PAYMENTS=true for staging.');
