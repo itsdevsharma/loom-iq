@@ -157,7 +157,7 @@
   font-weight: 600;
 }
 
-.demo-form-list li > span {
+.demo-form-list li > span:first-child {
   display: inline-grid;
   width: 25px;
   height: 25px;
@@ -365,15 +365,20 @@
   .demo-page-header nav a { font-size: .79rem; }
   .demo-page-header nav a:first-child { display: none; }
   .demo-page-header .demo-page-login { padding: 7px 8px; }
-  .section-demo-form { padding: 8px 16px 36px; }
+  .section-demo-form.section-shell { width: calc(100% - 24px); }
+  .section-demo-form { padding: 8px 0 36px; }
   .demo-form-inner { border-radius: 20px; }
-  .demo-form-copy { padding: 37px 26px; }
+  .demo-form-copy { padding: 34px 26px 30px; }
   .demo-form-copy h1 { font-size: clamp(2rem, 10vw, 2.65rem); }
   .demo-copy-lead { margin: 18px 0 28px; font-size: .94rem; }
   .demo-copy-metrics { gap: 7px; margin-bottom: 27px; }
   .demo-copy-metrics div { min-height: 64px; padding: 10px 8px; }
   .demo-copy-metrics strong { font-size: 1rem; }
   .demo-copy-metrics span { font-size: .61rem; }
+  .demo-copy-product { width: 72%; right: -27%; bottom: 7%; opacity: .11; }
+  .demo-form-list { gap: 12px; }
+  .demo-form-list li { font-size: .84rem; }
+  .demo-copy-footer { margin-top: 28px; padding-top: 18px; }
   .demo-form-card { padding: 31px 24px 34px; }
   .demo-form-card-top { margin-bottom: 24px; }
   .demo-form-fields { grid-template-columns: 1fr; }

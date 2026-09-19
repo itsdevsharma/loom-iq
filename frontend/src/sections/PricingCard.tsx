@@ -94,7 +94,11 @@ export default function PricingCard({
         >
           {ctaLabel}
         </CTA>
-        {purchaseSteps && <div className="pc-purchase-steps"><strong>After purchasing</strong><ol>{purchaseSteps.map(step => <li key={step}>{step}</li>)}</ol></div>}
+        {purchaseSteps ? (
+          <div className="pc-purchase-steps"><strong>After purchasing</strong><ol>{purchaseSteps.map(step => <li key={step}>{step}</li>)}</ol></div>
+        ) : (
+          <div className="pc-purchase-steps pc-purchase-steps-placeholder" aria-hidden="true" />
+        )}
       </div>
 
       {bottomText && <span className="pc-bottom-text">{bottomText}</span>}
