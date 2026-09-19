@@ -202,12 +202,6 @@ function PaymentPage() {
     }
   };
 
-  // Published prices are public information, so checkout renders straight away
-  // and the account check runs alongside it. Signed-out visitors are still
-  // redirected to signup, and the submit button stays locked until the offer
-  // and the personalised quote are both known.
-  const accountPending = !ready || !offer.signedUp;
-
   return (
     <main className="payment-page">
       <header className="payment-header">

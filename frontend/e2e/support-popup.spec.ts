@@ -1,0 +1,38 @@
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('email popup supports dismissal, retry and successful submission', async ({ page }, testInfo) => {
+  await page.addInitScript(() => localStorage.setItem('loomiq-analytics', 'denied'));
+  await page.goto('/signup');
+  const dialog = page.getByRole('dialog', { name: 'How can we help?' });
+  await expect(dialog).not.toBeVisible();
+  const trigger = page.getByRole('button', { name: 'Contact support' });
+  await trigger.click();
+  await expect(dialog).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  await page.locator('a[href="#support"]').click();
+  await expect(dialog).toBeVisible();
+  await dialog.getByLabel('Your name').fill('Support Tester');
+  await dialog.getByLabel('Your email').fill('support@example.invalid');
+  await dialog.getByLabel('Subject').fill('Help with my account');
+  await dialog.getByLabel('Describe your issue').fill('I need help getting started with my account.');
+  expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  const accessibility = await new AxeBuilder({ page }).include('.support-dialog').withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  expect(accessibility.violations).toEqual([]);
+  await page.screenshot({ path: testInfo.outputPath('support-popup.png') });
+  await page.route('**/api/support', route => route.fulfill({ status: 503, json: { message: 'Please try again shortly.' } }));
+  await dialog.getByRole('button', { name: 'Send message' }).click();
+  await expect(dialog.getByRole('alert')).toHaveText('Please try again shortly.');
+  await expect(dialog.getByLabel('Your email')).toHaveValue('support@example.invalid');
+  await page.route('**/api/support', route => route.fulfill({ json: { ok: true } }));
+  await dialog.getByRole('button', { name: 'Send message' }).click();
+  await expect(dialog.getByRole('status')).toContainText('Your message has been sent.');
+  await dialog.getByRole('button', { name: 'Done' }).click();
+  await expect(dialog).not.toBeVisible();
+  await page.goto('/signup#support');
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('button', { name: 'Close support form' }).click();
+  await expect(dialog).not.toBeVisible();
+});

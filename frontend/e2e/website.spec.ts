@@ -86,6 +86,7 @@ test('account support form waits for the account to load', async ({ page }) => {
   await expect(page.getByRole('status')).toContainText('Loading your account');
   await expect(page.getByRole('heading', { name: 'How can we help?' })).toHaveCount(0);
   await expect(page.getByRole('heading', { name: 'Welcome, Loading Tester' })).toBeVisible();
+  await page.getByRole('button', { name: 'Contact support' }).click();
   await expect(page.getByRole('heading', { name: 'How can we help?' })).toBeVisible();
 });
 

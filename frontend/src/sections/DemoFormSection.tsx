@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import '../DemoFormSection.css';
 import { trackEvent } from '../analytics';
+import dashboardPreview from '../assets/tour-dashboard.png';
 
 type Phase = 'details' | 'verifying' | 'ready' | 'error';
 type Credentials = { username: string; temporaryPassword: string; expiresAt: string };
@@ -89,16 +90,16 @@ function DemoFormSection() {
   return <section id="demo" className="section section-shell section-demo-form">
     <div className="demo-form-inner">
       <div className="demo-form-copy">
-        <div className="demo-copy-orb demo-copy-orb-one" aria-hidden="true" /><div className="demo-copy-orb demo-copy-orb-two" aria-hidden="true" />
+        <img className="demo-copy-product" src={dashboardPreview} alt="" aria-hidden="true" />
         <p className="eyebrow">Private ERP sandbox</p>
         <h2>Run your workflow in LoomIQ — free for three hours.</h2>
-        <p className="demo-copy-lead">Explore a private garment ERP workspace with your own secure login. No card, sales call, or setup meeting required.</p>
+        <p className="demo-copy-lead">Explore a private garment ERP workspace with your own secure login. No card or sales call required.</p>
         <div className="demo-copy-metrics"><div><strong>3 hrs</strong><span>private access</span></div><div><strong>0</strong><span>card details</span></div><div><strong>1:1</strong><span>isolated workspace</span></div></div>
-        <ul className="demo-form-list"><li><span aria-hidden="true">1</span>Verify your work email</li><li><span aria-hidden="true">2</span>Receive your unique ERP credentials</li><li><span aria-hidden="true">3</span>Start exploring in minutes</li></ul>
+        <ul className="demo-form-list"><li><span aria-hidden="true">1</span><span>Verify your work email</span></li><li><span aria-hidden="true">2</span><span>Receive your unique ERP credentials</span></li><li><span aria-hidden="true">3</span><span>Start exploring in minutes</span></li></ul>
         <div className="demo-copy-footer"><span className="demo-copy-shield" aria-hidden="true">&#10003;</span><p>Your demo data is isolated and access ends automatically.</p></div>
       </div>
       <div className="demo-form-card">
-        <div className="demo-form-card-top"><span>Step {step} of 2</span><span className="demo-form-secure"><i aria-hidden="true" />Private &amp; secure</span></div>
+        <div className="demo-form-card-top"><span>Step {step} of 2</span><span className="demo-form-secure"><span aria-hidden="true">✓</span>Private &amp; secure</span></div>
         {phase === 'ready' && credentials ? <div className="demo-form-success" role="status">
           <span className="demo-form-success-icon" aria-hidden="true">✓</span><h3>Your demo is ready</h3>
           <p className="demo-credentials-warning">{credentialEmailDelivered ? 'Save these credentials now. The temporary password is shown only once and has also been emailed to you.' : 'Save these credentials now. We could not deliver the email, so this browser is the only place your temporary password is currently shown.'}</p>
@@ -118,7 +119,8 @@ function DemoFormSection() {
           <div><label htmlFor="demo-company">Business name</label><input id="demo-company" name="company" autoComplete="organization" placeholder="Your business" required aria-invalid={Boolean(fieldErrors.company)} />{fieldErrors.company && <small>{fieldErrors.company}</small>}</div>
           <div><label htmlFor="demo-business">Business type <span>(optional)</span></label><select id="demo-business" name="businessType" defaultValue=""><option value="">Select an option</option><option value="garment">Garment manufacturing</option><option value="textile-trading">Textile trading / Distribution</option><option value="other">Other</option></select></div></div>
           <label className="demo-form-honeypot" htmlFor="demo-website">Website</label><input className="demo-form-honeypot" id="demo-website" name="website" tabIndex={-1} autoComplete="off" />
-          <button type="submit" className="button button-primary demo-form-submit" disabled={busy || retrySeconds > 0}>{retrySeconds > 0 ? `Try again in ${retrySeconds}s` : busy ? 'Sending code…' : 'Send verification code'}</button>
+          <button type="submit" className="button button-primary demo-form-submit" disabled={busy || retrySeconds > 0}>{retrySeconds > 0 ? `Try again in ${retrySeconds}s` : busy ? 'Sending code…' : 'Verify email & start free demo →'}</button>
+          <p className="demo-form-trust"><span>No credit card</span><span>Private workspace</span><span>Auto-expires after 3 hours</span></p>
           <p className="demo-form-privacy">By continuing, you agree to our <a href={`${import.meta.env.BASE_URL}privacy`}>privacy policy</a>.</p>
           {errorMessage && <p className="demo-form-error" role="alert">{errorMessage}</p>}
         </form>}
