@@ -31,7 +31,7 @@ Backend `npm run check:services` checks MongoDB and Razorpay connectivity, plus 
 Use the Docker Compose configuration for a single HTTPS origin serving both website and API. See [deployment and operations](docs/deployment.md) for domain setup, production credentials, invoice details, onboarding, backups, and monitoring. GitHub Pages remains a static preview.
 
 Customers manage email verification, invoices, trial requests, and workspace access at `/account`. Password recovery starts at `/forgot-password`. A paid ERP demo converts its existing tenant automatically; a purchase without a demo remains available for operator-assisted onboarding with `npm run onboarding`.
-
+ull Stack Developer Intern 
 ## ERP demo integration
 
 The marketing backend is the only service that talks to the ERP backend. Configure

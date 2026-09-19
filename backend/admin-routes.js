@@ -38,7 +38,9 @@ function registerAdminRoutes(app, { store, addAudit }) {
     if (!session || session.expiresAt <= Date.now()) return res.status(401).json({ success: false, message: 'Session expired' });
     const admin = await store().get('admins', session.adminKey);
     if (!admin) return res.status(401).json({ success: false, message: 'Admin not found' });
-    res.json({ success: true, admin: { email: admin.email, roles: admin.roles || [] } });
+    // The client uses this only to tailor navigation. Every API route remains
+    // responsible for enforcing its own permission check.
+    res.json({ success: true, admin: { email: admin.email, roles: admin.roles || [], permissions: admin.permissions || [] } });
   });
 }
 

@@ -3,7 +3,7 @@ import type { PageListItem, PageDetail, PageVersion, MediaItem, PreviewPayload, 
 async function request(input: RequestInfo | URL, init?: RequestInit) {
   const response = await fetch(input, { ...init, signal: init?.signal ?? AbortSignal.timeout(30000) })
   if (response.status === 401) {
-    window.location.assign('/login')
+    window.location.assign('/admin/login')
     throw new Error('Your session expired. Please sign in again.')
   }
   return response
