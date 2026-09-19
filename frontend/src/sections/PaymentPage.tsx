@@ -56,6 +56,11 @@ function formatPrice(value: number) {
   return `₹${value.toLocaleString("en-IN")}`;
 }
 
+// Published plan price, available synchronously from the CMS snapshot.
+function publishedPrice(name: PlanKey) {
+  return websitePricing()[name].recurring;
+}
+
 function loadRazorpay() {
   return new Promise<boolean>((resolve) => {
     if (window.Razorpay) {
@@ -89,7 +94,10 @@ function PaymentPage() {
   const [quoteLoading, setQuoteLoading] = useState(true);
   const [quoteRevision, setQuoteRevision] = useState(0);
   useEffect(() => {
-    if (!ready || !offer.signedUp) return;
+    // Prices are requested as soon as checkout mounts rather than after the offer
+    // check resolves: the session cookie already identifies the customer, and the
+    // published price is on screen meanwhile, so a slow offer check can no longer
+    // delay the personalised total.
     let active = true;
     const timer = window.setTimeout(() => {
     setQuoteLoading(true); setQuoteError('');
@@ -101,12 +109,15 @@ function PaymentPage() {
     })).then(entries => { if(active)setQuotes(Object.fromEntries(entries)); }).catch(error => {if(active)setQuoteError(error.message)}).finally(()=>{if(active)setQuoteLoading(false)});
     }, 0);
     return () => {active=false;window.clearTimeout(timer)};
-  }, [ready, offer.signedUp, offer.eligible, quoteRevision]);
+  }, [quoteRevision]);
   useEffect(()=>{const refresh=()=>setQuoteRevision(n=>n+1);window.addEventListener('focus',refresh);return()=>window.removeEventListener('focus',refresh)},[]);
   const plan = useMemo(() => plans.find((item) => item.name === selectedPlan) ?? plans[0], [selectedPlan]);
   const configured = websitePricing()[plan.name];
   const quote = quotes[selectedPlan];
-  const price = quote ? quote.amount / 100 : 0;
+  // The published price renders immediately; the personalised quote replaces it
+  // as soon as the checkout API answers, so pricing is never shown as loading.
+  const amountFor = (name: PlanKey) => quotes[name] ? quotes[name]!.amount / 100 : publishedPrice(name);
+  const price = amountFor(selectedPlan);
   const introductory = quote?.discounted === true;
   const recurring = quote?.recurring ?? configured.recurring;
   const discount = recurring - price;
@@ -191,7 +202,11 @@ function PaymentPage() {
     }
   };
 
-  if (!ready || !offer.signedUp) return <main className="payment-page"><p role="status">{cmsValue("PaymentPage.2", "Checking your account…")}</p></main>;
+  // Published prices are public information, so checkout renders straight away
+  // and the account check runs alongside it. Signed-out visitors are still
+  // redirected to signup, and the submit button stays locked until the offer
+  // and the personalised quote are both known.
+  const accountPending = !ready || !offer.signedUp;
 
   return (
     <main className="payment-page">
@@ -220,7 +235,7 @@ function PaymentPage() {
                   <label className={`payment-plan ${selectedPlan === item.name ? "is-selected" : ""}`} key={item.name}>
                     <div className="payment-plan-top"><strong>{item.name}</strong><input type="radio" name="plan" value={item.name} checked={selectedPlan === item.name} onChange={() => setSelectedPlan(item.name)} /></div>
                     {quotes[item.name]?.discounted && <div className="payment-plan-original"><s>{formatPrice(quotes[item.name]?.recurring ?? websitePricing()[item.name].recurring)}</s><span>{cmsValue("PaymentPage.14", "{discount} OFF")}</span></div>}
-                    <div className="payment-plan-price">{quotes[item.name] ? formatPrice(quotes[item.name]!.amount / 100) : cmsValue("PaymentPage.65", "Loading…")}<span>{cmsValue("PaymentPage.15", "/ month")}</span></div>
+                    <div className="payment-plan-price">{formatPrice(amountFor(item.name))}<span>{cmsValue("PaymentPage.15", "/ month")}</span></div>
                   </label>
                 ))}
               </div>
@@ -263,7 +278,7 @@ function PaymentPage() {
                 <div><span>{cmsValue("PaymentPage.40", "Original monthly price")}</span><span>{introductory ? <s>{formatPrice(recurring)}</s> : formatPrice(recurring)}</span></div>
                 {introductory && <div className="payment-discount"><span>{cmsValue("PaymentPage.41", "24-hour offer savings ")}<small>{Math.round(discount / recurring * 100)}%</small></span><span>−{formatPrice(discount)}</span></div>}
               </div>
-              <div className="payment-total"><div><strong>{cmsValue("PaymentPage.42", "Due today")}</strong><span>{cmsValue("PaymentPage.43", "First month")}</span></div><strong>{quote ? formatPrice(price) : cmsValue("PaymentPage.65", "Loading…")}</strong></div>
+              <div className="payment-total"><div><strong>{cmsValue("PaymentPage.42", "Due today")}</strong><span>{cmsValue("PaymentPage.43", "First month")}</span></div><strong aria-busy={quoteLoading || !quote}>{formatPrice(price)}</strong></div>
               <div className="payment-billing-note"><p>{cmsValue("PaymentPage.44", "One membership month. No automatic charges.")}<br />{cmsValue("PaymentPage.45", "Regular price: ")}{formatPrice(recurring)}{cmsValue("PaymentPage.46", "/month.")}</p></div>
             </section>
             <div className="payment-consent-area">

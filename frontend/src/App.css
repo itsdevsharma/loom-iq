@@ -3603,7 +3603,8 @@ h1 {
 .topbar--scrolled {
   position: sticky;
   top: 0;
-  z-index: 50;
+  /* Keep the menu and its dropdown above fixed conversion UI. */
+  z-index: 100;
   width: 100%;
   max-width: none;
   margin: 0;
@@ -3736,7 +3737,7 @@ h1 {
 .nav-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 45;
+  z-index: 90;
   background: rgba(20, 14, 38, 0.42);
   animation: nav-backdrop-in 180ms ease both;
 }
@@ -3814,6 +3815,8 @@ h1 {
     padding: 10px;
     overflow-y: auto;
     overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    z-index: 1;
     border: 1px solid var(--border);
     border-radius: 16px;
     background: var(--panel);
@@ -3871,6 +3874,23 @@ h1 {
     padding: 12px 18px;
     font-size: 0.9rem;
     letter-spacing: 0.02em;
+  }
+}
+
+/* Short mobile viewports still keep every navigation action reachable. */
+@media (max-width: 900px) and (max-height: 620px) {
+  .nav-panel {
+    max-height: calc(100dvh - 108px);
+  }
+
+  .topbar .nav-links a,
+  .topbar .nav-actions .text-link {
+    min-height: 44px;
+  }
+
+  .topbar .nav-actions {
+    margin-top: 6px;
+    padding-top: 8px;
   }
 }
 

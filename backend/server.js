@@ -68,17 +68,25 @@ async function account(req) {
 }
 async function offerStatus(req, currentVisitorId) {
   const session = await account(req);
-  return repository.transaction(async tx => {
-    const id = session?.visitorId || currentVisitorId || visitorId(req);
-    const v = id ? await tx.get("visitors", id) : null;
-    const c = session ? await tx.get("customers", session.customerKey) : null;
-    if (session && !c) throw fail(401, "Please sign in again.");
-    // Existing accounts join this new campaign on their first visit; never reset it.
-    const start = c?.offerStartedAt ?? v?.offerStartedAt ?? Date.now();
-    if (v) { v.offerStartedAt = start; await tx.put("visitors", id, v); }
-    if (c) { c.offerStartedAt = start; await tx.put("customers", session.customerKey, c); }
-    return { ...eligibility(v, c), signedUp: Boolean(c), ...(c ? { customer: profile(c) } : {}) };
-  });
+  const id = session?.visitorId || currentVisitorId || visitorId(req);
+  // Reads stay on the plain path: a page load must not pay for a write
+  // transaction just to re-confirm a campaign start that is already stored.
+  const [v, c] = await Promise.all([
+    id ? repository.get("visitors", id) : null,
+    session ? repository.get("customers", session.customerKey) : null,
+  ]);
+  if (session && !c) throw fail(401, "Please sign in again.");
+  // Existing accounts join this new campaign on their first visit; never reset it.
+  const start = c?.offerStartedAt ?? v?.offerStartedAt ?? Date.now();
+  const visitorDrifted = Boolean(v) && v.offerStartedAt !== start;
+  const customerDrifted = Boolean(c) && c.offerStartedAt !== start;
+  if (visitorDrifted || customerDrifted) {
+    await repository.transaction(async tx => {
+      if (visitorDrifted) { v.offerStartedAt = start; await tx.put("visitors", id, v); }
+      if (customerDrifted) { c.offerStartedAt = start; await tx.put("customers", session.customerKey, c); }
+    });
+  }
+  return { ...eligibility(v, c), signedUp: Boolean(c), ...(c ? { customer: profile(c) } : {}) };
 }
 async function requireAccount(req, res, next) {
   if (!await account(req)) return res.status(401).json({ success: false, message: "Please sign up or sign in first." });
