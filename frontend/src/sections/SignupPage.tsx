@@ -16,6 +16,7 @@ export default function SignupPage() {
   const query = new URLSearchParams(window.location.search);
   const plan = query.get('plan') === 'Growth' ? 'Growth' : 'Starter';
   const base = import.meta.env.BASE_URL;
+  const setupComplete = offer.signedUp && offer.trialSelected;
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError('');
     const data = Object.fromEntries(new FormData(event.currentTarget));
@@ -30,8 +31,8 @@ export default function SignupPage() {
     </header>
     <ol className="signup-steps" aria-label={cmsValue("SignupPage.6", "Getting started")}>
       <li className={!offer.signedUp ? 'is-current' : 'is-complete'} aria-current={!offer.signedUp ? 'step' : undefined}><span>{offer.signedUp ? '✓' : '1'}</span>{cmsValue("SignupPage.7", "Create account")}</li>
-      <li className={offer.signedUp ? 'is-current' : ''} aria-current={offer.signedUp ? 'step' : undefined}><span>2</span>{cmsValue("SignupPage.8", "Review plan")}</li>
-      <li><span>3</span>{cmsValue("SignupPage.9", "Get set up")}</li>
+      <li className={offer.signedUp && !setupComplete ? 'is-current' : setupComplete ? 'is-complete' : ''} aria-current={offer.signedUp && !setupComplete ? 'step' : undefined}><span>{setupComplete ? '✓' : '2'}</span>{cmsValue("SignupPage.8", "Review plan")}</li>
+      <li className={setupComplete ? 'is-current' : ''} aria-current={setupComplete ? 'step' : undefined}><span>3</span>{cmsValue("SignupPage.9", "Get set up")}</li>
     </ol>
 
     {!ready ? <p role="status">{cmsValue("SignupPage.12", "Loading your account…")}</p> : !offer.signedUp ? (
@@ -72,13 +73,17 @@ export default function SignupPage() {
       </section></div>
     ) : (
       <section className="signup-card signup-choices" id="account">
-        <p className="eyebrow">{cmsValue("SignupPage.66", "Your account is ready")}</p>
-        <h1>{offer.trialSelected ? cmsValue("SignupPage.67", "Your trial request is received.") : cmsValue("SignupPage.68", "Choose your next step.")}</h1>
-        {offer.reason === 'purchased' && <p><a className="button button-primary" href={base + 'thank-you?type=purchase'}>{cmsValue("SignupPage.69", "View purchase & invoice")}</a></p>}
-        <p className="signup-account-email">{cmsValue("SignupPage.70", "Signed in as ")}{offer.customer?.email}</p>
-        <p><a className="button button-primary" href={base + 'account'}>{cmsValue("SignupPage.71", "My account & invoices")}</a></p>
-        <p>{offer.trialSelected ? cmsValue("SignupPage.72", "Our team will contact you to arrange trial access. You can still get {discount} off if you purchase within your 24-hour offer window.") : cmsValue("SignupPage.73", "Book a demo to discuss your setup, or continue to checkout if you have already chosen your plan.")}</p>
-        <a className="button button-secondary" href={base + 'payment?plan=' + plan}>{cmsValue("SignupPage.74", "Review checkout")}</a>
+        <div className="signup-choice-content">
+          <div className="signup-status-icon" aria-hidden="true">✓</div>
+          <p className="eyebrow">{cmsValue("SignupPage.66", "Your account is ready")}</p>
+          <h1>{offer.trialSelected ? cmsValue("SignupPage.67", "Your trial request is received.") : cmsValue("SignupPage.68", "Choose your next step.")}</h1>
+          <p className="signup-account-email">{cmsValue("SignupPage.70", "Signed in as ")}<strong>{offer.customer?.email}</strong></p>
+          <p className="signup-choice-copy">{offer.trialSelected ? cmsValue("SignupPage.72", "Our team will contact you to arrange trial access. You can still get {discount} off if you purchase within your 24-hour offer window.") : cmsValue("SignupPage.73", "Book a demo to discuss your setup, or continue to checkout if you have already chosen your plan.")}</p>
+          <div className="signup-choice-actions">
+            {offer.reason === 'purchased' ? <a className="button button-primary" href={base + 'thank-you?type=purchase'}>{cmsValue("SignupPage.69", "View purchase & invoice")}</a> : <a className="button button-primary" href={base + 'account'}>{cmsValue("SignupPage.71", "My account & invoices")}</a>}
+            <a className="button button-secondary" href={base + 'payment?plan=' + plan}>{cmsValue("SignupPage.74", "Review checkout")}</a>
+          </div>
+        </div>
       </section>
     )}
     {offer.signedUp && error && <p className="signup-error" role="alert">{error}</p>}

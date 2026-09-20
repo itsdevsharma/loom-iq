@@ -71,7 +71,15 @@
 .signup-page a:focus-visible, .signup-page button:focus-visible, .signup-page input[type=checkbox]:focus-visible { outline: 3px solid #c68a4d; outline-offset: 4px; }
 .signup-page button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 .signup-error { padding: 12px 15px; border: 1px solid #edc4bf; background: #fff6f4; color: #a63225; border-radius: 9px; font-size: 12px; }
-.signup-choices { border: 1px solid #e4dff0; border-radius: 24px; box-shadow: 0 24px 70px -30px #241f3840; }
+.signup-choices { border: 1px solid #e4dff0; border-radius: 24px; box-shadow: 0 24px 70px -30px #241f3840; padding: clamp(38px, 5vw, 64px); }
+.signup-choice-content { position: relative; max-width: 680px; margin: 0 auto; padding-left: 74px; }
+.signup-status-icon { position: absolute; top: 0; left: 0; display: grid; place-items: center; width: 50px; height: 50px; border: 1px solid #bde5d0; border-radius: 16px; background: linear-gradient(145deg, #effbf4, #dff5e8); color: #187154; font-size: 22px; font-weight: 700; box-shadow: 0 10px 24px #18715414; }
+.signup-choices h1 { margin-bottom: 10px; }
+.signup-choices .signup-account-email { margin: 0; color: #766d83; }
+.signup-account-email strong { color: #332849; font-weight: 650; }
+.signup-choice-copy { max-width: 590px; margin: 22px 0 0; color: #5e566c; }
+.signup-choice-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.signup-choice-actions .button { display: inline-flex; align-items: center; justify-content: center; min-width: 176px; padding: 0 20px; }
 .signup-choices > .signup-check { padding: 18px; background: #f0f6f2; border: 1px solid #dce9e1; border-radius: 11px; margin: 24px 0 0; font-size: 13px; }
 .signup-options { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
 .signup-options article { border: 1px solid #dbe2dd; border-radius: 18px; padding: 28px; display: flex; flex-direction: column; background: #fff; box-shadow: 0 10px 30px #241f3808; }
@@ -119,6 +127,11 @@
 .signup-page .button-primary:disabled { opacity: 1; background: #dfe9e3; color: #62766b; border-color: #d2dfd7; box-shadow: none; }
 .signup-page .button-secondary:disabled { opacity: 1; background: #f4f6f3; color: #718078; border-color: #e4dff0; box-shadow: none; }
 @media (max-width: 700px) {
+  .signup-choices { padding: 32px 24px; }
+  .signup-choice-content { padding: 62px 0 0; }
+  .signup-status-icon { width: 44px; height: 44px; border-radius: 14px; }
+  .signup-choice-actions { display: grid; }
+  .signup-choice-actions .button { width: 100%; }
   .signup-options { grid-template-columns: minmax(0, 1fr); }
   .signup-choices .announcement-banner { grid-template-columns: minmax(0, 1fr); grid-template-areas: "label" "title" "copy" "timer"; padding: 18px; gap: 10px; }
   .signup-choices .announcement-meta { width: 100%; align-items: stretch; }
