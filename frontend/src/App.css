@@ -3983,6 +3983,15 @@ h1 {
 .purchase-announcement-timer { display: flex; align-items: center; gap: 6px; }
 .purchase-announcement-timer span { color: #e4d6f7; font-size: 11px; }
 .purchase-announcement-timer strong { font-size: 16px; letter-spacing: 1px; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.hero .hero-announcement { position: absolute; z-index: 2; top: 16px; left: var(--page-gutter); right: var(--page-gutter); display: flex; width: auto; min-height: 34px; margin: 0; padding: 7px 12px; border: 1px solid #ded4f3; border-radius: 999px; background: rgba(255,255,255,.8); box-shadow: 0 8px 22px rgba(55,37,96,.07); backdrop-filter: blur(12px); color: var(--text-strong); }
+.hero .hero-announcement .purchase-announcement-copy { gap: 8px; }
+.hero .hero-announcement .purchase-announcement-badge { padding: 3px 7px; border-color: #bda8ee66; border-radius: 999px; background: #f0eafe; color: #6533c5; font-size: 10px; }
+.hero .hero-announcement .purchase-announcement-copy strong { font-size: 12px; }
+.hero .hero-announcement .purchase-announcement-copy small { display: none; }
+.hero .hero-announcement .purchase-announcement-action { margin-left: auto; gap: 10px; }
+.hero .hero-announcement .purchase-announcement-timer { padding: 0; background: transparent; color: #746684; font-size: 10px; }
+.hero .hero-announcement .purchase-announcement-timer strong { color: #403058; font-size: 12px; }
+.hero .hero-announcement .purchase-announcement-action .button { min-height: 26px; padding: 4px 9px; border-radius: 999px; font-size: 10px; }
 .pricing-demo-alternative { text-align: center; color: var(--muted); margin: 24px 0; line-height: 1.7; }
 .pricing-demo-alternative a { color: var(--accent-strong); text-decoration: underline; font-weight: 600; }
 @media (max-width: 760px) {

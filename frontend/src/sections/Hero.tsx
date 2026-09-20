@@ -1,10 +1,12 @@
 import { trackEvent } from '../analytics';
+import AnnouncementBanner from '../components/AnnouncementBanner';
 
 const analyticsDashboard = `${import.meta.env.BASE_URL}cms-defaults/analytics-dashboard.webp`;
 
 function Hero() {
   return (
     <section id="hero" className="hero" aria-labelledby="hero-title">
+      <AnnouncementBanner className="hero-announcement" />
       <div className="hero-copy">
         <p className="eyebrow">Made specifically for Indian garment manufacturers</p>
         <h1 id="hero-title">Stop losing track of garment orders and production.</h1>
