@@ -35,7 +35,7 @@ export function websitePricing() {
   return cmsValue('Site.pricing', {Starter:{firstMonth:1195,recurring:2390},Growth:{firstMonth:1695,recurring:3390},Enterprise:{recurring:4990}})
 }
 export function websiteOffer() {
-  return cmsValue('Site.offer', {enabled:true,discountPercent:50,slotsTotal:10,slotsRemaining:3,endsAt:1789949520000})
+  return cmsValue('Site.offer', {enabled:true,discountPercent:50,slotsTotal:20,slotsRemaining:7,endsAt:1789949520000})
 }
 export function cmsTemplate(key: string, fallback: string, values: unknown[]) {
   return cmsValue(key, fallback).replace(/\{(\d+)\}/g, (match, index) => Number(index) < values.length ? String(values[Number(index)]) : match)

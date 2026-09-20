@@ -216,6 +216,7 @@ app.get("/api/offers/status", async (req, res) => res.json(await offerStatus(req
 
 const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 20, standardHeaders: true, legacyHeaders: false });
 require('./account-routes').registerAccountRoutes(app, { store: () => repository, account, limiter: authLimiter });
+require('./auth0-routes').registerAuth0Routes(app, { store: () => repository, visitorId, visitorCookie });
 require('./operator-routes').registerOperatorRoutes(app, () => repository);
 // Register admin routes
 const auditLogger = createAuditLogger(() => repository);

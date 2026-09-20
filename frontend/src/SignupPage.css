@@ -1,4 +1,8 @@
 .signup-page { position: relative; max-width: 1240px; min-height: 100dvh; margin: 0 auto; padding: 28px 32px 24px; color: #241f38; }
+.signup-sso-divider { display: flex; align-items: center; gap: 12px; margin: 18px 0 12px; color: #878095; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.signup-sso-divider::before, .signup-sso-divider::after { content: ''; flex: 1; height: 1px; background: #e4dff0; }
+.signup-sso-button { display: flex; justify-content: center; align-items: center; min-height: 43px; border: 1px solid #d8d1e8; border-radius: 8px; color: #342c50; background: #fff; font-size: 13px; font-weight: 650; }
+.signup-sso-button:hover { border-color: #9f90c9; background: #faf8ff; }
 .signup-page::before { content: ''; position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 8% 8%, #ede9fe 0, transparent 28%), radial-gradient(circle at 92% 88%, #f2eff9 0, transparent 25%), #faf9fd; }
 .signup-header, .signup-footer, .signup-footer nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .signup-page .signup-brand { display: inline-flex; align-items: center; font-size: 26px; font-weight: 800; letter-spacing: -1.2px; gap: 0; color: #241f38; }

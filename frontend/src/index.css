@@ -1,1 +1,31 @@
 @import './App.css';
+
+.site-loading-bar {
+  position: fixed;
+  z-index: 2147483647;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  overflow: hidden;
+  pointer-events: none;
+  background: rgb(81 69 165 / 16%);
+}
+
+.site-loading-bar span {
+  display: block;
+  width: 42%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7c3aed, #5145a5, #a78bfa);
+  animation: site-loading-bar 1.05s ease-in-out infinite;
+}
+
+@keyframes site-loading-bar {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(340%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-loading-bar span { width: 100%; animation: none; }
+}
