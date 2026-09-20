@@ -3439,12 +3439,12 @@
     "kind": "structured",
     "default": {
       "Starter": {
-        "firstMonth": 1990,
-        "recurring": 1990
+        "firstMonth": 1195,
+        "recurring": 2390
       },
       "Growth": {
-        "firstMonth": 2990,
-        "recurring": 2990
+        "firstMonth": 1695,
+        "recurring": 3390
       },
       "Enterprise": {
         "recurring": 4990
@@ -3602,6 +3602,18 @@
     "label": "Thank you{0}. Your LoomIQ {1} payment is confirmed. You’ll receive your ERP login credentials at {2} by email within 1–2 hours.",
     "kind": "text",
     "default": "Thank you{0}. Your LoomIQ {1} payment is confirmed. You’ll receive your ERP login credentials at {2} by email within 1–2 hours."
+  },
+  "Site.offer": {
+    "group": "Site",
+    "label": "Limited-time pricing offer (publish changes to start, pause, extend, or end it)",
+    "kind": "structured",
+    "default": {
+      "enabled": true,
+      "discountPercent": 50,
+      "slotsTotal": 10,
+      "slotsRemaining": 3,
+      "endsAt": 1789949520000
+    }
   },
   "ThankYouPage.credentialsDeliveryHelp": {
     "group": "ThankYouPage",

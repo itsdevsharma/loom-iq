@@ -86,7 +86,8 @@ async function offerStatus(req, currentVisitorId) {
       if (customerDrifted) { c.offerStartedAt = start; await tx.put("customers", session.customerKey, c); }
     });
   }
-  return { ...eligibility(v, c), signedUp: Boolean(c), ...(c ? { customer: profile(c) } : {}) };
+  const campaign = await require('./website-content').configuredOffer(repository);
+  return { ...eligibility(v, c, Date.now(), campaign), signedUp: Boolean(c), ...(c ? { customer: profile(c) } : {}) };
 }
 async function requireAccount(req, res, next) {
   if (!await account(req)) return res.status(401).json({ success: false, message: "Please sign up or sign in first." });
@@ -428,7 +429,7 @@ app.post("/api/purchase/order", requireAccount, async (request, response) => {
     const amount = quote.amount;
     if (request.body.expectedAmount !== amount) return response.status(409).json({ success: false, message: "Your eligibility or price changed. Review the updated total and pay again.", amount, offer, quote });
     const order = await razorpay.orders.create({ amount, currency: "INR", receipt: "loomiq_" + crypto.randomBytes(12).toString("hex"), notes: { plan } });
-    await repository.transaction(tx => tx.put("orders", order.id, { id: order.id, visitorId: id, customerKey: key, amount, plan, unitPrice: amount, pricingSource: quote.source, pricingRevision: quote.pricingRevision, createdAt: Date.now(), testMode: !process.env.RAZORPAY_KEY_ID.startsWith("rzp_live_"), billing: Object.fromEntries(["name", "email", "company", "phone", "address", "city", "state", "stateCode", "pan", "gstin"].map(field => [field, cleanText(customer[field])])), seller: invoiceSeller() }));
+    await repository.transaction(tx => tx.put("orders", order.id, { id: order.id, visitorId: id, customerKey: key, amount, plan, unitPrice: amount, pricingSource: quote.source, campaignOffer: quote.discounted, pricingRevision: quote.pricingRevision, createdAt: Date.now(), testMode: !process.env.RAZORPAY_KEY_ID.startsWith("rzp_live_"), billing: Object.fromEntries(["name", "email", "company", "phone", "address", "city", "state", "stateCode", "pan", "gstin"].map(field => [field, cleanText(customer[field])])), seller: invoiceSeller() }));
     response.status(201).json({
       success: true,
       orderId: order.id,
@@ -591,6 +592,14 @@ async function settle(paymentId, observedAt = Date.now(), authoritativeTime = fa
     c.paidOrder = payment.order_id; v.paidOrder = payment.order_id;
     c.launchPriceLock ||= {};
     c.launchPriceLock[order.plan] ||= { amount: order.amount, expiresAt: observedAt + 90 * 86400000 };
+    if (order.campaignOffer) {
+      const site = await tx.get('website_content', 'site');
+      const offer = site?.published?.['Site.offer'];
+      if (offer && Number.isInteger(offer.slotsRemaining) && offer.slotsRemaining > 0) {
+        offer.slotsRemaining -= 1;
+        await tx.put('website_content', 'site', { ...site, published: { ...site.published, 'Site.offer': offer }, publishedAt: Date.now() });
+      }
+    }
     await tx.put("orders", payment.order_id, order);
     await tx.put("customers", order.customerKey, c);
     await tx.put("visitors", order.visitorId, v);

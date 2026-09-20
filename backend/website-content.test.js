@@ -16,14 +16,14 @@ test('website draft/publish/restore, validation, permissions, records and privat
  assert.equal((await request(route+'/publish','POST',{revision:1})).status,200);
  assert.equal((await request('/api/content/website','GET',null,false)).body.values[key],'A website managed from the CMS');
  data=(await request(route)).body;const firstVersion=data.versions[0].id;
- data.values['Site.pricing'].Starter.firstMonth=900;
+ data.values['Site.pricing'].Starter.firstMonth=2390;data.values['Site.pricing'].Growth.firstMonth=3390;data.values['Site.offer'].discountPercent=0;
  assert.equal((await request(route,'PUT',{values:data.values,revision:data.revision})).status,200);
  data=(await request(route)).body;assert.equal((await request(route+'/publish','POST',{revision:data.revision})).status,200);
- assert.equal((await configuredPricing(store)).Starter.firstMonth,900);
+ assert.equal((await configuredPricing(store)).Starter.firstMonth,2390);
  data=(await request(route)).body;
  assert.equal((await request(route+'/restore/'+firstVersion,'POST',{revision:data.revision})).status,200);
- assert.equal((await configuredPricing(store)).Starter.firstMonth,900);
- data=(await request(route)).body;assert.equal(data.values['Site.pricing'].Starter.firstMonth,1990);
+ assert.equal((await configuredPricing(store)).Starter.firstMonth,2390);
+ data=(await request(route)).body;assert.equal(data.values['Site.pricing'].Starter.firstMonth,1195);
  data.values['Site.pricing'].Starter.firstMonth=-10;assert.equal((await request(route,'PUT',{values:data.values,revision:data.revision})).status,400);
  data=(await request(route)).body;data.values['Site.layout']=['Hero','Hero'];assert.equal((await request(route,'PUT',{values:data.values,revision:data.revision})).status,400);
  data=(await request(route)).body;const urlKey=Object.keys(data.catalog).find(k=>data.catalog[k].kind==='url');data.values[urlKey]='javascript:alert(1)';assert.equal((await request(route,'PUT',{values:data.values,revision:data.revision})).status,400);

@@ -9,7 +9,7 @@ import "../PaymentPage.css";
 import { trackEvent, trackCheckout } from "../analytics";
 import SupportForm from '../components/SupportForm';
 
-type Quote = { amount:number; recurring:number; source:'customer'|'website'; discounted:boolean; expiresAt:number|null };
+type Quote = { amount:number; recurring:number; source:'customer'|'website'|'campaign'|'launch-lock'; discounted:boolean; expiresAt:number|null };
 
 type PlanKey = "Starter" | "Growth";
 

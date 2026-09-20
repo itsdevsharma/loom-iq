@@ -19,7 +19,7 @@ export async function loadWebsiteContent() {
 }
 export function cmsValue<T>(key: string, fallback: T): T {
   const value = Object.prototype.hasOwnProperty.call(content, key) ? content[key] : fallback
-  const prices = (content['Site.pricing'] || {Starter:{firstMonth:1990,recurring:1990},Growth:{firstMonth:2990,recurring:2990},Enterprise:{recurring:4990}}) as ReturnType<typeof websitePricing>
+  const prices = (content['Site.pricing'] || {Starter:{firstMonth:1195,recurring:2390},Growth:{firstMonth:1695,recurring:3390},Enterprise:{recurring:4990}}) as ReturnType<typeof websitePricing>
   const discounts = [prices.Starter, prices.Growth].map(plan => Math.round((1-plan.firstMonth/plan.recurring)*100))
   const money = (amount:number) => `₹${amount.toLocaleString('en-IN')}`
   const replacements:Record<string,string> = {discount: `${discounts[0] === discounts[1] ? '' : 'up to '}${Math.max(...discounts)}%`,starterOffer:money(prices.Starter.firstMonth),starterRegular:money(prices.Starter.recurring),growthOffer:money(prices.Growth.firstMonth),growthRegular:money(prices.Growth.recurring),enterpriseRegular:money(prices.Enterprise.recurring)}
@@ -32,7 +32,10 @@ export function cmsValue<T>(key: string, fallback: T): T {
   return interpolate(value) as T
 }
 export function websitePricing() {
-  return cmsValue('Site.pricing', {Starter:{firstMonth:1990,recurring:1990},Growth:{firstMonth:2990,recurring:2990},Enterprise:{recurring:4990}})
+  return cmsValue('Site.pricing', {Starter:{firstMonth:1195,recurring:2390},Growth:{firstMonth:1695,recurring:3390},Enterprise:{recurring:4990}})
+}
+export function websiteOffer() {
+  return cmsValue('Site.offer', {enabled:true,discountPercent:50,slotsTotal:10,slotsRemaining:3,endsAt:1789949520000})
 }
 export function cmsTemplate(key: string, fallback: string, values: unknown[]) {
   return cmsValue(key, fallback).replace(/\{(\d+)\}/g, (match, index) => Number(index) < values.length ? String(values[Number(index)]) : match)

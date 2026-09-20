@@ -11,6 +11,9 @@ async function customerQuote(store,customerKey,planName,offer,now=Date.now()){
   const plan=pricing[planName],override=customer?.pricingOverrides?.[planName],locked=customer?.launchPriceLock?.[planName];
   const active=override&&(!override.expiresAt||override.expiresAt>now);
   const lockActive=locked&&locked.expiresAt>now;
-  return {plan:planName,currency:'INR',amount:active?override.amount:lockActive?locked.amount:Math.round(plan.recurring*100),recurring:plan.recurring,source:active?'customer':lockActive?'launch-lock':'website',discounted:false,pricingRevision:customer?.pricingRevision||0,expiresAt:active ? override.expiresAt : lockActive ? locked.expiresAt : null};
+  const campaignActive = Boolean(offer?.eligible && offer?.discountPercent > 0);
+  const campaignAmount = Math.round(plan.firstMonth * 100);
+  const amount = active ? override.amount : lockActive ? locked.amount : campaignActive ? campaignAmount : Math.round(plan.recurring * 100);
+  return {plan:planName,currency:'INR',amount,recurring:plan.recurring,source:active?'customer':lockActive?'launch-lock':campaignActive?'campaign':'website',discounted:!active&&!lockActive&&campaignActive,pricingRevision:customer?.pricingRevision||0,expiresAt:active ? override.expiresAt : campaignActive ? offer.expiresAt : lockActive ? locked.expiresAt : null};
 }
 module.exports={customerQuote,amountInPaise,PLANS};

@@ -7,6 +7,7 @@ async function publishedWebsite(store) {
   return { values: { ...defaults(), ...(doc?.published || {}) }, revision: doc?.publishedAt || 0 };
 }
 async function configuredPricing(store) { return (await publishedWebsite(store)).values['Site.pricing']; }
+async function configuredOffer(store) { return (await publishedWebsite(store)).values['Site.offer']; }
 function validateValue(value, example, name, depth=0) {
   if (depth > 15) throw fail(400, 'Content is too deeply nested.');
   if (typeof value !== typeof example || value === null) throw fail(400, `Invalid value for ${name}.`);
@@ -17,7 +18,7 @@ function validateValue(value, example, name, depth=0) {
       catch { throw fail(400, 'Use a relative URL, HTTP(S) link, email link, or telephone link.'); }
     }
   } else if (typeof value === 'number') {
-    if (!Number.isFinite(value) || value < 0 || value > 10000000) throw fail(400, `Invalid number for ${name}.`);
+    if (!Number.isFinite(value) || value < 0 || value > (name === 'endsAt' ? 4102444800000 : 10000000)) throw fail(400, `Invalid number for ${name}.`);
   } else if (Array.isArray(example)) {
     if (!Array.isArray(value) || value.length > 150) throw fail(400, `Invalid list for ${name}.`);
     for (let i=0;i<value.length;i++) validateValue(value[i], example[i] ?? example[0], name, depth+1);
@@ -36,6 +37,9 @@ function validateContent(values) {
   if (layout && (new Set(layout).size !== layout.length || layout.some(key=>!(catalog['Site.layout'].options || catalog['Site.layout'].default).includes(key)))) throw fail(400,'Choose each supported homepage section at most once.');
   const pricing=values['Site.pricing'];
   if(pricing) for(const name of ['Starter','Growth']) if(pricing[name].firstMonth < 1 || pricing[name].recurring < pricing[name].firstMonth || !Number.isInteger(pricing[name].firstMonth*100) || !Number.isInteger(pricing[name].recurring*100)) throw fail(400,'Plan prices must be positive INR amounts with at most two decimals; the offer cannot exceed the regular price.');
+  const offer=values['Site.offer'];
+  if(offer && (!Number.isInteger(offer.discountPercent) || offer.discountPercent < 0 || offer.discountPercent > 100 || !Number.isInteger(offer.slotsTotal) || offer.slotsTotal < 1 || !Number.isInteger(offer.slotsRemaining) || offer.slotsRemaining < 0 || offer.slotsRemaining > offer.slotsTotal || !Number.isSafeInteger(offer.endsAt) || offer.endsAt < 0)) throw fail(400,'Offer settings must use a 0–100% discount, valid slot counts, and a valid end date.');
+  if(pricing && offer) for(const name of ['Starter','Growth']) if(Math.round(pricing[name].recurring*(100-offer.discountPercent)) !== Math.round(pricing[name].firstMonth*100)) throw fail(400,'Offer prices must match the configured discount percentage.');
   for(const group of ['PricingSection','PaymentPage']) {
     const key=Object.keys(catalog).find(k=>catalog[k].group===group&&catalog[k].kind==='structured');
     if(key && values[key] && JSON.stringify(values[key].map(p=>p.name))!==JSON.stringify(catalog[key].default.map(p=>p.name))) throw fail(400,'Keep the built-in plan names and order; checkout depends on these identifiers.');
@@ -66,4 +70,4 @@ function registerWebsiteContentRoutes(app, {store, addAudit, currentAdmin, requi
     await store().transaction(async tx=>{const version=await tx.get('website_versions',req.params.id);if(!version)throw fail(404,'Version not found.');const doc=await tx.get('website_content','site')||{};if(req.body.revision!==(doc.revision||0))throw fail(409,'Website content changed. Reload before restoring.');await tx.put('website_content','site',{...doc,draft:version.values,revision:(doc.revision||0)+1});await addAudit({admin:admin.email,action:'website.restore',resource:'website',resourceId:req.params.id,success:true},tx)});res.json({success:true});
   });
 }
-module.exports={registerWebsiteContentRoutes,configuredPricing,publishedWebsite,validateContent};
+module.exports={registerWebsiteContentRoutes,configuredPricing,configuredOffer,publishedWebsite,validateContent};

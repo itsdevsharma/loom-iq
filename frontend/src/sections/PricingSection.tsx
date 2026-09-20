@@ -1,4 +1,4 @@
-import { websitePricing } from '../websiteContent';
+import { websiteOffer, websitePricing } from '../websiteContent';
 import { useOffer } from "../offer";
 import { useEffect } from "react";
 import PricingCard from "./PricingCard";
@@ -13,8 +13,9 @@ const plans = [
 const afterPurchase = ["Your account is created instantly", "Select your garment-production workflow", "Import products, customers and stock", "Receive guided onboarding"];
 
 function PricingSection() {
-  const { offer } = useOffer();
+  const { offer, remaining, ready } = useOffer();
   const prices = websitePricing();
+  const campaign = websiteOffer();
   const money = (value: number) => `₹${value.toLocaleString("en-IN")}`;
   useEffect(() => {
     const element = document.getElementById('pricing');
@@ -27,14 +28,17 @@ function PricingSection() {
     <div className="section-heading">
       <p className="eyebrow">Simple monthly pricing</p>
       <h2>Choose Your Plan</h2>
-      <p>Clear monthly pricing for Indian garment manufacturers. There are no visitor timers or surprise checkout discounts.</p>
+      <p>Clear monthly pricing for Indian garment manufacturers. The limited offer is shown before checkout.</p>
     </div>
-    <div className="launch-offer"><strong>Launch Offer: Starter at ₹1,990/month</strong><span>Price locked for your first 3 months.</span></div>
+    {campaign.enabled && offer.eligible && <div className="launch-offer"><strong>{campaign.discountPercent}% OFF · only {offer.slotsRemaining ?? campaign.slotsRemaining} slots left</strong><span>{ready && remaining > 0 ? `${Math.ceil(remaining / 3600000)} hours left — offer ends ${new Date(offer.expiresAt!).toLocaleString('en-IN')}.` : 'Limited-time offer.'}</span></div>}
     <div className="pricing-grid">
       {plans.map(plan => {
         const enterprise = plan.name === 'Enterprise';
         const key = plan.name as keyof typeof prices;
-        return <PricingCard key={plan.name} planName={plan.name} tagline={plan.description} price={money(prices[key].recurring)} period="/month" features={plan.features} ctaLabel={enterprise ? "Talk to sales" : `Buy Now — ${money(prices[key].recurring)}/month`} href={enterprise ? `${import.meta.env.BASE_URL}demo` : `${import.meta.env.BASE_URL}${offer.signedUp ? "payment" : "signup"}?plan=${plan.name}`} onCtaClick={() => trackEvent(enterprise ? "demo_cta_clicked" : "direct_purchase_clicked")} featured={plan.featured} badge={plan.featured ? "Most popular" : null} purchaseSteps={enterprise ? undefined : afterPurchase} />;
+        const planPrice = prices[key] as { recurring:number; firstMonth?:number };
+        const onOffer = !enterprise && offer.eligible;
+        const displayPrice = onOffer ? planPrice.firstMonth! : planPrice.recurring;
+        return <PricingCard key={plan.name} planName={plan.name} tagline={plan.description} originalPrice={onOffer ? money(planPrice.recurring) : undefined} price={money(displayPrice)} recurringText={onOffer ? `Offer price · regular ${money(planPrice.recurring)}/month` : undefined} period="/month" features={plan.features} ctaLabel={enterprise ? "Talk to sales" : `Buy Now — ${money(displayPrice)}/month`} href={enterprise ? `${import.meta.env.BASE_URL}demo` : `${import.meta.env.BASE_URL}${offer.signedUp ? "payment" : "signup"}?plan=${plan.name}`} onCtaClick={() => trackEvent(enterprise ? "demo_cta_clicked" : "direct_purchase_clicked")} featured={plan.featured} badge={onOffer ? `${campaign.discountPercent}% OFF` : plan.featured ? "Most popular" : null} purchaseSteps={enterprise ? undefined : afterPurchase} />;
       })}
     </div>
     <p className="pricing-demo-alternative">Need a tailored multi-unit rollout? <a href={`${import.meta.env.BASE_URL}demo`}>Talk to our Enterprise team.</a></p>
