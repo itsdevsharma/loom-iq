@@ -32,9 +32,6 @@ Use the Docker Compose configuration for a single HTTPS origin serving both webs
 
 Customers manage email verification, invoices, trial requests, and workspace access at `/account`. Password recovery starts at `/forgot-password`. A paid ERP demo converts its existing tenant automatically; a purchase without a demo remains available for operator-assisted onboarding with `npm run onboarding`.
 
-## Auth0 SSO
-
-Create an Auth0 **Regular Web Application**, then add its domain, client ID, client secret, and callback URL to `backend/.env`. Add the exact `AUTH0_CALLBACK_URL` to Auth0's Allowed Callback URLs and add `PUBLIC_SITE_URL` to Allowed Logout URLs. Set `PUBLIC_AUTH0_ENABLED=true` when building the frontend. The browser redirects to Auth0 while the backend exchanges the authorization code and creates the usual LoomIQ session; no Auth0 secret is exposed to the frontend.
 ull Stack Developer Intern 
 ## ERP demo integration
 

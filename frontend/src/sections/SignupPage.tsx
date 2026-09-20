@@ -13,11 +13,9 @@ export default function SignupPage() {
   const [login, setLogin] = useState(() => new URLSearchParams(window.location.search).get('login') === '1');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const auth0Enabled = import.meta.env.PUBLIC_AUTH0_ENABLED === 'true';
   const query = new URLSearchParams(window.location.search);
   const plan = query.get('plan') === 'Growth' ? 'Growth' : 'Starter';
   const base = import.meta.env.BASE_URL;
-  const authError = query.get('auth_error');
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError('');
     const data = Object.fromEntries(new FormData(event.currentTarget));
@@ -25,11 +23,6 @@ export default function SignupPage() {
     catch (e) { setError(e instanceof Error ? e.message : 'Please try again.'); }
     finally { setBusy(false); }
   }
-  const auth0Url = (signup: boolean) => {
-    const origin = import.meta.env.PUBLIC_API_URL ?? '';
-    const returnTo = window.location.pathname + window.location.search;
-    return `${origin}/api/auth0/login?${new URLSearchParams({ returnTo, ...(signup ? { signup: '1', terms: '1' } : {}) })}`;
-  };
   return <main className="signup-page">
     <header className="signup-header">
       <a className="signup-brand" href={base} aria-label={cmsValue("SignupPage.1", "LoomIQ home")}><img src={cmsValue("SignupPage.2", logo)} alt="" />{cmsValue("SignupPage.3", "Loom")}<span>{cmsValue("SignupPage.4", "IQ")}</span></a>
@@ -72,8 +65,7 @@ export default function SignupPage() {
             <button className="button button-primary" type="submit">{busy ? cmsValue("SignupPage.58", "Please wait…") : login ? cmsValue("SignupPage.59", "Sign in") : cmsValue("SignupPage.60", "Create my account")}</button>
           </fieldset>
         </form>
-        {auth0Enabled && <><div className="signup-sso-divider"><span>or</span></div><a className="signup-sso-button" href={auth0Url(!login)}>{login ? 'Sign in with SSO' : 'Sign up with SSO'}</a></>}
-        {(error || authError) && <p className="signup-error" role="alert">{error || (authError === 'cancelled' ? 'Sign-in was cancelled. Please try again.' : 'We could not sign you in with SSO. Please try again.')}</p>}
+        {error && <p className="signup-error" role="alert">{error}</p>}
         {login && <p><a href={base + 'forgot-password'}>{cmsValue("SignupPage.61", "Forgot password?")}</a></p>}
         <div className="signup-switch"><button className="text-link" type="button" disabled={busy} onClick={() => { setLogin(!login); setShowPassword(false); setError(''); }}>{login ? cmsValue("SignupPage.62", "New here? Create an account") : cmsValue("SignupPage.63", "Already signed up? Sign in")}</button></div>
         <div className="signup-form-trust"><LockIcon /><span>{cmsValue("SignupPage.64", "Your account is password-protected.")}<br />{cmsValue("SignupPage.65", "You choose your plan before making any payment.")}</span></div>
