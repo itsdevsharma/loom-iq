@@ -1,22 +1,24 @@
-.support-entry { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 16px; margin: 24px 0; color: #756b85; font-size: 13px; }
-.support-entry button { display: inline-flex; align-items: center; gap: 12px; margin: 0; padding: 10px 16px; border: 1px solid #e1d9ed; border-radius: 10px; background: #fff; color: #6331a4; font: inherit; font-weight: 600; box-shadow: none; text-transform: none; cursor: pointer; }
+.support-entry { display: flex; align-items: center; width: min(100%, 560px); margin: 28px auto; padding: 12px 14px; border: 1px solid #e3daf1; border-radius: 15px; background: rgba(255,255,255,.75); box-shadow: 0 12px 30px rgba(45,27,83,.06); color: #5e566c; font-size: 13px; }
+.support-entry-icon { display: grid; flex: 0 0 auto; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: #f0eaff; color: #6835c5; font-size: 16px; font-weight: 800; }
+.support-entry-copy { display: grid; gap: 2px; margin-right: auto; }.support-entry-copy strong { color: #332849; font-size: 12px; }.support-entry-copy small { color: #756b85; font-size: 11px; }
+.support-entry button { display: inline-flex; align-items: center; gap: 9px; margin: 0; padding: 9px 12px; border: 1px solid #d9cbed; border-radius: 9px; background: #fff; color: #6331a4; font: inherit; font-size: 12px; font-weight: 700; box-shadow: none; text-transform: none; cursor: pointer; }
 .support-entry button::after, .support-dialog button::after, .support-dialog button::before { display: none; }
-.support-dialog { box-sizing: border-box; width: min(560px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 32px; overflow-y: auto; border: 1px solid #e7dff0; border-radius: 24px; background: #fff; color: #292139; box-shadow: 0 24px 100px #160d3638; }
+.support-dialog { box-sizing: border-box; width: min(590px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 34px; overflow-y: auto; border: 1px solid #e5dcf2; border-radius: 22px; background: linear-gradient(145deg, #fff 0%, #fdfcff 100%); color: #292139; box-shadow: 0 28px 100px #160d3642; }
 .support-dialog::backdrop { background: #21172e80; backdrop-filter: blur(5px); }
 .support-dialog * { box-sizing: border-box; }
 .support-dialog .support-close { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 36px; height: 36px; min-height: 0; margin: 0; padding: 0; border: 1px solid #ece6f2; border-radius: 50%; background: #faf8fc; color: #756b85; font-size: 25px; font-weight: 400; box-shadow: none; }
-.support-icon { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 20px; border: 1px solid #e7dcf9; border-radius: 14px; color: #7841ba; background: #f5efff; }
+.support-dialog-heading { display: flex; align-items: center; gap: 15px; padding-right: 42px; }.support-icon { display: grid; flex: 0 0 auto; place-items: center; width: 48px; height: 48px; border: 1px solid #e7dcf9; border-radius: 14px; color: #7841ba; background: #f5efff; }
 .support-dialog .support-eyebrow { margin: 0 0 8px; color: #7841ba; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; }
 .support-dialog h2 { margin: 0 0 10px; font-size: 28px; line-height: 1.2; letter-spacing: -.8px; }
-.support-dialog #support-description { margin: 0 0 26px; max-width: 390px; font-size: 14px; line-height: 1.7; color: #756b85; }
-.support-dialog form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px 16px; }
+.support-dialog #support-description { margin: 18px 0 24px; max-width: 450px; font-size: 13px; line-height: 1.7; color: #756b85; }
+.support-dialog form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; padding-top: 22px; border-top: 1px solid #eee9f4; }
 .support-dialog label { display: grid; gap: 8px; min-width: 0; font-size: 12px; font-weight: 600; }
 .support-dialog .support-wide, .support-dialog form > button, .support-dialog [role=alert] { grid-column: 1 / -1; }
 .support-dialog input, .support-dialog textarea { width: 100%; min-width: 0; padding: 12px 14px; border: 1px solid #ded7e8; border-radius: 10px; background: #fdfcfe; color: #292139; font: inherit; font-size: 16px; font-weight: 400; line-height: 1.5; transition: border-color .15s, box-shadow .15s; }
 .support-dialog input::placeholder, .support-dialog textarea::placeholder { color: #82778e; font-size: 13px; }
 .support-dialog textarea { min-height: 130px; resize: vertical; }
 .support-dialog input:focus, .support-dialog textarea:focus { outline: none; border-color: #9263c7; box-shadow: 0 0 0 3px #9562cd1a; }
-.support-dialog button { margin: 0; padding: 13px 20px; border: 0; border-radius: 10px; background: #7040ad; color: #fff; font: inherit; font-size: 14px; font-weight: 600; text-transform: none; cursor: pointer; box-shadow: none; }
+.support-dialog form > button { margin-top: 4px; }.support-dialog button { margin: 0; padding: 13px 20px; border: 0; border-radius: 10px; background: linear-gradient(135deg, #7841ba, #5e2b9f); color: #fff; font: inherit; font-size: 14px; font-weight: 700; text-transform: none; cursor: pointer; box-shadow: 0 9px 18px #6d36a523; }
 .support-dialog button:hover { transform: none; filter: brightness(.96); }
 .support-dialog button:focus-visible, .support-entry button:focus-visible { outline: 3px solid #ae88da; outline-offset: 3px; }
 .support-dialog button:disabled { opacity: .65; cursor: wait; }
@@ -25,6 +27,7 @@
 .support-success p { margin: 0 0 20px; font-size: 15px; line-height: 1.7; }
 .support-success button { width: 100%; }
 @media (max-width: 540px) {
+  .support-entry { align-items: flex-start; }.support-entry button { align-self: center; }
   .support-dialog { padding: 26px 20px; border-radius: 20px; }
   .support-dialog form { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .support-dialog h2 { font-size: 25px; }
