@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 export type Offer = { policy?: 'daily' | '24-hour' | 'campaign'; eligible: boolean; reason: string; expiresAt: number | null; serverNow: number; trialSelected: boolean; signedUp: boolean; discountPercent?: number; slotsRemaining?: number; slotsTotal?: number; customer?: { name: string; email: string; company: string } };
 const initial: Offer = { eligible: false, reason: 'loading', expiresAt: null, serverNow: 0, trialSelected: false, signedUp: false };
+const OFFER_WINDOW_MS = 24 * 60 * 60 * 1000;
 async function offerRequest(path: string, body?: unknown): Promise<Offer> {
   const response = await fetch(`${import.meta.env.PUBLIC_API_URL ?? ''}/api/${path}`, { credentials: 'include', method: body === undefined ? 'GET' : 'POST', headers: { 'Content-Type': 'application/json' }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
   const result = await response.json().catch(() => ({ message: response.ok ? 'Service unavailable. Please try again.' : 'The server is not reachable right now. Make sure the API is running and try again.' }));
@@ -30,8 +31,19 @@ export function OfferProvider({ children }: { children: ReactNode }) {
     return () => { active = false; clearInterval(timer); clearInterval(poll); window.removeEventListener('focus', refresh); };
   }, []);
   const rawRemaining = (snapshot.offer.expiresAt ?? 0) - snapshot.offer.serverNow - (now - snapshot.received);
-  const remaining = Math.max(0, rawRemaining);
-  const offer = { ...snapshot.offer, eligible: snapshot.offer.eligible && remaining > 0, reason: snapshot.offer.eligible && remaining <= 0 ? "expired" : snapshot.offer.reason };
+  // The backend renews campaign windows every 24 hours. Mirror that calculation
+  // so the countdown rolls over at the exact deadline instead of waiting for
+  // the next status poll (which runs every 30 seconds).
+  const renewalCount = snapshot.offer.policy === 'campaign' && snapshot.offer.eligible && rawRemaining <= 0
+    ? Math.floor(-rawRemaining / OFFER_WINDOW_MS) + 1
+    : 0;
+  const remaining = Math.max(0, rawRemaining + renewalCount * OFFER_WINDOW_MS);
+  const offer = {
+    ...snapshot.offer,
+    ...(renewalCount && snapshot.offer.expiresAt ? { expiresAt: snapshot.offer.expiresAt + renewalCount * OFFER_WINDOW_MS } : {}),
+    eligible: snapshot.offer.eligible && remaining > 0,
+    reason: snapshot.offer.eligible && remaining <= 0 ? "expired" : snapshot.offer.reason,
+  };
   const selectTrial = async () => { update(await offerRequest('trial/select', { acceptConditions: true })); };
   const authenticate = async (action: string, body: unknown) => { update(await offerRequest('account/' + action, body)); };
   return <OfferContext.Provider value={{ offer, remaining, ready: offer.reason !== 'loading', update, selectTrial, authenticate }}>{children}</OfferContext.Provider>;

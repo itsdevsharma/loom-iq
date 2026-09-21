@@ -13,6 +13,20 @@ test('campaign pricing has a shared deadline and remaining slots', () => {
   assert.equal(offer.slotsRemaining, 3);
 });
 
+test('campaign automatically starts a fresh 24-hour window after expiry', () => {
+  const now = campaign.endsAt + 5 * 3600000;
+  const offer = dailyEligibility(null, null, now, campaign);
+  assert.equal(offer.eligible, true);
+  assert.equal(offer.reason, 'available');
+  assert.equal(offer.expiresAt, campaign.endsAt + 24 * 3600000);
+});
+
+test('campaign advances through every missed 24-hour window', () => {
+  const now = campaign.endsAt + 2 * 24 * 3600000 + 1;
+  const offer = dailyEligibility(null, null, now, campaign);
+  assert.equal(offer.expiresAt, campaign.endsAt + 3 * 24 * 3600000);
+});
+
 test('trial status retains campaign eligibility', () => {
   const offer = dailyEligibility(null, { trialAt: 1 }, 1800000000000, campaign);
   assert.equal(offer.eligible, true);
