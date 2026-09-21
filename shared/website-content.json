@@ -3408,6 +3408,7 @@
       "PricingSection",
       "TrustSection",
       "FaqSection",
+      "DemoRegistrationSection",
       "FinalCTA"
     ],
     "options": [
@@ -3418,6 +3419,7 @@
       "TrustSection",
       "FaqSection",
       "DemoFormSection",
+      "DemoRegistrationSection",
       "BenefitsSection",
       "BusinessFlexibilitySection",
       "ValueSection",

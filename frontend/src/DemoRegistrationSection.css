@@ -1,0 +1,94 @@
+.demo-registration-section {
+  padding-block: var(--section-space);
+}
+
+.demo-registration-heading {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.demo-registration-heading .eyebrow {
+  margin: 0 0 var(--space-3);
+}
+
+.demo-registration-heading h2 {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: clamp(1.85rem, 3vw, 2.7rem);
+  letter-spacing: -.04em;
+  line-height: 1.15;
+}
+
+.demo-registration-heading > p:last-child {
+  margin: var(--space-4) 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.demo-registration-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5);
+  margin: var(--space-8) 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: demo-step;
+}
+
+.demo-registration-steps li {
+  display: flex;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--card-padding);
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  background: var(--panel);
+}
+
+.demo-registration-number {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--accent-strong);
+  font-size: .75rem;
+  font-weight: 800;
+}
+
+.demo-registration-steps h3 {
+  margin: 1px 0 7px;
+  color: var(--text-strong);
+  font-size: 1rem;
+}
+
+.demo-registration-steps p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.6;
+}
+
+.demo-registration-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-top: var(--space-7);
+}
+
+.demo-registration-action .button { white-space: nowrap; }
+.demo-registration-action > span { color: var(--muted); font-size: .88rem; }
+
+@media (max-width: 800px) {
+  .demo-registration-steps { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .demo-registration-action { align-items: stretch; flex-direction: column; text-align: center; }
+  .demo-registration-action .button { width: 100%; }
+}
