@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, type ComponentType } from "react";
-import { OfferProvider } from "./offer";
+import { OfferProvider, useOffer } from "./offer";
 import { cmsValue, websitePricing } from './websiteContent';
 import "./App.css";
 import { applyPageSeo } from "./seo";
@@ -18,6 +18,7 @@ import ProofSection from "./sections/ProofSection";
 import TrustSection from "./sections/TrustSection";
 import FaqSection from "./sections/FaqSection";
 import DemoFormSection from "./sections/DemoFormSection";
+import DemoRegistrationSection from "./sections/DemoRegistrationSection";
 import FinalCTA from "./sections/FinalCTA";
 import FooterSection from "./sections/FooterSection";
 
@@ -29,7 +30,20 @@ const PaymentPage = lazy(() => import("./sections/PaymentPage"));
 const AccountPage = lazy(() => import("./sections/AccountPage"));
 const AccountHelpPage = lazy(() => import("./sections/AccountHelpPage"));
 
-const sections: Record<string, ComponentType> = { Hero, DemoSection, ProblemSection, FeaturesSection, HowItWorksSection, BenefitsSection, BusinessFlexibilitySection, ValueSection, PlatformHighlights, PricingSection, TrustSection, FaqSection, DemoFormSection, FinalCTA };
+const sections: Record<string, ComponentType> = { Hero, DemoSection, ProblemSection, FeaturesSection, HowItWorksSection, BenefitsSection, BusinessFlexibilitySection, ValueSection, PlatformHighlights, PricingSection, TrustSection, FaqSection, DemoFormSection, DemoRegistrationSection, FinalCTA };
+
+function MobilePurchase() {
+  const { offer, ready } = useOffer();
+  const starter = websitePricing().Starter;
+  const discounted = !ready || offer.eligible;
+  const price = discounted ? starter.firstMonth : starter.recurring;
+  const formattedPrice = `₹${price.toLocaleString("en-IN")}`;
+
+  return <aside className="mobile-purchase" aria-label="Quick purchase">
+    <span><small>{discounted ? 'Launch price from' : 'Plans from'}</small><strong>{formattedPrice}/month</strong></span>
+    <a className="button button-primary" href="#pricing">Start Using LoomIQ — {formattedPrice}/month</a>
+  </aside>;
+}
 
 function App() {
   const path = window.location.pathname.replace(/\/$/, "") || "/";
@@ -61,7 +75,7 @@ function App() {
   if (path === `${basePath}/refunds` || path === "/refunds") return <InfoPage kind="refunds" />;
   if (!landing && path !== normalizedHomePath && path !== "/") return <ManagedPage slug={path.slice(basePath.length).replace(/^\//, '')} />;
 
-  const layout = cmsValue('Site.layout', ['Hero', 'DemoSection', 'HowItWorksSection', 'PricingSection', 'FaqSection', 'FinalCTA']);
+  const layout = cmsValue('Site.layout', ['Hero', 'DemoSection', 'HowItWorksSection', 'PricingSection', 'FaqSection', 'DemoRegistrationSection', 'FinalCTA']);
   return <OfferProvider><div className="app-shell">
     {landing ? <header className="landing-topbar"><a className="brand" href={import.meta.env.BASE_URL}>LoomIQ</a><nav aria-label="Purchase navigation"><a href="#showcase">Product</a><a href={import.meta.env.BASE_URL + "account"}>Login</a><a className="button button-primary" href="#pricing">Get Started</a></nav></header> : <Header />}
     <main>{layout.map(name => {
@@ -70,7 +84,7 @@ function App() {
       return <div key={name}>{name === 'PricingSection' && <ProofSection />}<Section /></div>;
     })}</main>
     <FooterSection />
-    <aside className="mobile-purchase" aria-label="Quick purchase"><span>Plans from ₹{websitePricing().Starter.recurring.toLocaleString("en-IN")}/month</span><a className="button button-primary" href="#pricing">Start Using LoomIQ — ₹1,990/month</a></aside>
+    <MobilePurchase />
   </div></OfferProvider>;
 }
 

@@ -4,6 +4,7 @@ import inventoryTour from "../assets/tour-inventory.png";
 import masterDataTour from "../assets/tour-master-data.png";
 import salesVoucherTour from "../assets/tour-sales-voucher.png";
 import manufacturingTour from "../assets/tour-manufacturing.png";
+import { websitePricing } from '../websiteContent';
 
 const tourSlides = [
   { title: "Dashboard", image: dashboardTour, alt: "LoomIQ dashboard showing sales, purchases, job work, reports and production activity" },
@@ -16,6 +17,7 @@ const tourSlides = [
 export default function DemoSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const activeTour = tourSlides[activeSlide];
+  const starterPrice = `₹${websitePricing().Starter.firstMonth.toLocaleString('en-IN')}`;
 
   useEffect(() => {
     const timer = window.setInterval(() => setActiveSlide(current => (current + 1) % tourSlides.length), 5000);
@@ -45,7 +47,7 @@ export default function DemoSection() {
         </div>
         <p className="demo-disclaimer">{activeTour.title} · Product interface preview with example data.</p>
       </div>
-      <div className="preview-actions"><a className="button button-primary" href="#pricing">Start Using LoomIQ — ₹1,990/month</a><a href={activeTour.image} target="_blank" rel="noreferrer">Open {activeTour.title.toLowerCase()} full-size preview ↗</a></div>
+      <div className="preview-actions"><a className="button button-primary" href="#pricing">Start Using LoomIQ — {starterPrice}/month</a><a href={activeTour.image} target="_blank" rel="noreferrer">Open {activeTour.title.toLowerCase()} full-size preview ↗</a></div>
       <aside id="demo" className="demo-support"><h3>Need an Enterprise walkthrough?</h3><p>Demos and WhatsApp conversations are available for hesitant buyers and Enterprise teams. You can purchase Starter or Growth online without booking a demo.</p></aside>
     </div>
   </section>;
