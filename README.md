@@ -51,3 +51,13 @@ so a deployment cannot silently issue empty demo workspaces.
 The marketing site requests and emails verification codes, while the ERP creates
 the isolated three-hour tenant and enforces its expiry. A verified Razorpay
 payment converts that matching demo tenant to a paid workspace automatically.
+
+### ERP activity in the admin
+
+After a demo is verified, Customer activity shows its verified status, expiry,
+username, login URL, and lifecycle events. Temporary passwords are never stored
+and cannot be retrieved. To report actual ERP usage, have the ERP POST to
+`/api/integrations/erp/demo-activity` with the integration-key header,
+`demoRequestId`, a type of `erp_login`, `erp_logout`, `record_created`,
+`record_updated`, or `report_viewed`, and optional non-sensitive detail. Never
+send passwords, tokens, or ERP record contents in this feed.

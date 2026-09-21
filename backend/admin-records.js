@@ -2,8 +2,13 @@ const {fail,keyFor}=require('./account-service');
 const {currentAdmin,requirePermission}=require('./admin-content-routes');
 const collections={enquiries:'demoRequests',customers:'customers',orders:'orders',support:'supportRequests'};
 function publicRecord(type,row){
-  if(type==='customers')return {id:row.email,name:row.name,email:row.email,company:row.company,createdAt:row.createdAt,trialRequested:Boolean(row.trialRequest),paidOrder:row.paidOrder||null,onboarding:row.onboarding||{status:'requested'}};
+  if(type==='customers')return {id:row.email,name:row.name,email:row.email,company:row.company,createdAt:row.createdAt||row.registeredAt,accountState:row.emailVerifiedAt?'email_verified':'signed_up',trialRequested:Boolean(row.trialRequest),paidOrder:row.paidOrder||null,onboarding:row.onboarding||{status:'requested'}};
   if(type==='orders')return {id:row.id||row.orderId||row._id||row.createdAt,plan:row.plan,amount:row.amount,status:row.status||'created',createdAt:row.createdAt,billing:row.billing,paidAt:row.paidAt,discounted:row.discounted};
+  if(type==='enquiries'){
+    const expired=row.status==='active'&&row.expiresAt&&row.expiresAt<=Date.now();
+    const result=Object.fromEntries(['id','name','email','company','phone','businessType','requestType','notes','createdAt','updatedAt','expiresAt','convertedAt','purchaseOrderId','activity','credentials'].filter(key=>row[key]!==undefined).map(key=>[key,row[key]]));
+    return {...result,status:expired?'expired':row.status||'new',...(row.erp?.userId?{erp:{userId:row.erp.userId}}:{})};
+  }
   return Object.fromEntries(['id','name','email','company','phone','businessType','message','subject','requestType','status','notes','createdAt','updatedAt'].filter(key=>row[key]!==undefined).map(key=>[key,row[key]]));
 }
 function registerAdminRecordRoutes(app,{store,addAudit}){

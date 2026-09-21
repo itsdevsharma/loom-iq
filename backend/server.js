@@ -190,6 +190,7 @@ function sendDemoNotification(demoRequest) {
       text: [
         "Name: " + demoRequest.name,
         "Email: " + demoRequest.email,
+        "Phone: " + (demoRequest.mobile || "N/A"),
         "Company: " + demoRequest.company,
         "Business Type: " + (demoRequest.businessType || "N/A"),
         "Submitted: " + demoRequest.createdAt,
@@ -198,6 +199,9 @@ function sendDemoNotification(demoRequest) {
     .catch((error) => {
       console.error("Failed to send demo notification email:", error.message);
     });
+}
+function demoActivity(type, at, detail) {
+  return { type, at: typeof at === "number" ? at : Date.now(), ...(detail ? { detail } : {}) };
 }
 
 app.use("/api", (req, res, next) => {
@@ -339,7 +343,8 @@ app.post("/api/demo-requests", demoLimiter, async (request, response) => {
       await repository.transaction(async tx => {
         const current = await tx.get('demoRequests', requestId);
         if (!current) return;
-        Object.assign(current, { status: 'active', updatedAt: new Date().toISOString(), expiresAt: credentials.expiresAt, erp: { userId: result.userId, organizationId: result.organizationId } });
+        const activatedAt = Date.now();
+        Object.assign(current, { status: 'active', updatedAt: new Date(activatedAt).toISOString(), expiresAt: credentials.expiresAt, erp: { userId: result.userId, organizationId: result.organizationId }, credentials: { username: credentials.username, loginUrl: result.loginUrl, issuedAt: activatedAt }, activity: [...(current.activity || []), demoActivity('demo_activated', activatedAt, 'Email verified; demo credentials issued')] });
         await tx.put('demoRequests', requestId, current);
       });
       // Email is a delivery channel; credentials are also returned once to the
@@ -388,10 +393,31 @@ app.post("/api/demo-requests", demoLimiter, async (request, response) => {
     erpRequestId: erpRequest.requestId,
     createdAt: now,
     updatedAt: now,
+    activity: [demoActivity('demo_requested', Date.now(), 'Demo request submitted'), demoActivity('verification_code_sent', Date.now(), 'Verification code sent to work email')],
   };
   await repository.transaction(tx => tx.put("demoRequests", demoRequest.id, demoRequest));
   sendDemoNotification(demoRequest).catch(() => {});
   response.status(202).json({ success: true, message: "Verification code sent.", data: { requestId: demoRequest.id } });
+});
+
+// ERP usage events are accepted only from the trusted server integration. Do
+// not send passwords, session tokens, or ERP record contents in this feed.
+app.post('/api/integrations/erp/demo-activity', async (request, response) => {
+  const supplied = request.get('x-loomiq-integration-key') || '';
+  if (!process.env.ERP_MARKETING_INTEGRATION_TOKEN || !equal(supplied, process.env.ERP_MARKETING_INTEGRATION_TOKEN)) return response.status(401).json({ success: false, message: 'Unauthorized.' });
+  const body = request.body && typeof request.body === 'object' ? request.body : {};
+  const demoRequestId = cleanText(body.demoRequestId), type = cleanText(body.type);
+  const allowed = new Set(['erp_login', 'erp_logout', 'record_created', 'record_updated', 'report_viewed']);
+  if (!demoRequestId || !allowed.has(type)) return response.status(400).json({ success: false, message: 'Provide a demo request ID and a supported activity type.' });
+  const detail = cleanText(body.detail).slice(0, 240);
+  await repository.transaction(async tx => {
+    const demo = await tx.get('demoRequests', demoRequestId);
+    if (!demo) throw fail(404, 'Demo request not found.');
+    demo.activity = [...(demo.activity || []), demoActivity(type, Date.now(), detail || undefined)].slice(-100);
+    demo.updatedAt = new Date().toISOString();
+    await tx.put('demoRequests', demoRequestId, demo);
+  });
+  response.status(201).json({ success: true });
 });
 app.post("/api/purchase/quote", async (req, res) => {
   const offer = await offerStatus(req);
@@ -538,6 +564,7 @@ async function completeErpConversion(claim, demo, result) {
     const current = await tx.get('demoRequests', demo.id);
     if (current && ['active', 'expired'].includes(current.status)) {
       current.status = 'converted'; current.convertedAt = new Date(completedAt).toISOString(); current.updatedAt = current.convertedAt; current.purchaseOrderId = order.id;
+      current.activity = [...(current.activity || []), demoActivity('converted_to_paid', completedAt, `Converted to paid ${claim.plan || 'membership'} plan`)];
       await tx.put('demoRequests', current.id, current);
     }
   });
