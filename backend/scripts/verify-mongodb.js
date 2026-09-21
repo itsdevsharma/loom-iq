@@ -28,7 +28,7 @@ async function main() {
       const res = await fetch(base + url, { method: 'POST', headers: { 'Content-Type': 'application/json', Cookie: cookie }, body: JSON.stringify(body) });
       return { status: res.status, data: await res.json(), cookie: res.headers.getSetCookie().map(c => c.split(';')[0]).join('; ') };
     };
-    const credentials = { name: 'Database verification', company: 'LoomIQ verification', email: 'mongo-verification@example.invalid', password: crypto.randomBytes(20).toString('hex'), acceptTerms: true };
+    const credentials = { name: 'Database verification', company: 'LoomIQ verification', phone: '1234567890', address: 'Verification Road', city: 'Surat', state: 'Gujarat', email: 'mongo-verification@example.invalid', password: crypto.randomBytes(20).toString('hex'), acceptTerms: true };
     const signup = await post('/api/account/signup', credentials);
     assert.equal(signup.status, 201); assert.equal(signup.data.eligible, true);
     const customer = await db.collection('customers').findOne({ _id: keyFor(credentials.email) });

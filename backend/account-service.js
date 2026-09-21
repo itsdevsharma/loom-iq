@@ -2,7 +2,7 @@ const crypto = require('node:crypto');
 const keyFor = email => crypto.createHash('sha256').update(email.trim().toLowerCase()).digest('hex');
 const fail = (status, message) => Object.assign(new Error(message), { status });
 const { dailyEligibility: eligibility } = require('./daily-offer');
-function profile(c) { return { name: c.name, email: c.email, company: c.company }; }
+function profile(c) { return { name: c.name, email: c.email, company: c.company, phone: c.phone, address: c.address, city: c.city, state: c.state }; }
 async function enroll(tx, id, key, now) {
   const v = await tx.get('visitors', id) || { startedAt: null, trialAt: null };
   const c = await tx.get('customers', key) || { startedAt: null, trialAt: null, paidOrder: null };

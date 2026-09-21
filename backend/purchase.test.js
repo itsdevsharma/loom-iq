@@ -19,7 +19,7 @@ useRepository(repository); let server, base;
 before(async () => { server = app.listen(0); await new Promise(resolve => server.once('listening', resolve)); base = `http://127.0.0.1:${server.address().port}`; });
 after(async () => { await new Promise(resolve => server.close(resolve)); fs.rmSync(dir, { recursive: true, force: true }); });
 async function post(route, body, cookie) { const response = await fetch(base + route, { method: 'POST', headers: { 'Content-Type': 'application/json', ...(cookie ? { Cookie: cookie } : {}) }, body: JSON.stringify(body) }); const text = await response.text(); return { status: response.status, body: text ? JSON.parse(text) : {}, cookie: response.headers.getSetCookie().map(item => item.split(';')[0]).join('; ') }; }
-async function signup(email) { const visit = await post('/api/offers/visit', {}); return post('/api/account/signup', { name: 'Tester', company: 'Acme', email, password: 'Test-password-123', acceptTerms: true }, visit.cookie); }
+async function signup(email) { const visit = await post('/api/offers/visit', {}); return post('/api/account/signup', { name: 'Tester', company: 'Acme', phone: '1234567890', address: 'Road', city: 'City', state: 'State', email, password: 'Test-password-123', acceptTerms: true }, visit.cookie); }
 function orderBody(email, amount) { return { plan: 'Starter', acceptConditions: true, expectedAmount: amount, customer: { name: 'Tester', email, phone: '1234567890', company: 'Acme', address: 'Road', city: 'City', state: 'State' } }; }
 
 test('public pricing has no 24-hour expiry', async () => {

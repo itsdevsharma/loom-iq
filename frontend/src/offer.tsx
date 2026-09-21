@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-export type Offer = { policy?: 'daily' | '24-hour' | 'campaign'; eligible: boolean; reason: string; expiresAt: number | null; serverNow: number; trialSelected: boolean; signedUp: boolean; discountPercent?: number; slotsRemaining?: number; slotsTotal?: number; customer?: { name: string; email: string; company: string } };
+export type Offer = { policy?: 'daily' | '24-hour' | 'campaign'; eligible: boolean; reason: string; expiresAt: number | null; serverNow: number; trialSelected: boolean; signedUp: boolean; discountPercent?: number; slotsRemaining?: number; slotsTotal?: number; customer?: { name: string; email: string; company: string; phone?: string; address?: string; city?: string; state?: string } };
 const initial: Offer = { eligible: false, reason: 'loading', expiresAt: null, serverNow: 0, trialSelected: false, signedUp: false };
 const OFFER_WINDOW_MS = 24 * 60 * 60 * 1000;
 async function offerRequest(path: string, body?: unknown): Promise<Offer> {

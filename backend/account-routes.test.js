@@ -24,7 +24,7 @@ async function request(route, body, cookie = '', headers = {}) {
   const response = await fetch(base + '/api/' + route, { method: body === undefined ? 'GET' : 'POST', headers: { 'Content-Type': 'application/json', Cookie: cookie, ...headers }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
   return { status: response.status, data: await response.json().catch(() => null), cookie: response.headers.getSetCookie().map(c => c.split(';')[0]).join('; ') };
 }
-const credentials = { name: 'Account Test', company: 'Test Company', email: 'account@example.invalid', password: 'Testing-password-123', acceptTerms: true };
+const credentials = { name: 'Account Test', company: 'Test Company', phone: '+91 9876543210', address: '10 Loom Street', city: 'Surat', state: 'Gujarat', email: 'account@example.invalid', password: 'Testing-password-123', acceptTerms: true };
 let cookie;
 test('account data requires a session; logout revokes it on the server', async () => {
   assert.equal((await request('account/me')).status, 401);

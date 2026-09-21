@@ -128,7 +128,7 @@ function PaymentPage() {
     track(); window.addEventListener('loomiq-analytics-ready', track);
     return () => window.removeEventListener('loomiq-analytics-ready', track);
   }, [selectedPlan, quote, quoteLoading, quoteError]);
-  const customerForm = { ...form, name:form.name || offer.customer?.name || "", company:form.company || offer.customer?.company || "" };
+  const customerForm = { ...form, name: form.name || offer.customer?.name || "", phone: form.phone || offer.customer?.phone || "", company: form.company || offer.customer?.company || "", address: form.address || offer.customer?.address || "", city: form.city || offer.customer?.city || "", state: form.state || offer.customer?.state || "" };
   const updateField = (field: keyof typeof form, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
   };
@@ -244,14 +244,14 @@ function PaymentPage() {
                   <label>{cmsValue("PaymentPage.21", "Work email")}<input required type="email" autoComplete="email" placeholder={cmsValue("PaymentPage.22", "you@company.com")} value={offer.customer?.email ?? ""} readOnly /></label>
                 </div>
                 <div className="payment-form-row">
-                  <label>{cmsValue("PaymentPage.23", "Phone number")}<input required type="tel" autoComplete="tel" placeholder={cmsValue("PaymentPage.24", "+91 98765 43210")} value={form.phone} onChange={(event) => updateField("phone", event.target.value)} /></label>
+                  <label>{cmsValue("PaymentPage.23", "Phone number")}<input required type="tel" autoComplete="tel" placeholder={cmsValue("PaymentPage.24", "+91 98765 43210")} value={customerForm.phone} onChange={(event) => updateField("phone", event.target.value)} /></label>
                   <label>{cmsValue("PaymentPage.25", "Business name")}<input required autoComplete="organization" placeholder={cmsValue("PaymentPage.26", "Company or trading name")} value={customerForm.company} onChange={(event) => updateField("company", event.target.value)} /></label>
                 </div>
                 <div className="payment-field-divider" />
-                <label>{cmsValue("PaymentPage.27", "Billing address")}<input required autoComplete="street-address" placeholder={cmsValue("PaymentPage.28", "Building, street and area")} value={form.address} onChange={(event) => updateField("address", event.target.value)} /></label>
+                <label>{cmsValue("PaymentPage.27", "Billing address")}<input required autoComplete="street-address" placeholder={cmsValue("PaymentPage.28", "Building, street and area")} value={customerForm.address} onChange={(event) => updateField("address", event.target.value)} /></label>
                 <div className="payment-form-row">
-                  <label>{cmsValue("PaymentPage.29", "City")}<input required autoComplete="address-level2" placeholder={cmsValue("PaymentPage.30", "City")} value={form.city} onChange={(event) => updateField("city", event.target.value)} /></label>
-                  <label>{cmsValue("PaymentPage.31", "State")}<input required autoComplete="address-level1" placeholder={cmsValue("PaymentPage.32", "State")} value={form.state} onChange={(event) => updateField("state", event.target.value)} /></label>
+                  <label>{cmsValue("PaymentPage.29", "City")}<input required autoComplete="address-level2" placeholder={cmsValue("PaymentPage.30", "City")} value={customerForm.city} onChange={(event) => updateField("city", event.target.value)} /></label>
+                  <label>{cmsValue("PaymentPage.31", "State")}<input required autoComplete="address-level1" placeholder={cmsValue("PaymentPage.32", "State")} value={customerForm.state} onChange={(event) => updateField("state", event.target.value)} /></label>
                 </div>
                 <div className="payment-form-row">
                   <label>PAN (optional)<input maxLength={10} value={form.pan} onChange={(event) => updateField("pan", event.target.value.toUpperCase())} /></label>

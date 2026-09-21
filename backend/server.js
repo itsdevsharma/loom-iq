@@ -161,12 +161,16 @@ function cleanText(value) {
   return typeof value === "string" ? value.trim().replace(/\s+/g, " ") : "";
 }
 
-function validateDemoRequest(body, { requireMobile = false } = {}) {
+function validateDemoRequest(body, { requireMobile = false, requireCompanyDetails = false } = {}) {
   const name = cleanText(body.name);
   const email = cleanText(body.email).toLowerCase();
   const company = cleanText(body.company);
   const mobile = cleanText(body.mobile).replace(/[^0-9+]/g, '');
   const businessType = cleanText(body.businessType);
+  const phone = cleanText(body.phone).replace(/[^0-9+]/g, '');
+  const address = cleanText(body.address);
+  const city = cleanText(body.city);
+  const state = cleanText(body.state);
   const errors = {};
   if (!name) errors.name = "Name is required.";
   else if (name.length < 2 || name.length > 100) errors.name = "Name must be between 2 and 100 characters.";
@@ -176,7 +180,13 @@ function validateDemoRequest(body, { requireMobile = false } = {}) {
   else if (company.length < 2 || company.length > 150) errors.company = "Company must be between 2 and 150 characters.";
   if (businessType.length > 80) errors.businessType = "Business type is too long.";
   if (requireMobile && (mobile.length < 10 || mobile.length > 16)) errors.mobile = "Enter a valid mobile number.";
-  return { values: { name, email, company, mobile, businessType }, errors };
+  if (requireCompanyDetails) {
+    if (phone.length < 10 || phone.length > 16) errors.phone = "Enter a valid phone number.";
+    if (!address || address.length > 200) errors.address = "Enter a valid company address.";
+    if (!city || city.length > 100) errors.city = "Enter a valid city.";
+    if (!state || state.length > 100) errors.state = "Enter a valid state.";
+  }
+  return { values: { name, email, company, mobile, businessType, phone, address, city, state }, errors };
 }
 function sendDemoNotification(demoRequest) {
   const salesEmail = process.env.SALES_EMAIL;
@@ -244,8 +254,8 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   const key = keyFor(email);
   let values, passwordHash;
   if (action === "signup") {
-    const validation = validateDemoRequest(req.body);
-    if (Object.keys(validation.errors).length) return res.status(400).json({ message: "Enter your name, work email, and company." });
+    const validation = validateDemoRequest(req.body, { requireCompanyDetails: true });
+    if (Object.keys(validation.errors).length) return res.status(400).json({ message: "Complete your name, work email, company, phone, and company address." });
     if (req.body.acceptTerms !== true) return res.status(400).json({ message: "Please accept the terms to sign up." });
     values = validation.values;
     passwordHash = await bcrypt.hash(password, 12);
@@ -277,7 +287,7 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
     const notificationEmail = process.env.ACCOUNT_NOTIFICATION_EMAIL || process.env.SALES_EMAIL;
     const [verificationDelivery, notificationDelivery] = await Promise.allSettled([
         sendMail({ to: email, subject: 'Your LoomIQ verification code', text: `Welcome to LoomIQ. Your verification code is: ${verificationToken}\n\nEnter this code in your account within 10 minutes. Do not share it with anyone.` }),
-        sendMail({ to: notificationEmail, replyTo: email, subject: 'New LoomIQ account', text: `A new LoomIQ account was created.\n\nName: ${values.name}\nCompany: ${values.company}\nEmail: ${email}` }),
+        sendMail({ to: notificationEmail, replyTo: email, subject: 'New LoomIQ account', text: `A new LoomIQ account was created.\n\nName: ${values.name}\nCompany: ${values.company}\nEmail: ${email}\nPhone: ${values.phone}\nAddress: ${values.address}\nCity: ${values.city}\nState: ${values.state}` }),
       ]);
     if (notificationDelivery.status === 'rejected') console.error('Signup internal notification delivery failed.');
     if (verificationDelivery.status === 'rejected') {

@@ -25,7 +25,7 @@ async function request(route, body, cookie = '', headers = {}) {
   const response = await fetch(base + '/api/' + route, { method: body === undefined ? 'GET' : 'POST', headers: { 'Content-Type': 'application/json', Cookie: cookie, ...headers }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
   return { status: response.status, data: await response.json().catch(() => null), cookie: response.headers.getSetCookie().map(c => c.split(';')[0]).join('; ') };
 }
-const credentials = { name: 'Account Test', company: 'Test Company', email: 'account@example.invalid', password: 'Testing-password-123', acceptTerms: true };
+const credentials = { name: 'Account Test', company: 'Test Company', phone: '+91 9876543210', address: '10 Loom Street', city: 'Surat', state: 'Gujarat', email: 'account@example.invalid', password: 'Testing-password-123', acceptTerms: true };
 test('internal notification failure does not report verification failure', async () => {
   rejectedRecipient = 'owner@example.invalid';
   try {
@@ -61,4 +61,15 @@ test('resend reports email failure without a misleading storage error', async ()
     assert.match(resend.data.message, /could not send your verification code/);
     assert.doesNotMatch(resend.data.message, /save or retrieve/);
   } finally { rejectedRecipient = undefined; }
+});
+
+test('signup notification includes the company contact and address details', async () => {
+  const email = 'full-details@example.invalid';
+  const result = await request('account/signup', { ...credentials, email });
+  assert.equal(result.status, 201);
+  const notification = messages.find(message => message.to === 'owner@example.invalid' && message.replyTo === email);
+  assert.match(notification.text, /Phone: \+919876543210/);
+  assert.match(notification.text, /Address: 10 Loom Street/);
+  assert.match(notification.text, /City: Surat/);
+  assert.match(notification.text, /State: Gujarat/);
 });

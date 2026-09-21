@@ -47,6 +47,7 @@
 .signup-no-card { display: flex; align-items: center; gap: 7px; width: fit-content; padding: 7px 10px; border-radius: 7px; background: #edf6f0; color: #2d6954; font-size: 10px; font-weight: 600; margin: 17px 0 0; }
 .signup-card fieldset { border: 0; padding: 0; display: grid; gap: 16px; margin: 26px 0 18px; min-width: 0; }
 .signup-card label { display: grid; gap: 8px; color: #263d35; font-size: 11px; font-weight: 700; }
+.signup-address-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .signup-card input:not([type=checkbox]) { width: 100%; min-width: 0; min-height: 49px; box-sizing: border-box; padding: 13px 14px; border: 1px solid #d7ded9; border-radius: 11px; font: inherit; font-size: 14px; background: #fbfcfa; color: #20372f; transition: border-color .18s, box-shadow .18s, background .18s; }
 .signup-card input::placeholder { color: #867d94; font-size: 12px; }
 .signup-card input:not([type=checkbox]):hover { border-color: #b7c5bd; }
@@ -88,7 +89,7 @@
 .signup-options ul { padding-left: 18px; flex: 1; color: #6b607b; margin: 0 0 24px; }
 .signup-options li { margin-bottom: 12px; }
 @media (max-width: 900px) { .signup-page { padding: 24px; } .signup-story, .signup-card { padding: 30px; } .signup-story h2 { font-size: 34px; } .signup-footer { flex-wrap: wrap; justify-content: center; } }
-@media (max-width: 700px) { .signup-page { padding: 20px 16px; } .signup-layout, .signup-options { grid-template-columns: 1fr; } .signup-layout .signup-card { order: -1; } .signup-steps { gap: 17px; margin: 28px 0; } .signup-steps li { gap: 6px; font-size: 10px; } .signup-steps li:not(:last-child)::after { display: none; } .signup-steps li > span { width: 22px; height: 22px; } .signup-story { padding: 32px 26px; } .signup-story h2 { font-size: 32px; } .signup-card { padding: 30px 24px; } .signup-options article { padding: 23px; } .signup-footer { gap: 17px; } .signup-footer nav { gap: 18px; font-size: 10px; } .signup-home { font-size: 11px; } .signup-header { gap: 12px; } }
+@media (max-width: 700px) { .signup-page { padding: 20px 16px; } .signup-layout, .signup-options { grid-template-columns: 1fr; } .signup-layout .signup-card { order: -1; } .signup-steps { gap: 17px; margin: 28px 0; } .signup-steps li { gap: 6px; font-size: 10px; } .signup-steps li:not(:last-child)::after { display: none; } .signup-steps li > span { width: 22px; height: 22px; } .signup-story { padding: 32px 26px; } .signup-story h2 { font-size: 32px; } .signup-card { padding: 30px 24px; } .signup-address-row { grid-template-columns: 1fr; } .signup-options article { padding: 23px; } .signup-footer { gap: 17px; } .signup-footer nav { gap: 18px; font-size: 10px; } .signup-home { font-size: 11px; } .signup-header { gap: 12px; } }
 @media (prefers-reduced-motion: reduce) { .signup-page *, .signup-page *::before, .signup-page *::after { transition: none !important; animation: none !important; } }
 .signup-page button, .signup-page .button { text-transform: none; letter-spacing: 0; }
 .signup-password button:hover, .signup-switch button:hover { transform: none; box-shadow: none; }
