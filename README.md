@@ -54,10 +54,13 @@ payment converts that matching demo tenant to a paid workspace automatically.
 
 ### ERP activity in the admin
 
-After a demo is verified, Customer activity shows its verified status, expiry,
-username, login URL, and lifecycle events. Temporary passwords are never stored
-and cannot be retrieved. To report actual ERP usage, have the ERP POST to
+After a demo is verified, Customer activity shows its status (active, suspended,
+or expired), expiry, username, login URL, usage totals, feedback, and lifecycle
+events. Temporary passwords are never stored and cannot be retrieved. To report
+actual ERP usage, have the ERP POST to
 `/api/integrations/erp/demo-activity` with the integration-key header,
 `demoRequestId`, a type of `erp_login`, `erp_logout`, `record_created`,
-`record_updated`, or `report_viewed`, and optional non-sensitive detail. Never
-send passwords, tokens, or ERP record contents in this feed.
+`record_updated`, `report_viewed`, `demo_suspended`, `demo_resumed`, or
+`feedback_submitted`. For feedback, send the customer comment in `feedback`
+(or `detail`); all event detail must be non-sensitive. Never send passwords,
+tokens, or ERP record contents in this feed.

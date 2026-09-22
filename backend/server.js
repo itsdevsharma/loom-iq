@@ -417,13 +417,20 @@ app.post('/api/integrations/erp/demo-activity', async (request, response) => {
   if (!process.env.ERP_MARKETING_INTEGRATION_TOKEN || !equal(supplied, process.env.ERP_MARKETING_INTEGRATION_TOKEN)) return response.status(401).json({ success: false, message: 'Unauthorized.' });
   const body = request.body && typeof request.body === 'object' ? request.body : {};
   const demoRequestId = cleanText(body.demoRequestId), type = cleanText(body.type);
-  const allowed = new Set(['erp_login', 'erp_logout', 'record_created', 'record_updated', 'report_viewed']);
+  const allowed = new Set(['erp_login', 'erp_logout', 'record_created', 'record_updated', 'report_viewed', 'demo_suspended', 'demo_resumed', 'feedback_submitted']);
   if (!demoRequestId || !allowed.has(type)) return response.status(400).json({ success: false, message: 'Provide a demo request ID and a supported activity type.' });
   const detail = cleanText(body.detail).slice(0, 240);
+  const feedback = cleanText(body.feedback || body.detail).slice(0, 5000);
   await repository.transaction(async tx => {
     const demo = await tx.get('demoRequests', demoRequestId);
     if (!demo) throw fail(404, 'Demo request not found.');
-    demo.activity = [...(demo.activity || []), demoActivity(type, Date.now(), detail || undefined)].slice(-100);
+    const now = Date.now();
+    if (type === 'demo_suspended') demo.status = 'suspended';
+    if (type === 'demo_resumed') demo.status = 'active';
+    if (type === 'feedback_submitted' && feedback) {
+      demo.feedback = { text: feedback, submittedAt: now };
+    }
+    demo.activity = [...(demo.activity || []), demoActivity(type, now, detail || undefined)].slice(-100);
     demo.updatedAt = new Date().toISOString();
     await tx.put('demoRequests', demoRequestId, demo);
   });
