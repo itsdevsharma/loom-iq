@@ -149,6 +149,7 @@ function rateLimitResponse(request, response) {
 }
 const demoStartLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, handler: rateLimitResponse });
 const demoVerifyLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false, handler: rateLimitResponse });
+const signupLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 8, standardHeaders: true, legacyHeaders: false, handler: rateLimitResponse, message: { message: 'Too many account attempts. Please try again later.' } });
 function demoLimiter(req, res, next) {
   return (String(req.body?.action || '').toLowerCase() === 'verify' ? demoVerifyLimiter : demoStartLimiter)(req, res, next);
 }
@@ -243,7 +244,7 @@ require('./admin-commerce').registerAdminCommerce(app, {store: () => repository,
 
 
 require('./support').registerSupport(app, rateLimit({ windowMs: 15 * 60 * 1000, max: 5, standardHeaders: true, legacyHeaders: false, message: { message: 'Too many messages. Please try again in 15 minutes.' } }), () => repository);
-app.post("/api/account/:action", authLimiter, async (req, res) => {
+app.post("/api/account/:action", (req, res, next) => req.params.action === 'signup' ? signupLimiter(req, res, next) : authLimiter(req, res, next), async (req, res) => {
   const action = req.params.action;
   if (!["signup", "login"].includes(action)) return res.sendStatus(404);
   const email = cleanText(req.body?.email).toLowerCase();
@@ -254,6 +255,9 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   const key = keyFor(email);
   let values, passwordHash;
   if (action === "signup") {
+    const { assertHumanSignup, verifyTurnstile } = require('./anti-abuse');
+    assertHumanSignup(req);
+    await verifyTurnstile(req);
     const validation = validateDemoRequest(req.body, { requireCompanyDetails: true });
     if (Object.keys(validation.errors).length) return res.status(400).json({ message: "Complete your name, work email, company, phone, and company address." });
     if (req.body.acceptTerms !== true) return res.status(400).json({ message: "Please accept the terms to sign up." });
@@ -284,12 +288,9 @@ app.post("/api/account/:action", authLimiter, async (req, res) => {
   visitorCookie(res, id);
   res.cookie("loomiq_session", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", maxAge: 30 * 86400000, path: "/" });
   if (action === 'signup') {
-    const notificationEmail = process.env.ACCOUNT_NOTIFICATION_EMAIL || process.env.SALES_EMAIL;
-    const [verificationDelivery, notificationDelivery] = await Promise.allSettled([
+    const [verificationDelivery] = await Promise.allSettled([
         sendMail({ to: email, subject: 'Your LoomIQ verification code', text: `Welcome to LoomIQ. Your verification code is: ${verificationToken}\n\nEnter this code in your account within 10 minutes. Do not share it with anyone.` }),
-        sendMail({ to: notificationEmail, replyTo: email, subject: 'New LoomIQ account', text: `A new LoomIQ account was created.\n\nName: ${values.name}\nCompany: ${values.company}\nEmail: ${email}\nPhone: ${values.phone}\nAddress: ${values.address}\nCity: ${values.city}\nState: ${values.state}` }),
       ]);
-    if (notificationDelivery.status === 'rejected') console.error('Signup internal notification delivery failed.');
     if (verificationDelivery.status === 'rejected') {
       console.error('Signup verification email delivery failed.');
       return res.status(502).json({ message: 'Your account was created, but we could not send the verification code. Please sign in and request another code from your account.' });

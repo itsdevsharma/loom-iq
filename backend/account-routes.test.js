@@ -24,17 +24,15 @@ async function request(route, body, cookie = '', headers = {}) {
   const response = await fetch(base + '/api/' + route, { method: body === undefined ? 'GET' : 'POST', headers: { 'Content-Type': 'application/json', Cookie: cookie, ...headers }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
   return { status: response.status, data: await response.json().catch(() => null), cookie: response.headers.getSetCookie().map(c => c.split(';')[0]).join('; ') };
 }
-const credentials = { name: 'Account Test', company: 'Test Company', phone: '+91 9876543210', address: '10 Loom Street', city: 'Surat', state: 'Gujarat', email: 'account@example.invalid', password: 'Testing-password-123', acceptTerms: true };
+const credentials = { name: 'Account Test', company: 'Test Company', phone: '+91 9876543210', address: '10 Loom Street', city: 'Surat', state: 'Gujarat', email: 'account@example.invalid', password: 'Testing-password-123', acceptTerms: true, formStartedAt: Date.now() - 5000 };
 let cookie;
 test('account data requires a session; logout revokes it on the server', async () => {
   assert.equal((await request('account/me')).status, 401);
   const signup = await request('account/signup', credentials); assert.equal(signup.status, 201); cookie = signup.cookie;
-  assert.equal(messages.length, 2);
+  assert.equal(messages.length, 1);
   assert.equal(messages[0].to, credentials.email);
   assert.match(messages[0].subject, /LoomIQ verification code/);
   assert.match(messages[0].text, /verification code is: \d{6}/);
-  assert.equal(messages[1].to, 'owner@example.invalid');
-  assert.equal(messages[1].replyTo, credentials.email);
   const me = await request('account/me', undefined, cookie);
   assert.equal(me.data.customer.email, credentials.email); assert.equal(me.data.emailVerified, false);
   assert.equal(JSON.stringify(me.data).includes('passwordHash'), false);
@@ -46,7 +44,7 @@ test('reset links are hashed, expire, are single-use and invalidate prior sessio
   const missing = await request('account/forgot-password', { email: 'missing@example.invalid' });
   assert.equal(missing.status, 404);
   assert.equal(missing.data.message, 'No account exists with this email address. Please sign up first.');
-  assert.equal(messages.length, 2);
+  assert.equal(messages.length, 1);
   const found = await request('account/forgot-password', { email: credentials.email });
   assert.equal(found.status, 200);
   assert.equal(found.data.message, 'Your password reset link has been sent. Check your inbox and spam folder.');
@@ -72,6 +70,9 @@ test('email verification needs a valid single-use token', async () => {
   const body = { email: credentials.email, token };
   assert.equal((await request('account/verify-email', { ...body, email: 'other@example.invalid' })).status, 400);
   assert.equal((await request('account/verify-email', body)).status, 200);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(messages.at(-1).to, 'owner@example.invalid');
+  assert.equal(messages.at(-1).replyTo, credentials.email);
   assert.equal((await request('account/verify-email', body)).status, 400);
   assert.equal((await request('account/me', undefined, cookie)).data.emailVerified, true);
 });

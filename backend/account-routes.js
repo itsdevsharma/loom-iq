@@ -102,12 +102,18 @@ function registerAccountRoutes(app, { store, account, limiter }) {
   app.post('/api/account/verify-email', limiter, async (req, res) => {
     const { email, token } = req.body || {};
     if (typeof email !== 'string' || typeof token !== 'string' || !/^\d{6}$/.test(token)) throw fail(400, 'Enter the six-digit verification code.');
-    await store().transaction(async tx => {
+    const verifiedCustomer = await store().transaction(async tx => {
       const key = keyFor(email), c = await tx.get('customers', key);
       if (!c?.emailVerification || c.emailVerification.expiresAt <= Date.now() || c.emailVerification.hash !== keyFor(token)) throw fail(400, 'Verification link is invalid or expired. Request another link from your account.');
       c.emailVerifiedAt = Date.now(); delete c.emailVerification;
       await tx.put('customers', key, c);
+      return c;
     });
+    const notificationEmail = process.env.ACCOUNT_NOTIFICATION_EMAIL || process.env.SALES_EMAIL;
+    if (notificationEmail && verifiedCustomer) {
+      sendMail({ to: notificationEmail, replyTo: verifiedCustomer.email, subject: 'Verified LoomIQ account', text: `A LoomIQ account was verified.\n\nName: ${verifiedCustomer.name}\nCompany: ${verifiedCustomer.company}\nEmail: ${verifiedCustomer.email}\nPhone: ${verifiedCustomer.phone}\nAddress: ${verifiedCustomer.address}\nCity: ${verifiedCustomer.city}\nState: ${verifiedCustomer.state}` })
+        .catch(() => console.error('Verified signup internal notification delivery failed.'));
+    }
     res.json({ message: 'Email verified. You can return to your account.' });
   });
   app.post('/api/account/invoices/:orderId/email', limiter, async (req, res) => {

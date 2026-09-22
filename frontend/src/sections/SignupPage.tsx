@@ -1,6 +1,6 @@
 import { trackEvent } from '../analytics';
 import { cmsValue } from '../websiteContent';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import { useOffer } from '../offer';
 import logo from '../assets/company.logo.webp';
@@ -13,14 +13,23 @@ export default function SignupPage() {
   const [login, setLogin] = useState(() => new URLSearchParams(window.location.search).get('login') === '1');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const query = new URLSearchParams(window.location.search);
   const plan = query.get('plan') === 'Growth' ? 'Growth' : 'Starter';
   const base = import.meta.env.BASE_URL;
   const setupComplete = offer.signedUp && offer.trialSelected;
+  const turnstileSiteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY as string | undefined;
+  useEffect(() => {
+    if (!turnstileSiteKey || login) return;
+    const id = 'cf-turnstile-script';
+    if (document.getElementById(id)) return;
+    const script = document.createElement('script'); script.id = id; script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js'; script.async = true; script.defer = true;
+    document.head.appendChild(script);
+  }, [login, turnstileSiteKey]);
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError('');
     const data = Object.fromEntries(new FormData(event.currentTarget));
-    try { await authenticate(login ? 'login' : 'signup', { ...data, acceptTerms: data.acceptTerms === 'on' }); if (!login) trackEvent('signup_completed'); if (query.has('plan')) window.location.assign(base + 'payment?plan=' + plan); }
+    try { await authenticate(login ? 'login' : 'signup', { ...data, formStartedAt, acceptTerms: data.acceptTerms === 'on' }); if (!login) trackEvent('signup_completed'); if (query.has('plan')) window.location.assign(base + 'payment?plan=' + plan); }
     catch (e) { setError(e instanceof Error ? e.message : 'Please try again.'); }
     finally { setBusy(false); }
   }
@@ -54,24 +63,26 @@ export default function SignupPage() {
         <h1>{login ? cmsValue("SignupPage.35", "Welcome back.") : cmsValue("SignupPage.36", "Make room for better work.")}</h1>
         <p className="signup-intro">{login ? cmsValue("SignupPage.37", "Sign in to pick up where you left off. Review your plan and account details.") : cmsValue("SignupPage.38", "Already discussed your setup? Create an account to continue to checkout. For a demo, no account is needed.")}</p>
         {!login && <div className="signup-no-card"><LockIcon />{cmsValue("SignupPage.39", " No card needed to create an account")}</div>}
-        <form onSubmit={submit}>
+        <form onSubmit={submit} onFocus={() => setFormStartedAt(value => value || Date.now())}>
           <fieldset disabled={busy}>
             {!login && <><label>{cmsValue("SignupPage.40", "Full name")}<input name="name" autoComplete="name" placeholder={cmsValue("SignupPage.41", "Your full name")} minLength={2} maxLength={100} required /></label>
               <label>{cmsValue("SignupPage.42", "Company name")}<input name="company" autoComplete="organization" placeholder={cmsValue("SignupPage.43", "Your company name")} minLength={2} maxLength={150} required /></label>
               <label>{cmsValue("SignupPage.81", "Phone number")}<input name="phone" type="tel" autoComplete="tel" placeholder={cmsValue("SignupPage.82", "+91 98765 43210")} minLength={10} maxLength={16} required /></label>
               <label>{cmsValue("SignupPage.83", "Company address")}<input name="address" autoComplete="street-address" placeholder={cmsValue("SignupPage.84", "Building, street and area")} maxLength={200} required /></label>
+              <label aria-hidden="true" style={{ position: 'absolute', left: '-10000px' }}>Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
               <div className="signup-address-row"><label>{cmsValue("SignupPage.85", "City")}<input name="city" autoComplete="address-level2" placeholder={cmsValue("SignupPage.86", "City")} maxLength={100} required /></label><label>{cmsValue("SignupPage.87", "State")}<input name="state" autoComplete="address-level1" placeholder={cmsValue("SignupPage.88", "State")} maxLength={100} required /></label></div></>}
             <label>{cmsValue("SignupPage.44", "Work email")}<input name="email" type="email" placeholder={cmsValue("SignupPage.45", "you@company.com")} autoComplete="email" maxLength={254} required /></label>
             <label htmlFor="signup-password">{cmsValue("SignupPage.46", "Password")}</label>
             <div className="signup-password"><input id="signup-password" name="password" type={showPassword ? 'text' : 'password'} placeholder={login ? cmsValue("SignupPage.47", "Enter your password") : cmsValue("SignupPage.48", "Create a strong password")} autoComplete={login ? 'current-password' : 'new-password'} aria-describedby={!login ? 'signup-password-help' : undefined} minLength={10} maxLength={72} required /><button type="button" aria-label={showPassword ? cmsValue("SignupPage.49", "Hide password") : cmsValue("SignupPage.50", "Show password")} aria-pressed={showPassword} onClick={() => setShowPassword(!showPassword)}>{showPassword ? cmsValue("SignupPage.51", "Hide") : cmsValue("SignupPage.52", "Show")}</button></div>
             {!login && <small id="signup-password-help" className="signup-password-help">{cmsValue("SignupPage.53", "Use at least 10 characters.")}</small>}
             {!login && <label className="signup-check"><input name="acceptTerms" type="checkbox" required /><span>{cmsValue("SignupPage.54", "I agree to the ")}<a href={base + 'terms'} target="_blank" rel="noreferrer">{cmsValue("SignupPage.55", "Terms")}</a>{cmsValue("SignupPage.56", " and ")}<a href={base + 'privacy'} target="_blank" rel="noreferrer">{cmsValue("SignupPage.57", "Privacy Policy")}</a>.</span></label>}
+            {!login && turnstileSiteKey && <div className="cf-turnstile" data-sitekey={turnstileSiteKey} />}
             <button className="button button-primary" type="submit">{busy ? cmsValue("SignupPage.58", "Please wait…") : login ? cmsValue("SignupPage.59", "Sign in") : cmsValue("SignupPage.60", "Create my account")}</button>
           </fieldset>
         </form>
         {error && <p className="signup-error" role="alert">{error}</p>}
         {login && <p><a href={base + 'forgot-password'}>{cmsValue("SignupPage.61", "Forgot password?")}</a></p>}
-        <div className="signup-switch"><button className="text-link" type="button" disabled={busy} onClick={() => { setLogin(!login); setShowPassword(false); setError(''); }}>{login ? cmsValue("SignupPage.62", "New here? Create an account") : cmsValue("SignupPage.63", "Already signed up? Sign in")}</button></div>
+        <div className="signup-switch"><button className="text-link" type="button" disabled={busy} onClick={() => { setLogin(!login); setShowPassword(false); setError(''); setFormStartedAt(Date.now()); }}>{login ? cmsValue("SignupPage.62", "New here? Create an account") : cmsValue("SignupPage.63", "Already signed up? Sign in")}</button></div>
         <div className="signup-form-trust"><LockIcon /><span>{cmsValue("SignupPage.64", "Your account is password-protected.")}<br />{cmsValue("SignupPage.65", "You choose your plan before making any payment.")}</span></div>
       </section></div>
     ) : (
