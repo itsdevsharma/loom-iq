@@ -8,14 +8,14 @@ function Hero() {
     <section id="hero" className="hero" aria-labelledby="hero-title">
       <AnnouncementBanner className="hero-announcement" />
       <div className="hero-copy">
-        <p className="eyebrow">Made specifically for Indian garment manufacturers</p>
-        <h1 id="hero-title">Stop losing track of garment orders and production.</h1>
-        <p className="hero-text">LoomIQ brings orders, fabric inventory, job work, production, invoices and reports into one simple ERP built for clothing manufacturers.</p>
+        <p className="eyebrow">CRM + ERP for Textile Manufacturers</p>
+        <h1 id="hero-title">Production se Sales tak — aapka poora business ek hi software mein.</h1>
+        <p className="hero-text">Inventory, production, orders, sales and billing — all in one place, built for Indian textile businesses.</p>
         <div className="hero-actions">
-          <a href="#pricing" className="button button-primary" onClick={() => trackEvent("direct_purchase_clicked")}>Start Your Setup</a>
-          <a href={`${import.meta.env.BASE_URL}demo`} className="hero-text-link">See LoomIQ in Action <span aria-hidden="true">→</span></a>
+          <a href="#pricing" className="button button-primary" onClick={() => trackEvent("direct_purchase_clicked")}>Claim 50% Off <span aria-hidden="true">→</span></a>
+          <a href="#showcase" className="hero-text-link">See how it works <span aria-hidden="true">↓</span></a>
         </div>
-        <p className="hero-reassurance">Instant account • Guided setup • 7-day money-back guarantee</p>
+        <p className="hero-reassurance">Choose a plan • Create your account • Pay securely</p>
       </div>
 
       <div className="hero-product" aria-label="LoomIQ garment manufacturing dashboard preview">

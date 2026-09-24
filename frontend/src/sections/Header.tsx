@@ -98,8 +98,7 @@ function Header() {
             </nav>
             <div className="nav-actions">
               <a href={import.meta.env.BASE_URL + 'account'} className="text-link" onClick={closeMenu}>{cmsValue("Header.9", "My account")}</a>
-              <a href={import.meta.env.BASE_URL + 'demo'} className="text-link" onClick={closeMenu}>{cmsValue("Header.11", "Book a demo")}</a>
-              <a href="#pricing" className="button button-primary" onClick={() => { closeMenu(); trackEvent("direct_purchase_nav_clicked"); }}>Get Started</a>
+              <a href="#pricing" className="button button-primary" onClick={() => { closeMenu(); trackEvent("direct_purchase_nav_clicked"); }}>Claim 50% Off →</a>
             </div>
           </div>
         </div>

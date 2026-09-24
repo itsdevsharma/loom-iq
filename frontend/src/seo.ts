@@ -32,9 +32,9 @@ function setCanonical(url: string | null) {
 }
 
 const routeMetadata: Record<PageRoute, PageMetadata> = {
-  "garment-erp": { title: "Replace Excel with Garment ERP | LoomIQ", description: "Explore LoomIQ ERP for garment and clothing manufacturers: production, inventory, orders, billing, and business management.", canonical: `${siteUrl}${basePath}garment-erp`, robots: "index, follow" },
+  "garment-erp": { title: "LoomIQ – CRM & ERP for Textile Manufacturers in India", description: "LoomIQ helps Indian textile and cloth manufacturers manage production, inventory, orders, sales and billing in one ERP.", canonical: `${siteUrl}${basePath}garment-erp`, robots: "index, follow" },
   demo: { title: "Request a LoomIQ Walkthrough", description: "Request a LoomIQ walkthrough for your garment or textile manufacturing workflow.", canonical: `${siteUrl}${basePath}demo`, robots: "index, follow" },
-  home: { title: "LoomIQ - ERP Software for Garment & Textile Manufacturers", description: "LoomIQ ERP helps garment and textile manufacturers manage production, inventory, orders, billing, and day-to-day business operations in one place.", canonical: `${siteUrl}${basePath}`, robots: "index, follow" },
+  home: { title: "LoomIQ – CRM & ERP for Textile Manufacturers in India", description: "LoomIQ helps Indian textile and cloth manufacturers manage production, inventory, orders, sales and billing in one ERP.", canonical: `${siteUrl}${basePath}`, robots: "index, follow" },
   privacy: { title: "Privacy Policy | LoomIQ", description: "Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes.", canonical: `${siteUrl}${basePath}privacy`, robots: "index, follow" },
   terms: { title: "Terms of Service | LoomIQ", description: "Read the LoomIQ website terms covering demo requests, product information, and the use of this platform.", canonical: `${siteUrl}${basePath}terms`, robots: "index, follow" },
   refunds: { title: "Refund & Cancellation Policy | LoomIQ", description: "Review LoomIQ membership renewal, cancellation, access, and refund information.", canonical: `${siteUrl}${basePath}refunds`, robots: "index, follow" },

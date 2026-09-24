@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, type ComponentType } from "react";
+import { lazy, Suspense, useEffect, useState, type ComponentType } from "react";
 import { OfferProvider, useOffer } from "./offer";
 import { cmsValue, websitePricing } from './websiteContent';
 import "./App.css";
@@ -34,14 +34,20 @@ const sections: Record<string, ComponentType> = { Hero, DemoSection, ProblemSect
 
 function MobilePurchase() {
   const { offer, ready } = useOffer();
+  const [show, setShow] = useState(false);
   const starter = websitePricing().Starter;
   const discounted = !ready || offer.eligible;
   const price = discounted ? starter.firstMonth : starter.recurring;
   const formattedPrice = `₹${price.toLocaleString("en-IN")}`;
 
-  return <aside className="mobile-purchase" aria-label="Quick purchase">
+  useEffect(() => {
+    const update = () => setShow(window.scrollY > Math.max(260, window.innerHeight * 0.65));
+    update(); window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
+  return <aside className={`mobile-purchase${show ? ' is-visible' : ''}`} aria-label="Quick purchase">
     <span><small>{discounted ? 'Launch price from' : 'Plans from'}</small><strong>{formattedPrice}/month</strong></span>
-    <a className="button button-primary" href="#pricing">Start Using LoomIQ — {formattedPrice}/month</a>
+    <a className="button button-primary" href="#pricing">Claim 50% Off →</a>
   </aside>;
 }
 
@@ -75,7 +81,7 @@ function App() {
   if (path === `${basePath}/refunds` || path === "/refunds") return <InfoPage kind="refunds" />;
   if (!landing && path !== normalizedHomePath && path !== "/") return <ManagedPage slug={path.slice(basePath.length).replace(/^\//, '')} />;
 
-  const layout = cmsValue('Site.layout', ['Hero', 'DemoSection', 'HowItWorksSection', 'PricingSection', 'FaqSection', 'DemoRegistrationSection', 'FinalCTA']);
+  const layout = cmsValue('Site.layout', ['Hero', 'ProblemSection', 'FeaturesSection', 'DemoSection', 'BenefitsSection', 'HowItWorksSection', 'PricingSection', 'TrustSection', 'FaqSection', 'FinalCTA']);
   return <OfferProvider><div className="app-shell">
     {landing ? <header className="landing-topbar"><a className="brand" href={import.meta.env.BASE_URL}>LoomIQ</a><nav aria-label="Purchase navigation"><a href="#showcase">Product</a><a href={import.meta.env.BASE_URL + "account"}>Login</a><a className="button button-primary" href="#pricing">Get Started</a></nav></header> : <Header />}
     <main>{layout.map(name => {

@@ -1,50 +1,23 @@
-import { cmsValue } from '../websiteContent';
 import "../FeaturesSection.css";
 
-const features = cmsValue("FeaturesSection.1", [
-  {
-    id: "01",
-    icon: "◎",
-    title: "Orders & customers",
-    description: "Capture buyer requirements, product specifications, quantities, and promised delivery dates in one place.",
-    detail: "Keep enquiries, quotations, order revisions, approvals, and customer communication tied to the order your teams are producing.",
-  },
+const features = [
+  { id: "01", icon: "◎", title: "Inventory", description: "Know what stock is available and what is committed.", detail: "Keep materials, work in progress and finished goods in one view." },
   {
     id: "02",
     icon: "↗",
-    title: "Material planning",
-    description: "Plan yarn, fabric, trims, dyes, and packaging against confirmed orders and production requirements.",
-    detail: "See what is available, what must be purchased, and what is already committed before production starts.",
+    title: "Production", description: "Follow work from planning to dispatch.", detail: "Keep production updates connected to the order." 
   },
   {
     id: "03",
     icon: "✦",
-    title: "Stores & inventory",
-    description: "Track raw materials, work in progress, rolls, batches, and finished goods across locations.",
-    detail: "Record receipts, issues, transfers, returns, wastage, and stock adjustments with the detail your stores team needs.",
+    title: "Sales", description: "Manage customers, orders and delivery commitments.", detail: "Give every team one current order record." 
   },
   {
     id: "04",
     icon: "▣",
-    title: "Finance & costing",
-    description: "Connect purchases, production costs, invoices, receivables, and order profitability.",
-    detail: "Give accounts a current view of material costs, wastage, expenses, customer billing, collections, and margins.",
+    title: "Billing", description: "Keep invoicing and business records close to sales.", detail: "See the information needed to run your business." 
   },
-  {
-    id: "05",
-    icon: "⌘",
-    title: "Production & quality",
-    description: "Move work orders through planning, processing, inspection, finishing, and approval.",
-    detail: "Track quantities, stages, machine or job progress, rejected material, rework, and quality outcomes before dispatch.",
-  },
-  {
-    id: "06",
-    icon: "▥",
-    title: "Dispatch & reporting",
-    description: "See order status, production performance, stock position, delivery commitments, and margins together.",
-    detail: "Move from a management view into the order, batch, purchase, or production record behind every number.",
-  },
-]);
+];
 
 function FeaturesSection() {
   return (
@@ -52,10 +25,10 @@ function FeaturesSection() {
       <div className="fs03__inner">
         <div className="fs03__top">
           <div>
-            <p className="fs03__badge">{cmsValue("FeaturesSection.2", "Business management modules")}</p>
-            <h2 className="fs03__headline">{cmsValue("FeaturesSection.3", " From customer order to production, stock, and dispatch ")}</h2>
+            <p className="fs03__badge">Business management modules</p>
+            <h2 className="fs03__headline">Ek hi system mein poora business control.</h2>
           </div>
-          <p className="fs03__right-text">{cmsValue("FeaturesSection.4", " LoomIQ connects the commercial, operational, and financial records teams rely on every day. Plan, produce, inspect, account for, and dispatch from one shared operating view. ")}</p>
+          <p className="fs03__right-text">Inventory, production, sales and billing — the four views a growing textile business needs every day.</p>
         </div>
 
         <div className="fs03__grid">
@@ -72,7 +45,7 @@ function FeaturesSection() {
         <div className="fs03__sep" />
         <div className="fs03__bottom">
           <div className="fs03__trust">
-            <span className="fs03__dots" aria-hidden="true"><i /><i /><i /></span>{cmsValue("FeaturesSection.5", " Built to connect order, material, production, quality, and dispatch ")}</div>
+            <span className="fs03__dots" aria-hidden="true"><i /><i /><i /></span>Built to connect inventory, production, sales and billing</div>
         </div>
       </div>
     </section>

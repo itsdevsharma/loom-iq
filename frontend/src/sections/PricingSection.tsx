@@ -5,8 +5,8 @@ import PricingCard from "./PricingCard";
 import { trackEvent } from "../analytics";
 
 const plans = [
-  { name: "Starter", description: "For a small workshop that needs one reliable order-to-dispatch view.", features: ["Small workshop", "User limit: confirm before purchase", "Orders, fabric stock, invoices and core reports", "Guided onboarding included", "Migration: quoted separately", "GST: not charged; commercial invoice"], featured: false },
-  { name: "Growth", description: "For a growing factory that needs the full production workflow.", features: ["Growing factory", "User limit: confirm before purchase", "All Starter features plus production and job-work tools", "Guided onboarding and priority support included", "Migration: quoted separately", "GST: not charged; commercial invoice"], featured: true },
+  { name: "Starter", description: "For a small workshop that needs one reliable order-to-dispatch view.", features: ["Small workshop", "Orders, fabric stock, invoices and core reports", "Guided onboarding included", "Migration available as an optional paid service", "Commercial invoice"], featured: false },
+  { name: "Growth", description: "For a growing factory that needs the full production workflow.", features: ["Growing factory", "All Starter features plus production and job-work tools", "Guided onboarding and priority support included", "Migration available as an optional paid service", "Commercial invoice"], featured: true },
   { name: "Enterprise", description: "For multi-unit businesses that need advanced controls and a tailored rollout.", features: ["Multi-unit business", "Custom users", "Advanced controls, workflows and integrations", "Dedicated onboarding and support", "Migration scoped with your implementation", "GST treatment confirmed in your agreement"], featured: false },
 ];
 
@@ -27,8 +27,8 @@ function PricingSection() {
   return <section id="pricing" className="section section-shell section-pricing">
     <div className="section-heading">
       <p className="eyebrow">Simple monthly pricing</p>
-      <h2>Choose Your Plan</h2>
-      <p>Clear monthly pricing for Indian garment manufacturers. The limited offer is shown before checkout.</p>
+      <h2>Choose your plan and see exactly what you pay.</h2>
+      <p>Clear monthly pricing for Indian textile businesses. Your discounted price is shown before checkout.</p>
     </div>
     {campaign.enabled && offer.eligible && <div className="launch-offer"><strong>{campaign.discountPercent}% OFF · only {offer.slotsRemaining ?? campaign.slotsRemaining} slots left</strong><span>{ready && remaining > 0 ? `${Math.ceil(remaining / 3600000)} hours left — offer ends ${new Date(offer.expiresAt!).toLocaleString('en-IN')}.` : 'Limited-time offer.'}</span></div>}
     <div className="pricing-grid">
@@ -38,7 +38,7 @@ function PricingSection() {
         const planPrice = prices[key] as { recurring:number; firstMonth?:number };
         const onOffer = !enterprise && offer.eligible;
         const displayPrice = onOffer ? planPrice.firstMonth! : planPrice.recurring;
-        return <PricingCard key={plan.name} planName={plan.name} tagline={plan.description} originalPrice={onOffer ? money(planPrice.recurring) : undefined} price={money(displayPrice)} recurringText={onOffer ? `Offer price · regular ${money(planPrice.recurring)}/month` : undefined} period="/month" features={plan.features} ctaLabel={enterprise ? "Talk to sales" : `Buy Now — ${money(displayPrice)}/month`} href={enterprise ? `${import.meta.env.BASE_URL}demo` : `${import.meta.env.BASE_URL}${offer.signedUp ? "payment" : "signup"}?plan=${plan.name}`} onCtaClick={() => trackEvent(enterprise ? "demo_cta_clicked" : "direct_purchase_clicked")} featured={plan.featured} badge={onOffer ? `${campaign.discountPercent}% OFF` : plan.featured ? "Most popular" : null} purchaseSteps={enterprise ? undefined : afterPurchase} />;
+        return <PricingCard key={plan.name} planName={plan.name} tagline={plan.description} originalPrice={onOffer ? money(planPrice.recurring) : undefined} price={money(displayPrice)} recurringText={onOffer ? `50% OFF · regular ${money(planPrice.recurring)}/month` : undefined} period="/month" features={plan.features} ctaLabel={enterprise ? "Talk to sales" : "Claim 50% Off →"} href={enterprise ? `${import.meta.env.BASE_URL}demo` : `${import.meta.env.BASE_URL}${offer.signedUp ? "payment" : "signup"}?plan=${plan.name}`} onCtaClick={() => { trackEvent(enterprise ? "demo_cta_clicked" : "direct_purchase_clicked"); if (!enterprise) trackEvent('plan_selected'); }} featured={plan.featured} badge={onOffer ? `${campaign.discountPercent}% OFF` : plan.featured ? "Most popular" : null} purchaseSteps={enterprise ? undefined : afterPurchase} />;
       })}
     </div>
     <p className="pricing-demo-alternative">Need a tailored multi-unit rollout? <a href={`${import.meta.env.BASE_URL}demo`}>Talk to our Enterprise team.</a></p>

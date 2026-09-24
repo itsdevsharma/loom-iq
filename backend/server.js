@@ -258,8 +258,10 @@ app.post("/api/account/:action", (req, res, next) => req.params.action === 'sign
     const { assertHumanSignup, verifyTurnstile } = require('./anti-abuse');
     assertHumanSignup(req);
     await verifyTurnstile(req);
-    const validation = validateDemoRequest(req.body, { requireCompanyDetails: true });
-    if (Object.keys(validation.errors).length) return res.status(400).json({ message: "Complete your name, work email, company, phone, and company address." });
+    // Billing address and phone are collected only at checkout, where they are
+    // required for the invoice. Keep account creation focused on essentials.
+    const validation = validateDemoRequest(req.body);
+    if (Object.keys(validation.errors).length) return res.status(400).json({ message: "Complete your name, work email, and company." });
     if (req.body.acceptTerms !== true) return res.status(400).json({ message: "Please accept the terms to sign up." });
     values = validation.values;
     passwordHash = await bcrypt.hash(password, 12);

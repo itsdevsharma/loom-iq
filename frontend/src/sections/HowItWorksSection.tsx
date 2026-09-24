@@ -1,33 +1,24 @@
-import { cmsValue } from '../websiteContent';
 import "../HowItWorksSection.css";
 
-const steps = cmsValue("HowItWorksSection.1", [
-  {
-    number: "01",
-    title: "Capture the order",
-    description:
-      "Record the buyer, fabric or garment specification, quantity, colour, delivery date, and commercial terms in one order record.",
-  },
+const steps = [
+  { number: "01", title: "Choose your plan", description: "Pick the plan that fits your business." },
   {
     number: "02",
-    title: "Plan and produce",
-    description:
-      "Plan materials and capacity, raise purchases, issue stock, and track each order through production, finishing, and quality checks.",
+    title: "Create your account", description: "Set up a secure LoomIQ account in a few details.",
   },
   {
-    number: "03",
-    title: "Inspect, dispatch, and account",
-    description:
-      "Release approved goods for dispatch and connect delivery, invoicing, collections, and order margin back to the original requirement.",
+    number: "03", title: "Complete payment", description: "Pay securely through Razorpay with the shown price.",
   },
-]);
+  { number: "04", title: "Start managing your business", description: "Continue with guided onboarding for your business." 
+  },
+];
 
 function HowItWorksSection() {
   return (
     <section id="how-it-works" className="section section-shell section-how">
       <div className="section-heading">
-        <p className="eyebrow">{cmsValue("HowItWorksSection.2", "How it works")}</p>
-        <h2>{cmsValue("HowItWorksSection.3", "From order confirmation to customer delivery.")}</h2>
+        <p className="eyebrow">How it works</p>
+        <h2>From plan selection to your LoomIQ account.</h2>
       </div>
 
       <div className="how-grid">

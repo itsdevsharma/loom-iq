@@ -51,11 +51,7 @@ function FooterSection() {
             </div>
           ))}
 
-          <div className="footer-column footer-contact">
-            <h3>{cmsValue("FooterSection.14", "Talk through your workflow")}</h3>
-            <p>{cmsValue("FooterSection.15", "See how LoomIQ can fit your textile manufacturing workflow.")}</p>
-            <a className="footer-contact-link" href={siteLink(cmsValue("FooterSection.16", "#demo"))}>{cmsValue("FooterSection.17", "Book a personalized demo ")}<span aria-hidden="true">→</span></a>
-          </div>
+          <div className="footer-column footer-contact"><h3>Need help?</h3><p>Support is available if you need help with your purchase.</p><a className="footer-contact-link" href="#support">Contact support →</a></div>
         </div>
         <div className="footer-bottom">
           <span>{cmsValue("FooterSection.18", "© ")}{new Date().getFullYear()}{cmsValue("FooterSection.19", " LoomIQ. All rights reserved.")}</span>
