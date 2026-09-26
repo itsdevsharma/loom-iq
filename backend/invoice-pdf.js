@@ -128,7 +128,7 @@ function renderInvoicePdf(invoice) {
       box(y, paymentHeight);
       write(paymentText, left + 10, y + 12, width - 20, false, 8);
       y += paymentHeight;
-      const notes = `GST not charged - Supplier is not registered under GST. This is a commercial invoice and not a GST tax invoice. GST has not been charged as the supplier is not registered under GST. For any queries regarding this invoice, please contact ${text(seller.email || 'support@loomiq.com')}.`;
+      const notes = `GST not charged - Supplier is not registered under GST. This is a commercial invoice and not a GST tax invoice. GST has not been charged as the supplier is not registered under GST. For any queries regarding this invoice, please contact ${text(seller.email || 'loomiq2025@gmail.com')}.`;
       const notesHeight = height(notes, width - 20, false, 8) + 36;
       y = ensureSpace(y, notesHeight + 40);
       box(y, notesHeight);

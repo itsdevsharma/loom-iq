@@ -674,7 +674,7 @@
       },
       {
         "question": "Can I cancel or get a refund?",
-        "answer": "There is no automatic renewal to cancel. The existing refund policy says discounted first-month payments are generally non-refundable. Email support with your order reference for payment or service issues; read the full refund policy before purchase."
+        "answer": "There is no automatic renewal to cancel. The existing refund policy says discounted first-month payments are generally non-refundable. Email loomiq2025@gmail.com with your order reference for payment or service issues; read the full refund policy before purchase."
       },
       {
         "question": "How is my account protected?",
@@ -682,7 +682,7 @@
       },
       {
         "question": "How do I get support?",
-        "answer": "Use the support request form to contact the team. After purchase, the confirmation page also provides the form. No response-time guarantee is published."
+        "answer": "Use the support request form or email loomiq2025@gmail.com to contact the team. After purchase, the confirmation page also provides the form. No response-time guarantee is published."
       }
     ]
   },
@@ -1226,7 +1226,7 @@
           ],
           [
             "Retention and requests",
-            "Account, inquiry, and transaction records are retained to operate the service and maintain payment records. To request access, correction, or deletion, use the support form. We may need to verify account ownership and retain records needed for unresolved transactions or applicable recordkeeping obligations."
+            "Account, inquiry, and transaction records are retained to operate the service and maintain payment records. To request access, correction, or deletion, use the support form or email loomiq2025@gmail.com. We may need to verify account ownership and retain records needed for unresolved transactions or applicable recordkeeping obligations."
           ],
           [
             "Account security",
@@ -1264,7 +1264,7 @@
           ],
           [
             "Support and billing questions",
-            "Use the support form for account, payment, or service questions. The Refund Policy describes cancellation requests and payment issues."
+            "Use the support form or email loomiq2025@gmail.com for account, payment, or service questions. The Refund Policy describes cancellation requests and payment issues."
           ]
         ]
       },
@@ -1290,7 +1290,7 @@
           ],
           [
             "Support",
-            "For cancellation or billing help, use the support form with your account email and company name."
+            "For cancellation or billing help, use the support form or email loomiq2025@gmail.com with your account email and company name."
           ]
         ]
       }
@@ -3247,9 +3247,9 @@
   },
   "SupportForm.2": {
     "group": "SupportForm",
-    "label": "Tell us about your issue. Our team will reply to your email.",
+    "label": "Tell us about your issue, or email us directly at loomiq2025@gmail.com. Our team will reply to your email.",
     "kind": "text",
-    "default": "Tell us about your issue. Our team will reply to your email."
+    "default": "Tell us about your issue, or email us directly at loomiq2025@gmail.com. Our team will reply to your email."
   },
   "SupportForm.3": {
     "group": "SupportForm",

@@ -1,7 +1,7 @@
 function invoiceSeller() {
   const fields = { name: 'BUSINESS_NAME', address: 'BUSINESS_ADDRESS', phone: 'PHONE', email: 'EMAIL', website: 'WEBSITE', pan: 'PAN', cin: 'CIN', bankName: 'BANK_NAME', accountHolder: 'ACCOUNT_HOLDER', accountNumber: 'ACCOUNT_NUMBER', ifsc: 'IFSC', upi: 'UPI', sac: 'SAC' };
   const seller = Object.fromEntries(Object.entries(fields).map(([field, env]) => [field, process.env['INVOICE_' + env] || '']));
-  return { ...seller, name: seller.name || 'LoomIQ', email: seller.email || 'support@loomiq.com', gstRegistered: false };
+  return { ...seller, name: seller.name || 'LoomIQ', email: seller.email || 'loomiq2025@gmail.com', gstRegistered: false };
 }
 function financialYear(timestamp) {
   const date = new Date(timestamp + 330 * 60 * 1000);

@@ -51,7 +51,7 @@ function FooterSection() {
             </div>
           ))}
 
-          <div className="footer-column footer-contact"><h3>Need help?</h3><p>Support is available if you need help with your purchase.</p><a className="footer-contact-link" href="#support">Contact support →</a></div>
+          <div className="footer-column footer-contact"><h3>Need help?</h3><p>Support is available if you need help with your purchase. Email <a href="mailto:loomiq2025@gmail.com">loomiq2025@gmail.com</a>.</p><a className="footer-contact-link" href="#support">Contact support →</a></div>
         </div>
         <div className="footer-bottom">
           <span>{cmsValue("FooterSection.18", "© ")}{new Date().getFullYear()}{cmsValue("FooterSection.19", " LoomIQ. All rights reserved.")}</span>

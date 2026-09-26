@@ -77,7 +77,7 @@ export default function SupportForm() {
     }}>
     <button className="support-close" type="button" aria-label="Close support form" onClick={() => setOpen(false)}>×</button>
     <div className="support-dialog-heading"><div className="support-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="3" /><path d="m4 7 8 6 8-6" /></svg></div><div><p className="support-eyebrow">EMAIL SUPPORT</p><h2 id="support-heading">{cmsValue("SupportForm.1", "How can we help?")}</h2></div></div>
-    <p id="support-description">{cmsValue("SupportForm.2", "Tell us about your issue. Our team will reply to your email.")}</p>
+    <p id="support-description">{cmsValue("SupportForm.2", "Tell us about your issue, or email us directly at loomiq2025@gmail.com. Our team will reply to your email.")}</p>
     {sent ? <div className="support-success"><p role="status">{cmsValue("SupportForm.3", "Your message has been sent. We’ll get back to you by email.")}</p><button type="button" onClick={() => setOpen(false)}>Done</button></div> : <form onSubmit={submit} aria-busy={busy}>
       <label>{cmsValue("SupportForm.4", "Your name")}<input name="name" placeholder="Your full name" autoComplete="name" required minLength={2} maxLength={100} /></label>
       <label>{cmsValue("SupportForm.5", "Your email")}<input name="email" placeholder="you@company.com" type="email" autoComplete="email" required maxLength={254} /></label>
