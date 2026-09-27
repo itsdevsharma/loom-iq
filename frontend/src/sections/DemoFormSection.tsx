@@ -4,7 +4,7 @@ import { trackEvent } from '../analytics';
 import dashboardPreview from '../assets/tour-dashboard.png';
 
 type Phase = 'details' | 'verifying' | 'ready' | 'error';
-type Credentials = { username: string; temporaryPassword: string; expiresAt: string };
+type DemoHandoff = { handoffToken: string; loginUrl: string; expiresAt: string };
 const apiUrl = (path: string) => `${import.meta.env.PUBLIC_API_URL ?? ''}${path}`;
 
 function DemoFormSection() {
@@ -36,8 +36,7 @@ function DemoFormSection() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [requestId, setRequestId] = useState('');
   const [otp, setOtp] = useState('');
-  const [credentials, setCredentials] = useState<Credentials | null>(null);
-  const [loginUrl, setLoginUrl] = useState('');
+  const [handoff, setHandoff] = useState<DemoHandoff | null>(null);
   const [credentialEmailDelivered, setCredentialEmailDelivered] = useState(false);
   const [formStartedAt] = useState(() => Date.now());
 
@@ -76,10 +75,10 @@ function DemoFormSection() {
     setErrorMessage(''); setBusy(true);
     try {
       const response = await fetch(apiUrl('/api/demo-requests'), { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'verify', requestId, otp }) });
-      const result = await response.json().catch(() => ({})) as { success?: boolean; message?: string; retryAfter?: number; data?: { credentials?: Credentials; loginUrl?: string; credentialEmailDelivered?: boolean } };
+      const result = await response.json().catch(() => ({})) as { success?: boolean; message?: string; retryAfter?: number; data?: { handoffToken?: string; loginUrl?: string; expiresAt?: string; credentialEmailDelivered?: boolean } };
       handleRateLimit(response, result);
-      if (!response.ok || !result.success || !result.data?.credentials) throw new Error(result.message || 'We could not verify your code.');
-      setCredentials(result.data.credentials); setLoginUrl(result.data.loginUrl || ''); setCredentialEmailDelivered(result.data.credentialEmailDelivered === true); setPhase('ready'); trackEvent('demo_form_success');
+      if (!response.ok || !result.success || !result.data?.handoffToken || !result.data.loginUrl || !result.data.expiresAt) throw new Error(result.message || 'We could not verify your code.');
+      setHandoff({ handoffToken: result.data.handoffToken, loginUrl: result.data.loginUrl, expiresAt: result.data.expiresAt }); setCredentialEmailDelivered(result.data.credentialEmailDelivered === true); setPhase('ready'); trackEvent('demo_form_success');
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Network error. Please try again.'); trackEvent('demo_otp_error');
     } finally { setBusy(false); inFlight.current = false; }
@@ -100,11 +99,11 @@ function DemoFormSection() {
       </div>
       <div className="demo-form-card">
         <div className="demo-form-card-top"><span>Step {step} of 2</span><span className="demo-form-secure"><span aria-hidden="true">✓</span>Private &amp; secure</span></div>
-        {phase === 'ready' && credentials ? <div className="demo-form-success" role="status">
+        {phase === 'ready' && handoff ? <div className="demo-form-success" role="status">
           <span className="demo-form-success-icon" aria-hidden="true">✓</span><h3>Your demo is ready</h3>
-          <p className="demo-credentials-warning">{credentialEmailDelivered ? 'Save these credentials now. The temporary password is shown only once and has also been emailed to you.' : 'Save these credentials now. We could not deliver the email, so this browser is the only place your temporary password is currently shown.'}</p>
-          <dl className="demo-credentials"><div><dt>Username</dt><dd>{credentials.username}</dd></div><div><dt>Temporary password</dt><dd>{credentials.temporaryPassword}</dd></div><div><dt>Expires</dt><dd>{new Date(credentials.expiresAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', timeZoneName: 'short' })}</dd></div></dl>
-          <a className="button button-primary demo-form-submit" href={loginUrl}>Open LoomIQ ERP</a>
+          <p className="demo-credentials-warning">Your secure demo session is ready. {credentialEmailDelivered ? 'Credentials were also emailed for later normal login.' : ''}</p>
+          <p className="demo-form-meta">Demo expires {new Date(handoff.expiresAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', timeZoneName: 'short' })}.</p>
+          <button className="button button-primary demo-form-submit" type="button" onClick={() => { const destination = new URL(handoff.loginUrl); destination.searchParams.set('demo_handoff', handoff.handoffToken); window.location.assign(destination.toString()); }}>Open LoomIQ ERP</button>
         </div> : phase === 'verifying' ? <form onSubmit={verifyDemo} noValidate>
           <h3>Check your email</h3><p className="demo-form-meta">Enter the six-digit verification code we sent to start your three-hour demo.</p>
           <label htmlFor="demo-otp">Verification code</label><input className="demo-otp-field" id="demo-otp" value={otp} onChange={event => setOtp(event.target.value.replace(/\D/g, '').slice(0, 6))} inputMode="numeric" autoComplete="one-time-code" placeholder="000000" required pattern="[0-9]{6}" />

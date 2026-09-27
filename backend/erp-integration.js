@@ -54,9 +54,10 @@ async function request(path, payload) {
 
 const startDemo = payload => request('/api/integrations/marketing/demo-requests', payload);
 const verifyDemo = payload => request('/api/integrations/marketing/demo-requests', { action: 'verify', ...payload });
+const createDemoHandoff = payload => request('/api/integrations/marketing/demo-handoff', payload);
 const convertDemo = async payload => {
   const result = await request('/api/integrations/marketing/demo-conversions', payload);
   return { ...result, workspaceUrl: result.workspaceUrl || loginUrl() };
 };
 
-module.exports = { configured, startDemo, verifyDemo, convertDemo };
+module.exports = { configured, startDemo, verifyDemo, createDemoHandoff, convertDemo };

@@ -353,11 +353,16 @@ app.post("/api/demo-requests", demoLimiter, async (request, response) => {
     try {
       const result = await erpIntegration.verifyDemo({ requestId: demoRequest.erpRequestId, otp });
       const credentials = result.credentials;
+      if (!result.userId || !result.organizationId || !credentials?.expiresAt) throw Object.assign(new Error('The ERP did not return an active demo identity.'), { status: 502 });
+      // The raw handoff is deliberately kept only in this request's memory and
+      // returned over the verified browser response; it is never persisted.
+      const handoff = await erpIntegration.createDemoHandoff({ userId: result.userId, organizationId: result.organizationId });
+      if (!handoff?.handoffToken || !handoff?.loginUrl) throw Object.assign(new Error('The ERP did not return a secure demo handoff.'), { status: 502 });
       await repository.transaction(async tx => {
         const current = await tx.get('demoRequests', requestId);
         if (!current) return;
         const activatedAt = Date.now();
-        Object.assign(current, { status: 'active', updatedAt: new Date(activatedAt).toISOString(), expiresAt: credentials.expiresAt, erp: { userId: result.userId, organizationId: result.organizationId }, credentials: { username: credentials.username, loginUrl: result.loginUrl, issuedAt: activatedAt }, activity: [...(current.activity || []), demoActivity('demo_activated', activatedAt, 'Email verified; demo credentials issued')] });
+        Object.assign(current, { status: 'active', updatedAt: new Date(activatedAt).toISOString(), expiresAt: credentials.expiresAt, erp: { userId: result.userId, organizationId: result.organizationId }, credentials: { username: credentials.username, loginUrl: handoff.loginUrl, issuedAt: activatedAt }, activity: [...(current.activity || []), demoActivity('demo_activated', activatedAt, 'Email verified; secure ERP handoff issued')] });
         await tx.put('demoRequests', requestId, current);
       });
       // Email is a delivery channel; credentials are also returned once to the
@@ -367,7 +372,7 @@ app.post("/api/demo-requests", demoLimiter, async (request, response) => {
         await sendMail({ to: demoRequest.email, subject: 'Your LoomIQ 3-hour demo credentials', text: `Your LoomIQ ERP demo is ready.\n\nLogin: ${result.loginUrl}\nUsername: ${credentials.username}\nTemporary password: ${credentials.temporaryPassword}\nExpires: ${new Date(credentials.expiresAt).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', timeZoneName: 'short' })}\n\nDo not share these credentials.` });
         credentialEmailDelivered = true;
       } catch (error) { console.error('Demo credential email failed:', error.message); }
-      return response.status(201).json({ success: true, data: { credentials, loginUrl: result.loginUrl, credentialEmailDelivered } });
+      return response.status(201).json({ success: true, data: { handoffToken: handoff.handoffToken, loginUrl: handoff.loginUrl, expiresAt: credentials.expiresAt, credentialEmailDelivered } });
     } catch (error) {
       return demoError(response, error, 'Unable to verify your demo.');
     }
