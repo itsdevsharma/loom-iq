@@ -238,7 +238,7 @@ require('./admin-routes').registerAdminRoutes(app, { store: () => repository, ad
 require('./admin-content-routes').registerAdminContentRoutes(app, { store: () => repository, addAudit: auditLogger });
 require('./content-routes').registerContentRoutes(app, { store: () => repository, PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL });
 require('./website-content').registerWebsiteContentRoutes(app, {store: () => repository, addAudit: auditLogger, ...require('./admin-content-routes')});
-require('./admin-records').registerAdminRecordRoutes(app, {store: () => repository, addAudit: auditLogger});
+require('./admin-records').registerAdminRecordRoutes(app, {store: () => repository, addAudit: auditLogger, erpIntegration, sendMail});
 require('./admin-commerce').registerAdminCommerce(app, {store: () => repository, addAudit: auditLogger, razorpay});
 
 
