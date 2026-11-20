@@ -209,7 +209,7 @@ function PaymentPage() {
           <img className="payment-brand-mark" src={cmsValue("PaymentPage.4", logoImage)} alt="" />{cmsValue("PaymentPage.5", "Loom")}<span className="payment-brand-iq">{cmsValue("PaymentPage.6", "IQ")}</span>
         </a>
         <span className="payment-header-note"><LockIcon />{cmsValue("PaymentPage.7", " Payments processed by Razorpay")}</span>
-        <a className="payment-back" href={`${import.meta.env.BASE_URL}#pricing`}>{cmsValue("PaymentPage.8", "← Back to plans")}</a>
+        <a className="payment-back" href={`${import.meta.env.BASE_URL}erp/pricing`}>{cmsValue("PaymentPage.8", "← Back to plans")}</a>
       </header>
 
 

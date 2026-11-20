@@ -12,7 +12,9 @@ function registerWebsite(app, directory, store) {
   });
   app.use('/assets', express.static(path.join(directory, 'assets'), { maxAge: '1y', immutable: true, fallthrough: false }));
   app.use(express.static(directory, { index: false, redirect: false, maxAge: 0 }));
+  const agencyMetadata = new Map((fs.existsSync(path.join(directory, 'agency-routes.json')) ? JSON.parse(fs.readFileSync(path.join(directory, 'agency-routes.json'), 'utf8')) : []).map(item => ['/' + item.path, item]));
   const routes = new Set(['/', '/garment-erp', '/demo', '/privacy', '/terms', '/refunds', '/signup', '/payment', '/thank-you', '/account', '/forgot-password', '/reset-password', '/verify-email']);
+  for (const route of agencyMetadata.keys()) routes.add(route);
   app.get('/{*path}', async (req, res) => {
     const route = req.path.replace(/\/$/, '') || '/';
     res.setHeader('Cache-Control', 'no-store');
@@ -24,13 +26,15 @@ function registerWebsite(app, directory, store) {
         if (version?.payload?.slug === route.slice(1)) { custom = version.payload; break; }
       }
     }
-    if (!['/', '/garment-erp', '/demo', '/privacy', '/terms', '/refunds'].includes(route) && !custom) res.setHeader('X-Robots-Tag', 'noindex, nofollow');
-    let html = fs.readFileSync(index, 'utf8');
+    if (!['/', '/garment-erp', '/demo', '/privacy', '/terms', '/refunds'].includes(route) && !agencyMetadata.has(route) && !custom) res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+    const metadata = agencyMetadata.get(route);
+    const routeFile = route !== '/' ? path.join(directory, route.slice(1), 'index.html') : index;
+    let html = fs.readFileSync(metadata && fs.existsSync(routeFile) ? routeFile : index, 'utf8');
     if (store) {
       const {values} = await require('./website-content').publishedWebsite(store());
       const ids = {'/':[3,4],'/garment-erp':[3,4],'/demo':[3,4],'/privacy':[5,6],'/terms':[7,8],'/refunds':[9,10],'/signup':[13,14],'/payment':[15,16],'/account':[1,2],'/thank-you':[11,12]}[route] || [17,18];
-      let title = custom ? custom.seo?.title || custom.title : values['seo.'+ids[0]];
-      let description = custom ? custom.seo?.description || custom.description : values['seo.'+ids[1]];
+      let title = metadata ? metadata.title : custom ? custom.seo?.title || custom.title : values['seo.'+ids[0]];
+      let description = metadata ? metadata.description : custom ? custom.seo?.description || custom.description : values['seo.'+ids[1]];
       if (route === '/garment-erp') { title = 'Replace Excel with Garment ERP | LoomIQ'; description = 'ERP built for garment and clothing manufacturers. Explore LoomIQ, compare monthly pricing, and purchase online.'; }
       const escape = value => String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
       html = html.replace(/<title>[^<]*<\/title>/, () => '<title>'+escape(title)+'</title>');

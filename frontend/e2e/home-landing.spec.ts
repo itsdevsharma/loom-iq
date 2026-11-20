@@ -1,21 +1,26 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-test('homepage services, contact, accessibility and ERP purchase path', async ({ page }, testInfo) => {
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('loomiq-analytics', 'denied'));
+});
+
+test('agency homepage leads with marketing, has accessible content and working ERP paths', async ({ page }, testInfo) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.addInitScript(() => localStorage.setItem('loomiq-analytics', 'denied'));
-  await page.goto('/');
-  await expect(page).toHaveTitle('LoomIQ | Business ERP & Digital Marketing Services');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Grow your businesswith Meta ads.');
-  await page.getByRole('link', { name: 'Explore our services', exact: true }).click();
-  await expect(page.locator('#solutions')).toBeInViewport();
-  await expect(page.getByRole('link', { name: 'Explore Meta ads services', exact: true })).toHaveAttribute('href', '/digital-marketing');
-  await expect(page.locator('#home-contact').getByRole('link', { name: '+91 82220 88524', exact: true })).toHaveAttribute('href', 'tel:+918222088524');
-  const brokenAnchors = await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute('href')!).filter(href => href.length > 1 && !document.getElementById(href.slice(1))));
-  expect(brokenAnchors).toEqual([]);
-  expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
-  await page.getByRole('link', { name: 'View software plans', exact: true }).click();
+  const response = await page.goto('/');
+  expect(response?.status()).toBe(200);
+  await expect(page).toHaveTitle('LoomiQ | Digital Marketing & Business Solutions');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Grow Your Business With Smarter Digital Marketing.');
+  await expect(page.locator('.mobile-purchase')).toHaveCount(0);
+  await expect(page.locator('#services article')).toHaveCount(6);
+  await expect(page.locator('#contact a[href="tel:+918222088524"]')).toBeAttached();
+  const broken = await page.locator('a[href^="#"]').evaluateAll(links => links.map(link => link.getAttribute('href')!).filter(href => href.length > 1 && !document.getElementById(href.slice(1))));
+  expect(broken).toEqual([]);
+  const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  expect(axe.violations.map(item => ({ id: item.id, nodes: item.nodes.map(node => node.target) }))).toEqual([]);
+  await page.getByRole('link', { name: 'Compare ERP plans', exact: true }).click();
+  await expect(page).toHaveURL(/erp\/pricing$/);
   await page.getByRole('link', { name: 'Choose Starter', exact: true }).click();
   await expect(page).toHaveURL(/signup\?plan=Starter/);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
@@ -25,17 +30,38 @@ test('homepage services, contact, accessibility and ERP purchase path', async ({
   expect(errors).toEqual([]);
 });
 
-test('homepage fits mobile, tablet and desktop widths', async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('loomiq-analytics', 'denied'));
+test('mobile menu, services dropdown and responsive layout work', async ({ page }) => {
   await page.goto('/');
-  for (const width of [360, 768, 950, 1024, 1440]) {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole('button', { name: 'Open navigation menu' }).click();
+  await page.locator('.agency-services-menu summary').click();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Open navigation menu' })).toBeFocused();
+  await page.getByRole('button', { name: 'Open navigation menu' }).click();
+  await page.locator('.agency-services-menu summary').click();
+  await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'SEO Services', exact: true }).click();
+  await expect(page).toHaveURL(/services\/seo$/);
+  await expect(page.getByLabel('Service you’re interested in')).toHaveValue('Website Audit');
+  await page.goto('/#consultation');
+  await expect(page.getByRole('heading', { name: 'Let’s talk about your business.', exact: true })).toBeInViewport();
+  await page.goto('/');
+  for (const width of [360, 390, 768, 1024, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    const overflow = await page.locator('.homepage').evaluate(element => Array.from(element.querySelectorAll('.home-intro, .home-solution, .home-contact, .topbar, .topbar a')).filter(node => {
-      const box = node.getBoundingClientRect();
-      return box.width > 0 && (box.right > window.innerWidth + 1 || box.left < -1);
-    }).map(node => node.className));
-    expect(overflow, `viewport ${width}`).toEqual([]);
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `viewport ${width}`).toBe(true);
+    const clipped = await page.locator('.agency-site').evaluate(element => Array.from(element.querySelectorAll('input, select, textarea, .agency-consultation, .agency-header, .agency-service-item')).filter(node => { const box = node.getBoundingClientRect(); return box.width > 0 && (box.left < -1 || box.right > innerWidth + 1); }).map(node => node.tagName));
+    expect(clipped, `viewport ${width}`).toEqual([]);
   }
+});
+
+test('ERP mobile purchase bar keeps the price and button inside the screen', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto('/erp#pricing');
+  const bar = page.getByRole('complementary', { name: 'Quick purchase' });
+  await expect(bar).toBeVisible();
+  expect(await bar.evaluate(element => {
+    const bounds = element.getBoundingClientRect();
+    return Array.from(element.children).every(child => { const rect = child.getBoundingClientRect(); return rect.left >= bounds.left && rect.right <= bounds.right && rect.bottom <= bounds.bottom; });
+  })).toBe(true);
+  await expect(bar.getByRole('link', { name: 'View ERP plans' })).toBeVisible();
 });

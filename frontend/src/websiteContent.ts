@@ -44,6 +44,6 @@ export function cmsTemplate(key: string, fallback: string, values: unknown[]) {
 export function siteLink(href: string): string {
   const base = import.meta.env.BASE_URL;
   const path = window.location.pathname.replace(/\/$/, '') || '/';
-  const onSalesPage = path === (base.replace(/\/$/, '') || '/') || path === base + 'garment-erp';
-  return href.startsWith('#') && !onSalesPage ? base + href : href;
+  const onSalesPage = path === base + 'erp' || path === base + 'garment-erp';
+  return href.startsWith('#') && !onSalesPage ? base + 'erp' + href : href;
 }

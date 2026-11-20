@@ -1,40 +1,42 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+const routes = ['digital-marketing', 'services/meta-ads', 'services/google-ads', 'services/seo', 'services/social-media-marketing', 'services/performance-marketing', 'services/lead-generation', 'erp', 'erp/pricing'];
+test.beforeEach(async ({ page }) => { await page.addInitScript(() => localStorage.setItem('loomiq-analytics', 'denied')); });
 
-test('marketing service navigation, layout and accessibility', async ({ page }) => {
-  const errors: string[] = [];
-  page.on('pageerror', error => errors.push(error.message));
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Essential only' }).click();
-  const toggle = page.getByRole('button', { name: 'Open navigation menu' });
-  if (await toggle.isVisible()) await toggle.click();
-  await page.getByRole('navigation', { name: 'Primary navigation' }).getByRole('link', { name: 'Digital marketing', exact: true }).click();
-  await expect(page).toHaveTitle('Digital Marketing & Meta Ads Services | LoomIQ');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('good ad away');
-  await expect(page.getByRole('link', { name: 'Call 93543555930', exact: true })).toHaveAttribute('href', 'tel:93543555930');
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
-  await page.getByText('How much does it cost?', { exact: true }).click();
-  await expect(page.getByText('We scope the work around your goals', { exact: false })).toBeVisible();
-  await page.getByRole('link', { name: 'Discuss your campaign', exact: true }).click();
-  await expect(page.getByRole('heading', { name: 'What would growth look like for you?' })).toBeInViewport();
-  expect((await new AxeBuilder({ page }).include('.marketing-page').analyze()).violations).toEqual([]);
-  expect(errors).toEqual([]);
+test('dedicated service and ERP routes load, refresh and expose indexable metadata', async ({ page }) => {
+  test.setTimeout(60000);
+  for (const route of routes) {
+    const response = await page.goto('/' + route);
+    expect(response?.status(), route).toBe(200);
+    expect(response?.headers()['x-robots-tag'] || '', route).not.toContain('noindex');
+    const html = await response!.text();
+    expect(html).not.toContain('<title>Page Not Found');
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'index, follow');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), route).toBe(true);
+  }
+  expect((await page.reload())?.status()).toBe(200);
+  await page.goto('/services/meta-ads');
+  expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
 });
 
-for (const failure of [false, true]) test(`consultation ${failure ? 'handles errors without losing input' : 'is accepted by the backend'}`, async ({ page }) => {
-  if (failure) await page.route('**/api/support', route => route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({ message: 'Temporarily unavailable. Please try again.' }) }));
-  await page.goto('/digital-marketing');
-  await page.getByRole('button', { name: 'Essential only' }).click();
-  await page.getByLabel('Your name', { exact: true }).fill('Campaign Test');
-  await page.getByLabel('Email address', { exact: true }).fill('campaign@example.invalid');
-  await page.getByLabel('Business name or website').fill('Test Business');
-  await page.getByLabel('Primary goal').selectOption('Generate enquiries');
-  await page.getByLabel('Monthly ad budget').selectOption('Help me plan a budget');
-  await page.getByLabel('What would you like to achieve?').fill('We want more enquiries for our local business.');
-  await page.getByRole('button', { name: 'Send my enquiry' }).click();
+for (const failure of [false, true]) test(`consultation ${failure ? 'retains details after an error' : 'saves a service-specific enquiry'}`, async ({ page }) => {
+  if (failure) await page.route('**/api/support', route => route.fulfill({ status: 503, json: { message: 'Temporarily unavailable. Please try again.' } }));
+  await page.goto('/services/google-ads');
+  await page.getByLabel('Your name', { exact: true }).fill('Campaign Tester');
+  await page.getByLabel('Email address', { exact: true }).fill('agency@example.invalid');
+  await page.getByLabel('Business or website').fill('Example Business');
+  await expect(page.getByLabel('Service you’re interested in')).toHaveValue('Google Ads Management');
+  await page.getByLabel('Your goals').fill('We want relevant enquiries for our local services.');
+  const response = page.waitForResponse(item => item.url().endsWith('/api/support') && item.request().method() === 'POST');
+  await page.getByRole('button', { name: 'Get a Free Consultation', exact: true }).click();
+  const result = await response;
+  expect(result.request().postDataJSON().subject).toBe('Google Ads Management consultation');
   if (failure) {
     await expect(page.getByRole('alert')).toHaveText('Temporarily unavailable. Please try again.');
-    await expect(page.getByLabel('Business name or website')).toHaveValue('Test Business');
-    await expect(page.getByRole('button', { name: 'Send my enquiry' })).toBeEnabled();
-  } else await expect(page.getByRole('status')).toContainText('Your enquiry is with us.');
+    await expect(page.getByLabel('Business or website')).toHaveValue('Example Business');
+  } else {
+    expect(result.ok()).toBe(true);
+    await expect(page.getByRole('status')).toContainText('Your enquiry is with us.');
+  }
 });

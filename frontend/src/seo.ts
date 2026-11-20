@@ -35,7 +35,7 @@ const routeMetadata: Record<PageRoute, PageMetadata> = {
   "digital-marketing": { title: "Digital Marketing & Meta Ads Services | LoomIQ", description: "Grow your business with LoomIQ Facebook and Instagram advertising services. Campaign strategy, creative testing, optimisation and clear reporting. Discuss your goals.", canonical: `${siteUrl}${basePath}digital-marketing`, robots: "index, follow" },
   "garment-erp": { title: "LoomIQ – CRM & ERP for Textile Manufacturers in India", description: "LoomIQ helps Indian textile and cloth manufacturers manage production, inventory, orders, sales and billing in one ERP.", canonical: `${siteUrl}${basePath}garment-erp`, robots: "index, follow" },
   demo: { title: "Request a LoomIQ Walkthrough", description: "Request a LoomIQ walkthrough for your garment or textile manufacturing workflow.", canonical: `${siteUrl}${basePath}demo`, robots: "index, follow" },
-  home: { title: "LoomIQ | Business ERP & Digital Marketing Services", description: "Run your business with connected ERP software and reach new customers with Facebook and Instagram advertising. Explore LoomIQ software and digital marketing services.", canonical: `${siteUrl}${basePath}`, robots: "index, follow" },
+  home: { title: "LoomiQ | Digital Marketing & Business Solutions", description: "Grow your business with LoomiQ digital marketing: Meta Ads, Google Ads, SEO, social media and lead generation. Explore ERP software as a separate business solution.", canonical: `${siteUrl}${basePath}`, robots: "index, follow" },
   privacy: { title: "Privacy Policy | LoomIQ", description: "Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes.", canonical: `${siteUrl}${basePath}privacy`, robots: "index, follow" },
   terms: { title: "Terms of Service | LoomIQ", description: "Read the LoomIQ website terms covering demo requests, product information, and the use of this platform.", canonical: `${siteUrl}${basePath}terms`, robots: "index, follow" },
   refunds: { title: "Refund & Cancellation Policy | LoomIQ", description: "Review LoomIQ membership renewal, cancellation, access, and refund information.", canonical: `${siteUrl}${basePath}refunds`, robots: "index, follow" },
@@ -47,6 +47,8 @@ const routeMetadata: Record<PageRoute, PageMetadata> = {
 };
 
 function applyMetadata(metadata: PageMetadata) {
+  const marketing = metadata.canonical === `${siteUrl}${basePath}` || /\/services\/|\/digital-marketing$/.test(metadata.canonical || '');
+  const socialImage = marketing ? `${siteUrl}${basePath}og-agency.svg` : imageUrl;
   document.title = metadata.title;
   setMeta("description", metadata.description);
   setMeta("robots", metadata.robots);
@@ -55,12 +57,12 @@ function applyMetadata(metadata: PageMetadata) {
   setMeta("og:url", metadata.canonical || `${siteUrl}${basePath}`, "property");
   setMeta("og:type", "website", "property");
   setMeta("og:site_name", "LoomIQ", "property");
-  setMeta("og:image", imageUrl, "property");
-  setMeta("og:image:alt", "LoomIQ ERP platform overview", "property");
+  setMeta("og:image", socialImage, "property");
+  setMeta("og:image:alt", marketing ? "LoomiQ digital marketing and business solutions" : "LoomiQ ERP platform overview", "property");
   setMeta("twitter:card", "summary_large_image");
   setMeta("twitter:title", metadata.title);
   setMeta("twitter:description", metadata.description);
-  setMeta("twitter:image", imageUrl);
+  setMeta("twitter:image", socialImage);
   setCanonical(metadata.canonical);
 }
 

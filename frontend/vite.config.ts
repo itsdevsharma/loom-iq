@@ -1,11 +1,12 @@
 import { writeFileSync, readFileSync, mkdirSync } from 'node:fs';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import { agencyRouteMetadata } from './src/agencyContent.js';
 
 type StaticRoute = { path: string; title: string; description: string; robots: string; canonical?: string | null };
 
 const staticRoutes: StaticRoute[] = [
-  { path: 'digital-marketing', title: 'Digital Marketing & Meta Ads Services | LoomIQ', description: 'Grow your business with LoomIQ Facebook and Instagram advertising services. Campaign strategy, creative testing, optimisation and clear reporting. Discuss your goals.', robots: 'index, follow' },
+  ...agencyRouteMetadata,
   { path: 'garment-erp', title: 'Replace Excel with Garment ERP | LoomIQ', description: 'Explore LoomIQ ERP for garment and clothing manufacturers: production, inventory, orders, billing, and business management.', robots: 'index, follow' },
   { path: 'demo', title: 'Request a LoomIQ Walkthrough', description: 'Request a LoomIQ walkthrough for your garment or textile manufacturing workflow.', robots: 'index, follow' },
   { path: 'privacy', title: 'Privacy Policy | LoomIQ', description: 'Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes.', robots: 'index, follow' },
@@ -26,7 +27,7 @@ function escapeHtml(value: string) {
 
 function routeHtml(html: string, route: StaticRoute, siteUrl: string, normalizedBase: string) {
   const canonical = route.canonical === null ? null : route.canonical || `${siteUrl}${normalizedBase}${route.path}`;
-  const image = `${siteUrl}${normalizedBase}og-image.svg`;
+  const image = `${siteUrl}${normalizedBase}${route.path === 'digital-marketing' || route.path.startsWith('services/') ? 'og-agency.svg' : 'og-image.svg'}`;
   const replaceMeta = (name: string, value: string, attribute: 'name' | 'property' = 'name') => html = html.replace(new RegExp(`(<meta\\s+${attribute}="${name}"\\s+content=")[^"]*(")`), `$1${escapeHtml(value)}$2`);
 
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(route.title)}</title>`);
@@ -74,6 +75,7 @@ function generateSeoFiles(siteUrl: string, normalizedBase: string) {
   <url>
     <loc>${siteUrl}${normalizedBase}refunds</loc>
   </url>
+${agencyRouteMetadata.filter(route => route.path !== 'digital-marketing').map(route => `  <url><loc>${siteUrl}${normalizedBase}${route.path}</loc></url>`).join('\n')}
 </urlset>
 `;
 
@@ -82,6 +84,7 @@ Allow: /
 Sitemap: ${siteUrl}${normalizedBase}sitemap.xml
 `;
 
+      writeFileSync('dist/agency-routes.json', JSON.stringify([{ path: '', title: 'LoomiQ | Digital Marketing & Business Solutions', description: 'Grow your business with LoomiQ digital marketing: Meta Ads, Google Ads, SEO, social media and lead generation. Explore ERP software as a separate business solution.', robots: 'index, follow' }, ...agencyRouteMetadata]), 'utf8');
       writeFileSync('dist/robots.txt', robots, 'utf8');
       writeFileSync('dist/sitemap.xml', sitemap, 'utf8');
       // Static metadata is available to crawlers before the SPA bootstraps.
