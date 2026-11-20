@@ -90,6 +90,7 @@ function Header() {
           {/* Collapses to an inline row on desktop and becomes the mobile dropdown panel below 900px. */}
           <div className={`nav-panel ${isMenuOpen ? "is-open" : ""}`.trim()}>
             <nav id="primary-navigation" className="nav-links" aria-label={cmsValue("Header.8", "Primary navigation")}>
+              <a href={import.meta.env.BASE_URL + "digital-marketing"} onClick={closeMenu}>Digital marketing</a>
               {navLinks.map((link) => (
                 <a key={link.label} href={siteLink(link.href)} onClick={closeMenu}>
                   {link.label}
@@ -98,7 +99,7 @@ function Header() {
             </nav>
             <div className="nav-actions">
               <a href={import.meta.env.BASE_URL + 'account'} className="text-link" onClick={closeMenu}>{cmsValue("Header.9", "My account")}</a>
-              <a href="#pricing" className="button button-primary" onClick={() => { closeMenu(); trackEvent("direct_purchase_nav_clicked"); }}>Claim 50% Off →</a>
+              <a href="#pricing" className="button button-primary" onClick={() => { closeMenu(); trackEvent("direct_purchase_nav_clicked"); }}>View ERP plans</a>
             </div>
           </div>
         </div>

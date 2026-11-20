@@ -1,4 +1,4 @@
-type PageRoute = "garment-erp" | "demo" | "home" | "privacy" | "terms" | "refunds" | "thank-you" | "payment" | "signup" | "account" | "404";
+type PageRoute = "digital-marketing" | "garment-erp" | "demo" | "home" | "privacy" | "terms" | "refunds" | "thank-you" | "payment" | "signup" | "account" | "404";
 
 const runtimeOrigin = typeof window !== "undefined" ? window.location.origin : "https://loomiq.site";
 const basePath = import.meta.env.BASE_URL || "/";
@@ -32,9 +32,10 @@ function setCanonical(url: string | null) {
 }
 
 const routeMetadata: Record<PageRoute, PageMetadata> = {
+  "digital-marketing": { title: "Digital Marketing & Meta Ads Services | LoomIQ", description: "Grow your business with LoomIQ Facebook and Instagram advertising services. Campaign strategy, creative testing, optimisation and clear reporting. Discuss your goals.", canonical: `${siteUrl}${basePath}digital-marketing`, robots: "index, follow" },
   "garment-erp": { title: "LoomIQ – CRM & ERP for Textile Manufacturers in India", description: "LoomIQ helps Indian textile and cloth manufacturers manage production, inventory, orders, sales and billing in one ERP.", canonical: `${siteUrl}${basePath}garment-erp`, robots: "index, follow" },
   demo: { title: "Request a LoomIQ Walkthrough", description: "Request a LoomIQ walkthrough for your garment or textile manufacturing workflow.", canonical: `${siteUrl}${basePath}demo`, robots: "index, follow" },
-  home: { title: "LoomIQ – CRM & ERP for Textile Manufacturers in India", description: "LoomIQ helps Indian textile and cloth manufacturers manage production, inventory, orders, sales and billing in one ERP.", canonical: `${siteUrl}${basePath}`, robots: "index, follow" },
+  home: { title: "LoomIQ | Business ERP & Digital Marketing Services", description: "Run your business with connected ERP software and reach new customers with Facebook and Instagram advertising. Explore LoomIQ software and digital marketing services.", canonical: `${siteUrl}${basePath}`, robots: "index, follow" },
   privacy: { title: "Privacy Policy | LoomIQ", description: "Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes.", canonical: `${siteUrl}${basePath}privacy`, robots: "index, follow" },
   terms: { title: "Terms of Service | LoomIQ", description: "Read the LoomIQ website terms covering demo requests, product information, and the use of this platform.", canonical: `${siteUrl}${basePath}terms`, robots: "index, follow" },
   refunds: { title: "Refund & Cancellation Policy | LoomIQ", description: "Review LoomIQ membership renewal, cancellation, access, and refund information.", canonical: `${siteUrl}${basePath}refunds`, robots: "index, follow" },

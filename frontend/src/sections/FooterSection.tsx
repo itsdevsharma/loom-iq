@@ -37,7 +37,8 @@ function FooterSection() {
               <img src={cmsValue("FooterSection.4", logoImage)} alt="" className="footer-logo" />
               <span>{cmsValue("FooterSection.5", "LoomIQ")}</span>
             </a>
-            <p>{cmsValue("FooterSection.6", "ERP for cloth manufacturers: orders, materials, production, quality, dispatch, and finance.")}</p>
+            <p><a href={import.meta.env.BASE_URL + "digital-marketing"}>Explore digital marketing & Meta ads</a></p>
+            <p>{cmsValue("FooterSection.6", "Business software to connect your operations. Digital marketing to reach your next customers.")}</p>
           </div>
 
           {footerGroups.map((group) => (
@@ -45,13 +46,13 @@ function FooterSection() {
               <h3>{group.title}</h3>
               <ul>
                 {group.links.map(([label, href]) => (
-                  <li key={label}><a href={siteLink(href)}>{label}</a></li>
+                  <li key={label}><a href={siteLink(href === '#support' ? 'mailto:loomiq2025@gmail.com' : href)}>{label}</a></li>
                 ))}
               </ul>
             </div>
           ))}
 
-          <div className="footer-column footer-contact"><h3>Need help?</h3><p>Support is available if you need help with your purchase. Email <a href="mailto:loomiq2025@gmail.com">loomiq2025@gmail.com</a>.</p><a className="footer-contact-link" href="#support">Contact support →</a></div>
+          <div className="footer-column footer-contact"><h3>Need help?</h3><p>Call <a href="tel:93543555930">93543555930</a><br /><a href="tel:+918222088524">+91 82220 88524</a></p><p>Support is available if you need help with your purchase. Email <a href="mailto:loomiq2025@gmail.com">loomiq2025@gmail.com</a>.</p><a className="footer-contact-link" href="mailto:loomiq2025@gmail.com">Email our team</a></div>
         </div>
         <div className="footer-bottom">
           <span>{cmsValue("FooterSection.18", "© ")}{new Date().getFullYear()}{cmsValue("FooterSection.19", " LoomIQ. All rights reserved.")}</span>

@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 type StaticRoute = { path: string; title: string; description: string; robots: string; canonical?: string | null };
 
 const staticRoutes: StaticRoute[] = [
+  { path: 'digital-marketing', title: 'Digital Marketing & Meta Ads Services | LoomIQ', description: 'Grow your business with LoomIQ Facebook and Instagram advertising services. Campaign strategy, creative testing, optimisation and clear reporting. Discuss your goals.', robots: 'index, follow' },
   { path: 'garment-erp', title: 'Replace Excel with Garment ERP | LoomIQ', description: 'Explore LoomIQ ERP for garment and clothing manufacturers: production, inventory, orders, billing, and business management.', robots: 'index, follow' },
   { path: 'demo', title: 'Request a LoomIQ Walkthrough', description: 'Request a LoomIQ walkthrough for your garment or textile manufacturing workflow.', robots: 'index, follow' },
   { path: 'privacy', title: 'Privacy Policy | LoomIQ', description: 'Review how LoomIQ handles demo requests, business information, and website data for privacy and compliance purposes.', robots: 'index, follow' },
@@ -57,6 +58,9 @@ function generateSeoFiles(siteUrl: string, normalizedBase: string) {
   </url>
   <url>
     <loc>${siteUrl}${normalizedBase}garment-erp</loc>
+  </url>
+  <url>
+    <loc>${siteUrl}${normalizedBase}digital-marketing</loc>
   </url>
   <url>
     <loc>${siteUrl}${normalizedBase}demo</loc>

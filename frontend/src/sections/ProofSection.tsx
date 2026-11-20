@@ -12,7 +12,7 @@ export default function ProofSection() {
       <aside className="proof-early-access">
         <p className="eyebrow">Early access</p>
         <h3>Built for Indian garment manufacturers.</h3>
-        <p>LoomIQ is in early access. We have not published customer testimonials or outcome claims yet, so you can assess the product from the screens and your own workflow—not invented proof.</p>
+        <p>LoomIQ is in early access. Explore the product screens, review the available plans and talk to our team about how the software fits your workflow.</p>
         <ul><li>Orders, fabric, job work and production in one workflow</li><li>Stock, invoicing and pending payments visible together</li><li>Guided onboarding for your actual business data</li></ul>
       </aside>
     </div>

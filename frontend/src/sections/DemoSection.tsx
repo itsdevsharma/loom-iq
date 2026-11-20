@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dashboardTour from "../assets/tour-dashboard.png";
 import inventoryTour from "../assets/tour-inventory.png";
 import masterDataTour from "../assets/tour-master-data.png";
@@ -18,11 +18,6 @@ export default function DemoSection() {
   const [activeSlide, setActiveSlide] = useState(0);
   const activeTour = tourSlides[activeSlide];
   const starterPrice = `₹${websitePricing().Starter.firstMonth.toLocaleString('en-IN')}`;
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setActiveSlide(current => (current + 1) % tourSlides.length), 5000);
-    return () => window.clearInterval(timer);
-  }, []);
 
   const moveSlide = (direction: -1 | 1) => setActiveSlide(current => (current + direction + tourSlides.length) % tourSlides.length);
 
@@ -48,7 +43,7 @@ export default function DemoSection() {
         <p className="demo-disclaimer">{activeTour.title} · Product interface preview with example data.</p>
       </div>
       <div className="preview-actions"><a className="button button-primary" href="#pricing">Start Using LoomIQ — {starterPrice}/month</a><a href={activeTour.image} target="_blank" rel="noreferrer">Open {activeTour.title.toLowerCase()} full-size preview ↗</a></div>
-      <aside id="demo" className="demo-support"><h3>Need an Enterprise walkthrough?</h3><p>Demos and WhatsApp conversations are available for hesitant buyers and Enterprise teams. You can purchase Starter or Growth online without booking a demo.</p></aside>
+      <aside id="demo" className="demo-support"><h3>Need an Enterprise walkthrough?</h3><p>Talk to our team about multi-unit operations or a tailored implementation. Starter and Growth plans are also available to purchase directly online.</p></aside>
     </div>
   </section>;
 }

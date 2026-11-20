@@ -1,4 +1,5 @@
 export type AnalyticsEvent =
+  | "marketing_enquiry_submitted"
   | "signup_completed"
   | "signup_started"
   | "payment_initiated"

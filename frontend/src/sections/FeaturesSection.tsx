@@ -26,9 +26,9 @@ function FeaturesSection() {
         <div className="fs03__top">
           <div>
             <p className="fs03__badge">Business management modules</p>
-            <h2 className="fs03__headline">Ek hi system mein poora business control.</h2>
+            <h2 className="fs03__headline">One connected view of your business.</h2>
           </div>
-          <p className="fs03__right-text">Inventory, production, sales and billing — the four views a growing textile business needs every day.</p>
+          <p className="fs03__right-text">Inventory, production, sales and billing — connected so your team can keep everyday work moving.</p>
         </div>
 
         <div className="fs03__grid">
