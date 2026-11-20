@@ -15,7 +15,7 @@ function publicRecord(type,row){
     const result=Object.fromEntries(['id','name','email','company','phone','businessType','requestType','notes','createdAt','updatedAt','expiresAt','convertedAt','purchaseOrderId','activity','credentials','feedback'].filter(key=>row[key]!==undefined).map(key=>[key,row[key]]));
     return {...result,status:expired?'expired':row.status||'new',usage:demoUsage(row.activity),...(row.erp?.userId?{erp:{userId:row.erp.userId}}:{})};
   }
-  return Object.fromEntries(['id','name','email','company','phone','businessType','message','subject','requestType','status','notes','createdAt','updatedAt'].filter(key=>row[key]!==undefined).map(key=>[key,row[key]]));
+  return Object.fromEntries(['id','name','email','company','phone','businessType','kind','service','business','sourcePage','attribution','message','subject','requestType','status','notes','createdAt','updatedAt'].filter(key=>row[key]!==undefined).map(key=>[key,row[key]]));
 }
 function cleanText(value){return typeof value==='string'?value.trim().replace(/\s+/g,' '):'';}
 function validateDemo(values){

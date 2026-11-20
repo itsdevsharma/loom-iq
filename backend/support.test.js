@@ -20,3 +20,24 @@ test('support validates input, reports unavailable SMTP, delivers and handles re
     process.env.SMTP_PASS = ''; assert.equal((await post(body)).status, 503);
   } finally { await new Promise(resolve => server.close(resolve)); }
 });
+
+test('phone consultation validates, persists attribution and survives notification failure', async t => {
+  const rows = new Map();
+  const store = { transaction: async action => action({ put: async (collection, id, row) => { assert.equal(collection, 'supportRequests'); rows.set(id, row); } }) };
+  t.mock.method(nodemailer, 'createTransport', () => ({ sendMail: async () => { throw new Error('offline'); }, close() {} }));
+  Object.assign(process.env, { SALES_EMAIL: 'support@example.invalid', SMTP_HOST: 'smtp.invalid', SMTP_USER: 'test', SMTP_PASS: 'test' });
+  const app = express(); app.use(express.json()); registerSupport(app, (_req, _res, next) => next(), () => store);
+  const server = app.listen(0); await new Promise(resolve => server.once('listening', resolve));
+  const body = { name: 'Sales Enquiry', phone: '+91 82220 88524', service: 'Google Ads Management', business: '', sourcePage: '/services/google-ads?email=private', attribution: { utm_source: 'search', arbitrary: 'discard' } };
+  const post = data => fetch(`http://127.0.0.1:${server.address().port}/api/consultations`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+  try {
+    for (const invalid of [{ phone: 'invalid number' }, { phone: '123' }, { service: 'Invented Service' }, { name: 'A' }, { website: 'spam.example' }]) assert.equal((await post({ ...body, ...invalid })).status, 400);
+    assert.equal(rows.size, 0);
+    assert.equal((await post(body)).status, 201);
+    const row = [...rows.values()][0];
+    assert.equal(row.kind, 'consultation'); assert.equal(row.phone, body.phone); assert.equal(row.email, ''); assert.equal(row.status, 'new');
+    assert.equal(row.sourcePage, '/'); assert.deepEqual(row.attribution, { utm_source: 'search' });
+    store.transaction = async () => { throw new Error('storage offline'); };
+    assert.equal((await post(body)).status, 503);
+  } finally { await new Promise(resolve => server.close(resolve)); }
+});

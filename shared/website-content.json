@@ -658,7 +658,7 @@
       },
       {
         "question": "What happens immediately after payment?",
-        "answer": "After Razorpay confirms payment, you can view and save your invoice. Your customer account shows onboarding progress. Our team arranges ERP access; payment does not instantly create a workspace."
+        "answer": "After payment is verified, your invoice is available in your account. A matching ERP demo can be converted; purchases without a demo require team-assisted workspace setup. Follow onboarding progress in your customer account."
       },
       {
         "question": "Do I need technical knowledge? Is onboarding included?",
@@ -666,7 +666,7 @@
       },
       {
         "question": "How does the first-purchase offer work?",
-        "answer": "Eligible first purchases receive {discount} off within 24 hours of the first offer visit: Starter {starterOffer} or Growth {growthOffer} for one month. The server records the deadline; refreshing does not restart it. Trial accounts can qualify if they have not purchased."
+        "answer": "Eligible offer pricing is shown before payment. Availability is confirmed by the server at checkout. Each payment covers one membership month; renewal pricing follows your account’s applicable price agreement."
       },
       {
         "question": "How do payments and renewals work?",
@@ -674,7 +674,7 @@
       },
       {
         "question": "Can I cancel or get a refund?",
-        "answer": "There is no automatic renewal to cancel. The existing refund policy says discounted first-month payments are generally non-refundable. Email loomiq2025@gmail.com with your order reference for payment or service issues; read the full refund policy before purchase."
+        "answer": "There are no automatic renewals. Under the seven-day money-back guarantee, request a refund within seven days of payment using the support form with your account email and order reference. Read the refund policy for the request process."
       },
       {
         "question": "How is my account protected?",
@@ -1256,11 +1256,11 @@
           ],
           [
             "Offer conditions",
-            "The first-purchase discount lasts 24 hours from the first offer visit and does not restart on refresh. Trial accounts can qualify if they have not purchased. Payment must complete before the order deadline; late captured discounted payments are submitted for refund."
+            "Eligible pricing and the payment deadline are shown at checkout. Each checkout is a one-time monthly payment. Renewal pricing follows your account’s applicable price agreement. Late captured discounted payments are submitted for refund."
           ],
           [
             "Access and onboarding",
-            "Creating an account or making a payment does not instantly create an ERP workspace. Our team arranges onboarding and provides access after setup. Your account shows progress and a workspace link when access is ready. Contact support to agree on setup and service dates before purchase if timing is essential."
+            "Website registration does not activate an ERP workspace. A matching demo can be converted after verified payment; purchases without a demo require team-assisted workspace setup. Follow onboarding status in your customer account."
           ],
           [
             "Support and billing questions",
@@ -1281,8 +1281,8 @@
             "You do not need to cancel an automatic renewal. For an existing membership, onboarding cancellation, or an access issue, contact support with your account email and order reference so the team can review your request."
           ],
           [
-            "Refunds",
-            "The discounted first-month payment is generally non-refundable after payment. If you believe a payment was made in error or a service issue affected your account, contact support promptly so the request can be reviewed."
+            "7-Day Money-Back Guarantee",
+            "Try LoomIQ with your actual business. If it is not right for you, request a refund within seven days of payment using the support form with your account email and order reference. Approved refunds return to the original payment method through Razorpay; processing time varies by provider."
           ],
           [
             "Expired offer payments",

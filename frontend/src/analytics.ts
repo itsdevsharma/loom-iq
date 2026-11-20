@@ -1,4 +1,10 @@
 export type AnalyticsEvent =
+  | "form_start"
+  | "generate_lead"
+  | "contact_whatsapp"
+  | "view_service"
+  | "view_erp_pricing"
+  | "erp_product_tour_view"
   | "marketing_enquiry_submitted"
   | "signup_completed"
   | "signup_started"
@@ -53,7 +59,7 @@ export function initializeAnalytics(): void {
   if (!metaInitialized && window.fbq) {
     metaInitialized = true;
     window.fbq('set', 'autoConfig', false, '1811066650319146');
-    if (/\/(garment-erp)?$/.test(window.location.pathname)) window.fbq('track', 'ViewContent', {content_name:'LoomIQ garment ERP',content_type:'product'});
+    if (/\/(garment-erp|erp)\/?$/.test(window.location.pathname)) window.fbq('track', 'ViewContent', {content_name:'LoomIQ garment ERP',content_type:'product'});
   }
   window.dispatchEvent(new Event('loomiq-analytics-ready'));
 }

@@ -8,6 +8,8 @@ function consultationHref() {
   return onMarketingPage ? '#consultation' : base + '#consultation';
 }
 export function AgencyHeader() {
+  const erp = /\/erp(?:\/pricing)?\/?$/.test(window.location.pathname);
+  const erpPage = base + 'erp';
   const [open, setOpen] = useState(false);
   const header = useRef<HTMLElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -30,9 +32,10 @@ export function AgencyHeader() {
     <a className="agency-brand" href={base} aria-label="LoomiQ home"><img src={logo} alt="" width="36" height="36" /><span>LoomiQ</span></a>
     <button className="agency-menu-toggle" ref={toggle} type="button" aria-label={open ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={open} aria-controls="agency-navigation" onClick={() => setOpen(!open)}>{open ? 'Close' : 'Menu'}</button>
     <nav id="agency-navigation" className={open ? 'is-open' : ''} aria-label="Primary navigation">
+      {erp ? <><a href={erpPage + "#features"} onClick={close}>Features</a><a href={erpPage + "#showcase"} onClick={close}>Product Tour</a><a href={base + "erp/pricing"} onClick={close}>Pricing</a><a href={erpPage + "#faq"} onClick={close}>FAQs</a><a href={base + "account"} onClick={close}>My account</a><a className="agency-button agency-button-primary" href={base + "erp/pricing#pricing"} onClick={close}>Choose a Plan</a></> : <>
       <a href={base} onClick={close}>Home</a>
-      <details className="agency-services-menu" ref={services}><summary>Services <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12"><path d="m2 4 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg></summary><div><a href={base + 'digital-marketing'} onClick={close}>All digital marketing services</a>{agencyServices.map(item => <a key={item.slug} href={base + 'services/' + item.slug} onClick={close}>{item.title}</a>)}</div></details>
-      <a href={base + 'erp'} onClick={close}>ERP Software</a><a href={base + '#about'} onClick={close}>About Us</a><a href={base + '#contact'} onClick={close}>Contact</a><a className="agency-button agency-button-primary" href={consultationHref()} onClick={close}>Get Free Consultation</a>
+      <details className="agency-services-menu" ref={services}><summary>Digital Marketing <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12"><path d="m2 4 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg></summary><div><a href={base + 'digital-marketing'} onClick={close}>All digital marketing services</a>{agencyServices.map(item => <a key={item.slug} href={base + 'services/' + item.slug} onClick={close}>{item.title}</a>)}</div></details>
+      <a href={base + 'erp'} onClick={close}>ERP Software</a><a href={base + '#about'} onClick={close}>About LoomIQ</a><a href={base + '#contact'} onClick={close}>Contact</a><a className="agency-button agency-button-primary" href={consultationHref()} onClick={close}>Get Free Consultation</a></>}
     </nav>
   </div></header>;
 }

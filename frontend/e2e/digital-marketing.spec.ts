@@ -21,22 +21,21 @@ test('dedicated service and ERP routes load, refresh and expose indexable metada
 });
 
 for (const failure of [false, true]) test(`consultation ${failure ? 'retains details after an error' : 'saves a service-specific enquiry'}`, async ({ page }) => {
-  if (failure) await page.route('**/api/support', route => route.fulfill({ status: 503, json: { message: 'Temporarily unavailable. Please try again.' } }));
+  if (failure) await page.route('**/api/consultations', route => route.fulfill({ status: 503, json: { message: 'Temporarily unavailable. Please try again.' } }));
   await page.goto('/services/google-ads');
-  await page.getByLabel('Your name', { exact: true }).fill('Campaign Tester');
-  await page.getByLabel('Email address', { exact: true }).fill('agency@example.invalid');
-  await page.getByLabel('Business or website').fill('Example Business');
+  await page.getByLabel('Full name', { exact: true }).fill('Campaign Tester');
+  await page.getByLabel('Business phone / WhatsApp', { exact: true }).fill('+91 82220 88524');
+  await page.getByLabel('Website / business name (optional)').fill('Example Business');
   await expect(page.getByLabel('Service you’re interested in')).toHaveValue('Google Ads Management');
-  await page.getByLabel('Your goals').fill('We want relevant enquiries for our local services.');
-  const response = page.waitForResponse(item => item.url().endsWith('/api/support') && item.request().method() === 'POST');
-  await page.getByRole('button', { name: 'Get a Free Consultation', exact: true }).click();
+  const response = page.waitForResponse(item => item.url().endsWith('/api/consultations') && item.request().method() === 'POST');
+  await page.getByRole('button', { name: 'Request My Free Consultation', exact: true }).click();
   const result = await response;
-  expect(result.request().postDataJSON().subject).toBe('Google Ads Management consultation');
+  expect(result.request().postDataJSON().service).toBe('Google Ads Management');
   if (failure) {
     await expect(page.getByRole('alert')).toHaveText('Temporarily unavailable. Please try again.');
-    await expect(page.getByLabel('Business or website')).toHaveValue('Example Business');
+    await expect(page.getByLabel('Website / business name (optional)')).toHaveValue('Example Business');
   } else {
     expect(result.ok()).toBe(true);
-    await expect(page.getByRole('status')).toContainText('Your enquiry is with us.');
+    await expect(page.getByRole('status')).toContainText('Your consultation request is saved.');
   }
 });

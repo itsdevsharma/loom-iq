@@ -123,7 +123,7 @@
 .agency-contact address { display: flex; flex-direction: column; gap: 10px; font-style: normal; border-left: 1px solid #d7cce6; padding-left: 40px; }
 .agency-contact address span { color: var(--agency-muted); font-size: 13px; }
 .agency-contact address a { font-size: 22px; font-weight: 600; }
-.agency-contact address a:last-child { font-size: 15px; color: var(--agency-accent); margin-top: 8px; overflow-wrap: anywhere; }
+.agency-contact address a[href^="mailto:"] { font-size: 15px; color: var(--agency-accent); margin-top: 8px; overflow-wrap: anywhere; }
 .agency-footer { padding-block: 48px 24px; background: #fff; }
 .agency-footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 40px; }
 .agency-footer h2 { font-size: 14px; margin-bottom: 20px; letter-spacing: 0; }
@@ -195,3 +195,95 @@
 .agency-site :is(a, button, input, select, textarea, summary):focus-visible { outline: 3px solid #754bc0; outline-offset: 3px; }
 .agency-erp-page .hero-product-bar p,
 .agency-erp-page .hero-product > .preview-caption { color: #e6dfef; }
+
+/* Conversion content uses the existing type, colour and spacing system. */
+.agency-site .agency-kicker { font-size: 13px; }
+.agency-site .agency-caption { font-size: 13px; }
+.agency-site .agency-button,.agency-site .agency-text-link { font-size: 15px; }
+.agency-site .agency-brand-line { font-size: 14px; }
+.agency-brand-line a { color: var(--agency-accent); text-decoration: underline; text-underline-offset: 3px; }
+.agency-consultation .agency-kicker { font-size: 12px; }
+.agency-consultation > p:not(.agency-kicker),.agency-consultation label { font-size: 14px; }
+.agency-consultation .agency-form-note,.agency-consultation .agency-field-note { font-size: 13px; line-height: 1.6; }
+.agency-consultation .agency-field-note { margin-top: -12px; }
+.agency-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.agency-form-success .agency-button { margin-top: 24px; }
+.agency-form-success:focus { outline: 2px solid var(--agency-accent); outline-offset: 8px; }
+.agency-expectations { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 32px; padding-block: 28px; border-bottom: 1px solid var(--agency-border); }
+.agency-expectations p { font-size: 14px; line-height: 1.7; }
+.agency-expectations strong { color: var(--agency-ink); }
+.agency-service-item p,.agency-process p,.agency-includes-grid p,.agency-faq details p { font-size: 16px; }
+.agency-deliverables { display: grid; grid-template-columns: .85fr 1.15fr; gap: 64px; align-items: start; }
+.agency-deliverables > div > p:not(.agency-kicker) { margin-top: 20px; }
+.agency-deliverables > div > a { display: inline-block; margin-top: 24px; }
+.agency-sample { border: 1px solid var(--agency-border); border-radius: 6px; overflow: hidden; background: #fff; }
+.agency-sample-options { display: flex; flex-wrap: wrap; border-bottom: 1px solid var(--agency-border); background: var(--agency-tint); }
+.agency-sample-options button { flex: 1; min-height: 48px; padding: 12px; border: 0; border-bottom: 2px solid transparent; border-radius: 0; box-shadow: none; color: var(--agency-muted); background: transparent; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+.agency-sample-options button[aria-pressed="true"] { border-bottom-color: var(--agency-accent); color: var(--agency-accent); background: #fff; }
+.agency-sample-content { padding: 28px; }
+.agency-sample-content dl,.agency-erp-workflows dl { margin: 24px 0 0; }
+.agency-sample-content dl > div,.agency-erp-workflows dl > div { padding-block: 16px; border-top: 1px solid var(--agency-border); }
+.agency-sample-content dt,.agency-erp-workflows dt { font-weight: 600; color: var(--agency-ink); }
+.agency-sample-content dd,.agency-erp-workflows dd { margin: 6px 0 0; color: var(--agency-muted); font-size: 16px; }
+.agency-industries li { font-size: 16px; }
+.agency-industries li p { font-size: 14px; line-height: 1.65; margin-top: 8px; }
+.agency-dashboard-bar,.agency-report-table th,.agency-report-table td,.agency-dashboard .agency-caption { font-size: 13px; }
+.agency-erp-preview figcaption,.agency-erp-prices p,.agency-erp-prices dt,.agency-erp-prices dd span { font-size: 13px; }
+.agency-footer-grid > div > a:not(.agency-brand),.agency-footer address a { font-size: 14px; }
+.agency-footer-bottom { font-size: 13px; }
+.agency-erp-hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 48px; align-items: center; }
+.agency-erp-hero h1 { font-size: clamp(32px,3.1vw,44px); }
+.agency-erp-hero figure { margin: 0; }
+.agency-erp-hero img { display: block; width: 100%; height: auto; border: 1px solid var(--agency-border); border-radius: 5px; }
+.agency-erp-hero figcaption { margin-top: 12px; font-size: 13px; color: var(--agency-muted); }
+.agency-erp-workflows { display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; border-top: 1px solid var(--agency-border); }
+.agency-erp-workflows > div > p:not(.agency-kicker) { margin-top: 20px; }
+.agency-erp-workflows > div > a { display: inline-block; margin-top: 20px; }
+.agency-erp-workflows dl { margin-top: 0; }
+.agency-erp-setup { background: var(--agency-tint); }
+.agency-erp-page .section-shell { width: min(1160px, calc(100% - 48px)); margin-inline: auto; padding: 64px 0; }
+.agency-erp-page .section-heading { margin-bottom: 32px; }
+.agency-erp-page .section-heading p { font-size: 16px; }
+.agency-erp-page .pricing-card-anim { border: 1px solid var(--agency-border); border-radius: 6px; box-shadow: none; background: #fff; min-height: 0; }
+.agency-erp-page .pricing-card-anim::before,.agency-erp-page .pricing-card-anim::after,.agency-erp-page .pc-border { display: none; }
+.agency-erp-page .pricing-card-anim.is-featured { border-color: var(--agency-accent); transform: none; }
+.agency-erp-page .pc-plan-name { font-size: 24px; }
+.agency-erp-page .pc-tagline,.agency-erp-page .pc-feature-list,.agency-erp-page .pc-purchase-steps { font-size: 14px; }
+.agency-erp-page .pc-price { font-size: 36px; }
+.agency-erp-page .pc-cta { border-radius: 5px; box-shadow: none; text-transform: none; letter-spacing: 0; font-size: 15px; }
+.agency-erp-page .pc-badge { font-size: 12px; border-radius: 3px; background: var(--agency-tint); color: var(--agency-accent); box-shadow: none; letter-spacing: 0; text-transform: none; }
+.agency-erp-page .guarantee-card { border-radius: 6px; box-shadow: none; }
+.agency-erp-page .demo-screen { border-radius: 6px; box-shadow: none; }
+.agency-plan-comparison { overflow-x: auto; margin-top: 40px; }
+.agency-plan-comparison table { width: 100%; min-width: 680px; border-collapse: collapse; text-align: left; font-size: 14px; }
+.agency-plan-comparison caption { text-align: left; font-weight: 600; font-size: 18px; margin-bottom: 16px; }
+.agency-plan-comparison th,.agency-plan-comparison td { padding: 16px; border-bottom: 1px solid var(--agency-border); vertical-align: top; }
+.agency-plan-comparison thead { background: var(--agency-tint); }
+.agency-plan-comparison tbody th { font-weight: 500; width: 28%; }
+.agency-site .agency-pricing-terms,.agency-site .agency-pricing-offer { font-size: 14px; margin-block: 24px; }
+.agency-pricing-terms a { color: var(--agency-accent); text-decoration: underline; }
+@media (max-width: 1000px) { .agency-erp-hero { grid-template-columns: 1fr; } .agency-erp-hero h1 { max-width: 700px; } }
+@media (max-width: 760px) {
+  .agency-expectations,.agency-deliverables,.agency-erp-workflows { grid-template-columns: 1fr; gap: 24px; }
+  .agency-expectations { gap: 16px; }
+  .agency-erp-page .section-shell { width: calc(100% - 40px); padding-block: 48px; }
+  .agency-sample-content { padding: 24px; }
+}
+
+/* Map the legacy ERP components onto the agency brand tokens. */
+.agency-erp-page { --bg: #fcfbfe; --surface: #f1edf7; --border: var(--agency-border); --accent: var(--agency-accent); --accent-strong: #50317f; --cta: var(--agency-accent); --cta-strong: var(--agency-accent); --text: var(--agency-ink); --text-strong: var(--agency-ink); --muted: var(--agency-muted); }
+.agency-erp-page #features,.agency-erp-page #showcase,.agency-erp-page #pricing,.agency-erp-page #demo { background: transparent; }
+.agency-erp-page .section::before,.agency-erp-page .section::after,.agency-erp-page .button-primary::before { display: none; }
+.agency-erp-page .pricing-card-anim:hover,.agency-erp-page .pc-cta:hover,.agency-erp-page .button-primary:hover { transform: none; box-shadow: none; filter: none; }
+.agency-erp-page .pc-cta:hover,.agency-erp-page .button-primary:hover { background: #50317f; }
+.agency-erp-page .eyebrow { background: none; padding: 0; color: var(--agency-accent); }
+.agency-erp-page .demo-support { border: 0; border-top: 1px solid var(--agency-border); border-radius: 0; padding: 24px 0 0; background: transparent; }
+.agency-erp-page .demo-topbar { display: none; }
+.agency-erp-page .demo-screen { padding: 0; }
+.agency-erp-page .agency-section-heading { margin-bottom: 36px; }
+.agency-erp-page .agency-skip { z-index: 201; }
+
+.agency-erp-page .tour-arrow { width: 44px; height: 44px; box-shadow: none; }
+.agency-erp-page .tour-dot { display: grid; place-items: center; width: 32px; height: 44px; border-radius: 0; background: transparent; box-shadow: none; transition: none; }
+.agency-erp-page .tour-dot::after { content: ''; position: static; inset: auto; z-index: auto; opacity: 1; transform: none; transition: none; width: 8px; height: 8px; border-radius: 50%; background: #b4a8c6; }
+.agency-erp-page .tour-dot.is-active::after { width: 24px; border-radius: 4px; background: var(--agency-accent); }

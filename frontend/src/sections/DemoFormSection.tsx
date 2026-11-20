@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import '../DemoFormSection.css';
 import { trackEvent } from '../analytics';
-import dashboardPreview from '../assets/tour-dashboard.png';
+import dashboardPreview from '../assets/tour-dashboard.webp';
 
 type Phase = 'details' | 'verifying' | 'ready' | 'error';
 type DemoHandoff = { handoffToken: string; loginUrl: string; expiresAt: string };
