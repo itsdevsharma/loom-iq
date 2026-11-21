@@ -1,5 +1,5 @@
 .agency-site { --agency-accent: #6541a5; --agency-ink: #241c36; --agency-muted: #625970; --agency-border: #dfd8e9; --agency-tint: #f1edf7; background: #fcfbfe; color: var(--agency-ink); font-size: 16px; line-height: 1.7; }
-.agency-container { width: min(1160px, calc(100% - 48px)); margin-inline: auto; }
+.agency-container { width: min(var(--agency-content-width, 1160px), calc(100% - 48px)); margin-inline: auto; }
 .agency-site h1,.agency-site h2,.agency-site h3,.agency-site p { margin: 0; }
 .agency-site h1,.agency-site h2,.agency-site h3 { color: var(--agency-ink); letter-spacing: -.035em; }
 .agency-site h1 { font-size: clamp(36px, 4.3vw, 56px); font-weight: 600; line-height: 1.12; max-width: none; }

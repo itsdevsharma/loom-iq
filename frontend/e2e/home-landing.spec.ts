@@ -1,5 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+
+async function saveHomepageScreenshot(page: Page, path: string) {
+  const preview = page.locator('#erp img');
+  await preview.scrollIntoViewIfNeeded();
+  await expect.poll(() => preview.evaluate((image: HTMLImageElement) => image.complete && image.naturalWidth > 0)).toBe(true);
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+  await page.screenshot({ path, fullPage: true, animations: 'disabled' });
+}
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('loomiq-analytics', 'denied'));
@@ -26,11 +34,11 @@ test('agency homepage leads with marketing, has accessible content and working E
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.goto('/');
   await page.getByRole('heading', { level: 1 }).waitFor();
-  await page.screenshot({ path: testInfo.outputPath('homepage.png'), fullPage: true, animations: 'disabled' });
+  await saveHomepageScreenshot(page, testInfo.outputPath('homepage.png'));
   expect(errors).toEqual([]);
 });
 
-test('mobile menu, services dropdown and responsive layout work', async ({ page }) => {
+test('mobile menu, services dropdown and responsive layout work', async ({ page }, testInfo) => {
   await page.goto('/');
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole('button', { name: 'Open navigation menu' }).click();
@@ -51,6 +59,7 @@ test('mobile menu, services dropdown and responsive layout work', async ({ page 
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `viewport ${width}`).toBe(true);
     const clipped = await page.locator('.agency-site').evaluate(element => Array.from(element.querySelectorAll('input, select, textarea, .agency-consultation, .agency-header, .agency-service-item')).filter(node => { const box = node.getBoundingClientRect(); return box.width > 0 && (box.left < -1 || box.right > innerWidth + 1); }).map(node => node.tagName));
     expect(clipped, `viewport ${width}`).toEqual([]);
+    if (width === 768) await saveHomepageScreenshot(page, testInfo.outputPath('homepage-tablet.png'));
   }
 });
 
